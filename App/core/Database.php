@@ -17,7 +17,7 @@ class Database
         $check = $stmt->execute($data);
         if($check)
         {
-            $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             if(is_array($result) && count($result))
             {
                 return $result;
