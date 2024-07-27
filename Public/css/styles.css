@@ -1,0 +1,251 @@
+/* Sidebar */
+@font-face {
+    font-family: 'Roboto';
+    src: url('http://localhost/TradeTrack/Public/fonts/roboto/Roboto-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* Bold */
+@font-face {
+    font-family: 'Roboto';
+    src: url('http://localhost/TradeTrack/Public/fonts/roboto/Roboto-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* Italic */
+@font-face {
+    font-family: 'Roboto';
+    src: url('http://localhost/TradeTrack/Public/fonts/roboto/Roboto-Italic.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+}
+
+/* Thin */
+@font-face {
+    font-family: 'Roboto';
+    src: url('http://localhost/TradeTrack/Public/fonts/roboto/Roboto-Thin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', Arial, Helvetica, sans-serif;
+}
+
+body {
+    background-color: #FEF7FF;
+}
+
+/****************** Side Bar **********************/
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 90px;
+    /* background-color: #2982db; */
+    padding: 10px auto;
+}
+
+.sidebar ul li {
+    position: relative;
+    list-style: none;
+    width: 90%;
+    margin: 0.8rem auto;
+}
+
+.sidebar ul li a {
+    color: #1D1B20;
+    text-decoration: none;
+    border-radius: 0.8rem;
+    height: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.sidebar ul li a:hover {
+    background-color: #E8DEF8;
+}
+
+
+.sidebar ul li a span {
+    text-align: center;
+}
+
+.sidebar ul li a img {
+    min-width: 50px;
+    text-align: center;
+    height: 30px;
+    border-radius: 12px;
+}
+
+/****************** Main Container **********************/
+
+.main-content {
+    position: relative;
+    min-height: calc(100vh - 20px);
+    left: 90px;
+    width: calc(100% - 110px);
+    padding: 20px;
+    margin: 10px;
+    border-radius: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 5px 5px #e5e5e5;
+}
+
+.grid-box {
+    height: auto;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 10px;
+    height: calc(100vh - 230px);
+}
+
+.top {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    height: 150px;
+}
+
+.bar {
+    height: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+button {
+    background-color: #2982db;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.panel {
+    border: solid 1px #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.pre-orders {
+    grid-column: span 4;
+    grid-row: span 5;
+}
+
+.scroll-box {
+    overflow: auto;
+    scrollbar-width: none;
+    flex-grow: 1;
+}
+
+.profile-photo {
+    height: 90px;
+    width: 90px;
+}
+
+.profile-photo img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.card .details {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.cash-drawer {
+    grid-column: span 8;
+    grid-row: span 2;
+}
+
+.balance {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.balance h1 {
+    font-size: 4rem;
+}
+
+.low-stocck {
+    grid-column: span 8;
+    grid-row: span 3;
+}
+
+.product-img {
+    height: 100px;
+    width: 100px;
+}
+
+.product-img img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.card {
+    border: solid 1px #ddd;
+    border-radius: 10px;
+    background-color: #FEF7FF;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px auto;
+    padding: 15px;
+}
+
+.low-stocck .card {
+    padding: 0;
+}
+
+.low-stocck .details {
+    padding: 10px;
+}
+
+/********************** Card ***************************/
+
+/* .card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    grid-column: span 4;
+}
+
+.card-img-top {
+    max-width: 100%;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+.card-title {
+    font-size: 1.25em;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    font-size: 1em;
+} */
