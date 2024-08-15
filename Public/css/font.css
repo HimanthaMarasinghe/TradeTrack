@@ -1,0 +1,31 @@
+/* Sidebar */
+@font-face {
+    font-family: 'Roboto';
+    src: url('http://localhost/TradeTrack/Public/fonts/roboto/Roboto-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* Bold */
+@font-face {
+    font-family: 'Roboto';
+    src: url('http://localhost/TradeTrack/Public/fonts/roboto/Roboto-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* Italic */
+@font-face {
+    font-family: 'Roboto';
+    src: url('http://localhost/TradeTrack/Public/fonts/roboto/Roboto-Italic.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+}
+
+/* Thin */
+@font-face {
+    font-family: 'Roboto';
+    src: url('http://localhost/TradeTrack/Public/fonts/roboto/Roboto-Thin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+}

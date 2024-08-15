@@ -1,5 +1,7 @@
-<?php $this->component("header") ?>
-<?php $this->component("sidebar", $tabs) ?>
+<?php
+    $this->component("header");
+    $this->component("sidebar", $tabs) 
+?>
 
 <div class="main-content">
 
@@ -14,9 +16,9 @@
 
         <div class="bar">
             <h1><?=$_SESSION['name']?></h1>
-            <button>
+            <a class="btn" href="http://localhost/TradeTrack/ShopOwner/newPurchase">
                 <h4>New Purchase</h4>
-            </button>
+            </a>
         </div>
     </div>
 
