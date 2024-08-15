@@ -2,12 +2,20 @@
 
 class ShopOwner extends Controller 
 {
+    protected $data = [
+        'tabs' => ['tabs' => ['Home', 'Loyalty Customers', 'Stocks', 'Accounts'], 'userType' => 'ShopOwner']
+    ];
     public function index () 
     {
+        // $userAgent = $_SERVER['HTTP_USER_AGENT'];
+        // show($userAgent);
+        // show(strpos($userAgent, 'Mobile'));
+        // show(strpos($userAgent, 'Tablet'));
+        $shopOwner = new ShopOwner();
         // show($_SESSION);
-        $data['tabs'] = ['tabs' => ['Home', 'Loyalty Customers', 'Stocks', 'Accounts']];
-
-        $data['preOrders'] = [
+        $this->data['tabs']['active'] = 'Home';
+        
+        $this->data['preOrders'] = [
             ['phone' => 'PhoneNumber', 'name' => 'John Doe', 'total' => 15000, 'time' => '5 min'],
             ['phone' => 'PhoneNumber', 'name' => 'Jane Smith', 'total' => 24000, 'time' => '10 min'],
             ['phone' => 'PhoneNumber', 'name' => 'Alice Johnson', 'total' => 32000, 'time' => '7 min'],
@@ -20,7 +28,7 @@ class ShopOwner extends Controller
             ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson', 'total' => 22000, 'time' => '11 min']
         ];
 
-        $data['lowStocks'] = [
+        $this->data['lowStocks'] = [
             ['prName' => 'Samen', 'quantity' => 5, 'prID' => 'samen'],
             ['prName' => 'Rice', 'quantity' => 10, 'prID' => 'samen'],
             ['prName' => 'Sugar', 'quantity' => 15, 'prID' => 'samen'],
@@ -34,6 +42,30 @@ class ShopOwner extends Controller
         ];
         
 
-        $this->view('ShopOwner/home', $data);
+        $this->view('ShopOwner/home', $this->data);
+    }
+
+    public function newPurchase() {
+
+        
+        $this->data['tabs']['active'] = 'Home';
+        $this->view('shopOwner/newPurchase', $this->data);
+    }
+
+    public function billSettle() {
+
+        
+        $this->data['tabs']['active'] = 'Home';
+        $this->view('shopOwner/billSettle', $this->data);
+    }
+
+    public function example() {
+
+        $this->view('ShopOwner/example', $this->data);
+    }
+
+    public function preOrder() {
+        $this->data['tabs']['active'] = 'Home';
+        $this->view('shopOwner/preOrder', $this->data);
     }
 }

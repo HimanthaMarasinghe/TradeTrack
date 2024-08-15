@@ -1,46 +1,3 @@
-/* Sidebar */
-@font-face {
-    font-family: 'Roboto';
-    src: url('http://localhost/TradeTrack/Public/fonts/roboto/Roboto-Regular.ttf') format('truetype');
-    font-weight: 400;
-    font-style: normal;
-}
-
-/* Bold */
-@font-face {
-    font-family: 'Roboto';
-    src: url('http://localhost/TradeTrack/Public/fonts/roboto/Roboto-Bold.ttf') format('truetype');
-    font-weight: 700;
-    font-style: normal;
-}
-
-/* Italic */
-@font-face {
-    font-family: 'Roboto';
-    src: url('http://localhost/TradeTrack/Public/fonts/roboto/Roboto-Italic.ttf') format('truetype');
-    font-weight: 400;
-    font-style: italic;
-}
-
-/* Thin */
-@font-face {
-    font-family: 'Roboto';
-    src: url('http://localhost/TradeTrack/Public/fonts/roboto/Roboto-Thin.ttf') format('truetype');
-    font-weight: 100;
-    font-style: normal;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Roboto', Arial, Helvetica, sans-serif;
-}
-
-body {
-    background-color: #FEF7FF;
-}
-
 /****************** Side Bar **********************/
 
 .sidebar {
@@ -49,7 +6,7 @@ body {
     left: 0;
     height: 100vh;
     width: 90px;
-    /* background-color: #2982db; */
+    background-color: #fff;
     padding: 10px auto;
 }
 
@@ -70,8 +27,12 @@ body {
     justify-content: center;
 }
 
-.sidebar ul li a:hover {
+.sidebar ul li a.active {
     background-color: #E8DEF8;
+}
+
+.sidebar ul li a:hover {
+    background-color: #f080ff;
 }
 
 
@@ -90,7 +51,7 @@ body {
 
 .main-content {
     position: relative;
-    min-height: calc(100vh - 20px);
+    height: calc(100vh - 20px);
     left: 90px;
     width: calc(100% - 110px);
     padding: 20px;
@@ -127,8 +88,10 @@ body {
     margin-bottom: 20px;
 }
 
-button {
+.btn {
     background-color: #2982db;
+    text-decoration: none;
+    text-align: center;
     color: white;
     border: none;
     border-radius: 20px;
@@ -200,7 +163,7 @@ button {
     width: 100px;
 }
 
-.product-img img{
+.product-img img {
     height: 100%;
     width: 100%;
     object-fit: cover;
@@ -249,3 +212,159 @@ button {
 .card-text {
     font-size: 1em;
 } */
+
+@media only screen and (max-width: 1024px) {
+
+    .main-content {
+        height: unset;
+        min-height: calc(100vh - 20px);
+    }
+
+    .grid-box>.pre-orders {
+        order: 2;
+        grid-column: span 6;
+        grid-row: span 3;
+    }
+
+    .grid-box>.cash-drawer {
+        grid-column: span 12;
+        order: 1;
+    }
+
+    .grid-box>.low-stocck {
+        order: 3;
+        grid-column: span 6;
+    }
+}
+
+/********************** Billing view ***********************/
+
+
+.bill {
+    border-collapse: collapse;
+    width: 100%;
+    text-align: right;
+}
+
+.billScroll {
+    flex-grow: 1;
+    overflow: auto;
+    scrollbar-width: none;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.BillHeadings {
+    height: 35px;
+    background: #49454F;
+    color: #fff;
+    overflow: hidden;
+    position: sticky;
+    top: 0;
+    text-align: center;
+}
+
+@media only screen and (min-width: 720px) {
+    .BillHeadings :nth-child(2) {
+        width: 50%;
+    }
+}
+
+.bill tbody>:nth-child(odd) {
+    background: #e9e9e9;
+}
+
+.bill tbody tr :nth-child(1) {
+    text-align: center;
+}
+
+.bill tbody tr :nth-child(2) {
+    text-align: left;
+}
+
+.bill tbody tr :nth-last-child(1){
+    padding-right: 5px;
+}
+
+.Item {
+    height: 35px;
+}
+
+.total {
+    display: flex;
+    justify-content: right;
+}
+
+.scan {
+    justify-content: space-between;
+    align-items: center;
+}
+
+.newItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+/*************************** billSettle *********************/
+
+.billSettle-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-block: 15px;
+}
+
+.billSettle-item>:nth-child(2) {
+    width : 50%;
+    padding-left: 5px;
+}
+
+.billSettle-item>input {
+    background-color: #e9e9e9;
+    border-radius: 5px;
+    border: none;
+    padding: 10px;
+}
+
+.billSettle-item>:nth-child(2).row {
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.btn-div {
+    width: 100%;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+@media only screen and (min-width:990px) {
+    .center {
+        margin-inline: 20%;
+    }
+/*     
+    .btn-div {
+        grid-template-columns: repeat(4, 1fr);
+    } */
+}
+
+/* Pre-order previwe for shop owner */
+
+.profile {
+    text-align: left;
+}
+
+.profile td {
+    height: 35px;
+    padding-right: 35px;
+}
+
+.profile-img{
+    height: 140px;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 10px;
+}

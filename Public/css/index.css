@@ -1,0 +1,9 @@
+@import url(styles.css);
+@import url(font.css);
+@import url(common.css);
+
+@import url(admin.css);
+@import url(customer.css);
+@import url(salesAgent.css);
+@import url(shopOwner.css);
+@import url(supplier.css);
