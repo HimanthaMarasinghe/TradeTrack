@@ -1,1 +1,20 @@
 /* shopOwner */
+
+/* purchaseDone */
+
+.done {
+    background-color: rgb(127, 255, 146);
+}
+
+.done img {
+    min-width: 50px;
+    text-align: center;
+    height: 30px;
+    border-radius: 12px;
+}
+
+.done div {
+    grid-column: span 2;
+    text-align: center;
+    padding: 20px;
+}

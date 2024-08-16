@@ -1,0 +1,45 @@
+:root {
+    --primary-color: #162359; /* Main primary color used throughout the app */
+    --secondary-color: #A6A6A6; /* Secondary color for accents and highlights */
+    --accent-color: #333333; /* Additional accent color for special elements */
+    --background-color: #F5F5F5; /* Background color for the entire app, lighter shade to complement logo colors */
+    --text-color: #333333; /* Default text color, keeping it dark for readability */
+
+    --btn-primary: #162359; /* Primary button color, same as primary logo color */
+    --btn-secondary: #A6A6A6; /* Secondary button color, same as secondary logo color */
+    --btn-hover: #526de7; /* Slightly darker shade of the primary color for hover effect */
+
+    --btn-primary-text: #FFFFFF; /* White text for primary buttons, ensuring contrast with the dark primary button color */
+    --btn-secondary-text: #333333; /* Dark gray text for secondary buttons, providing good contrast with the lighter secondary button color */
+    --btn-hover-text: #E0E0E0; /* Light gray text for hovered buttons, offering a subtle contrast with the darker hover color */
+
+    --border-color: #CCCCCC; /* Neutral border color for input fields, buttons, etc. */
+    --input-background: #EDEDED; /* Light background color for input fields */
+    --input-border: #BBBBBB; /* Neutral border color for input fields */
+
+    --link-color: #162359; /* Hyperlink color, matching the primary logo color */
+    --link-hover: #141E4A; /* Hover color for links, slightly darker than primary color */
+
+    --error-color: #EE1111; /* Color for error messages */
+    --warning-color: #FF8C00; /* Color for warning messages */
+    --success-color: #28A745; /* Color for success messages */
+    --info-color: #17A2B8; /* Color for informational messages */
+
+    --header-background: #162359; /* Background color for headers, matching the primary logo color */
+    --footer-background: #A6A6A6; /* Background color for footers, matching the secondary logo color */
+
+    --modal-background: #F5F5F5; /* Light background color for modals */
+    --overlay-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay color for modals */
+
+    --navbar-background: #162359; /* Background color for the navigation bar */
+    --navbar-text: #FFFFFF; /* Text color for the navigation bar */
+
+    --sidebar-background: #A6A6A6; /* Background color for sidebars */
+    --sidebar-text: #333333; /* Text color for sidebars */
+
+    --card-background: #FFFFFF; /* Background color for cards */
+    --card-border: #CCCCCC; /* Border color for cards */
+
+    --highlight-color: #162359; /* Color for highlighted text or elements */
+    --shadow-color: rgba(0, 0, 0, 0.1); /* Shadow color for boxes and elements */
+}

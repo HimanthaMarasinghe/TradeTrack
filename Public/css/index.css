@@ -1,6 +1,7 @@
 @import url(styles.css);
 @import url(font.css);
 @import url(common.css);
+@import url(color.css);
 
 @import url(admin.css);
 @import url(customer.css);
