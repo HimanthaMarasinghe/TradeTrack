@@ -68,4 +68,24 @@ class ShopOwner extends Controller
         $this->data['tabs']['active'] = 'Home';
         $this->view('shopOwner/preOrder', $this->data);
     }
+
+    public function purchaseDone() {
+        $this->data['tabs']['active'] = 'Home';
+        $this->view('shopOwner/purchaseDone', $this->data);
+    }
+
+    public function loyaltyCustomers() {
+        $this->data['tabs']['active'] = 'Loyalty Customers';
+        $this->view('shopOwner/loyaltyCustomers', $this->data);
+    }
+    
+    public function stocks() {
+        $this->data['tabs']['active'] = 'Stocks';
+        $this->view('shopOwner/stocks', $this->data);
+    }
+    
+    public function accounts() {
+        $this->data['tabs']['active'] = 'Accounts';
+        $this->view('shopOwner/accounts', $this->data);
+    }
 }

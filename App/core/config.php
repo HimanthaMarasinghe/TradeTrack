@@ -10,6 +10,7 @@ if($_SERVER['SERVER_NAME'] == 'localhost')
 
     // URL configuration
     define('ROOT', 'http://localhost/TradeTrack/Public');
+    define('LINKROOT', 'http://localhost/TradeTrack');
 }
 else
 {
