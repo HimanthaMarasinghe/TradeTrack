@@ -3,7 +3,7 @@
     $this->component("sidebar", $tabs) 
 ?>
 
-<div class="main-content">
+<div class="main-content colomn">
 
     <div class="top">
         <div class="bar">
@@ -22,14 +22,14 @@
         </div>
     </div>
 
-    <div class="grid-box">
+    <div class="grid-box fg1">
         <div class="panel pre-orders">
             <h2>Pre-Orders</h2>
             <div class="scroll-box">
                 <?php 
                     foreach ($preOrders as $order)
                     {
-                        $this->component('card2', $order); 
+                        $this->component('card/preOrder', $order); 
                     }
                 ?>
             </div>
@@ -48,7 +48,7 @@
                 <?php 
                     foreach ($lowStocks as $stock)
                     {
-                        $this->component('card3', $stock); 
+                        $this->component('card/product', $stock); 
                     }
                 ?>
             </div>

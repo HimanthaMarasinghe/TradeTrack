@@ -65,8 +65,12 @@ class ShopOwner extends Controller
     }
 
     public function preOrder() {
-        $this->data['tabs']['active'] = 'Home';
-        $this->view('shopOwner/preOrder', $this->data);
+        if($_SERVER['REQUEST_METHOD'] == 'POST')
+        {
+            $this->data['preOrder'] = $_POST;
+            $this->data['tabs']['active'] = 'Home';
+            $this->view('shopOwner/preOrder', $this->data);
+        }
     }
 
     public function purchaseDone() {
@@ -75,8 +79,67 @@ class ShopOwner extends Controller
     }
 
     public function loyaltyCustomers() {
+        $this->data['preOrders'] = [
+            ['phone' => 'PhoneNumber', 'name' => 'John Doe', 'total' => 15000, 'time' => '5 min'],
+            ['phone' => 'PhoneNumber', 'name' => 'Jane Smith', 'total' => 24000, 'time' => '10 min'],
+            ['phone' => 'PhoneNumber', 'name' => 'Alice Johnson', 'total' => 32000, 'time' => '7 min'],
+            ['phone' => 'PhoneNumber', 'name' => 'Bob Brown', 'total' => 27000, 'time' => '8 min'],
+            ['phone' => 'PhoneNumber', 'name' => 'Carol Davis', 'total' => 16000, 'time' => '3 min'],
+            ['phone' => 'PhoneNumber', 'name' => 'David Wilson', 'total' => 20000, 'time' => '12 min'],
+            ['phone' => 'PhoneNumber', 'name' => 'Eve Miller', 'total' => 18000, 'time' => '6 min'],
+            ['phone' => 'PhoneNumber', 'name' => 'Frank Moore', 'total' => 21000, 'time' => '4 min'],
+            ['phone' => 'PhoneNumber', 'name' => 'Grace Taylor', 'total' => 30000, 'time' => '9 min'],
+            ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson', 'total' => 22000, 'time' => '11 min']
+        ];
+
+        $this->data['newLoyalCusReq'] = [
+            ['phone' => 'PhoneNumber', 'name' => 'John Doe'],
+            ['phone' => 'PhoneNumber', 'name' => 'Jane Smith'],
+            ['phone' => 'PhoneNumber', 'name' => 'Alice Johnson'],
+            ['phone' => 'PhoneNumber', 'name' => 'Bob Brown'],
+            ['phone' => 'PhoneNumber', 'name' => 'Carol Davis'],
+            ['phone' => 'PhoneNumber', 'name' => 'David Wilson'],
+            ['phone' => 'PhoneNumber', 'name' => 'Eve Miller'],
+            ['phone' => 'PhoneNumber', 'name' => 'Frank Moore'],
+            ['phone' => 'PhoneNumber', 'name' => 'Grace Taylor'],
+            ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson']
+        ];
+
+        $this->data['loyalCus']=[
+            ['phone' => 'PhoneNumber', 'name' => 'John Doe', 'amount' => 15000],
+            ['phone' => 'PhoneNumber', 'name' => 'Jane Smith', 'amount' => 24000],
+            ['phone' => 'PhoneNumber', 'name' => 'Alice Johnson', 'amount' => 32000],
+            ['phone' => 'PhoneNumber', 'name' => 'Bob Brown', 'amount' => 27000],
+            ['phone' => 'PhoneNumber', 'name' => 'Carol Davis', 'amount' => 16000],
+            ['phone' => 'PhoneNumber', 'name' => 'David Wilson', 'amount' => 20000],
+            ['phone' => 'PhoneNumber', 'name' => 'Eve Miller', 'amount' => 18000],
+            ['phone' => 'PhoneNumber', 'name' => 'Frank Moore', 'amount' => 21000],
+            ['phone' => 'PhoneNumber', 'name' => 'Grace Taylor', 'amount' => 30000],
+            ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson', 'amount' => 22000]
+        ];
+
         $this->data['tabs']['active'] = 'Loyalty Customers';
         $this->view('shopOwner/loyaltyCustomers', $this->data);
+    }
+
+    public function addLoyalCus() {
+        $this->data['newLoyalCusReq'] = [
+            'name' => 'John Doe',
+            'phone' => '0112224690',
+            'address' => 'No 123, Main Street, Colombo 07'
+        ];
+        $this->data['tabs']['active'] = 'Loyalty Customers';
+        $this->view('shopOwner/addLoyalCus', $this->data);
+    }
+
+    public function loyaltyCustomer() {
+        $this->data['loyalCus'] = [
+            'name' => 'John Doe',
+            'phone' => '0112224690',
+            'address' => 'No 123, Main Street, Colombo 07'
+        ];
+        $this->data['tabs']['active'] = 'Loyalty Customers';
+        $this->view('shopOwner/loyaltyCustomer', $this->data);
     }
     
     public function stocks() {

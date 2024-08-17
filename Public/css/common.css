@@ -23,6 +23,7 @@ body {
 
 .fg1 {
     flex-grow: 1;
+    flex-basis: 0;
 }
 
 .spc-btwn {
@@ -38,4 +39,35 @@ body {
     background-color: white;
     border-radius: 50%;
     margin: 15px 2px;
+}
+
+.m-b-auto {
+    margin-block: auto;
+}
+
+.w-50 {
+    width: 50%;
+}
+
+.w-75 {
+    width: 75%;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+a.card {
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+
+
+.center-al {
+    text-align: center;
+}
+
+.left-al {
+    text-align: left;
 }

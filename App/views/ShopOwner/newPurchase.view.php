@@ -9,7 +9,7 @@
             <thead>
                 <tr class="BillHeadings">
                     <th>No.</th>
-                    <th>Name</th>
+                    <th class="w-50">Name</th>
                     <th>Price</th>
                     <th>Quntiti</th>
                     <th>Total</th>
@@ -19,8 +19,8 @@
                 <?php
                 for($i = 1; $i<25; $i++){
                     echo "<tr class='Item'>
-                            <td>$i</td>
-                            <td>Rice 10kg</td>
+                            <td class='center-al'>$i</td>
+                            <td class='left-al'>Rice 10kg</td>
                             <td>150</td>
                             <td>3</td>
                             <td>450</td>

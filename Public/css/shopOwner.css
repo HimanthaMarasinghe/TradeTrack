@@ -18,3 +18,39 @@
     text-align: center;
     padding: 20px;
 }
+
+/* Loyalty Customers */
+
+
+
+.new-lc-req {
+    grid-column: span 8;
+    grid-row: span 2;
+}
+
+.loyalty-cus {
+    grid-column: span 8;
+    grid-row: span 3;
+}
+
+@media only screen and (max-width: 1024px) {
+
+    .grid-box>.new-lc-req {
+        grid-column: span 12;
+        order: 1;
+    }
+
+    .grid-box>.loyalty-cus {
+        order: 3;
+        grid-column: span 6;
+    }
+}
+
+.LoyCus-Details {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    flex-grow: 1;
+}
