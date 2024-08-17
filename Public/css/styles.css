@@ -43,7 +43,7 @@
     color: var(--btn-hover-text);
 }
 
-.sidebar ul li a:hover svg {
+.sidebar ul li a:not(.active):hover svg {
     fill: var(--btn-hover-text);
 }
 
@@ -57,7 +57,7 @@
     text-align: center;
     height: 30px;
     border-radius: 12px;
-    fill: var(--background-color);
+    fill: var(--btn-secondary-text);
 }
 
 .sidebar ul li a.active::before {
@@ -137,6 +137,10 @@
     cursor: pointer;
 }
 
+.btn-mini {
+    padding: 2px 20px;
+}
+
 .panel {
     border: solid 1px #ddd;
     border-radius: 10px;
@@ -169,6 +173,7 @@
 }
 
 .card .details {
+    height: 100%;
     width: 50%;
     display: flex;
     flex-direction: column;
@@ -215,8 +220,10 @@
     background-color: #FEF7FF;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin: 10px auto;
     padding: 15px;
+    width: 100%;
 }
 
 .low-stocck .card {
@@ -226,30 +233,6 @@
 .low-stocck .details {
     padding: 10px;
 }
-
-/********************** Card ***************************/
-
-/* .card {
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 15px;
-    grid-column: span 4;
-}
-
-.card-img-top {
-    max-width: 100%;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 10px;
-}
-
-.card-title {
-    font-size: 1.25em;
-    margin-bottom: 10px;
-}
-
-.card-text {
-    font-size: 1em;
-} */
 
 @media only screen and (max-width: 1024px) {
 
@@ -302,9 +285,9 @@
     text-align: center;
 }
 
-@media only screen and (min-width: 720px) {
-    .BillHeadings :nth-child(2) {
-        width: 50%;
+@media only screen and (max-width: 720px) {
+    .BillHeadings .w-50 {
+        width: unset;
     }
 }
 
@@ -312,15 +295,7 @@
     background: #e9e9e9;
 }
 
-.bill tbody tr :nth-child(1) {
-    text-align: center;
-}
-
-.bill tbody tr :nth-child(2) {
-    text-align: left;
-}
-
-.bill tbody tr :nth-last-child(1){
+.bill tbody tr>:nth-last-child(1){
     padding-right: 5px;
 }
 

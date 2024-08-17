@@ -1,0 +1,6 @@
+a.card:hover {
+    /* background-color: var(--btn-secondary);
+    color: var(--btn-secondary-text);
+    box-shadow: 0 0 10px 0 var(--accent-color); */
+    border: solid 2px var(--highlight-color);
+}

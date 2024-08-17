@@ -29,7 +29,7 @@
                 <a href="" class="btn fg1">Print the bill</a>
                 <a href="" class="btn fg1">Send the bill via SMS</a>
                 <a href="" class="btn fg1">Send the bill via E-mail</a>
-                <a href="" class="btn fg1">Skip</a>
+                <a href="<?=LINKROOT?>/ShopOwner/purchaseDone" class="btn fg1">Skip</a>
 
     </div>
 </div>
