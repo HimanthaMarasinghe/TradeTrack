@@ -1,1 +1,61 @@
 /* admin */
+.admin-panel {
+    text-align: center;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+}
+
+.remove-user-btn {
+    background-color: var(--btn-primary);
+    text-decoration: none;
+    text-align: center;
+    color: var(--btn-primary-text);
+    border: none;
+    border-radius: 20px;
+    padding: 20px 40px;
+    cursor: pointer;
+    margin-top: 20px;
+    float: left;
+}
+
+.panel-removeUser {
+    border: solid 1px #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.loyalty-cus-adminRem {
+    grid-column: span 8;
+    grid-row: span 3;
+}
+
+.LoyCus-Details {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    flex-grow: 1;
+}
+
+/* Add a red background color and white text to the "Delete profile" button */
+.btn-danger {
+    background-color: red;
+    color: white;
+}
+
+@media only screen and (max-width: 1024px) {
+    .main-content {
+        height: unset;
+        min-height: calc(100vh - 20px);
+    }
+
+    .grid-box>.loyalty-cus-adminRem {
+        order: 3;
+        grid-column: span 6;
+    }
+}
+
