@@ -2,7 +2,7 @@
 
 class Model extends Database
 {
-    protected $table = 'users';
+    // protected $table = 'users';
 
     public function where($data, $data_not = [])
     {

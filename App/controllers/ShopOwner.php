@@ -7,12 +7,8 @@ class ShopOwner extends Controller
     ];
     public function index () 
     {
-        // $userAgent = $_SERVER['HTTP_USER_AGENT'];
-        // show($userAgent);
-        // show(strpos($userAgent, 'Mobile'));
-        // show(strpos($userAgent, 'Tablet'));
         $shopOwner = new ShopOwner();
-        // show($_SESSION);
+        $p = new Products;
         $this->data['tabs']['active'] = 'Home';
         
         $this->data['preOrders'] = [
@@ -28,17 +24,18 @@ class ShopOwner extends Controller
             ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson', 'total' => 22000, 'time' => '11 min']
         ];
 
+        $this->data['stocks'] = 
         $this->data['lowStocks'] = [
-            ['prName' => 'Samen', 'quantity' => 5, 'prID' => 'samen'],
-            ['prName' => 'Rice', 'quantity' => 10, 'prID' => 'samen'],
-            ['prName' => 'Sugar', 'quantity' => 15, 'prID' => 'samen'],
-            ['prName' => 'Salt', 'quantity' => 20, 'prID' => 'samen'],
-            ['prName' => 'Milk', 'quantity' => 25, 'prID' => 'samen'],
-            ['prName' => 'Eggs', 'quantity' => 30, 'prID' => 'samen'],
-            ['prName' => 'Bread', 'quantity' => 35, 'prID' => 'samen'],
-            ['prName' => 'Butter', 'quantity' => 40, 'prID' => 'samen'],
-            ['prName' => 'Cheese', 'quantity' => 45, 'prID' => 'samen'],
-            ['prName' => 'Yogurt', 'quantity' => 50, 'prID' => 'samen']
+            ['prName' => 'Samen', 'quantity' => 5, 'Barcode' => 'samen', 'Price' => 100],
+            ['prName' => 'Rice', 'quantity' => 10, 'Barcode' => 'samen', 'Price' => 100],
+            ['prName' => 'Sugar', 'quantity' => 15, 'Barcode' => 'samen', 'Price' => 100],
+            ['prName' => 'Salt', 'quantity' => 20, 'Barcode' => 'samen', 'Price' => 100],
+            ['prName' => 'Milk', 'quantity' => 25, 'Barcode' => 'samen', 'Price' => 100],
+            ['prName' => 'Eggs', 'quantity' => 30, 'Barcode' => 'samen', 'Price' => 100],
+            ['prName' => 'Bread', 'quantity' => 35, 'Barcode' => 'samen', 'Price' => 100],
+            ['prName' => 'Butter', 'quantity' => 40, 'Barcode' => 'samen', 'Price' => 100],
+            ['prName' => 'Cheese', 'quantity' => 45, 'Barcode' => 'samen', 'Price' => 100],
+            ['prName' => 'Yogurt', 'quantity' => 50, 'Barcode' => 'samen', 'Price' => 100]
         ];
         
 
@@ -141,8 +138,41 @@ class ShopOwner extends Controller
         $this->data['tabs']['active'] = 'Loyalty Customers';
         $this->view('shopOwner/loyaltyCustomer', $this->data);
     }
+
+    public function orderReady() {
+        $this->data['cusName'] = 'John Doe';
+        $this->data['tabs']['active'] = 'Loyalty Customers';
+        $this->view('shopOwner/orderReady', $this->data);
+    }
     
     public function stocks() {
+        $p = new Products;
+        $this->data['lowStocks'] = [
+            ['prName' => 'Samen', 'quantity' => 5, 'Barcode' => 'samen', 'Price' => 100],
+            ['prName' => 'Rice', 'quantity' => 10, 'Barcode' => 'samen', 'Price' => 100],
+            ['prName' => 'Sugar', 'quantity' => 15, 'Barcode' => 'samen', 'Price' => 100],
+            ['prName' => 'Salt', 'quantity' => 20, 'Barcode' => 'samen', 'Price' => 100],
+            ['prName' => 'Milk', 'quantity' => 25, 'Barcode' => 'samen', 'Price' => 100],
+            ['prName' => 'Eggs', 'quantity' => 30, 'Barcode' => 'samen', 'Price' => 100],
+            ['prName' => 'Bread', 'quantity' => 35, 'Barcode' => 'samen', 'Price' => 100],
+            ['prName' => 'Butter', 'quantity' => 40, 'Barcode' => 'samen', 'Price' => 100],
+            ['prName' => 'Cheese', 'quantity' => 45, 'Barcode' => 'samen', 'Price' => 100],
+            ['prName' => 'Yogurt', 'quantity' => 50, 'Barcode' => 'samen', 'Price' => 100]
+        ];
+        $product = new Products;
+        $this->data['stocks'] = $product->where(['Barcode' => '4791010040044']);
+        $this->data['staticStocks'] = [
+            ['prName' => 'Samen', 'quantity' => 5, 'Barcode' => 'samen', 'Price' => 100],
+            ['prName' => 'Rice', 'quantity' => 10, 'Barcode' => 'samen', 'Price' => 100],
+            ['prName' => 'Sugar', 'quantity' => 15, 'Barcode' => 'samen', 'Price' => 100],
+            ['prName' => 'Salt', 'quantity' => 20, 'Barcode' => 'samen', 'Price' => 100],
+            ['prName' => 'Milk', 'quantity' => 25, 'Barcode' => 'samen', 'Price' => 100],
+            ['prName' => 'Eggs', 'quantity' => 30, 'Barcode' => 'samen', 'Price' => 100],
+            ['prName' => 'Bread', 'quantity' => 35, 'Barcode' => 'samen', 'Price' => 100],
+            ['prName' => 'Butter', 'quantity' => 40, 'Barcode' => 'samen', 'Price' => 100],
+            ['prName' => 'Cheese', 'quantity' => 45, 'Barcode' => 'samen', 'Price' => 100],
+            ['prName' => 'Yogurt', 'quantity' => 50, 'Barcode' => 'samen', 'Price' => 100]
+        ];
         $this->data['tabs']['active'] = 'Stocks';
         $this->view('shopOwner/stocks', $this->data);
     }
@@ -150,5 +180,11 @@ class ShopOwner extends Controller
     public function accounts() {
         $this->data['tabs']['active'] = 'Accounts';
         $this->view('shopOwner/accounts', $this->data);
+    }
+
+    public function recordTransaction($URL) {
+        echo $URL;
+        $this->data['tabs']['active'] = 'Accounts';
+        $this->view('shopOwner/recordTransaction', $this->data);
     }
 }

@@ -64,7 +64,7 @@
             <h2>Total</h2>
             <h2>Rs.200.00</h2>
         </div>
-        <a href="" class="btn">Set order status to ready</a>
+        <a href="<?=LINKROOT?>/ShopOwner/orderReady" class="btn">Set order status to ready</a>
 
     </div>
 </div>

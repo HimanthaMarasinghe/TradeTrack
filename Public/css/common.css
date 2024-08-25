@@ -21,6 +21,16 @@ body {
     flex-direction: column;
 }
 
+@media only screen and (max-width: 1024px) {
+    .row.col-max-1024 {
+        flex-direction: column;
+    }
+}
+
+.ovf-hdn{
+    overflow: hidden;
+}
+
 .fg1 {
     flex-grow: 1;
     flex-basis: 0;
@@ -34,6 +44,10 @@ body {
     margin: 0;
 }
 
+.mg-10 {
+    margin: 10px 0;
+}
+
 .app-logo {
     width: 80%;
     background-color: white;
@@ -43,6 +57,10 @@ body {
 
 .m-b-auto {
     margin-block: auto;
+}
+
+.m-i-auto {
+    margin-inline: auto;
 }
 
 .w-50 {
@@ -62,7 +80,9 @@ a.card {
     color: var(--text-color);
 }
 
-
+.alitem-center {
+    align-items: center;
+}
 
 .center-al {
     text-align: center;
@@ -70,4 +90,45 @@ a.card {
 
 .left-al {
     text-align: left;
+}
+
+.right-al {
+    text-align: right;
+}
+
+input[type='text'].search-bar {
+    border: solid 1px var(--navbar-background);
+    border-radius: 10px;
+    line-height: 30px;
+    padding: 1px 10px;
+}
+
+.center {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap : 10px;
+    margin: auto;
+    padding: 30px;
+    border: #1D1B20 solid 1px;
+    border-radius: 20px;
+    align-items: center;
+
+    & div {
+        grid-column: span 2;
+        text-align: center;
+        padding: 20px;
+    }
+}
+
+@media only screen and (min-width:990px) {
+    .center {
+        margin-inline: 20%;
+    }
+
+}
+
+.grid-responsive {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 0 10px;
 }
