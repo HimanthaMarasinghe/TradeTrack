@@ -44,7 +44,7 @@
         <div class="panel loyalty-cus">
             <div class="mg-0 row col-max-1024">
                 <h2>Loyalty Customers</h2>
-                <input type="text" class="search-bar fg1" placeholder="Search">
+                <input class="userInput" type="text" class="search-bar fg1" placeholder="Search">
             </div>
             <div class="scroll-box grid-responsive">
                 <?php 

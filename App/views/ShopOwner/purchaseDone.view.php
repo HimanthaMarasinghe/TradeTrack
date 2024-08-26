@@ -10,10 +10,10 @@
         <h1>10,000</h1>
 
         <h4>Customer's Phone number</h4>
-        <input type="text">
+        <input class="userInput" type="text">
 
         <h4>Customer's E-mail</h4>
-        <input type="text">
+        <input class="userInput" type="text">
 
         <div>
             <img src="<?=ROOT?>/images/icons/home.svg" alt="">

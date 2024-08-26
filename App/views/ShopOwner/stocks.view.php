@@ -18,7 +18,7 @@
     
     <div class="row fg1 ovf-hdn">
         <div class="panel mg-10 fg1">
-            <input type="text" class="search-bar" placeholder="Search">
+            <input class="userInput" type="text" class="search-bar" placeholder="Search">
             <div class="scroll-box grid-responsive">
                 <?php 
                     foreach ($stocks as $stock)
