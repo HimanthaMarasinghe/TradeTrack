@@ -19,7 +19,7 @@
             <h2>Record Withdrawal</h2>
         </div>
         <h3 class="center-al">Amount</h3>
-        <input type="text">
+        <input class="userInput" type="text">
         <div class="row">
             <a href="" class="btn w-75 m-i-auto">Record</a>
         </div>

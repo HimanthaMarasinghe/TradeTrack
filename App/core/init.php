@@ -1,7 +1,7 @@
-<!-- This file is used to require all the core controlers in the core directory,
-  so this file can be required in the index.php. This way, the index.php file becomes simpler. -->
-
 <?php
+
+// This file is used to require all the core controlers in the core directory,
+//   so this file can be required in the index.php. This way, the index.php file becomes simpler.
 
 spl_autoload_register(function($classname)
 {
