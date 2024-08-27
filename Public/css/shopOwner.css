@@ -15,8 +15,6 @@
 
 /* Loyalty Customers */
 
-
-
 .new-lc-req {
     grid-column: span 8;
     grid-row: span 2;
@@ -47,4 +45,15 @@
     align-items: center;
     padding: 10px;
     flex-grow: 1;
+}
+
+/* new purchase */
+
+#bill {
+    counter-reset: billItem;
+    
+    & tr :first-child::before {
+        counter-increment: billItem;
+        content: counter(billItem);
+    }
 }
