@@ -26,16 +26,16 @@ class ShopOwner extends Controller
 
         $this->data['stocks'] = 
         $this->data['lowStocks'] = [
-            ['prName' => 'Samen', 'quantity' => 5, 'Barcode' => 'samen', 'Price' => 100],
-            ['prName' => 'Rice', 'quantity' => 10, 'Barcode' => 'samen', 'Price' => 100],
-            ['prName' => 'Sugar', 'quantity' => 15, 'Barcode' => 'samen', 'Price' => 100],
-            ['prName' => 'Salt', 'quantity' => 20, 'Barcode' => 'samen', 'Price' => 100],
-            ['prName' => 'Milk', 'quantity' => 25, 'Barcode' => 'samen', 'Price' => 100],
-            ['prName' => 'Eggs', 'quantity' => 30, 'Barcode' => 'samen', 'Price' => 100],
-            ['prName' => 'Bread', 'quantity' => 35, 'Barcode' => 'samen', 'Price' => 100],
-            ['prName' => 'Butter', 'quantity' => 40, 'Barcode' => 'samen', 'Price' => 100],
-            ['prName' => 'Cheese', 'quantity' => 45, 'Barcode' => 'samen', 'Price' => 100],
-            ['prName' => 'Yogurt', 'quantity' => 50, 'Barcode' => 'samen', 'Price' => 100]
+            ['product_name' => 'Samen', 'quantity' => 5, 'barcode' => 'samen', 'price' => 100],
+            ['product_name' => 'Rice', 'quantity' => 10, 'barcode' => 'samen', 'price' => 100],
+            ['product_name' => 'Sugar', 'quantity' => 15, 'barcode' => 'samen', 'price' => 100],
+            ['product_name' => 'Salt', 'quantity' => 20, 'barcode' => 'samen', 'price' => 100],
+            ['product_name' => 'Milk', 'quantity' => 25, 'barcode' => 'samen', 'price' => 100],
+            ['product_name' => 'Eggs', 'quantity' => 30, 'barcode' => 'samen', 'price' => 100],
+            ['product_name' => 'Bread', 'quantity' => 35, 'barcode' => 'samen', 'price' => 100],
+            ['product_name' => 'Butter', 'quantity' => 40, 'barcode' => 'samen', 'price' => 100],
+            ['product_name' => 'Cheese', 'quantity' => 45, 'barcode' => 'samen', 'price' => 100],
+            ['product_name' => 'Yogurt', 'quantity' => 50, 'barcode' => 'samen', 'price' => 100]
         ];
         
 
@@ -146,32 +146,31 @@ class ShopOwner extends Controller
     }
     
     public function stocks() {
-        $p = new Products;
         $this->data['lowStocks'] = [
-            ['prName' => 'Samen', 'quantity' => 5, 'Barcode' => 'samen', 'Price' => 100],
-            ['prName' => 'Rice', 'quantity' => 10, 'Barcode' => 'samen', 'Price' => 100],
-            ['prName' => 'Sugar', 'quantity' => 15, 'Barcode' => 'samen', 'Price' => 100],
-            ['prName' => 'Salt', 'quantity' => 20, 'Barcode' => 'samen', 'Price' => 100],
-            ['prName' => 'Milk', 'quantity' => 25, 'Barcode' => 'samen', 'Price' => 100],
-            ['prName' => 'Eggs', 'quantity' => 30, 'Barcode' => 'samen', 'Price' => 100],
-            ['prName' => 'Bread', 'quantity' => 35, 'Barcode' => 'samen', 'Price' => 100],
-            ['prName' => 'Butter', 'quantity' => 40, 'Barcode' => 'samen', 'Price' => 100],
-            ['prName' => 'Cheese', 'quantity' => 45, 'Barcode' => 'samen', 'Price' => 100],
-            ['prName' => 'Yogurt', 'quantity' => 50, 'Barcode' => 'samen', 'Price' => 100]
+            ['product_name' => 'Samen', 'quantity' => 5, 'barcode' => 'samen', 'price' => 100],
+            ['product_name' => 'Rice', 'quantity' => 10, 'barcode' => 'samen', 'price' => 100],
+            ['product_name' => 'Sugar', 'quantity' => 15, 'barcode' => 'samen', 'price' => 100],
+            ['product_name' => 'Salt', 'quantity' => 20, 'barcode' => 'samen', 'price' => 100],
+            ['product_name' => 'Milk', 'quantity' => 25, 'barcode' => 'samen', 'price' => 100],
+            ['product_name' => 'Eggs', 'quantity' => 30, 'barcode' => 'samen', 'price' => 100],
+            ['product_name' => 'Bread', 'quantity' => 35, 'barcode' => 'samen', 'price' => 100],
+            ['product_name' => 'Butter', 'quantity' => 40, 'barcode' => 'samen', 'price' => 100],
+            ['product_name' => 'Cheese', 'quantity' => 45, 'barcode' => 'samen', 'price' => 100],
+            ['product_name' => 'Yogurt', 'quantity' => 50, 'barcode' => 'samen', 'price' => 100]
         ];
         $product = new Products;
-        $this->data['stocks'] = $product->where(['Barcode' => '4791010040044']);
+        $this->data['stocks'] = $product->readAll();
         $this->data['staticStocks'] = [
-            ['prName' => 'Samen', 'quantity' => 5, 'Barcode' => 'samen', 'Price' => 100],
-            ['prName' => 'Rice', 'quantity' => 10, 'Barcode' => 'samen', 'Price' => 100],
-            ['prName' => 'Sugar', 'quantity' => 15, 'Barcode' => 'samen', 'Price' => 100],
-            ['prName' => 'Salt', 'quantity' => 20, 'Barcode' => 'samen', 'Price' => 100],
-            ['prName' => 'Milk', 'quantity' => 25, 'Barcode' => 'samen', 'Price' => 100],
-            ['prName' => 'Eggs', 'quantity' => 30, 'Barcode' => 'samen', 'Price' => 100],
-            ['prName' => 'Bread', 'quantity' => 35, 'Barcode' => 'samen', 'Price' => 100],
-            ['prName' => 'Butter', 'quantity' => 40, 'Barcode' => 'samen', 'Price' => 100],
-            ['prName' => 'Cheese', 'quantity' => 45, 'Barcode' => 'samen', 'Price' => 100],
-            ['prName' => 'Yogurt', 'quantity' => 50, 'Barcode' => 'samen', 'Price' => 100]
+            ['product_name' => 'Samen', 'quantity' => 5, 'barcode' => 'samen', 'price' => 100],
+            ['product_name' => 'Rice', 'quantity' => 10, 'barcode' => 'samen', 'price' => 100],
+            ['product_name' => 'Sugar', 'quantity' => 15, 'barcode' => 'samen', 'price' => 100],
+            ['product_name' => 'Salt', 'quantity' => 20, 'barcode' => 'samen', 'price' => 100],
+            ['product_name' => 'Milk', 'quantity' => 25, 'barcode' => 'samen', 'price' => 100],
+            ['product_name' => 'Eggs', 'quantity' => 30, 'barcode' => 'samen', 'price' => 100],
+            ['product_name' => 'Bread', 'quantity' => 35, 'barcode' => 'samen', 'price' => 100],
+            ['product_name' => 'Butter', 'quantity' => 40, 'barcode' => 'samen', 'price' => 100],
+            ['product_name' => 'Cheese', 'quantity' => 45, 'barcode' => 'samen', 'price' => 100],
+            ['product_name' => 'Yogurt', 'quantity' => 50, 'barcode' => 'samen', 'price' => 100]
         ];
         $this->data['tabs']['active'] = 'Stocks';
         $this->view('shopOwner/stocks', $this->data);

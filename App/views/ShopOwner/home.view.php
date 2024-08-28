@@ -44,7 +44,7 @@
 
         <div class="panel low-stocck">
             <h2>Low Stocks</h2>
-            <div class="scroll-box grid-responsive">
+            <div class="scroll-box grid g-resp-300">
                 <?php 
                     foreach ($stocks as $stock)
                     {
