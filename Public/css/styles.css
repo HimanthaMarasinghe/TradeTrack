@@ -204,15 +204,15 @@
     grid-row: span 3;
 }
 
-.product-img {
+.product-img-container {
     height: 100px;
     width: 100px;
 }
 
-.product-img img {
+img.product-img {
     height: 100%;
     width: 100%;
-    object-fit: cover;
+    object-fit: scale-down;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
 }

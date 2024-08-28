@@ -31,7 +31,7 @@
 
         <div class="panel new-lc-req">
             <h2>New Loyalty Customer Request</h2>
-            <div class="scroll-box grid-responsive">
+            <div class="scroll-box grid g-resp-300">
                 <?php 
                     foreach ($newLoyalCusReq as $req)
                     {
@@ -44,9 +44,10 @@
         <div class="panel loyalty-cus">
             <div class="mg-0 row col-max-1024">
                 <h2>Loyalty Customers</h2>
-                <input class="userInput" type="text" class="search-bar fg1" placeholder="Search">
+                <input type="text" class="search-bar fg1" placeholder="Search">
+                <button class="btn">Search</button>
             </div>
-            <div class="scroll-box grid-responsive">
+            <div class="scroll-box grid g-resp-300">
                 <?php 
                     foreach ($loyalCus as $Cus)
                     {

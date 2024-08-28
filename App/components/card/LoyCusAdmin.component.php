@@ -2,7 +2,7 @@
     <input type="hidden" name="phone" value="<?=$phone?>">
 </form>
 
-<div class="card">
+<div class="card center-al">
     <div class="profile-photo">
         <img src="<?=ROOT?>/images/Profile/<?=$phone?>.jpg" alt="J">
     </div>

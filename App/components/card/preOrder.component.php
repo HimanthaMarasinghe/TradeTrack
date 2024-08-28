@@ -1,4 +1,4 @@
-<div class="card btn-card" onclick="document.getElementById('preOrder-form-<?=$name?>').submit()">
+<div class="card btn-card center-al" onclick="document.getElementById('preOrder-form-<?=$name?>').submit()">
     <!-- <button href="<?=LINKROOT?>/ShopOwner/preOrder" class="card"> -->
     <form id="preOrder-form-<?=$name?>" action="<?=LINKROOT?>/ShopOwner/preOrder" style="display:none" method="POST">
         <input type="hidden" name="phone" value="<?=$phone?>">

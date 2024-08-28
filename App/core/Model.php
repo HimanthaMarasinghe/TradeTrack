@@ -75,8 +75,8 @@ class Model extends Database
         $keys = array_keys($data);
         $query = "INSERT INTO $this->table (".implode(",", $keys).") VALUE (:".implode(",:", $keys).")";
         $this->query($query, $data);
-        return false;
-    }
+        return false;
+}
   
     public function update($id, $data, $id_column = 'id')
     {

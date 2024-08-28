@@ -1,4 +1,4 @@
-<div class="card btn-card" onclick="document.getElementById('LoyCus-<?=$phone?>').submit()">
+<div class="card btn-card center-al" onclick="document.getElementById('LoyCus-<?=$phone?>').submit()">
     <form id="LoyCus-<?=$phone?>" method="post" action="<?=LINKROOT?>/ShopOwner/loyaltyCustomer">
         <input type="hidden" name="phone" value="<?=$phone?>">
     </form>

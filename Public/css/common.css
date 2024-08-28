@@ -75,6 +75,22 @@ body {
     width: 100%;
 }
 
+.h-25{
+    height: 25%;
+}
+
+.h-50{
+    height: 50%
+}
+
+.h-75{
+    height: 75%
+}
+
+.h-100{
+    height: 100%;
+}
+
 a.card {
     text-decoration: none;
     color: var(--text-color);
@@ -127,8 +143,20 @@ input[type='text'].search-bar {
 
 }
 
-.grid-responsive {
+.grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-rows: min-content;
     gap: 0 10px;
+    
+    &.g-resp-200 {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+    
+    &.g-resp-300 {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+}
+
+.asp-rtio {
+    aspect-ratio: 1;
 }
