@@ -56,7 +56,6 @@
     min-width: 50px;
     text-align: center;
     height: 30px;
-    border-radius: 12px;
     fill: var(--btn-secondary-text);
 }
 
