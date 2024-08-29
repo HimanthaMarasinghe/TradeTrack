@@ -29,14 +29,14 @@
 
     <hr>
     <div class="total">
-        <h1>12,300</h1>
+        <h1 id="bill-Total">0</h1>
     </div>
     <hr>
 
     <div class="row col-max-1024">
 
-        <div class="product-img">
-            <img id="product-pic" src="<?=ROOT?>/images/Default/Product.jpeg" alt="">
+        <div class="product-img-container">
+            <img id="product-pic" class="product-img" src="<?=ROOT?>/images/Default/Product.jpeg" alt="">
         </div>
 
         <div class="colomn fg1">
@@ -73,6 +73,9 @@
     </div>
 
     <script>
+
+        let billTotal = 0;
+
         document.getElementById('barCode').addEventListener('input', function (e) {
             
             var product_name = document.getElementById('product-name');
@@ -131,12 +134,16 @@
                 return;
             }
 
+            billTotal += parseFloat(total);
+
             document.getElementById('bill').innerHTML += `<tr class='Item'>
                 <td class='center-al'></td>
                 <td class='left-al'>${product_name}</td>
                 <td>${unit_price}</td>
                 <td>${qty}</td>
                 <td>${total}</td>`;
+
+            document.getElementById('bill-Total').innerText = billTotal;
         });
     </script>
 
