@@ -10,7 +10,7 @@
             <h1>10,000</h1>
         
             <h2>Cash</h2>
-            <input class="billSettle" type="text">
+            <input class="userInput" type="text">
         
             <h2>Change</h2>
             <div class="row">
@@ -21,10 +21,10 @@
             </div>
         
             <h4>Customer's Phone number</h4>
-            <input class="billSettle" type="text">
+            <input class="userInput" type="text">
         
             <h4>Customer's E-mail</h4>
-            <input class="billSettle" type="text">
+            <input class="userInput" type="text">
         
                 <a href="" class="btn fg1">Print the bill</a>
                 <a href="" class="btn fg1">Send the bill via SMS</a>

@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card center-al">
     <?php if (isset($image)): ?>
         <img src="<?php echo $image; ?>" alt="Card image" class="card-img-top">
     <?php endif; ?>

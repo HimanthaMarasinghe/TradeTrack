@@ -6,6 +6,10 @@
 <div class="main-content colomn">
     <div class="center done">
 
+        <div>
+            <h1><?=$cusName?></h1>
+        </div>
+
         <h1>Total</h1>
         <h1>10,000</h1>
 
@@ -17,12 +21,12 @@
 
         <div>
             <img src="<?=ROOT?>/images/icons/home.svg" alt="">
-            <h1>Done!</h1>
+            <h3>Order Status set to ready.</h3>
         </div>
 
         <a href="<?=LINKROOT?>/ShopOwner/Home" class="btn">Home</a>
-        <a href="<?=LINKROOT?>/ShopOwner/newPurchase" class="btn">Next Customer</a>
-
+        <a href="<?=LINKROOT?>/ShopOwner/LoyaltyCustomers" class="btn">Loyalty Customers</a>
+        
     </div>
 </div>
 

@@ -1,7 +1,7 @@
-<!-- This file contains all the functions that should be present in every controller. 
- Each controller can require this file and use the following functions. -->
+<?php
 
- <?php
+// This file contains all the functions that should be present in every controller. 
+// Each controller can require this file and use the following functions.
 
  class Controller
  {

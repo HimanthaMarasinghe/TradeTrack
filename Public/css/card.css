@@ -1,6 +1,25 @@
-a.card:hover {
-    /* background-color: var(--btn-secondary);
+.btn-card:hover {
+    /* background-color: var(--btn-secondary); */
     color: var(--btn-secondary-text);
-    box-shadow: 0 0 10px 0 var(--accent-color); */
+    box-shadow: 0 0 10px 0 var(--accent-color);
     border: solid 2px var(--highlight-color);
+    cursor: pointer;
+}
+
+.card {
+    border: solid 1px #ddd;
+    border-radius: 10px;
+    background-color: #FEF7FF;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px auto;
+    padding: 15px;
+    width: 100%;
+
+    & .details {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
 }

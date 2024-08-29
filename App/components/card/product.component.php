@@ -1,9 +1,10 @@
-<a href="<?=LINKROOT?>/ShopOwner/stocks" class="card">
-    <div class="details">
-        <h4><?=$prName?></h4>
+<a href="<?=LINKROOT?>/ShopOwner/stocks" class="card btn-card center-al">
+    <div class="details h-100">
+        <h4><?=$product_name?></h4>
         <h4><?=$quantity?></h4>
+        <h4>Rs.<?=$unit_rice?>.00</h4>
     </div>
-    <div class="product-img">
-        <img src="<?=ROOT?>/images/Products/<?=$prID?>.jpeg" alt="">
+    <div class="product-img-container">
+        <img class="product-img" src="<?=ROOT?>/images/Products/<?=$barcode?>.jpeg" alt="">
     </div>
 </a>

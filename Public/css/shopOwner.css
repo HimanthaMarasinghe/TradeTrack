@@ -13,15 +13,7 @@
     border-radius: 12px;
 }
 
-.done div {
-    grid-column: span 2;
-    text-align: center;
-    padding: 20px;
-}
-
 /* Loyalty Customers */
-
-
 
 .new-lc-req {
     grid-column: span 8;
@@ -48,9 +40,20 @@
 
 .LoyCus-Details {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
     padding: 10px;
     flex-grow: 1;
+}
+
+/* new purchase */
+
+#bill {
+    counter-reset: billItem;
+    
+    & tr :first-child::before {
+        counter-increment: billItem;
+        content: counter(billItem);
+    }
 }

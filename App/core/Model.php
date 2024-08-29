@@ -2,7 +2,7 @@
 
 class Model extends Database
 {
-    protected $table = 'users';
+    // protected $table = 'users';
 
     public function where($data, $data_not = [])
     {
@@ -50,6 +50,66 @@ class Model extends Database
         if($result)
             return $result[0];
 
+        return false;
+    }
+
+    public function readAll()
+    {
+        $query = "SELECT * FROM $this->table";
+        return $this->query($query);
+    }
+
+    public function insert($data)
+    {
+        // Only the fields that are mentioned in the fillable array will be inserted.
+        if(!empty($this->fillable))
+        {
+            foreach ($data as $key => $value)
+            {
+                if(!in_array($key, $this->fillable))
+                {
+                    unset($data[$key]);
+                }
+            }
+        }
+        $keys = array_keys($data);
+        $query = "INSERT INTO $this->table (".implode(",", $keys).") VALUE (:".implode(",:", $keys).")";
+        $this->query($query, $data);
+        return false;
+}
+  
+    public function update($id, $data, $id_column = 'id')
+    {
+        // Only the fields that are mentioned in the fillable array will be updated.
+        if(!empty($this->fillable))
+        {
+            foreach ($data as $key => $value)
+            {
+                if(!in_array($key, $this->fillable))
+                {
+                    unset($data[$key]);
+                }
+            }
+        }
+        $keys = array_keys($data);
+        $query = "UPDATE $this->table SET ";
+        foreach($keys as $key)
+        {
+            $query .= $key." = :".$key . ", ";
+        }
+        
+        $query = rtrim($query, ", "); 
+
+        $query .= " WHERE $id_column = :condition_$id_column";
+        
+        $data["condition_$id_column"] = $id; 
+        /*
+        The term "condition" is used, so when updating a field that also present in the where condition,
+        the data array will not be overwritten.
+        */
+
+        // echo $query;
+        $this->query($query, $data);
         return false;
     }
 }

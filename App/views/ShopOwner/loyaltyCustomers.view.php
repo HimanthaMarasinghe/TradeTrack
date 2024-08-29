@@ -5,15 +5,15 @@
 
 <div class="main-content colomn">
 
-        <div class="bar">
+    <div class="bar">
+        <img src="<?=ROOT?>/images/icons/home.svg" alt="">
+        <!-- <h1><?=$_SESSION['name']?></h1> -->
+        <h1>Shop Name</h1>
+        <div>
             <img src="<?=ROOT?>/images/icons/home.svg" alt="">
-            <!-- <h1><?=$_SESSION['name']?></h1> -->
-             <h1>Shop Name</h1>
-            <div>
-                <img src="<?=ROOT?>/images/icons/home.svg" alt="">
-                <img src="<?=ROOT?>/images/icons/home.svg" alt="">
-            </div>
+            <img src="<?=ROOT?>/images/icons/home.svg" alt="">
         </div>
+    </div>
 
 
     <div class="grid-box fg1">
@@ -31,7 +31,7 @@
 
         <div class="panel new-lc-req">
             <h2>New Loyalty Customer Request</h2>
-            <div class="scroll-box">
+            <div class="scroll-box grid g-resp-300">
                 <?php 
                     foreach ($newLoyalCusReq as $req)
                     {
@@ -42,8 +42,12 @@
         </div>
 
         <div class="panel loyalty-cus">
-            <h2>Loyalty Customers</h2>
-            <div class="scroll-box">
+            <div class="mg-0 row col-max-1024">
+                <h2>Loyalty Customers</h2>
+                <input type="text" class="search-bar fg1" placeholder="Search">
+                <button class="btn">Search</button>
+            </div>
+            <div class="scroll-box grid g-resp-300">
                 <?php 
                     foreach ($loyalCus as $Cus)
                     {
