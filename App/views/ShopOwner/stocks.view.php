@@ -38,7 +38,7 @@
 
         <div class="panel warning mg-10 fg1">
         <h2>Low Stocks</h2>
-            <div class="scroll-box grid-responsive">
+            <div class="scroll-box grid g-resp-300">
                 <?php
                     foreach ($lowStocks as $stock)
                     {

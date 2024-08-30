@@ -29,9 +29,14 @@ USE trade_track;
 
 INSERT INTO `products` (`barcode`, `product_name`, `unit_price`) VALUES
 ('4791010040044', 'NINJA POWER 12 0.01% MOSQUITO COILS', 200),
+('4792024019545', 'NESTOMOALT 450g', 780),
+('4792081031580', 'LUX soap 70g', 135),
 ('4792173000005', 'WIJAYA Chilli Pieces 50g', 80),
+('4792225001189', 'DIAMOND full cream milk powder 400g', 1050),
+('4796000301471', 'MATARA FREELAN Roasted Curry Powder 50g', 100),
 ('4796010610921', 'PURE DALE Full cream milk powder', 910),
-('4796020480217', 'ARALIYA PREMIUM NADU RICE 5kg', 1100)
+('4796020480217', 'ARALIYA PREMIUM NADU RICE 5kg', 1100),
+('8888101611705', 'MUNCHEE Cheese Buttons Biscuits', 400)
 ON DUPLICATE KEY UPDATE
 `product_name` = VALUES(`product_name`),
 `unit_price` = VALUES(`unit_price`);
