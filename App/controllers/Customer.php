@@ -27,6 +27,40 @@ class Customer extends Controller
         ];
         $this->view('Customer/Products',$this->data);
     }
+
+    public function shops(){
+        $this->data['tabs']['active'] = 'Shops';
+        $this->data['shops'] = [
+        ['shop_name' => 'Shop1', 'shop_address' => 'Address1', 'so_phone' => 'default'],
+        ['shop_name' => 'Shop2', 'shop_address' => 'Address2', 'so_phone' => 'default'],
+        ['shop_name' => 'Shop3', 'shop_address' => 'Address3', 'so_phone' => 'default'],
+        ['shop_name' => 'Shop4', 'shop_address' => 'Address4', 'so_phone' => 'default'],
+        ['shop_name' => 'Shop5', 'shop_address' => 'Address5', 'so_phone' => 'default'],
+        ['shop_name' => 'Shop6', 'shop_address' => 'Address6', 'so_phone' => 'default'],
+        ['shop_name' => 'Shop7', 'shop_address' => 'Address7', 'so_phone' => 'default'],
+        ['shop_name' => 'Shop8', 'shop_address' => 'Address8', 'so_phone' => 'default'],
+        ['shop_name' => 'Shop9', 'shop_address' => 'Address9', 'so_phone' => 'default'],
+        ['shop_name' => 'Shop10', 'shop_address' => 'Address10', 'so_phone' => 'default'],
+        ];
+        $this->view('Customer/shops',$this->data);
+    }
+
+    public function loyaltyShops(){
+        $this->data['tabs']['active'] = 'Loyalty Shops';
+        $this->data['shops'] = [
+        ['shop_name' => 'Shop1', 'shop_address' => 'Address1', 'so_phone' => 'default'],
+        ['shop_name' => 'Shop2', 'shop_address' => 'Address2', 'so_phone' => 'default'],
+        ['shop_name' => 'Shop3', 'shop_address' => 'Address3', 'so_phone' => 'default'],
+        ['shop_name' => 'Shop4', 'shop_address' => 'Address4', 'so_phone' => 'default'],
+        ['shop_name' => 'Shop5', 'shop_address' => 'Address5', 'so_phone' => 'default'],
+        ['shop_name' => 'Shop6', 'shop_address' => 'Address6', 'so_phone' => 'default'],
+        ['shop_name' => 'Shop7', 'shop_address' => 'Address7', 'so_phone' => 'default'],
+        ['shop_name' => 'Shop8', 'shop_address' => 'Address8', 'so_phone' => 'default'],
+        ['shop_name' => 'Shop9', 'shop_address' => 'Address9', 'so_phone' => 'default'],
+        ['shop_name' => 'Shop10', 'shop_address' => 'Address10', 'so_phone' => 'default'],
+        ];
+        $this->view('Customer/loyaltyShops',$this->data);
+    }
     //create new methods after this line.
 
 }
