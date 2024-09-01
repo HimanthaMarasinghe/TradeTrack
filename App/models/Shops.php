@@ -1,10 +1,10 @@
 <?php
 
-class ShopOwner extends Model
+class Shops extends Model
 {
 
-    protected $table = 'ShopOwner';
-    protected $fillable = ['PhoneNumber', 'ShopName', 'ShopAddress', 'ShopLocation', 'OwnerName', 'Password'];
+    protected $table = 'shops';
+    protected $fillable = ['so_phone', 'shop_name', 'shop_address', 'cash_drawer_balance', 'bank_balance', 'so_first_name', 'so_last_name', 'so_address', 'so_password'];
 
     public function validate($data)
     {
