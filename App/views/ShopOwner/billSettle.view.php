@@ -13,12 +13,12 @@
             <input class="userInput" type="text">
         
             <h2>Change</h2>
-            <div class="row">
+            <span class="row">
                 <h2 class="fg1">500</h2>
                 <a href="" class="btn">Add to wallet<br>
                     <h6>(Phone number required)</h6>
                 </a>
-            </div>
+            </span>
         
             <h4>Customer's Phone number</h4>
             <input class="userInput" type="text">
