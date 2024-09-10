@@ -9,8 +9,8 @@
         <div class="bar">
             <img src="<?=ROOT?>/images/icons/home.svg" alt="">
             <div>
-                <img src="<?=ROOT?>/images/icons/home.svg" alt="">
-                <img src="<?=ROOT?>/images/icons/home.svg" alt="">
+                <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
+                <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
             </div>
         </div>
 

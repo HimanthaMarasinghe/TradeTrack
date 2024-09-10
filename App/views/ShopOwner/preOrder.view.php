@@ -9,8 +9,8 @@
         <img src="<?=ROOT?>/images/icons/home.svg" alt="">
         <h2>Pre-Order</h2>
         <div>
-            <img src="<?=ROOT?>/images/icons/home.svg" alt="">
-            <img src="<?=ROOT?>/images/icons/home.svg" alt="">
+            <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
+            <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
         </div>
     </div>
     <div class="row spc-btwn">

@@ -77,6 +77,10 @@
     animation-name: fade;
     animation-duration: 1.5s;
   }
+
+  .slideshow-container img{
+    border-radius: 100px;
+  }
   
   @keyframes fade {
     from {opacity: .4}

@@ -8,6 +8,7 @@ class Admin extends Controller
 
     //create new methods after this line.
     public function index(){
+        $this->data['tabs']['active'] = 'Home';
         $this->view('Admin/home',$this->data);
     }
 /*
@@ -17,6 +18,7 @@ class Admin extends Controller
     } 
 */
     public function removeUser() {
+        $this->data['tabs']['active'] = 'Remove User';
         $this->data['loyalCus']=[
             ['phone' => 'PhoneNumber', 'name' => 'John Doe', 'amount' => 15000],
             ['phone' => 'PhoneNumber', 'name' => 'Jane Smith', 'amount' => 24000],
@@ -29,8 +31,6 @@ class Admin extends Controller
             ['phone' => 'PhoneNumber', 'name' => 'Grace Taylor', 'amount' => 30000],
             ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson', 'amount' => 22000]
         ]; 
-
-        $this->data['tabs']['active'] = 'Loyalty Customers';
         $this->view('Admin/removeUser', $this->data);
     }
 
@@ -40,7 +40,6 @@ class Admin extends Controller
             'phone' => '0112224690',
             'address' => 'No 123, Main Street, Colombo 07'
         ];
-        $this->data['tabs']['active'] = 'Loyalty Customers';
         $this->view('Admin/removeUserDetails', $this->data);
     }
 }
