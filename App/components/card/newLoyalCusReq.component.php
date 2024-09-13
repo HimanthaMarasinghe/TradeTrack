@@ -7,6 +7,6 @@
     </div>
     <div class="row m-b-auto fg1">
         <a href="" class="btn fg1">Accept</a>
-        <a href="<?=LINKROOT?>/ShopOwner/addLoyalCus" class="btn fg1">See more</a>
+        <a href="<?=LINKROOT?>/ShopOwner/addLoyalCus" class="btn fg1">More</a>
     </div>
 </div>

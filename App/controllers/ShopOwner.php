@@ -24,18 +24,11 @@ class ShopOwner extends Controller
             ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson', 'total' => 22000, 'time' => '11 min']
         ];
 
-        $this->data['stocks'] = 
         $this->data['lowStocks'] = [
-            ['product_name' => 'Samen', 'quantity' => 5, 'barcode' => 'samen', 'price' => 100],
-            ['product_name' => 'Rice', 'quantity' => 10, 'barcode' => 'samen', 'price' => 100],
-            ['product_name' => 'Sugar', 'quantity' => 15, 'barcode' => 'samen', 'price' => 100],
-            ['product_name' => 'Salt', 'quantity' => 20, 'barcode' => 'samen', 'price' => 100],
-            ['product_name' => 'Milk', 'quantity' => 25, 'barcode' => 'samen', 'price' => 100],
-            ['product_name' => 'Eggs', 'quantity' => 30, 'barcode' => 'samen', 'price' => 100],
-            ['product_name' => 'Bread', 'quantity' => 35, 'barcode' => 'samen', 'price' => 100],
-            ['product_name' => 'Butter', 'quantity' => 40, 'barcode' => 'samen', 'price' => 100],
-            ['product_name' => 'Cheese', 'quantity' => 45, 'barcode' => 'samen', 'price' => 100],
-            ['product_name' => 'Yogurt', 'quantity' => 50, 'barcode' => 'samen', 'price' => 100]
+            ['product_name' => 'Samen', 'quantity' => 5, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
+            ['product_name' => 'Rice', 'quantity' => 10, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
+            ['product_name' => 'Sugar', 'quantity' => 15, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
+            ['product_name' => 'Yogurt', 'quantity' => 50, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg']
         ];
         
 
@@ -77,28 +70,21 @@ class ShopOwner extends Controller
 
     public function loyaltyCustomers() {
         $this->data['preOrders'] = [
-            ['phone' => 'PhoneNumber', 'name' => 'John Doe', 'total' => 15000, 'time' => '5 min'],
-            ['phone' => 'PhoneNumber', 'name' => 'Jane Smith', 'total' => 24000, 'time' => '10 min'],
-            ['phone' => 'PhoneNumber', 'name' => 'Alice Johnson', 'total' => 32000, 'time' => '7 min'],
-            ['phone' => 'PhoneNumber', 'name' => 'Bob Brown', 'total' => 27000, 'time' => '8 min'],
-            ['phone' => 'PhoneNumber', 'name' => 'Carol Davis', 'total' => 16000, 'time' => '3 min'],
-            ['phone' => 'PhoneNumber', 'name' => 'David Wilson', 'total' => 20000, 'time' => '12 min'],
-            ['phone' => 'PhoneNumber', 'name' => 'Eve Miller', 'total' => 18000, 'time' => '6 min'],
-            ['phone' => 'PhoneNumber', 'name' => 'Frank Moore', 'total' => 21000, 'time' => '4 min'],
-            ['phone' => 'PhoneNumber', 'name' => 'Grace Taylor', 'total' => 30000, 'time' => '9 min'],
-            ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson', 'total' => 22000, 'time' => '11 min']
+            ['phone' => 'PhoneNumber', 'name' => 'John Doe', 'total' => 15000, 'time' => '5 min', 'pic_format' => 'jpeg'],
+            ['phone' => 'PhoneNumber', 'name' => 'Jane Smith', 'total' => 24000, 'time' => '10 min', 'pic_format' => 'jpeg'],
+            ['phone' => 'PhoneNumber', 'name' => 'Alice Johnson', 'total' => 32000, 'time' => '7 min', 'pic_format' => 'jpeg'],
+            ['phone' => 'PhoneNumber', 'name' => 'Bob Brown', 'total' => 27000, 'time' => '8 min', 'pic_format' => 'jpeg'],
+            ['phone' => 'PhoneNumber', 'name' => 'Carol Davis', 'total' => 16000, 'time' => '3 min', 'pic_format' => 'jpeg'],
+            ['phone' => 'PhoneNumber', 'name' => 'David Wilson', 'total' => 20000, 'time' => '12 min', 'pic_format' => 'jpeg'],
+            ['phone' => 'PhoneNumber', 'name' => 'Eve Miller', 'total' => 18000, 'time' => '6 min', 'pic_format' => 'jpeg'],
+            ['phone' => 'PhoneNumber', 'name' => 'Frank Moore', 'total' => 21000, 'time' => '4 min', 'pic_format' => 'jpeg'],
+            ['phone' => 'PhoneNumber', 'name' => 'Grace Taylor', 'total' => 30000, 'time' => '9 min', 'pic_format' => 'jpeg'],
+            ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson', 'total' => 22000, 'time' => '11 min', 'pic_format' => 'jpeg']
         ];
 
         $this->data['newLoyalCusReq'] = [
             ['phone' => 'PhoneNumber', 'name' => 'John Doe'],
             ['phone' => 'PhoneNumber', 'name' => 'Jane Smith'],
-            ['phone' => 'PhoneNumber', 'name' => 'Alice Johnson'],
-            ['phone' => 'PhoneNumber', 'name' => 'Bob Brown'],
-            ['phone' => 'PhoneNumber', 'name' => 'Carol Davis'],
-            ['phone' => 'PhoneNumber', 'name' => 'David Wilson'],
-            ['phone' => 'PhoneNumber', 'name' => 'Eve Miller'],
-            ['phone' => 'PhoneNumber', 'name' => 'Frank Moore'],
-            ['phone' => 'PhoneNumber', 'name' => 'Grace Taylor'],
             ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson']
         ];
 
@@ -147,30 +133,24 @@ class ShopOwner extends Controller
     
     public function stocks() {
         $this->data['lowStocks'] = [
-            ['product_name' => 'Samen', 'quantity' => 5, 'barcode' => 'samen', 'price' => 100],
-            ['product_name' => 'Rice', 'quantity' => 10, 'barcode' => 'samen', 'price' => 100],
-            ['product_name' => 'Sugar', 'quantity' => 15, 'barcode' => 'samen', 'price' => 100],
-            ['product_name' => 'Salt', 'quantity' => 20, 'barcode' => 'samen', 'price' => 100],
-            ['product_name' => 'Milk', 'quantity' => 25, 'barcode' => 'samen', 'price' => 100],
-            ['product_name' => 'Eggs', 'quantity' => 30, 'barcode' => 'samen', 'price' => 100],
-            ['product_name' => 'Bread', 'quantity' => 35, 'barcode' => 'samen', 'price' => 100],
-            ['product_name' => 'Butter', 'quantity' => 40, 'barcode' => 'samen', 'price' => 100],
-            ['product_name' => 'Cheese', 'quantity' => 45, 'barcode' => 'samen', 'price' => 100],
-            ['product_name' => 'Yogurt', 'quantity' => 50, 'barcode' => 'samen', 'price' => 100]
+            ['product_name' => 'Samen', 'quantity' => 5, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
+            ['product_name' => 'Rice', 'quantity' => 10, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
+            ['product_name' => 'Sugar', 'quantity' => 15, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
+            ['product_name' => 'Yogurt', 'quantity' => 50, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg']
         ];
         $product = new Products;
         $this->data['stocks'] = $product->readAll();
         $this->data['staticStocks'] = [
-            ['product_name' => 'Samen', 'quantity' => 5, 'barcode' => 'samen', 'price' => 100],
-            ['product_name' => 'Rice', 'quantity' => 10, 'barcode' => 'samen', 'price' => 100],
-            ['product_name' => 'Sugar', 'quantity' => 15, 'barcode' => 'samen', 'price' => 100],
-            ['product_name' => 'Salt', 'quantity' => 20, 'barcode' => 'samen', 'price' => 100],
-            ['product_name' => 'Milk', 'quantity' => 25, 'barcode' => 'samen', 'price' => 100],
-            ['product_name' => 'Eggs', 'quantity' => 30, 'barcode' => 'samen', 'price' => 100],
-            ['product_name' => 'Bread', 'quantity' => 35, 'barcode' => 'samen', 'price' => 100],
-            ['product_name' => 'Butter', 'quantity' => 40, 'barcode' => 'samen', 'price' => 100],
-            ['product_name' => 'Cheese', 'quantity' => 45, 'barcode' => 'samen', 'price' => 100],
-            ['product_name' => 'Yogurt', 'quantity' => 50, 'barcode' => 'samen', 'price' => 100]
+            ['product_name' => 'Samen', 'quantity' => 5, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
+            ['product_name' => 'Rice', 'quantity' => 10, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
+            ['product_name' => 'Sugar', 'quantity' => 15, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
+            ['product_name' => 'Salt', 'quantity' => 20, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
+            ['product_name' => 'Milk', 'quantity' => 25, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
+            ['product_name' => 'Eggs', 'quantity' => 30, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
+            ['product_name' => 'Bread', 'quantity' => 35, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
+            ['product_name' => 'Butter', 'quantity' => 40, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
+            ['product_name' => 'Cheese', 'quantity' => 45, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
+            ['product_name' => 'Yogurt', 'quantity' => 50, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg']
         ];
         $this->data['tabs']['active'] = 'Stocks';
         $this->view('shopOwner/stocks', $this->data);

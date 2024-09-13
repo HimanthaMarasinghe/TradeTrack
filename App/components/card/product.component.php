@@ -5,6 +5,6 @@
         <h4>Rs.<?=$unit_rice?>.00</h4>
     </div>
     <div class="product-img-container">
-        <img class="product-img" src="<?=ROOT?>/images/Products/<?=$barcode?>.jpeg" alt="">
+        <img class="product-img" src="<?=ROOT?>/images/Products/<?=$barcode?>.<?=$pic_format?>" alt="">
     </div>
 </a>
