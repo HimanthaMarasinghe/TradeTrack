@@ -92,7 +92,7 @@
             }
 
             if (e.target.value.length === 13) {
-                fetch('<?=LINKROOT?>/ShopOwnerPost/addBillItem', { // Replace with your controller method URL
+                fetch('<?=LINKROOT?>/ShopOwnerPost/addBillItem', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded'
@@ -103,7 +103,7 @@
                     .then(data => {
                         product_name.value = data.product_name;
                         unit_price.value = data.unit_price;
-                        product_pic.src = '<?=ROOT?>/images/Products/' + data.barcode + '.jpeg';
+                        product_pic.src = '<?=ROOT?>/images/Products/' + data.barcode + '.' + data.pic_format;
                     })
                     .catch(error => console.error('Error:', error));
                 e.target.focus();

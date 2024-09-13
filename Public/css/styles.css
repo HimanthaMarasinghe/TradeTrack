@@ -171,7 +171,6 @@
 .scroll-box {
     overflow: auto;
     scrollbar-width: none;
-    flex-grow: 1;
 }
 
 .profile-photo {
