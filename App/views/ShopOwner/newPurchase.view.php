@@ -69,7 +69,7 @@
 
     <div class="row">
         <a href="" class="btn fg1">Card Payment</a>
-        <a href="http://localhost/TradeTrack/ShopOwner/billSettle" class="btn fg1">Cash Payment</a>
+        <a href="<?=LINKROOT?>/ShopOwner/billSettle" class="btn fg1">Cash Payment</a>
     </div>
 
     <script>

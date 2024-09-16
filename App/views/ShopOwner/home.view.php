@@ -16,7 +16,7 @@
 
         <div class="bar">
             <h1><?=$_SESSION['name']?></h1>
-            <a class="btn" href="http://localhost/TradeTrack/ShopOwner/newPurchase">
+            <a class="btn" href="<?=LINKROOT?>/ShopOwner/newPurchase">
                 <h4>New Purchase</h4>
             </a>
         </div>

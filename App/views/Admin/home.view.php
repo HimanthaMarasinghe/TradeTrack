@@ -10,7 +10,7 @@
 <!-- Your html code goes here -->
     <div>
         <h1  class="admin-panel">Admin</h1>
-        <a class="remove-user-btn"  href="http://localhost/TradeTrack/Admin/removeUser">
+        <a class="remove-user-btn"  href="<?=LINKROOT?>/Admin/removeUser">
             <h4>Remove User</h4>
         </a>
     </div>
