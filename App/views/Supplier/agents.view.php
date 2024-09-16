@@ -8,8 +8,6 @@
 
     <div class="bar">
         <img src="<?=ROOT?>/images/icons/home.svg" alt="">
-        <!-- <h1><?=$_SESSION['name']?></h1> -->
-        <h1>Products</h1>
         <div>
             <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
             <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
@@ -22,11 +20,14 @@
 
     <div class="grid g-resp-200 scroll-box">
       <?php
-        foreach ($products as $product)
+        foreach ($agents as $agent)
         {
-          $this->component('card/productVert', $product); 
+          $this->component('card/agent', $agent); 
         }
       ?>
     </div>
+<!-- Your html code goes here -->
+
+</div>
 
 <?php $this->component("footer") ?>
