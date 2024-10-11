@@ -7,14 +7,14 @@
     <div class="center">
         
             <h1>Total</h1>
-            <h1>10,000</h1>
+            <h1 id="total"><?=$total?></h1>
         
             <h2>Cash</h2>
-            <input class="userInput" type="text">
+            <input class="userInput red-text" type="text" id="cash">
         
             <h2>Change</h2>
             <span class="row">
-                <h2 class="fg1">500</h2>
+                <h2 class="fg1 red-text" id="change">-<?=$total?></h2>
                 <a href="" class="btn">Add to wallet<br>
                     <h6>(Phone number required)</h6>
                 </a>
@@ -33,5 +33,23 @@
 
     </div>
 </div>
+
+<script>
+    document.getElementById('cash').addEventListener('input', function(e) {
+        let change = e.target.value - document.getElementById('total').innerHTML;
+        if(change < 0) {
+            document.getElementById('change').classList.remove('green-text');
+            e.target.classList.remove('green-text');
+            document.getElementById('change').classList.add('red-text');
+            e.target.classList.add('red-text');
+        } else {
+            document.getElementById('change').classList.remove('red-text');
+            e.target.classList.remove('red-text');
+            document.getElementById('change').classList.add('green-text');
+            e.target.classList.add('green-text');
+        }
+        document.getElementById('change').innerHTML = change;
+    });
+</script>
 
 <?php $this->component("footer") ?>

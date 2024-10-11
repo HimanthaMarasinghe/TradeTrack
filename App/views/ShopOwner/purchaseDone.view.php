@@ -7,7 +7,7 @@
     <div class="center done">
 
         <h1>Total</h1>
-        <h1>10,000</h1>
+        <h1><?=$total?></h1>
 
         <h4>Customer's Phone number</h4>
         <input class="userInput" type="text">

@@ -76,7 +76,44 @@ class Model extends Database
         $query = "INSERT INTO $this->table (".implode(",", $keys).") VALUE (:".implode(",:", $keys).")";
         $this->query($query, $data);
         return false;
-}
+    }
+
+    public function bulkInsert($data)
+    {
+        // Only the fields that are mentioned in the fillable array will be inserted.
+        if(!empty($this->fillable))
+        {
+            foreach ($data as $key => $value)
+            {
+                foreach ($value as $k => $v)
+                {
+                    if(!in_array($k, $this->fillable))
+                    {
+                        unset($data[$key][$k]);
+                    }
+                }
+            }
+        }
+        $keys = array_keys($data[0]);
+        $query = "INSERT INTO $this->table (".implode(",", $keys).") VALUES ";
+        $params = [];
+        foreach($data as $row)
+        {
+            $query .= "(";
+            foreach($row as $k => $v)
+            {
+                $query .= "?,";
+                $params[] = $v;
+            }
+            $query = rtrim($query, ",");
+            $query .= "),";
+        }
+        $query = rtrim($query, ",");
+        $_SESSION['query'] = $query;
+        $_SESSION['params'] = $params;
+        $this->query($query, $params);
+        return false;
+    }
   
     public function update($id, $data, $id_column = 'id')
     {

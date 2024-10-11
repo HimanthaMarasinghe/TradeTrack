@@ -144,6 +144,14 @@
                 <td>${total}</td>`;
 
             document.getElementById('bill-Total').innerText = billTotal;
+
+            fetch('<?=LINKROOT?>/ShopOwnerPost/addBillItemToSession', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: '&qty=' + encodeURIComponent(qty)
+                    })
         });
     </script>
 

@@ -160,3 +160,11 @@ input[type='text'].search-bar {
 .asp-rtio {
     aspect-ratio: 1;
 }
+
+.red-text{
+    color: red;
+}
+
+.green-text{
+    color: green;
+}

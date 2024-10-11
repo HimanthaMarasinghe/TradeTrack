@@ -7,6 +7,9 @@ class ShopOwner extends Controller
     ];
     public function index () 
     {
+
+        $_SESSION['so_phone'] = '0112223333'; // to be changed to the logged in user's phone number (tbc)
+
         $shopOwner = new ShopOwner();
         $p = new Products;
         $this->data['tabs']['active'] = 'Home';
@@ -36,15 +39,14 @@ class ShopOwner extends Controller
     }
 
     public function newPurchase() {
-
-        
+        $_SESSION['bill'] = [];
+        $_SESSION['total'] = 0;
         $this->data['tabs']['active'] = 'Home';
         $this->view('shopOwner/newPurchase', $this->data);
     }
 
     public function billSettle() {
-
-        
+        $this->data['total'] = $_SESSION['total'];
         $this->data['tabs']['active'] = 'Home';
         $this->view('shopOwner/billSettle', $this->data);
     }
@@ -64,6 +66,9 @@ class ShopOwner extends Controller
     }
 
     public function purchaseDone() {
+        $bill = new Bills;
+        $bill-> addBill();
+        $this->data['total'] = $_SESSION['total'];
         $this->data['tabs']['active'] = 'Home';
         $this->view('shopOwner/purchaseDone', $this->data);
     }

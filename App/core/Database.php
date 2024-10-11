@@ -42,4 +42,19 @@ class Database
         }
         return false;
     }
+
+    public function startTransaction(){
+        $con = $this->connect();
+        $con->beginTransaction();
+    }
+
+    public function lastId(){
+        $con = $this->connect();
+        return $con->lastInsertId();
+    }
+
+    public function commit(){
+        $con = $this->connect();
+        $con->commit();
+    }
 }
