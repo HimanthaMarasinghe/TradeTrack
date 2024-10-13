@@ -160,3 +160,69 @@ input[type='text'].search-bar {
 .asp-rtio {
     aspect-ratio: 1;
 }
+
+.red-text{
+    color: red;
+}
+
+.green-text{
+    color: green;
+}
+
+.disabled-link {
+    pointer-events: none;
+    background-color: var(--btn-secondary);
+}
+
+@media screen {
+    .bill-content{
+        display: none;
+    }
+}
+
+@media print {
+    .bill-content {
+        width: 100%;
+        font-size: 16px;
+        padding: 0;
+        margin: 0;
+        height: auto;
+        overflow: visible;
+        page-break-inside: avoid;
+
+        & table {
+            width: 100%;
+            border-collapse: collapse;
+            gap: 2mm;
+        }
+
+        & tr{
+            text-align: right;
+        }
+
+        & tr :first-child{
+            width: 50%;
+            text-align: left;
+        }
+
+        & tbody tr:last-child{
+            border-top: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        & hr{
+            border-color: black;
+        }
+    }
+    body * {
+        visibility: hidden;
+    }
+    #bill-content, #bill-content * {
+        visibility: visible;
+    }
+    #bill-content {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+}

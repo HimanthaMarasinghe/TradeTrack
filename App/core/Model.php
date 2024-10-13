@@ -59,7 +59,7 @@ class Model extends Database
         return $this->query($query);
     }
 
-    public function insert($data)
+    public function insert($data, $con = null)
     {
         // Only the fields that are mentioned in the fillable array will be inserted.
         if(!empty($this->fillable))
@@ -74,9 +74,29 @@ class Model extends Database
         }
         $keys = array_keys($data);
         $query = "INSERT INTO $this->table (".implode(",", $keys).") VALUE (:".implode(",:", $keys).")";
-        $this->query($query, $data);
+        $this->query($query, $data, $con);
         return false;
-}
+    }
+
+    public function bulkInsert($data, $keys, $con)
+    {
+        $query = "INSERT INTO $this->table (".implode(",", $keys).") VALUES ";
+        $params = [];
+        foreach($data as $row)
+        {
+            $query .= "(";
+            foreach($row as $k => $v)
+            {
+                $query .= "?,";
+                $params[] = $v;
+            }
+            $query = rtrim($query, ",");
+            $query .= "),";
+        }
+        $query = rtrim($query, ",");
+        $this->query($query, $params, $con);
+        return false;
+    }
   
     public function update($id, $data, $id_column = 'id')
     {
