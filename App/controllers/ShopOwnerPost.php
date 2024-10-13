@@ -1,6 +1,6 @@
 <?php
 
-class ShopOwnerPost
+class ShopOwnerPost extends Controller
 {
     public function addBillItem()
     {
@@ -11,6 +11,7 @@ class ShopOwnerPost
             if($item)
             {
                 $_SESSION['LastBillItemBarcode'] = $_POST['barcodeIn'];
+                $_SESSION['LastBillItemName'] = $item['product_name'];
                 $_SESSION['lastBillItemPrice'] = $item['unit_price'];
                 echo json_encode($item);
             }
@@ -26,12 +27,27 @@ class ShopOwnerPost
                 $_SESSION['bill'] = [];
             }
 
-            $_SESSION['bill'][] = [
-                'barcode' => $_SESSION['LastBillItemBarcode'],
-                'qty' => $_POST['qty'],
-            ];
+            $alreadyInBill = false;
+            foreach ($_SESSION['bill'] as &$item) {
+                if($item['barcode'] == $_SESSION['LastBillItemBarcode'])
+                {
+                    $alreadyInBill = true;
+                    $item['qty'] += $_POST['qty'];
+                }
+            }
+
+            if(!$alreadyInBill){
+                $_SESSION['bill'][] = [
+                    'barcode' => $_SESSION['LastBillItemBarcode'],
+                    'name' => $_SESSION['LastBillItemName'],
+                    'price' => $_SESSION['lastBillItemPrice'],
+                    'qty' => $_POST['qty'],
+                ];
+            }
 
             $_SESSION['total'] += $_SESSION['lastBillItemPrice'] * $_POST['qty'];
+
+            echo json_encode(['bill' => $_SESSION['bill'], 'total' => $_SESSION['total']]);
         }
     }
 }

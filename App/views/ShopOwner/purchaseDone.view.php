@@ -10,10 +10,12 @@
         <h1><?=$total?></h1>
 
         <h4>Customer's Phone number</h4>
-        <input class="userInput" type="text">
+        <h4><?=$cus_phone?></h4>
+        <!-- <input class="userInput" type="text"> -->
 
         <h4>Customer's E-mail</h4>
-        <input class="userInput" type="text">
+        <h4><?=$cus_email?></h4>
+        <!-- <input class="userInput" type="text"> -->
 
         <div>
             <img src="<?=ROOT?>/images/icons/home.svg" alt="">

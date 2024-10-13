@@ -68,14 +68,11 @@
     <hr>
 
     <div class="row">
-        <a href="" class="btn fg1">Card Payment</a>
-        <a href="<?=LINKROOT?>/ShopOwner/billSettle" class="btn fg1">Cash Payment</a>
+        <a class="btn fg1 disabled-link">Card Payment</a>
+        <a href="<?=LINKROOT?>/ShopOwner/billSettle" class="btn fg1 disabled-link" id="cashPayBtn">Cash Payment</a>
     </div>
 
     <script>
-
-        let billTotal = 0;
-
         document.getElementById('barCode').addEventListener('input', function (e) {
             
             var product_name = document.getElementById('product-name');
@@ -134,17 +131,6 @@
                 return;
             }
 
-            billTotal += parseFloat(total);
-
-            document.getElementById('bill').innerHTML += `<tr class='Item'>
-                <td class='center-al'></td>
-                <td class='left-al'>${product_name}</td>
-                <td>${unit_price}</td>
-                <td>${qty}</td>
-                <td>${total}</td>`;
-
-            document.getElementById('bill-Total').innerText = billTotal;
-
             fetch('<?=LINKROOT?>/ShopOwnerPost/addBillItemToSession', {
                         method: 'POST',
                         headers: {
@@ -152,6 +138,22 @@
                         },
                         body: '&qty=' + encodeURIComponent(qty)
                     })
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('bill').innerHTML = '';
+                        data.bill.forEach(element => {
+                            document.getElementById('bill').innerHTML += `<tr class='Item'>
+                                                                        <td class='center-al'></td>
+                                                                        <td class='left-al'>${element['name']}</td>
+                                                                        <td>${element['price']}</td>
+                                                                        <td>${element['qty']}</td>
+                                                                        <td>${element['qty']*element['price']}</td>
+                                                                        </tr>`;
+                        });
+                        document.getElementById('bill-Total').innerText = data.total;
+                    })
+                    .catch(error => console.error('Error:', error));
+            document.getElementById('cashPayBtn').classList.remove('disabled-link');
         });
     </script>
 

@@ -39,16 +39,43 @@ class ShopOwner extends Controller
     }
 
     public function newPurchase() {
-        $_SESSION['bill'] = [];
-        $_SESSION['total'] = 0;
+
+        unset($_SESSION['bill']);
+        unset($_SESSION['total']);
+        unset($_SESSION['LastBillItemBarcode']);
+        unset($_SESSION['LastBillItemName']);
+        unset($_SESSION['lastBillItemPrice']);
+
         $this->data['tabs']['active'] = 'Home';
         $this->view('shopOwner/newPurchase', $this->data);
     }
 
     public function billSettle() {
         $this->data['total'] = $_SESSION['total'];
+        $this->data['bill'] = $_SESSION['bill'];
         $this->data['tabs']['active'] = 'Home';
         $this->view('shopOwner/billSettle', $this->data);
+    }
+
+    public function purchaseDone() {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST')
+        {
+            header('Location: ' . LINKROOT . '/ShopOwner/newPurchase');
+        }
+        $bill = new Bills;
+        $bill-> addBill($_POST['cus-phone'] ?? null);
+        $this->data['cus_phone'] = $_POST['cus-phone'] ?? null;
+        $this->data['cus_email'] = $_POST['cus-email'] ?? null;
+        $this->data['total'] = $_SESSION['total'];
+        $this->data['tabs']['active'] = 'Home';
+
+        unset($_SESSION['total']);
+        unset($_SESSION['bill']);
+        unset($_SESSION['LastBillItemBarcode']);
+        unset($_SESSION['LastBillItemName']);
+        unset($_SESSION['lastBillItemPrice']);
+        
+        $this->view('shopOwner/purchaseDone', $this->data);
     }
 
     public function example() {
@@ -63,14 +90,6 @@ class ShopOwner extends Controller
             $this->data['tabs']['active'] = 'Home';
             $this->view('shopOwner/preOrder', $this->data);
         }
-    }
-
-    public function purchaseDone() {
-        $bill = new Bills;
-        $bill-> addBill();
-        $this->data['total'] = $_SESSION['total'];
-        $this->data['tabs']['active'] = 'Home';
-        $this->view('shopOwner/purchaseDone', $this->data);
     }
 
     public function loyaltyCustomers() {

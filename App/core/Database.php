@@ -9,9 +9,11 @@ class Database
         return $con;
     }
 
-    public function query($query, $data = [])
+    public function query($query, $data = [], $con=null)
     {
-        $con = $this->connect();
+        if($con == null)
+            $con = $this->connect();
+        
         $stmt = $con->prepare($query);
 
         $check = $stmt->execute($data);
@@ -46,15 +48,14 @@ class Database
     public function startTransaction(){
         $con = $this->connect();
         $con->beginTransaction();
+        return $con;
     }
 
-    public function lastId(){
-        $con = $this->connect();
+    public function lastId($con){
         return $con->lastInsertId();
     }
 
-    public function commit(){
-        $con = $this->connect();
+    public function commit($con){
         $con->commit();
     }
 }
