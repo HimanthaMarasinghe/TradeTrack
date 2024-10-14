@@ -92,8 +92,8 @@ class ShopOwner extends Controller
         {
             header('Location: ' . LINKROOT . '/ShopOwner/newPurchase');
         }
-        $bill = new Bills;
-        $bill-> addBill($_POST['cus-phone'] ?? null);
+        $billService = new BillService;
+        $billService-> addBill($_POST['cus-phone'] ?? null);
         $this->data['cus_phone'] = $_POST['cus-phone'] ?? null;
         $this->data['cus_email'] = $_POST['cus-email'] ?? null;
         $this->data['total'] = $_SESSION['total'];
