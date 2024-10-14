@@ -6,7 +6,7 @@
 <div class="main-content colomn">
     <div class="center done">
 
-        <div>
+        <div class="p-20">
             <h1><?=$cusName?></h1>
         </div>
 

@@ -21,6 +21,12 @@ body {
     flex-direction: column;
 }
 
+.flex-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap:5px;
+}
+
 @media only screen and (max-width: 1024px) {
     .row.col-max-1024 {
         flex-direction: column;
@@ -46,6 +52,10 @@ body {
 
 .mg-10 {
     margin: 10px 0;
+}
+
+.p-20{
+    padding: 20px;
 }
 
 .app-logo {
@@ -91,6 +101,14 @@ body {
     height: 100%;
 }
 
+.max-w-330{
+    max-width: 330px;
+}
+
+.max-w-140{
+    max-width: 140px;
+}
+
 a.card {
     text-decoration: none;
     color: var(--text-color);
@@ -132,15 +150,7 @@ input[type='text'].search-bar {
     & div {
         grid-column: span 2;
         text-align: center;
-        padding: 20px;
     }
-}
-
-@media only screen and (min-width:990px) {
-    .center {
-        margin-inline: 20%;
-    }
-
 }
 
 .grid {
@@ -172,6 +182,10 @@ input[type='text'].search-bar {
 .disabled-link {
     pointer-events: none;
     background-color: var(--btn-secondary);
+}
+
+.hidden {
+    display: none;
 }
 
 @media screen {

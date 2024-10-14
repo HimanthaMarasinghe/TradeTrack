@@ -45,7 +45,7 @@
                 <!-- <label for="barCode">Enter Item code/ Scan BarCode</label> -->
                 <input class="userInput" type="text" id="barCode" name="itemcode" placeholder="BarCode" autofocus>
                 <!-- <label for="product-name">Product Name</label> -->
-                <input class="userInput fg1" type="text" id="product-name" placeholder="Product Name" readonly>
+                <input class="userInput fg1" type="text" id="product-name" placeholder="Product Name" readonly tabindex="-1">
             </div>
 
             <div class="row scan">
@@ -55,11 +55,11 @@
                 </div>
                 <div>
                     <label for="unit-price">Unit Price</label>
-                    <input class="userInput short" type="text" id="unit-price" readonly>
+                    <input class="userInput short" type="text" id="unit-price" readonly tabindex="-1">
                 </div>
                 <div>
                     <label for="total">Total Price</label>
-                    <input class="userInput short" type="text" id="total" readonly>
+                    <input class="userInput short" type="text" id="total" readonly tabindex="-1">
                 </div>
                 <button class="btn" id="addBtn">+</button>
             </div>
