@@ -6,7 +6,14 @@
 spl_autoload_register(function($classname)
 {
   // echo $classname;
-  require '../app/models/'.$classname.'.php';
+  $directories = ['models', 'services'];
+
+  foreach ($directories as $directory) {
+    if (file_exists('../app/'.$directory.'/'.$classname.'.php')) {
+      require '../app/'.$directory.'/'.$classname.'.php';
+    }
+  }
+  // require '../app/models/'.$classname.'.php';
 });
 
 require 'config.php';

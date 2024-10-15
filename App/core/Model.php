@@ -98,7 +98,7 @@ class Model extends Database
         return false;
     }
   
-    public function update($id, $data, $id_column = 'id')
+    public function update($ids, $data, $con = null)
     {
         // Only the fields that are mentioned in the fillable array will be updated.
         if(!empty($this->fillable))
@@ -120,16 +120,23 @@ class Model extends Database
         
         $query = rtrim($query, ", "); 
 
-        $query .= " WHERE $id_column = :condition_$id_column";
-        
-        $data["condition_$id_column"] = $id; 
+        //$query .= " WHERE $id_column = :condition_$id_column";
+        $query .= " WHERE ";
+        foreach($ids as $column => $value)
+        {
+            $query .= $column." = :condition_$column && ";
+            $data["condition_$column"] = $value;
+        }
         /*
         The term "condition" is used, so when updating a field that also present in the where condition,
         the data array will not be overwritten.
         */
+        $query = rtrim($query, " && ");
+        echo $query;
+        //$data["condition_$id_column"] = $id; 
 
         // echo $query;
-        $this->query($query, $data);
+        $this->query($query, $data, $con);
         return false;
     }
 }

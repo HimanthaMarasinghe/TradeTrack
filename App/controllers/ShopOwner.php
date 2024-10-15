@@ -57,13 +57,43 @@ class ShopOwner extends Controller
         $this->view('shopOwner/billSettle', $this->data);
     }
 
-    public function purchaseDone() {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST')
+    public function checkCustomer(){
+        if (!isset($_POST['cus-phone']))
         {
             header('Location: ' . LINKROOT . '/ShopOwner/newPurchase');
         }
-        $bill = new Bills;
-        $bill-> addBill($_POST['cus-phone'] ?? null);
+
+        $customer = new Customers;
+        $loyaltyCustomer = new LoyaltyCustomers;
+
+        $customerData = $customer->first(['cus_phone' => $_POST['cus-phone']]);
+        $loyaltyCustomerData = $loyaltyCustomer->first(['cus_phone' => $_POST['cus-phone'], 'so_phone' => $_SESSION['so_phone']]);
+
+        if ($customerData){
+            unset($customerData['cus_password']);
+            $dataArr = $customerData;
+
+            if($loyaltyCustomerData){
+                unset($loyaltyCustomerData['cus_phone']);
+                unset($loyaltyCustomerData['so_phone']);
+                $dataArr['loyalty'] = $loyaltyCustomerData;
+            }
+
+            echo json_encode($dataArr);
+        }
+        else{
+            echo json_encode(false);
+        }
+
+    }
+
+    public function purchaseDone() {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || $_SESSION['bill'] == null)
+        {
+            header('Location: ' . LINKROOT . '/ShopOwner/newPurchase');
+        }
+        $billService = new BillService;
+        $billService-> addBill($_POST['cus-phone'] ?? null, $_POST['wallet'] ?? 0);
         $this->data['cus_phone'] = $_POST['cus-phone'] ?? null;
         $this->data['cus_email'] = $_POST['cus-email'] ?? null;
         $this->data['total'] = $_SESSION['total'];

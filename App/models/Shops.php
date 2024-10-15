@@ -20,4 +20,14 @@ class Shops extends Model
 
         return false;
     }
+
+    public function updateCashDrawer($so_phone, $amount, $con)
+    {
+        $query = "UPDATE $this->table SET cash_drawer_balance = cash_drawer_balance + :amount WHERE so_phone = :so_phone";
+        $data = [
+            'amount' => $amount,
+            'so_phone' => $so_phone
+        ];
+        $this->query($query, $data, $con);
+    }
 }
