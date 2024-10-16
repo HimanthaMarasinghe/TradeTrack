@@ -3,32 +3,30 @@
     $this->component("sidebar", $tabs) 
 ?>
 
-<form class="main-content flex-wrap" method="post" action="<?=LINKROOT?>/ShopOwner/purchaseDone" id="bill-form">
-    <!-- <div class="center" method="post" action="<?=LINKROOT?>/ShopOwner/purchaseDone" id="bill-form"> -->
+<form class="main-content flex-wrap" method="post" action="<?=LINKROOT?>/ShopOwner/purchaseDone" id="bill-form" autocomplete="off">
     <div class="center">
         <h1>Total</h1>
         <input id="total" type="text" class="userInput" value="<?=$total?>" readonly tabindex="-1">
-        <!-- <h1 id="total"><?=$total?></h1> -->
     
         <h2>Cash</h2>
-        <input class="userInput red-text" type="text" id="cash">
+        <input class="userInput red-text" type="number" id="cash" autofocus>
     
         <h2>Change</h2>
         <input id="change" type="text" class="userInput red-text" value="-<?=$total?>" readonly tabindex="-1">
-        <!-- <h2 class="fg1 red-text" id="change">-<?=$total?></h2> -->
     
         <h4>Customer's Phone number</h4>
-        <input class="userInput" type="tel" id="cus-phone" name="cus-phone" autocomplete="off">
+        <input class="userInput" type="number" id="cus-phone" name="cus-phone" autocomplete="off">
+        <!-- type = tel still allows characters other than numbers, so here we have used type = number -->
     
         <h4>Customer's E-mail</h4>
         <input class="userInput" type="email" id="cus-email" name="cus-email" autocomplete="off">
     
         <div><hr></div>
 
-        <button class="btn fg1" id="print">Print the bill</button>
-        <button class="btn fg1" id="skip">Skip</button>
-        <button class="btn fg1 disabled-link" id="sms-bill">Send the bill via SMS</button>
-        <button class="btn fg1 disabled-link" id="email-bill">Send the bill via E-mail</button>
+        <button class="btn fg1" id="print" tabindex="-1">Print the bill</button>
+        <button class="btn fg1" id="skip" tabindex="-1">Skip the bill</button>
+        <button class="btn fg1 disabled-link" id="sms-bill" tabindex="-1">Send the bill via SMS</button>
+        <button class="btn fg1 disabled-link" id="email-bill" tabindex="-1">Send the bill via E-mail</button>
 
     </div>
     <div id="cus-details" class="center hidden">
@@ -61,16 +59,14 @@
         "lc"  - hidden when the customer is not a loyalty customer
         -->
 
-        <!-- <div class="row alitem-center m-i-auto hidden" id="wallet-div"> -->
         <h4 class="lc right-al">Curently in wallet</h4>
         <input id="wallet" class="lc userInput max-w-140" type="text" readonly tabindex="-1">
-        <!-- </div> -->
 
         <div class="hw0 lc hidden"><hr></div>
         <div class="hw0 lc hidden"><hr></div>
 
         <h4 class="hw0 hwl lc right-al hidden">Return to customer</h4>
-        <input class="hw0 hwl lc userInput max-w-140 hidden" type="text" id="return-to-cus">
+        <input class="hw0 hwl lc userInput max-w-140 hidden" type="number" id="return-to-cus">
 
         <span class="hw0 hwl lc hidden"></span><p class="hw0 hwl lc center-al hidden">+</p>
             
@@ -82,11 +78,6 @@
 
         <h4 class="hw0 hwl lc right-al hidden">Change</h4>
         <input class="hw0 hwl lc userInput max-w-140 hidden" id="change-loyaltyBox" type="text" readonly tabindex="-1">
-            
-
-        <!-- <div id="wallet-btn" class="hidden">
-            <button class="btn" id="w-btn">Reduse wallet by <?=$total?></button>
-        </div> -->
     </div>
 </form>
 
@@ -127,16 +118,20 @@
     let changeElement = document.getElementById('change');
     let walletUpdate = document.getElementById('wallet-update');
     let cus_details = document.getElementById('cus-details');
+    let print = document.getElementById('print');
+    let skip = document.getElementById('skip');
 
     let hw0 = document.querySelectorAll('.hw0');
     let hwl = document.querySelectorAll('.hwl');
     let hwg = document.querySelector('.hwg');
     let lc  = document.querySelectorAll('.lc');
-
+    
+    let phoneValid = true;
     let isRegistered = false;
     let isLoyalty = false;
 
     document.getElementById('cash').addEventListener('input', function(e) {
+        e.target.value = e.target.value < 0 ? e.target.value*(-1) : e.target.value;
         change = e.target.value - document.getElementById('total').value;
         
         if(change !== 0) {
@@ -186,7 +181,12 @@
     });
 
     document.getElementById('cus-phone').addEventListener('input', function(e) {
+        e.target.value = e.target.value < 0 ? e.target.value*(-1) : e.target.value;
+        if (e.target.value.length > 10) {
+            e.target.value = e.target.value.substring(10);
+        }
         if (vaildatePhone(e.target.value)) {
+            phoneValid = true;
             e.target.classList.remove('red-text');
             e.target.classList.add('green-text');
             document.getElementById('sms-bill').classList.remove('disabled-link');
@@ -219,6 +219,7 @@
                 updateUI();
             }).catch(error => console.error('Error:', error));
         } else {
+            phoneValid = false;
             isRegistered = false;
             isLoyalty = false;
             e.target.classList.remove('green-text');
@@ -227,9 +228,19 @@
             document.getElementById('sms-bill').classList.add('disabled-link');
             cus_details.classList.add('hidden');
         }
+
+        if(e.target.value == '' || phoneValid){
+            skip.classList.remove('disabled-link');
+            print.classList.remove('disabled-link');
+        } else {
+            skip.classList.add('disabled-link');
+            print.classList.add('disabled-link');
+        }
     });
 
     document.getElementById('return-to-cus').addEventListener('input', function(e) {
+        e.target.value = e.target.value < 0 ? e.target.value*(-1) : e.target.value;
+        e.target.value = e.target.value > change ? change : e.target.value;
         document.getElementById('wallet-update').value = change - e.target.value;
     });
 
@@ -238,17 +249,23 @@
         return regex.test(phone);
     }
 
-    document.getElementById('skip').addEventListener('click', function(e) {
+    skip.addEventListener('click', function(e) {
         e.preventDefault();
         document.getElementById('bill-form').submit();
     });
 
-    document.getElementById('print').addEventListener('click', function(e) {
+    print.addEventListener('click', function(e) {
         e.preventDefault();
         document.getElementById('bill-date').innerText = 'Date : ' + new Date().toLocaleDateString();
         document.getElementById('bill-time').innerText = 'Time : ' + new Date().toLocaleTimeString();
         window.print();
         document.getElementById('bill-form').submit();
+    });
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter' && phoneValid) {
+            document.getElementById('print').click();
+        }
     });
 
     function updateUI(){
