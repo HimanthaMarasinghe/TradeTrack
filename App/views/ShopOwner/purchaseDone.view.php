@@ -22,10 +22,21 @@
             <h1>Done!</h1>
         </div>
 
-        <a href="<?=LINKROOT?>/ShopOwner/Home" class="btn">Home</a>
-        <a href="<?=LINKROOT?>/ShopOwner/newPurchase" class="btn">Next Customer</a>
+        <a href="<?=LINKROOT?>/ShopOwner/Home" class="btn" id="home">Home</a>
+        <a href="<?=LINKROOT?>/ShopOwner/newPurchase" class="btn" id="next">Next Customer</a>
 
     </div>
 </div>
+
+<script>
+    document.addEventListener('keydown', function(event) {
+            if (event.key === 'Home') {
+                document.getElementById('home').click();
+            }
+            if (event.key === 'Enter') {
+                document.getElementById('next').click();
+            }
+        });
+</script>
 
 <?php $this->component("footer") ?>

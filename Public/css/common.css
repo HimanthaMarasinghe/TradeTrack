@@ -7,6 +7,7 @@
 
 body {
     background-color: var(--navbar-background);
+    overscroll-behavior: none;
 }
 
 .row {

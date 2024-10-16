@@ -42,9 +42,7 @@
         <div class="colomn fg1">
 
             <div class="row scan">
-                <!-- <label for="barCode">Enter Item code/ Scan BarCode</label> -->
-                <input class="userInput" type="text" id="barCode" name="itemcode" placeholder="BarCode" autofocus>
-                <!-- <label for="product-name">Product Name</label> -->
+                <input class="userInput" type="number" id="barCode" name="itemcode" placeholder="BarCode" autofocus>
                 <input class="userInput fg1" type="text" id="product-name" placeholder="Product Name" readonly tabindex="-1">
             </div>
 
@@ -73,8 +71,12 @@
     </div>
 
     <script>
-        document.getElementById('barCode').addEventListener('input', function (e) {
-            
+        let qtyElement = document.getElementById('qty');
+        let barCodeElement = document.getElementById('barCode');
+        let validBill = false; //set to true when at least one item is in the bill.
+
+        barCodeElement.addEventListener('input', function (e) {
+            e.target.value = e.target.value < 0 ? e.target.value*(-1) : e.target.value;    
             var product_name = document.getElementById('product-name');
             var unit_price = document.getElementById('unit-price');
             var product_pic = document.getElementById('product-pic');
@@ -101,28 +103,32 @@
                         product_name.value = data.product_name;
                         unit_price.value = data.unit_price;
                         product_pic.src = '<?=ROOT?>/images/Products/' + data.barcode + '.' + data.pic_format;
+                        qtyElement.value = 1;
+                        qtyElement.focus();
                     })
                     .catch(error => console.error('Error:', error));
                 e.target.focus();
             }
         });
 
-        document.getElementById('qty').addEventListener('input', function (e) {
+        qtyElement.addEventListener('input', function (e) {
+            e.target.value = e.target.value < 0 ? e.target.value*(-1) : e.target.value;
             var qty = e.target.value;
             var unitPrice = document.getElementById('unit-price').value;
             document.getElementById('total').value = qty * unitPrice;
+
         });
 
 
         document.getElementById("addBtn").addEventListener('click', function (e) {
-            var barcode = document.getElementById('barCode').value;
+            var barcode = barCodeElement.value;
             var product_name = document.getElementById('product-name').value;
             var unit_price = document.getElementById('unit-price').value;
             var qty = document.getElementById('qty').value;
             var total = document.getElementById('total').value;
 
             if (barcode === '' || product_name === '' || unit_price === '') {
-                document.getElementById('barCode').focus();
+                barCodeElement.focus();
                 return;
             }
 
@@ -131,6 +137,7 @@
                 return;
             }
 
+            validBill = true;
             fetch('<?=LINKROOT?>/ShopOwnerPost/addBillItemToSession', {
                         method: 'POST',
                         headers: {
@@ -154,7 +161,18 @@
                     })
                     .catch(error => console.error('Error:', error));
             document.getElementById('cashPayBtn').classList.remove('disabled-link');
+            barCodeElement.focus();
         });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === '+') {
+                document.getElementById('addBtn').click();
+            }
+            if (event.key === 'Enter' && validBill) {
+                document.getElementById('cashPayBtn').click();
+            }
+        });
+
     </script>
 
     <?php $this->component("footer") ?>

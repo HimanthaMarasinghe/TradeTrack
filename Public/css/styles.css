@@ -329,6 +329,19 @@ input.userInput {
         background-color: #d9d9d9;
         outline: none;
     }
+
+    &[type="number"] {
+        -moz-appearance: textfield;
+        -webkit-appearance: none;
+        appearance: none;
+    }
+    
+    &[type="number"]::-webkit-outer-spin-button,
+    &[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    
 }
 
 /* Pre-order previwe for shop owner */
