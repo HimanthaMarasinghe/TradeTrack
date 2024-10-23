@@ -2,7 +2,6 @@
 
 class Model extends Database
 {
-    // protected $table = 'users';
 
     public function where($data, $data_not = [])
     {
@@ -21,7 +20,6 @@ class Model extends Database
 
         $query = rtrim($query, " && "); 
 
-        // echo $query;
         $data = array_merge($data, $data_not);
         return $this->query($query, $data);
     }
@@ -44,7 +42,6 @@ class Model extends Database
         $query = rtrim($query, " && "); 
         $query .= " LIMIT 1";
 
-        // echo $query;
         $data = array_merge($data, $data_not);
         $result = $this->query($query, $data);
         if($result)
@@ -120,7 +117,6 @@ class Model extends Database
         
         $query = rtrim($query, ", "); 
 
-        //$query .= " WHERE $id_column = :condition_$id_column";
         $query .= " WHERE ";
         foreach($ids as $column => $value)
         {
@@ -132,20 +128,22 @@ class Model extends Database
         the data array will not be overwritten.
         */
         $query = rtrim($query, " && ");
-        echo $query;
-        //$data["condition_$id_column"] = $id; 
-
-        // echo $query;
         $this->query($query, $data, $con);
         return false;
     }
 
-public function delete($id, $id_column = 'id')
+public function delete($ids)
     {
-        $data[$id_column] = $id;
-        $query = "DELETE FROM $this->table WHERE $id_column = :$id_column";
+        $data = [];
+        $query = "DELETE FROM $this->table WHERE ";
 
-        // echo $query;
+        foreach($ids as $column => $value)
+        {
+            $query .= $column." = :".$column." && ";
+            $data["$column"] = $value;
+        }
+        $query = rtrim($query, " && ");
+
         $this->query($query, $data);
 
         return false;

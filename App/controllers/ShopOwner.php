@@ -3,7 +3,7 @@
 class ShopOwner extends Controller 
 {
     protected $data = [
-        'tabs' => ['tabs' => ['Home', 'Loyalty Customers', 'Stocks', 'Accounts'], 'userType' => 'ShopOwner']
+        'tabs' => ['tabs' => ['Home', 'Customers', 'Stocks', 'Accounts'], 'userType' => 'ShopOwner']
     ];
     public function index () 
     {
@@ -122,7 +122,7 @@ class ShopOwner extends Controller
         }
     }
 
-    public function loyaltyCustomers() {
+    public function customers() {
         $this->data['preOrders'] = [
             ['phone' => 'PhoneNumber', 'name' => 'John Doe', 'total' => 15000, 'time' => '5 min', 'pic_format' => 'jpeg'],
             ['phone' => 'PhoneNumber', 'name' => 'Jane Smith', 'total' => 24000, 'time' => '10 min', 'pic_format' => 'jpeg'],
@@ -142,21 +142,11 @@ class ShopOwner extends Controller
             ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson']
         ];
 
-        $this->data['loyalCus']=[
-            ['phone' => 'PhoneNumber', 'name' => 'John Doe', 'amount' => 15000],
-            ['phone' => 'PhoneNumber', 'name' => 'Jane Smith', 'amount' => 24000],
-            ['phone' => 'PhoneNumber', 'name' => 'Alice Johnson', 'amount' => 32000],
-            ['phone' => 'PhoneNumber', 'name' => 'Bob Brown', 'amount' => 27000],
-            ['phone' => 'PhoneNumber', 'name' => 'Carol Davis', 'amount' => 16000],
-            ['phone' => 'PhoneNumber', 'name' => 'David Wilson', 'amount' => 20000],
-            ['phone' => 'PhoneNumber', 'name' => 'Eve Miller', 'amount' => 18000],
-            ['phone' => 'PhoneNumber', 'name' => 'Frank Moore', 'amount' => 21000],
-            ['phone' => 'PhoneNumber', 'name' => 'Grace Taylor', 'amount' => 30000],
-            ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson', 'amount' => 22000]
-        ];
+        $loyaltyCustomer = new LoyaltyCustomers;
+        $this->data['loyalCus'] = $loyaltyCustomer->allLoyaltyCustomers($_SESSION['so_phone']);
 
-        $this->data['tabs']['active'] = 'Loyalty Customers';
-        $this->view('shopOwner/loyaltyCustomers', $this->data);
+        $this->data['tabs']['active'] = 'Customers';
+        $this->view('shopOwner/customers', $this->data);
     }
 
     public function addLoyalCus() {
@@ -165,23 +155,34 @@ class ShopOwner extends Controller
             'phone' => '0112224690',
             'address' => 'No 123, Main Street, Colombo 07'
         ];
-        $this->data['tabs']['active'] = 'Loyalty Customers';
+        $this->data['tabs']['active'] = 'Customers';
         $this->view('shopOwner/addLoyalCus', $this->data);
     }
 
-    public function loyaltyCustomer() {
-        $this->data['loyalCus'] = [
-            'name' => 'John Doe',
-            'phone' => '0112224690',
-            'address' => 'No 123, Main Street, Colombo 07'
-        ];
-        $this->data['tabs']['active'] = 'Loyalty Customers';
-        $this->view('shopOwner/loyaltyCustomer', $this->data);
+    public function customer($id = null) {
+        if($id == null)
+        {
+            header('Location: ' . LINKROOT . '/ShopOwner/customers');
+        }
+        $customer = new Customers;
+        $loyaltyCustomer = new LoyaltyCustomers;
+        $this->data['customer'] = $customer->first(['cus_phone' => $id]);
+        $this->data['loyalty'] = $loyaltyCustomer->first(['cus_phone' => $id, 'so_phone' => $_SESSION['so_phone']]);
+        $this->data['tabs']['active'] = 'Customers';
+        $this->view('shopOwner/customer', $this->data);
+    }
+
+    public function revokeLoyalty() {
+        if($_SERVER['REQUEST_METHOD'] == 'POST')
+        {
+            $loyaltyCustomer = new LoyaltyCustomers;
+            $loyaltyCustomer->delete(['cus_phone' => $_POST['loy_phone'], 'so_phone' => $_SESSION['so_phone']]);
+        }
     }
 
     public function orderReady() {
         $this->data['cusName'] = 'John Doe';
-        $this->data['tabs']['active'] = 'Loyalty Customers';
+        $this->data['tabs']['active'] = 'Customers';
         $this->view('shopOwner/orderReady', $this->data);
     }
     

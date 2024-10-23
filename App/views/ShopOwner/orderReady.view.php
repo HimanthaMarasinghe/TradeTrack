@@ -25,7 +25,7 @@
         </div>
 
         <a href="<?=LINKROOT?>/ShopOwner/Home" class="btn">Home</a>
-        <a href="<?=LINKROOT?>/ShopOwner/LoyaltyCustomers" class="btn">Loyalty Customers</a>
+        <a href="<?=LINKROOT?>/ShopOwner/customers" class="btn">Customers</a>
         
     </div>
 </div>
