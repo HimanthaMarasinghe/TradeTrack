@@ -139,4 +139,20 @@ class Model extends Database
         $this->query($query, $data, $con);
         return false;
     }
+
+public function delete($id, $id_column = 'id')
+    {
+        $data[$id_column] = $id;
+        $query = "DELETE FROM $this->table WHERE $id_column = :$id_column";
+
+        // echo $query;
+        $this->query($query, $data);
+
+        return false;
+    }
+
+
+    
 }
+
+
