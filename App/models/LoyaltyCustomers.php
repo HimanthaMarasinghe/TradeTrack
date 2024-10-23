@@ -17,4 +17,14 @@ class LoyaltyCustomers extends Model
         $this->query($query, $data, $con);
     }
 
+    public function allLoyaltyCustomers($so_phone)
+    {
+        $query = "SELECT * 
+                  FROM customers c 
+                  JOIN loyalty_customers lc ON c.cus_phone = lc.cus_phone
+                  WHERE lc.so_phone = :so_phone";
+        $data = ['so_phone' => $so_phone];
+        return $this->query($query, $data);
+    }
+
 }

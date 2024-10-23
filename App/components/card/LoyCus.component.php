@@ -1,15 +1,13 @@
-<div class="card btn-card center-al" onclick="document.getElementById('LoyCus-<?=$phone?>').submit()">
-    <form id="LoyCus-<?=$phone?>" method="post" action="<?=LINKROOT?>/ShopOwner/loyaltyCustomer">
-        <input type="hidden" name="phone" value="<?=$phone?>">
-    </form>
+<a class="card btn-card center-al" href="<?=LINKROOT?>/ShopOwner/customer/<?=$cus_phone?>">
     <div class="profile-photo">
-        <img src="<?=ROOT?>/images/Profile/<?=$phone?>.jpg" alt="J">
+        <?php if(file_exists("./images/Profile/".$cus_phone.".jpg")){ ?>
+            <img src="<?=ROOT?>/images/Profile/<?=$cus_phone?>.jpg" alt="">
+        <?php }else{ ?>
+            <img src="<?=ROOT?>/images/Profile/PhoneNumber.jpg" alt="">
+        <?php } ?>
     </div>
     <div class="LoyCus-Details fg1">
-        <h2 class="center-al"><?=$name?></h2>
-        <h2>Rs.<?=$amount?></h2>
-        <!-- <div class="m-b-auto">
-            <button class="btn" type="submit" form="LoyCus-<?=$phone?>">See more</button>
-        </div> -->
+        <h2 class="center-al"><?=$cus_first_name." ".$cus_last_name?></h2>
+        <h2>Rs.<?=number_format($wallet, 2)?></h2>
     </div>
-</div>
+</a>
