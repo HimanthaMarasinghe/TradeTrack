@@ -29,7 +29,7 @@
                 </td>
             </tr>
         </table>
-        <img class="profile-img" src="<?=ROOT?>/images/Profile/PhoneNumber.jpg" alt="">
+        <img class="profile-img big" src="<?=ROOT?>/images/Profile/PhoneNumber.jpg" alt="">
     </div>
 </div>
 

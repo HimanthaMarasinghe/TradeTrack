@@ -139,6 +139,12 @@ class ShopOwner extends Controller
         $this->data['newLoyalCusReq'] = [
             ['phone' => 'PhoneNumber', 'name' => 'John Doe'],
             ['phone' => 'PhoneNumber', 'name' => 'Jane Smith'],
+            ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson'],
+            ['phone' => 'PhoneNumber', 'name' => 'John Doe'],
+            ['phone' => 'PhoneNumber', 'name' => 'Jane Smith'],
+            ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson'],
+            ['phone' => 'PhoneNumber', 'name' => 'John Doe'],
+            ['phone' => 'PhoneNumber', 'name' => 'Jane Smith'],
             ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson']
         ];
 
@@ -216,8 +222,7 @@ class ShopOwner extends Controller
         $this->view('shopOwner/accounts', $this->data);
     }
 
-    public function recordTransaction($URL) {
-        echo $URL;
+    public function recordTransaction() {
         $this->data['tabs']['active'] = 'Accounts';
         $this->view('shopOwner/recordTransaction', $this->data);
     }

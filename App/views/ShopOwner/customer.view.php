@@ -35,7 +35,7 @@
 
             <tr>
                 <td colspan="2">
-                    <div class="row">
+                    <div class="row max-w-900">
                         <button class="btn fg1" onclick="revokeLoyalty('<?=$customer['cus_phone']?>')">Revoke Loyalty Privilege</button>
                         <button class="btn fg1">Update wallet</button>
                     </div>
@@ -57,9 +57,9 @@
 
         </table>
         <?php if(file_exists("./images/Profile/".$customer['cus_phone'].".jpg")){ ?>
-            <img class="profile-img" src="<?=ROOT?>/images/Profile/<?=$customer['cus_phone']?>.jpg" alt="">
+            <img class="profile-img big" src="<?=ROOT?>/images/Profile/<?=$customer['cus_phone']?>.jpg" alt="">
         <?php }else{ ?>
-        <img class="profile-img" src="<?=ROOT?>/images/Profile/PhoneNumber.jpg" alt="">
+        <img class="profile-img big" src="<?=ROOT?>/images/Profile/PhoneNumber.jpg" alt="">
         <?php } ?>
     </div>
     <h2 class="center-al">History</h2>

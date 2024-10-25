@@ -55,6 +55,18 @@ body {
     margin: 10px 0;
 }
 
+.mg-auto {
+    margin: auto;
+}
+
+.m-b-auto {
+    margin-block: auto;
+}
+
+.m-i-auto {
+    margin-inline: auto;
+}
+
 .p-20{
     padding: 20px;
 }
@@ -64,14 +76,6 @@ body {
     background-color: white;
     border-radius: 50%;
     margin: 15px 2px;
-}
-
-.m-b-auto {
-    margin-block: auto;
-}
-
-.m-i-auto {
-    margin-inline: auto;
 }
 
 .w-50 {
@@ -108,6 +112,10 @@ body {
 
 .max-w-140{
     max-width: 140px;
+}
+
+.max-w-900{
+    max-width: 900px;
 }
 
 a.card {
@@ -180,6 +188,10 @@ input[type='text'].search-bar {
     color: green;
 }
 
+.faded-text{
+    color: var(--secondary-color);
+}
+
 .disabled-link {
     pointer-events: none;
     background-color: var(--btn-secondary);
@@ -188,6 +200,8 @@ input[type='text'].search-bar {
 .hidden {
     display: none;
 }
+
+
 
 @media screen {
     .bill-content{
