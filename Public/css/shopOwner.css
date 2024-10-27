@@ -14,18 +14,51 @@
 }
 
 /* Loyalty Customers */
+.pre-orders-f{
+    grid-column: span 4;
+    grid-row: span 9;
+
+    &>svg{
+        display: none;
+    }
+}
 
 .new-lc-req {
-    grid-column: span 8;
-    grid-row: span 2;
+    grid-column: span 4;
+    grid-row: span 9;
+
+    &>svg{
+        display: none;
+    }
 }
 
 .loyalty-cus {
     grid-column: span 8;
-    grid-row: span 3;
+    grid-row: span 10;
 }
 
-@media only screen and (max-width: 1024px) {
+.closed-grid {
+    grid-row: span 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+
+    &>div{
+        display: none;
+    }
+
+    &>h1{
+        display: none;
+    }
+
+    &>svg{
+        display: block;
+    }
+}
+
+/* @media only screen and (max-width: 1024px) {
 
     .grid-box>.new-lc-req {
         grid-column: span 12;
@@ -36,7 +69,7 @@
         order: 3;
         grid-column: span 6;
     }
-}
+} */
 
 .LoyCus-Details {
     display: flex;
@@ -46,6 +79,46 @@
     padding: 10px;
     flex-grow: 1;
 }
+
+svg#up,
+svg#down {
+    height: 2em;
+}
+
+#path-up{
+    animation: goUp 1s infinite;
+}
+
+#path-down{
+    animation: goDown 1s infinite;
+}
+
+@keyframes goUp {
+    0% {
+        transform: translateY(20%);
+    }
+
+    60% {
+        transform: translateY(-20%);
+    }
+
+    100% {
+        transform: translateY(20%);
+    }
+}
+
+@keyframes goDown {
+    0% {
+        transform: translateY(-20%);
+    }
+    60% {
+        transform: translateY(20%);
+    }
+    100% {
+        transform: translateY(-20%);
+    }
+}
+
 
 /* new purchase */
 

@@ -56,17 +56,17 @@
                 <h2>Rs.5432243.00</h2>
             </div>
         </div>
-        <div class="row">
-            <a href="" class="btn fg1">Record Withdrawal</a>
-            <a href="" class="btn fg1">Record Bank Deposits</a>
+        <div class="row max-w-900 m-i-auto">
+            <a href="<?=LINKROOT?>/ShopOwner/recordTransaction" class="btn fg1">Record Withdrawal</a>
+            <a href="<?=LINKROOT?>/ShopOwner/recordTransaction" class="btn fg1">Record Bank Deposits</a>
         </div>
-        <div class="row">
-            <a href="" class="btn fg1">Record Payments to Creditors</a>
-            <a href="" class="btn fg1">Record Receivings from the Debtors</a>
+        <div class="row max-w-900 m-i-auto">
+            <a href="<?=LINKROOT?>/ShopOwner/recordTransaction" class="btn fg1">Record Payments to Creditors</a>
+            <a href="<?=LINKROOT?>/ShopOwner/recordTransaction" class="btn fg1">Record Receivings from the Debtors</a>
         </div>
-        <div class="row">
-            <a href="" class="btn fg1">Putting Capital</a>
-            <a href="" class="btn fg1">See Analytics</a>
+        <div class="row max-w-900 m-i-auto">
+            <a href="<?=LINKROOT?>/ShopOwner/recordTransaction" class="btn fg1">Putting Capital</a>
+            <a href="<?=LINKROOT?>/ShopOwner/recordTransaction" class="btn fg1">See Analytics</a>
         </div>
     </div>
 </div>

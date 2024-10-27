@@ -16,7 +16,7 @@
     </div>
     <div class="center">
         <div class="p-20">
-            <h2>Record Withdrawal</h2>
+            <h2>Record Transaction</h2>
         </div>
         <h3 class="center-al">Amount</h3>
         <input class="userInput" type="text">
