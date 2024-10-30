@@ -1,0 +1,126 @@
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins",sans-serif;
+}
+
+.header {
+    min-height: 100vh;
+    width: 100%;
+    background: linear-gradient(rgba(4, 9, 30, 0.7), rgba(4, 9, 30, 0.7)), url('http://localhost/TradeTrack/Public/images/Assets/login-background.jpg') center/cover no-repeat;
+    position: relative;
+}
+
+.wrapper{
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    left: 10%;
+    top: 10%;
+    background: white;
+}
+.loginform{
+    width: 30%;
+    text-align: center;
+
+}
+
+.section{
+    flex: 1;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.right{
+    height: 100%;
+    width: 70%;
+    margin:0;
+    left: 30%;
+    bottom: 0; 
+    background-color: black;
+    position: absolute;
+}
+
+.right img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.loginform img{
+    width: 150px;
+    margin: 0;
+    padding-top: 30px;
+    padding-bottom: 20px;
+    
+}
+.wrapper h1{
+    font-size: 35px;
+    padding-bottom:10px ;
+    color: black;
+    font-weight: 600;
+}
+.register-link{
+    font-size: 12px;
+    padding-top: 10px;
+}
+.wrapper .remember-forgot{
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin: 20px;
+}
+.wrapper .login-button{
+
+    width: 80%;
+    height: 50px;
+    margin: 30px;
+    background-color:#162359;
+    border-radius: 25px; 
+    color: white;
+    border: none;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.wrapper .input-box{
+    width: 80%;
+    height: 50px;
+    margin: 30px;
+}
+
+.input-box input{
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: 2px solid rgba(51, 51, 51, 0.2);
+    border-radius: 40px;
+    font-style: 16px;
+    color: #162359;
+    padding: 20px 45px 20px 20px;
+}
+
+.remember-forgot a{
+    text-decoration: none;
+    
+}
+.remember-forgot a:hover{
+    text-decoration: underline;
+}
+.wrapper .register-link{
+    display: flex;
+    justify-content: center;
+    font-size: 14px;
+    margin: 20px;
+    margin-top: 0;
+}
+.register-link a{
+    text-decoration: none;
+    
+}
+.register-link a:hover{
+    text-decoration: underline;
+}
