@@ -69,6 +69,10 @@ class Supplier extends Controller
         $this->view('supplier/agents', $this->data);    
     }
 
+    
+    public function AddNewAgents() {
+        $this->view('supplier/addNewAgents', $this->data);
+    }
     //create new methods after this line.
 
 }
