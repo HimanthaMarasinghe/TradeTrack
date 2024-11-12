@@ -226,4 +226,9 @@ class ShopOwner extends Controller
         $this->data['tabs']['active'] = 'Accounts';
         $this->view('shopOwner/recordTransaction', $this->data);
     }
+
+    
+    public function UpdateStock() {
+        $this->view('shopOwner/updateStock', $this->data);
+    }
 }

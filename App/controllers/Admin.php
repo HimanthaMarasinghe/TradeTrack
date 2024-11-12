@@ -42,4 +42,8 @@ class Admin extends Controller
         ];
         $this->view('Admin/removeUserDetails', $this->data);
     }
+
+    public function AddNewProducts() {
+        $this->view('Admin/addNewProducts', $this->data);
+    }
 }
