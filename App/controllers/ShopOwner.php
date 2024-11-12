@@ -231,4 +231,8 @@ class ShopOwner extends Controller
     public function UpdateStock() {
         $this->view('shopOwner/updateStock', $this->data);
     }
+
+    public function profileUpdate() {
+        $this->view('shopOwner/profileUpdate', $this->data);
+    }
 }
