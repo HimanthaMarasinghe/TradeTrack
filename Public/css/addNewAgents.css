@@ -1,0 +1,101 @@
+.addNewAgentsTable {
+    width: 90%; 
+    margin: 40px auto; 
+    border-collapse: separate;
+    border-spacing: 0 15px;
+    font-family: Arial, sans-serif;
+    font-size: 22;
+    padding-right: 20%;
+}
+
+.addNewAgentsTable tr {
+    padding: 10px 0;
+}
+
+.addNewAgentsTable td {
+    padding: 10px;
+}
+
+.addNewAgentsTable td:first-child {
+    width: 25%;
+}
+
+.addNewAgentsTable td input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+
+.imageUploadBox {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 240px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-family: Arial, sans-serif;
+    z-index: 1000;
+}
+
+.imagePreviewBox {
+    width: 100%;
+    height: 150px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f0f0f0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+#imageContainer img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+
+.imageChooseInput {
+    display: none;
+}
+
+
+.imageChooseBtn, .imageRemoveBtn {
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 14px;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 8px;
+}
+
+
+.imageChooseBtn {
+    background-color: #007bff;
+}
+
+.imageChooseBtn:hover {
+    background-color: #0056b3;
+}
+
+
+.imageRemoveBtn {
+    background-color: #dc3545;
+}
+
+.imageRemoveBtn:hover {
+    background-color: #a71d2a;
+}
