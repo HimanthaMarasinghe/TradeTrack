@@ -7,5 +7,8 @@ class SalesAgent extends Controller
     ];
 
     //create new methods after this line.
+    public function shops(){
+        $this->view('SalesAgent/shops', $this->data);
+    }
 
 }
