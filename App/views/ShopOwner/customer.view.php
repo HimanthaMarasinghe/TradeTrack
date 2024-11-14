@@ -36,7 +36,7 @@
             <tr>
                 <td colspan="2">
                     <div class="row max-w-900">
-                        <button class="btn fg1" onclick="revokeLoyalty('<?=$customer['cus_phone']?>')">Revoke Loyalty Privilege</button>
+                        <button class="btn fg1" onclick="revokeLoyalty('<?=$customer['cus_phone']?>', '<?=$loyalty['wallet']?>')">Revoke Loyalty Privilege</button>
                         <button class="btn fg1">Update wallet</button>
                     </div>
                 </td>
