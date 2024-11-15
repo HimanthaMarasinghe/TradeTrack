@@ -142,7 +142,7 @@ class Supplier extends Controller
             }
             else if($updData['sa_phone'] !== $sap){
                 //Renaming image if the user change the phone number.
-                $this->rename('images/Profile/SA/'.$sap.'.'.$agentData['sa_pic_format'], 'images/Profile/SA/'.$updData['sa_phone'].'.'.$agentData['sa_pic_format']);
+                rename('images/Profile/SA/'.$sap.'.'.$agentData['sa_pic_format'], 'images/Profile/SA/'.$updData['sa_phone'].'.'.$agentData['sa_pic_format']);
             }
 
             unset($updData['remove_image']);

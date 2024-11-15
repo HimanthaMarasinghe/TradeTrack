@@ -136,18 +136,21 @@ class ShopOwner extends Controller
             ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson', 'total' => 22000, 'time' => '11 min', 'pic_format' => 'jpeg']
         ];
 
-        $this->data['newLoyalCusReq'] = [
-            ['phone' => 'PhoneNumber', 'name' => 'John Doe'],
-            ['phone' => 'PhoneNumber', 'name' => 'Jane Smith'],
-            ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson'],
-            ['phone' => 'PhoneNumber', 'name' => 'John Doe'],
-            ['phone' => 'PhoneNumber', 'name' => 'Jane Smith'],
-            ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson'],
-            ['phone' => 'PhoneNumber', 'name' => 'John Doe'],
-            ['phone' => 'PhoneNumber', 'name' => 'Jane Smith'],
-            ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson']
-        ];
+        // $this->data['newLoyalCusReq'] = [
+        //     ['phone' => 'PhoneNumber', 'name' => 'John Doe'],
+        //     ['phone' => 'PhoneNumber', 'name' => 'Jane Smith'],
+        //     ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson'],
+        //     ['phone' => 'PhoneNumber', 'name' => 'John Doe'],
+        //     ['phone' => 'PhoneNumber', 'name' => 'Jane Smith'],
+        //     ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson'],
+        //     ['phone' => 'PhoneNumber', 'name' => 'John Doe'],
+        //     ['phone' => 'PhoneNumber', 'name' => 'Jane Smith'],
+        //     ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson']
+        // ];
 
+        $loyReq = new LoyaltyRequests;
+        $this->data['newLoyalCusReq'] = $loyReq->allRequests($_SESSION['so_phone']);
+        
         $loyaltyCustomer = new LoyaltyCustomers;
         $this->data['loyalCus'] = $loyaltyCustomer->allLoyaltyCustomers($_SESSION['so_phone']);
 
