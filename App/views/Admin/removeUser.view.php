@@ -1,5 +1,5 @@
 <?php
-    $this->component("header");
+    $this->component("adminHeader");
     $this->component("sidebar", $tabs) 
 ?>
 
