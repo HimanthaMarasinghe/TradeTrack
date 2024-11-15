@@ -8,7 +8,7 @@ class ShopOwner extends Controller
     public function index () 
     {
 
-        $_SESSION['so_phone'] = '0112223333'; // to be changed to the logged in user's phone number (tbc)
+        $_SESSION['so_phone'] = '0112223333'; //ToDo : to be changed to the logged in user's phone number (tbc)
 
         $shopOwner = new ShopOwner();
         $p = new Products;
@@ -169,6 +169,7 @@ class ShopOwner extends Controller
         if($id == null)
         {
             header('Location: ' . LINKROOT . '/ShopOwner/customers');
+            return;
         }
         $customer = new Customers;
         $loyaltyCustomer = new LoyaltyCustomers;
