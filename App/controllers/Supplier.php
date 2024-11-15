@@ -67,12 +67,20 @@ class Supplier extends Controller
     public function AddNewAgents() {
         if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_SESSION['su_phone']) && !empty($_POST['sa_phone']) && !empty($_POST['sa_first_name']) && !empty($_POST['sa_last_name']) && !empty($_POST['sa_busines_name']) && !empty($_POST['sa_address']))
         {
-            echo "POSTED";
+            // echo "POSTED";
+            $agent = new SalesAgent;
+            $oldAgent = $agent->first(['sa_phone' => $_POST['sa_phone'], 'su_phone' => $_SESSION['su_phone']]);
+            if(!empty($oldAgent))
+            {
+                echo "Agent with this phone number already exist."; //Todo : change this to a proper error page.
+                // header('Location: ' . LINKROOT . '/Supplier/Agents');
+                return;
+            }
+
             unset($_POST['sa_password']);   //Supplier is not alowed to set a password for Sales agent. A default password will be set and sales agent should change it after login.
 
             $extension = (isset($_FILES['image']) && $_FILES['image']['error'] === 0) ? $this->saveImage($_FILES['image'], 'images/Profile/SA/', $_POST['sa_phone']) : false;
 
-            $agent = new SalesAgent;
             $insertData = array_merge($_POST, ['su_phone' => $_SESSION['su_phone']]);
             if ($extension !== false) {
                 $insertData['sa_pic_format'] = $extension;
@@ -134,7 +142,7 @@ class Supplier extends Controller
             }
             else if($updData['sa_phone'] !== $sap){
                 //Renaming image if the user change the phone number.
-                rename('images/Profile/SA/'.$sap.'.'.$agentData['sa_pic_format'], 'images/Profile/SA/'.$updData['sa_phone'].'.'.$agentData['sa_pic_format']);
+                $this->rename('images/Profile/SA/'.$sap.'.'.$agentData['sa_pic_format'], 'images/Profile/SA/'.$updData['sa_phone'].'.'.$agentData['sa_pic_format']);
             }
 
             unset($updData['remove_image']);
