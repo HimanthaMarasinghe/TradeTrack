@@ -7,7 +7,7 @@
 <div class="main-content">
     <h2>Add New Sales Agent</h2>
 
-    <form action="http://localhost/TradeTrack/FormTest" method="POST" enctype="multipart/form-data">
+    <form action="<?=LINKROOT?>/Supplier/addNewAgents" method="POST" enctype="multipart/form-data">
         
     <!-- Image uploading box -->
         <div class="imageUploadBox">
@@ -62,31 +62,27 @@
         <table class="addNewAgentsTable">
             <tr>
                 <td>Sales Agent's Phone Number</td>
-                <td><input class="userInput" type="text" name="AgentPhoneNo" id=""></td>
+                <td><input class="userInput" type="text" name="sa_phone" id="" required></td>
             </tr>
             <tr>
                 <td>Business Name</td>
-                <td><input class="userInput" type="text" name="BusinessName" id=""></td>
+                <td><input class="userInput" type="text" name="sa_busines_name" id="" required></td>
             </tr>
             <tr>
                 <td>Sales Agent's First Name</td>
-                <td><input class="userInput" type="text" name="AgentFirstName" id=""></td>
+                <td><input class="userInput" type="text" name="sa_first_name" id="" required></td>
+            </tr>
+            <tr>
+                <td>Sales Agent's Last Name</td>
+                <td><input class="userInput" type="text" name="sa_last_name" id="" required></td>
             </tr>
             <tr>
                 <td>Sales Agent's Address</td>
-                <td><input class="userInput" type="text" name="AgentLastName" id=""></td>
-            </tr>
-            <tr>
-                <td>Sales Agent's Password</td>
-                <td><input class="userInput" type="text" name="AgentPassword" id=""></td>
-            </tr>
-            <tr>
-                <td>Supplier's Phone Number</td>
-                <td><input class="userInput" type="text" name="SupplierPhoneNo" id=""></td>
+                <td><input class="userInput" type="text" name="sa_address" id="" required></td>
             </tr>
             <tr>
                 <td colspan="2" style="text-align:right;">
-                    <input type="submit" class="btn" value="Submit">
+                    <input type="submit" class="btn" value="Add">
                 </td>
             </tr>
         </table>
