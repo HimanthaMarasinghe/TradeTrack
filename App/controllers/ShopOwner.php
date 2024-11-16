@@ -274,6 +274,13 @@ class ShopOwner extends Controller
     }
 
     public function profileUpdate() {
+        $shop = new Shops;
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['so_phone']) && !empty($_POST['shop_name']) && !empty($_POST['so_first_name']) && !empty($_POST['so_last_name']) && !empty($_POST['shop_address']) && !empty($_POST['so_address'])){
+            $shop->update(['so_phone' => $_SESSION['so_phone']], $_POST);
+            $_SESSION['so_phone'] = $_POST['so_phone'];
+        }
+        $this->data['shopOwner'] = $shop->first(['so_phone' => $_SESSION['so_phone']]);
+        $this->data['tabs']['active'] = 'Home';
         $this->view('shopOwner/profileUpdate', $this->data);
     }
 }
