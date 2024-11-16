@@ -16,7 +16,7 @@
     <div class="row">
       <input type="text" class="search-bar fg1" placeholder="Search">
       <button class="btn">Search</button>
-      <a href="<?=LINKROOT?>/Supplier/addNewAgents" class="btn"><h5>Add new Agents</h5></a>
+      <a href="<?=LINKROOT?>/Supplier/addNewAgents" class="btn">Add new Agents</a>
     </div>
 
     <div class="grid g-resp-200 scroll-box">
