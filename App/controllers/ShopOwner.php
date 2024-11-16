@@ -158,14 +158,40 @@ class ShopOwner extends Controller
         $this->view('shopOwner/customers', $this->data);
     }
 
-    public function addLoyalCus() {
-        $this->data['newLoyalCusReq'] = [
-            'name' => 'John Doe',
-            'phone' => '0112224690',
-            'address' => 'No 123, Main Street, Colombo 07'
-        ];
+    public function loyaltyCustomerRequest($cusPhone = null) {
+
+        if($cusPhone == null){
+            header('Location: ' . LINKROOT . '/ShopOwner/customers');
+            return;
+        }
+
+
+        $loyReq = new LoyaltyRequests;
+        // $this->data['newLoyalCusReq'] = [
+        //     'name' => 'John Doe',
+        //     'phone' => '0112224690',
+        //     'address' => 'No 123, Main Street, Colombo 07'
+        // ];
+        $this->data['newLoyalCusReq'] = $loyReq->readNewLoyReq($_SESSION['so_phone'], $cusPhone);
+
+        if(!$this->data['newLoyalCusReq']){
+            header('Location: ' . LINKROOT . '/ShopOwner/customers');
+            return;
+        }
+
         $this->data['tabs']['active'] = 'Customers';
         $this->view('shopOwner/addLoyalCus', $this->data);
+    }
+
+    public function addLoyCus(){
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['cus_phone'])){
+            $loyCus = new LoyaltyCustomers;
+            $loyReq = new LoyaltyRequests;
+            if($loyReq->readNewLoyReq($_SESSION['so_phone'], $_POST['cus_phone'])){     //Only if there is a request, customer can become loyal.
+                $loyReq->delete(['cus_phone' => $_POST['cus_phone'], 'so_phone' => $_SESSION['so_phone']]);
+                $loyCus->insert(['cus_phone' => $_POST['cus_phone'], 'so_phone' => $_SESSION['so_phone']]);
+            }
+        }
     }
 
     public function customer($id = null) {
@@ -219,6 +245,17 @@ class ShopOwner extends Controller
         ];
         $this->data['tabs']['active'] = 'Stocks';
         $this->view('shopOwner/stocks', $this->data);
+    }
+
+    public function product($barcodeIn = null){
+        if ($barcodeIn == null){
+            header('Location: ' . LINKROOT . '/ShopOwner/stocks');
+            return;
+        }
+        $prd = new Products;
+        $this->data['product'] = $prd->first(['barcode' => $barcodeIn]);
+        $this->data['tabs']['active'] = 'Stocks';
+        $this->view('shopOwner/product', $this->data);
     }
     
     public function accounts() {

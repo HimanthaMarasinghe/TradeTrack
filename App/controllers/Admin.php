@@ -162,4 +162,26 @@ class Admin extends Controller
         $this->data['product'] = $oldProduct;
         $this->view('Admin/updateProducts', $this->data);
     }
+
+    public function product($barcodeIn = null){
+        if ($barcodeIn == null){
+            header('Location: ' . LINKROOT . '/ShopOwner/stocks');
+            return;
+        }
+        $prd = new Products;
+        $this->data['product'] = $prd->first(['barcode' => $barcodeIn]);
+        if(!$this->data['product']){
+            header('Location: ' . LINKROOT . '/admin/addNewProducts'); //Todo: Change this to a product page.
+            return;
+        }
+        $this->view('Admin/product', $this->data);
+    }
+
+    public function deleteProduct(){
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['barcode'])){
+            $prdct = new Products;
+            $prdct->delete(['barcode' => $_POST['barcode']]);
+        }
+        header('Location: ' . LINKROOT . '/admin/addNewProducts'); //Todo: Change this to a product page.
+    }
 }
