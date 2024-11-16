@@ -1,4 +1,4 @@
-.Profile {
+.ProfileUpd {
     width: 90%; 
     margin: 40px auto; 
     border-collapse: separate;
@@ -8,19 +8,19 @@
     padding-right: 20%;
 }
 
-.Profile tr {
+.ProfileUpd tr {
     padding: 10px 0;
 }
 
-.Profile td {
+.ProfileUpd td {
     padding: 10px;
 }
 
-.Profile td:first-child {
+.ProfileUpd td:first-child {
     width: 25%;
 }
 
-.Profile td input[type="text"] {
+.ProfileUpd td input[type="text"] {
     width: 100%;
     padding: 12px;
     border: 1px solid #ccc;
