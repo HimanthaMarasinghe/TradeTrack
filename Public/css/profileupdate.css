@@ -1,0 +1,29 @@
+.Profile {
+    width: 90%; 
+    margin: 40px auto; 
+    border-collapse: separate;
+    border-spacing: 0 15px;
+    font-family: Arial, sans-serif;
+    font-size: 22;
+    padding-right: 20%;
+}
+
+.Profile tr {
+    padding: 10px 0;
+}
+
+.Profile td {
+    padding: 10px;
+}
+
+.Profile td:first-child {
+    width: 25%;
+}
+
+.Profile td input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}

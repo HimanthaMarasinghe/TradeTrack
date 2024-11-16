@@ -1,0 +1,163 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+img {
+    display: flex; 
+    position: absolute;
+    width: 200%;
+    max-width: 800px;
+    top: 50%;
+    left: 65%;
+    transform: translate(-50%, -50%);
+    background-position: center;
+    border-radius: 100%;
+    
+    }
+
+.main{
+    width: 100%;
+    background:url(on.jpeg);
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+}
+
+
+.navbar{
+    width: 1200px;
+    height: 75px;
+    margin: auto;
+}
+
+.icon{
+    width: 200px;
+    float: left;
+    height: 70px;
+    cursor: pointer;
+}
+
+.icon span{
+    color: yellowgreen;
+}
+
+.logo{
+    color:#162359;    ;
+    font-size: 35px;
+    font-family: Arial;
+    padding-left: 20px;
+    float: left;
+    padding-top: 20px;
+    margin-top: 5px
+}
+
+.menu{
+    width: 900px;
+    float: right;
+    height: 70px;
+}
+
+ul{
+    float: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+ul li{
+    list-style: none;
+    margin-left: 62px;
+    margin-top: 37px;
+    font-size: 14px;
+}
+
+ul li a{
+    text-decoration: none;
+    color: #fff;
+    font-family: Arial;
+    font-weight: bold;
+    transition: 0.4s ease-in-out;
+}
+
+ul li a:hover{
+    color: #162359 ;
+}
+
+.content{
+    width: 1200px;
+    height: auto;
+    margin: auto;
+    color: #fff;
+    position: relative;
+}
+
+.content .par{
+    padding-left: 20px;
+    padding-bottom: 25px;
+    font-family: Arial;
+    letter-spacing: 1.2px;
+    line-height: 30px;
+}
+
+.content h1{
+    font-family: 'Times New Roman';
+    font-size: 50px;
+    padding-left: 20px;
+    margin-top: 9%;
+    letter-spacing: 2px;
+}
+
+.content .cn{
+    width: 130px;
+    height: 40px;
+    background: #162359;
+    border: none;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    font-size: 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: .4s ease;
+    
+}
+
+.content .cn_2{
+    width: 130px;
+    height: 40px;
+    background: yellowgreen;
+    border: none;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    font-size: 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: .4s ease;;
+    
+}
+
+.content .cn a{
+    text-decoration: none;
+    color: white;
+    transition: .3s ease;
+}
+
+.cn:hover{
+    background-color:yellowgreen;
+}
+
+.content .cn_2 a{
+    text-decoration: none;
+    color: white;
+    transition: .3s ease;
+}
+
+.cn_2:hover{
+    background-color:#162359;
+}
+.content span{
+    color:yellowgreen;
+    font-size: 65px
+}
+
