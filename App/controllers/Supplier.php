@@ -101,10 +101,15 @@ class Supplier extends Controller
             return;
         }
 
-        //Todo : get agent details from database and pass it to the view.
+        $agent = new SalesAgent;
+        $this->data['agent'] = $agent->first(['sa_phone' => $sap, 'su_phone' => $_SESSION['su_phone']]);
+        if(!$this->data['agent']){
+            header('Location: ' . LINKROOT . '/Supplier/Agents');
+            return;
+        }
 
         $this->data['tabs']['active'] = 'Agents';
-        // $this->view('supplier/agent', $this->data);
+        $this->view('supplier/agent', $this->data);
     }
 
     public function UpdateAgent($sap = null) {
@@ -163,6 +168,14 @@ class Supplier extends Controller
         $this->data['agent'] = $agentData;
         $this->data['tabs']['active'] = 'Agents';
         $this->view('supplier/updateAgent', $this->data);
+    }
+
+    public function deleteAgent() {
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['sa_phone'])){
+            $agnt = new SalesAgent;
+            $agnt->delete(['sa_phone' => $_POST['sa_phone'], 'su_phone' => $_SESSION['su_phone']]);
+        }
+        header('Location: ' . LINKROOT . '/admin/addNewProducts');       
     }
 
     //create new methods after this line.
