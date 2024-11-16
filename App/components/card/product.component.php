@@ -8,7 +8,7 @@
         <?php if(file_exists("./images/Products/".$barcode.".".$pic_format)){ ?>
             <img class="product-img" src="<?=ROOT?>/images/Products/<?=$barcode?>.<?=$pic_format?>" alt="">
         <?php } else { ?>
-            <img class="product-img" src="<?=ROOT?>/images/Products/default.jpg" alt="">
+            <img class="product-img" src="<?=ROOT?>/images/Products/default.jpeg" alt="">
         <?php } ?>
     </div>
 </a>

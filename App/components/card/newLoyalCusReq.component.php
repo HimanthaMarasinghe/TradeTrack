@@ -1,4 +1,4 @@
-<div class="card center-al">
+<a href="<?=LINKROOT?>/ShopOwner/loyaltyCustomerRequest/<?=$cus_phone?>" class="card center-al">
     <div class="profile-photo">
 
 
@@ -14,8 +14,8 @@
     <div class="m-b-auto fg1 center-al">
         <h4><?=$cus_first_name?> <?=$cus_last_name?></h4>
     </div>
-    <div class="row m-b-auto fg1">
-        <a href="" class="btn fg1">Accept</a>
-        <a href="<?=LINKROOT?>/ShopOwner/addLoyalCus" class="btn fg1">More</a>
-    </div>
-</div>
+    <!-- <div class="row m-b-auto fg1"> -->
+        <!-- <a href="" class="btn fg1">Accept</a> -->
+        <!-- <a href="<?=LINKROOT?>/ShopOwner/addLoyalCus/<?=$cus_phone?>" class="btn fg1">More</a> -->
+    <!-- </div> -->
+</a>

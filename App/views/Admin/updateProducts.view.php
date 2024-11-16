@@ -58,7 +58,7 @@
         <!-- Hidden checkbox for removing the image -->
         <input type="checkbox" name="remove_image" id="removeImageCheckbox" style="display: none;">
         
-        <input type="submit" class="btn" value="Add Product">
+        <input type="submit" class="btn" value="Update">
     </form>
 </div>
 
