@@ -1,5 +1,5 @@
 <?php
-    $this->component("header");
+    $this->component("header", $styleSheet);
     $this->component("sidebar", $tabs); 
     // Side menu
 ?>

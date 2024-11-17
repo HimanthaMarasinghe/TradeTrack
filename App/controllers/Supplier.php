@@ -3,7 +3,8 @@
 class Supplier extends Controller 
 {
     protected $data = [
-        'tabs' => ['tabs' => ['Home', 'Products', 'Orders', 'Agents'], 'userType' => 'Supplier']
+        'tabs' => ['tabs' => ['Home', 'Products', 'Orders', 'Agents'], 'userType' => 'Supplier'],
+        'styleSheet' => ['styleSheet'=>'index']
     ];
 
     public function index()

@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <title>Webpage Design</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="<?=ROOT?>/css/style.css">
 </head>
 <body>
     
     
-        <img src="online.png" alt="travel" />
+        <img src="<?=ROOT?>/images/Assets/online.png" alt="travel" />
      
 
     <div class="main">
@@ -41,8 +41,8 @@
         </div>
     </div>
     <div>
-        <img src="online.png" alt="travel" />
+        <img src="<?=ROOT?>/images/Assets/online.png" alt="travel" />
       </div>
-    <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
+    <!-- <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script> -->
 </body>
 </html>

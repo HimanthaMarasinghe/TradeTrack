@@ -3,7 +3,8 @@
 class Customer extends Controller 
 {
     protected $data = [
-        'tabs' => ['tabs' => ['Home', 'Products', 'Shops', 'Loyalty Shops'], 'userType' => 'Customer']
+        'tabs' => ['tabs' => ['Home', 'Products', 'Shops', 'Loyalty Shops'], 'userType' => 'Customer'],
+        'styleSheet' => ['styleSheet'=>'index']
     ];
 
     public function index(){

@@ -3,7 +3,8 @@
 class ShopOwner extends Controller 
 {
     protected $data = [
-        'tabs' => ['tabs' => ['Home', 'Customers', 'Stocks', 'Accounts'], 'userType' => 'ShopOwner']
+        'tabs' => ['tabs' => ['Home', 'Customers', 'Stocks', 'Accounts'], 'userType' => 'ShopOwner'],
+        'styleSheet' => ['styleSheet'=>'index']
     ];
     public function index () 
     {

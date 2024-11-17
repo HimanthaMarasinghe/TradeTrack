@@ -3,7 +3,8 @@
 class Admin extends Controller 
 {
     protected $data = [
-        'tabs' => ['tabs' => ['Home', 'Remove User', 'Stocks', 'Accounts', 'Add New products'], 'userType' => 'Admin']
+        'tabs' => ['tabs' => ['Home', 'Remove User', 'Stocks', 'Accounts', 'Add New products'], 'userType' => 'Admin'],
+        'styleSheet' => ['styleSheet'=>'admin']
     ];
 
     //create new methods after this line.
