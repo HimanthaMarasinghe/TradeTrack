@@ -4,7 +4,7 @@ class Customer extends Controller
 {
     protected $data = [
         'tabs' => ['tabs' => ['Home', 'Products', 'Shops', 'Loyalty Shops'], 'userType' => 'Customer'],
-        'styleSheet' => ['styleSheet'=>'index']
+        'styleSheet' => ['styleSheet'=>'customer']
     ];
 
     public function index(){
@@ -63,5 +63,15 @@ class Customer extends Controller
         $this->view('Customer/loyaltyShops',$this->data);
     }
     //create new methods after this line.
+
+
+
+
+
+
+
+    public function new($viewName) {
+        $this->view('Customer/'.$viewName, $this->data);
+    }
 
 }

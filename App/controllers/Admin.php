@@ -185,4 +185,19 @@ class Admin extends Controller
         }
         header('Location: ' . LINKROOT . '/admin/addNewProducts'); //Todo: Change this to a product page.
     }
+
+
+
+
+
+
+
+
+
+
+
+    
+    public function new($viewName) {
+        $this->view('Admin/'.$viewName, $this->data);
+    }
 }
