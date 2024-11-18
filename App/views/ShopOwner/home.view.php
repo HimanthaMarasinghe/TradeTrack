@@ -1,5 +1,5 @@
 <?php
-    $this->component("header");
+    $this->component("header", $styleSheet);
     $this->component("sidebar", $tabs) 
 ?>
 
@@ -10,7 +10,7 @@
             <img src="<?=ROOT?>/images/icons/home.svg" alt="">
             <div>
                 <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
-                <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
+                <a href="<?=LINKROOT?>/ShopOwner/profileUpdate"><img src="<?=ROOT?>/images/icons/Profile.svg" alt=""></a>
             </div>
         </div>
 

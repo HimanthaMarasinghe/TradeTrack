@@ -120,14 +120,14 @@ class Model extends Database
         $query .= " WHERE ";
         foreach($ids as $column => $value)
         {
-            $query .= $column." = :condition_$column && ";
+            $query .= $column." = :condition_$column AND ";
             $data["condition_$column"] = $value;
         }
         /*
         The term "condition" is used, so when updating a field that also present in the where condition,
         the data array will not be overwritten.
         */
-        $query = rtrim($query, " && ");
+        $query = rtrim($query, " AND ");
         $this->query($query, $data, $con);
         return false;
     }

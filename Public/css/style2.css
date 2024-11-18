@@ -1,0 +1,145 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+
+.main{
+    width: 100%;
+    background:url(on.jpeg);
+    background-position: center;
+    background-size: cover;
+    height: 115vh;
+}
+.about-us {
+    display: flex;
+    align-items: center;
+    height: 100;
+    width: 100;
+    padding: 90px 0;
+  }
+  
+  .pic {
+    height: auto;
+    width: 400px;
+  }
+  
+  .about {
+    width: 1200px;
+    max-width: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+  
+  .text {
+    width: 540px;
+  }
+  
+  .text h2 {
+    color: white;
+    font-size: 90px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  
+  .text h5 {
+    color: white;
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+  
+  span {
+    color: white;
+  }
+  
+  .text p {
+    color: white;
+    font-size: 18px;
+    line-height: 25px;
+    letter-spacing: 1px;
+  }
+  
+  .data {
+    margin-top: 30px;
+  }
+  
+  .hire {
+    font-size: 18px;
+    background: #162359;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 6px;
+    transition: 0.5s;
+  }
+  
+  .hire:hover {
+    background:yellowgreen;
+  }
+
+
+  .navbar{
+    width: 1200px;
+    height: 75px;
+    margin: auto;
+}
+
+.icon{
+    width: 200px;
+    float: left;
+    height: 70px;
+    cursor: pointer;
+}
+
+.icon span{
+    color: yellowgreen;
+}
+
+.logo{
+    color:#162359;    ;
+    font-size: 35px;
+    font-family: Arial;
+    padding-left: 20px;
+    float: left;
+    padding-top: 20px;
+    margin-top: 5px
+}
+
+.menu{
+    width: 900px;
+    float: right;
+    height: 70px;
+}
+
+ul{
+    float: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+ul li{
+    list-style: none;
+    margin-left: 62px;
+    margin-top: 37px;
+    font-size: 14px;
+}
+
+ul li a{
+    text-decoration: none;
+    color: #fff;
+    font-family: Arial;
+    font-weight: bold;
+    transition: 0.4s ease-in-out;
+}
+
+ul li a:hover{
+    color: #162359 ;
+}
+
+  

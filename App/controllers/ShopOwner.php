@@ -3,12 +3,13 @@
 class ShopOwner extends Controller 
 {
     protected $data = [
-        'tabs' => ['tabs' => ['Home', 'Customers', 'Stocks', 'Accounts'], 'userType' => 'ShopOwner']
+        'tabs' => ['tabs' => ['Home', 'Customers', 'Stocks', 'Accounts'], 'userType' => 'ShopOwner'],
+        'styleSheet' => ['styleSheet'=>'shopOwner']
     ];
     public function index () 
     {
 
-        $_SESSION['so_phone'] = '0112223333'; // to be changed to the logged in user's phone number (tbc)
+        $_SESSION['so_phone'] = '0112223333'; //ToDo : to be changed to the logged in user's phone number (tbc)
 
         $shopOwner = new ShopOwner();
         $p = new Products;
@@ -136,18 +137,21 @@ class ShopOwner extends Controller
             ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson', 'total' => 22000, 'time' => '11 min', 'pic_format' => 'jpeg']
         ];
 
-        $this->data['newLoyalCusReq'] = [
-            ['phone' => 'PhoneNumber', 'name' => 'John Doe'],
-            ['phone' => 'PhoneNumber', 'name' => 'Jane Smith'],
-            ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson'],
-            ['phone' => 'PhoneNumber', 'name' => 'John Doe'],
-            ['phone' => 'PhoneNumber', 'name' => 'Jane Smith'],
-            ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson'],
-            ['phone' => 'PhoneNumber', 'name' => 'John Doe'],
-            ['phone' => 'PhoneNumber', 'name' => 'Jane Smith'],
-            ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson']
-        ];
+        // $this->data['newLoyalCusReq'] = [
+        //     ['phone' => 'PhoneNumber', 'name' => 'John Doe'],
+        //     ['phone' => 'PhoneNumber', 'name' => 'Jane Smith'],
+        //     ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson'],
+        //     ['phone' => 'PhoneNumber', 'name' => 'John Doe'],
+        //     ['phone' => 'PhoneNumber', 'name' => 'Jane Smith'],
+        //     ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson'],
+        //     ['phone' => 'PhoneNumber', 'name' => 'John Doe'],
+        //     ['phone' => 'PhoneNumber', 'name' => 'Jane Smith'],
+        //     ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson']
+        // ];
 
+        $loyReq = new LoyaltyRequests;
+        $this->data['newLoyalCusReq'] = $loyReq->allRequests($_SESSION['so_phone']);
+        
         $loyaltyCustomer = new LoyaltyCustomers;
         $this->data['loyalCus'] = $loyaltyCustomer->allLoyaltyCustomers($_SESSION['so_phone']);
 
@@ -155,20 +159,47 @@ class ShopOwner extends Controller
         $this->view('shopOwner/customers', $this->data);
     }
 
-    public function addLoyalCus() {
-        $this->data['newLoyalCusReq'] = [
-            'name' => 'John Doe',
-            'phone' => '0112224690',
-            'address' => 'No 123, Main Street, Colombo 07'
-        ];
+    public function loyaltyCustomerRequest($cusPhone = null) {
+
+        if($cusPhone == null){
+            header('Location: ' . LINKROOT . '/ShopOwner/customers');
+            return;
+        }
+
+
+        $loyReq = new LoyaltyRequests;
+        // $this->data['newLoyalCusReq'] = [
+        //     'name' => 'John Doe',
+        //     'phone' => '0112224690',
+        //     'address' => 'No 123, Main Street, Colombo 07'
+        // ];
+        $this->data['newLoyalCusReq'] = $loyReq->readNewLoyReq($_SESSION['so_phone'], $cusPhone);
+
+        if(!$this->data['newLoyalCusReq']){
+            header('Location: ' . LINKROOT . '/ShopOwner/customers');
+            return;
+        }
+
         $this->data['tabs']['active'] = 'Customers';
         $this->view('shopOwner/addLoyalCus', $this->data);
+    }
+
+    public function addLoyCus(){
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['cus_phone'])){
+            $loyCus = new LoyaltyCustomers;
+            $loyReq = new LoyaltyRequests;
+            if($loyReq->readNewLoyReq($_SESSION['so_phone'], $_POST['cus_phone'])){     //Only if there is a request, customer can become loyal.
+                $loyReq->delete(['cus_phone' => $_POST['cus_phone'], 'so_phone' => $_SESSION['so_phone']]);
+                $loyCus->insert(['cus_phone' => $_POST['cus_phone'], 'so_phone' => $_SESSION['so_phone']]);
+            }
+        }
     }
 
     public function customer($id = null) {
         if($id == null)
         {
             header('Location: ' . LINKROOT . '/ShopOwner/customers');
+            return;
         }
         $customer = new Customers;
         $loyaltyCustomer = new LoyaltyCustomers;
@@ -216,6 +247,17 @@ class ShopOwner extends Controller
         $this->data['tabs']['active'] = 'Stocks';
         $this->view('shopOwner/stocks', $this->data);
     }
+
+    public function product($barcodeIn = null){
+        if ($barcodeIn == null){
+            header('Location: ' . LINKROOT . '/ShopOwner/stocks');
+            return;
+        }
+        $prd = new Products;
+        $this->data['product'] = $prd->first(['barcode' => $barcodeIn]);
+        $this->data['tabs']['active'] = 'Stocks';
+        $this->view('shopOwner/product', $this->data);
+    }
     
     public function accounts() {
         $this->data['tabs']['active'] = 'Accounts';
@@ -233,6 +275,13 @@ class ShopOwner extends Controller
     }
 
     public function profileUpdate() {
+        $shop = new Shops;
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['so_phone']) && !empty($_POST['shop_name']) && !empty($_POST['so_first_name']) && !empty($_POST['so_last_name']) && !empty($_POST['shop_address']) && !empty($_POST['so_address'])){
+            $shop->update(['so_phone' => $_SESSION['so_phone']], $_POST);
+            $_SESSION['so_phone'] = $_POST['so_phone'];
+        }
+        $this->data['shopOwner'] = $shop->first(['so_phone' => $_SESSION['so_phone']]);
+        $this->data['tabs']['active'] = 'Home';
         $this->view('shopOwner/profileUpdate', $this->data);
     }
 }

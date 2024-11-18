@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 12, 2024 at 04:28 AM
+-- Generation Time: Nov 16, 2024 at 12:52 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -44,7 +44,8 @@ CREATE TABLE `bills` (
 INSERT INTO `bills` (`bill_id`, `date`, `time`, `cus_phone`, `so_phone`) VALUES
 (182, '2024-10-17', '00:33:34', '0123456789', '0112223333'),
 (183, '2024-10-24', '00:39:15', '0987654321', '0112223333'),
-(184, '2024-11-11', '13:08:29', '0123456789', '0112223333');
+(184, '2024-11-11', '13:08:29', '0123456789', '0112223333'),
+(185, '2024-11-15', '23:44:32', '0123456789', '0112223333');
 
 -- --------------------------------------------------------
 
@@ -65,7 +66,8 @@ CREATE TABLE `bill_items` (
 INSERT INTO `bill_items` (`bill_id`, `barcode`, `quantity`) VALUES
 (182, '8888101611705', 1),
 (183, '4790015950624', 1),
-(184, '4791010040044', 12);
+(184, '4791010040044', 12),
+(185, '4791010040044', 4);
 
 -- --------------------------------------------------------
 
@@ -143,31 +145,32 @@ CREATE TABLE `customers` (
   `cus_first_name` varchar(20) NOT NULL,
   `cus_last_name` varchar(20) NOT NULL,
   `cus_address` varchar(100) NOT NULL,
-  `cus_password` varchar(256) NOT NULL
+  `cus_password` varchar(256) NOT NULL,
+  `pic_format` varchar(10) NOT NULL DEFAULT 'jpg'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `customers`
 --
 
-INSERT INTO `customers` (`cus_phone`, `cus_first_name`, `cus_last_name`, `cus_address`, `cus_password`) VALUES
-('0123456789', 'Saman', 'Rathnayaka', 'No.120/1, Karadana, Gampaha', 'password'),
-('0701122334', 'Sarath', 'Gunasekara', 'No.12/3, Dutugemunu Mawatha, Maharagama', 'sarath12'),
-('0709876543', 'Mala', 'Jayawardena', 'No.20, Madampe Junction, Chilaw', 'mala@123'),
-('0712345678', 'Nimal', 'Perera', 'No.12, Kadawatha Road, Ragama', 'nimal123'),
-('0718976543', 'Kumari', 'Rathnayake', 'No.45/7, Malwatte Road, Matara', 'kumari@pw'),
-('0721112223', 'Shanika', 'Jayasinghe', 'No.25, Kandy Road, Mawanella', 'shanika98'),
-('0747654321', 'Ruwan', 'Wickramasinghe', 'No.3/1, Aluthgama Road, Bandaragama', 'ruwan654'),
-('0756789123', 'Gayan', 'Kumarasinghe', 'No.14, Temple Lane, Kurunegala', 'gayanpass'),
-('0763322110', 'Hemantha', 'Dias', 'No.9, Lake Road, Anuradhapura', 'hemanthapw'),
-('0765432198', 'Anura', 'Bandara', 'No.44, Rathnapura Road, Eheliyagoda', 'anura321'),
-('0772233445', 'Piumi', 'Senarath', 'No.7, Hospital Lane, Kalutara', 'piumi22'),
-('0776543210', 'Samantha', 'Fernando', 'No.66, Beach Road, Negombo', 'sampass01'),
-('0778765432', 'Sunil', 'Wijesinghe', 'No.55, Main Street, Piliyandala', 'sunilpw'),
-('0781234567', 'Chandani', 'Silva', 'No.30, Galle Road, Hikkaduwa', 'chandu89'),
-('0787766554', 'Janaka', 'Karunaratne', 'No.10/2, Rajagiriya Road, Nawala', 'janaka456'),
-('0789988776', 'Harsha', 'Abeysekara', 'No.5, Peradeniya Road, Kandy', 'harsha321'),
-('0987654321', 'Kamala', 'Gunawardana', 'No.111, Batuwaththa, Meerigama', 'Kamala');
+INSERT INTO `customers` (`cus_phone`, `cus_first_name`, `cus_last_name`, `cus_address`, `cus_password`, `pic_format`) VALUES
+('0123456789', 'Saman', 'Rathnayaka', 'No.120/1, Karadana, Gampaha', 'password', 'jpg'),
+('0701122334', 'Sarath', 'Gunasekara', 'No.12/3, Dutugemunu Mawatha, Maharagama', 'sarath12', ''),
+('0709876543', 'Mala', 'Jayawardena', 'No.20, Madampe Junction, Chilaw', 'mala@123', ''),
+('0712345678', 'Nimal', 'Perera', 'No.12, Kadawatha Road, Ragama', 'nimal123', ''),
+('0718976543', 'Kumari', 'Rathnayake', 'No.45/7, Malwatte Road, Matara', 'kumari@pw', ''),
+('0721112223', 'Shanika', 'Jayasinghe', 'No.25, Kandy Road, Mawanella', 'shanika98', ''),
+('0747654321', 'Ruwan', 'Wickramasinghe', 'No.3/1, Aluthgama Road, Bandaragama', 'ruwan654', ''),
+('0756789123', 'Gayan', 'Kumarasinghe', 'No.14, Temple Lane, Kurunegala', 'gayanpass', ''),
+('0763322110', 'Hemantha', 'Dias', 'No.9, Lake Road, Anuradhapura', 'hemanthapw', ''),
+('0765432198', 'Anura', 'Bandara', 'No.44, Rathnapura Road, Eheliyagoda', 'anura321', ''),
+('0772233445', 'Piumi', 'Senarath', 'No.7, Hospital Lane, Kalutara', 'piumi22', ''),
+('0776543210', 'Samantha', 'Fernando', 'No.66, Beach Road, Negombo', 'sampass01', ''),
+('0778765432', 'Sunil', 'Wijesinghe', 'No.55, Main Street, Piliyandala', 'sunilpw', ''),
+('0781234567', 'Chandani', 'Silva', 'No.30, Galle Road, Hikkaduwa', 'chandu89', ''),
+('0787766554', 'Janaka', 'Karunaratne', 'No.10/2, Rajagiriya Road, Nawala', 'janaka456', ''),
+('0789988776', 'Harsha', 'Abeysekara', 'No.5, Peradeniya Road, Kandy', 'harsha321', ''),
+('0987654321', 'Kamala', 'Gunawardana', 'No.111, Batuwaththa, Meerigama', 'Kamala', '');
 
 -- --------------------------------------------------------
 
@@ -190,7 +193,7 @@ CREATE TABLE `discount` (
 CREATE TABLE `loyalty_customers` (
   `so_phone` varchar(10) NOT NULL,
   `cus_phone` varchar(10) NOT NULL,
-  `wallet` float NOT NULL,
+  `wallet` float NOT NULL DEFAULT 0,
   `since` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -199,16 +202,38 @@ CREATE TABLE `loyalty_customers` (
 --
 
 INSERT INTO `loyalty_customers` (`so_phone`, `cus_phone`, `wallet`, `since`) VALUES
-('0112223333', '0123456789', 2700, '2024-10-24'),
+('0112223333', '0123456789', 2850, '2024-10-24'),
 ('0112223333', '0712345678', 1500, '2024-10-24'),
-('0112223333', '0721112223', 1750, '2024-10-24'),
+('0112223333', '0721112223', 0, '2024-11-16'),
 ('0112223333', '0756789123', 2000, '2024-10-24'),
-('0112223333', '0765432198', 1200, '2024-10-24'),
 ('0112223333', '0776543210', 500, '2024-10-24'),
 ('0112223333', '0778765432', 2300, '2024-10-24'),
 ('0112223333', '0781234567', 3000, '2024-10-24'),
 ('0112223333', '0789988776', 3200, '2024-10-24'),
 ('0112223333', '0987654321', 950, '2024-10-24');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `loyalty_requests`
+--
+
+CREATE TABLE `loyalty_requests` (
+  `cus_phone` varchar(10) NOT NULL,
+  `so_phone` varchar(10) NOT NULL,
+  `created_time` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `loyalty_requests`
+--
+
+INSERT INTO `loyalty_requests` (`cus_phone`, `so_phone`, `created_time`) VALUES
+('0123456789', '0112223333', '2024-11-15 23:55:02'),
+('0712345678', '0112223333', '2024-11-15 23:55:02'),
+('0763322110', '0112223333', '2024-11-15 23:55:18'),
+('0776543210', '0112223333', '2024-11-15 23:55:18'),
+('0781234567', '0112223333', '2024-11-15 23:56:01');
 
 -- --------------------------------------------------------
 
@@ -232,7 +257,7 @@ CREATE TABLE `pre_order` (
 CREATE TABLE `products` (
   `barcode` varchar(13) NOT NULL,
   `product_name` varchar(50) NOT NULL,
-  `unit_price` int(11) NOT NULL,
+  `unit_price` float NOT NULL,
   `pic_format` enum('jpeg','jpg','png','') NOT NULL DEFAULT 'jpeg'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -264,10 +289,20 @@ CREATE TABLE `sales_agents` (
   `sa_phone` varchar(10) NOT NULL,
   `sa_first_name` varchar(20) NOT NULL,
   `sa_last_name` varchar(20) NOT NULL,
+  `sa_busines_name` varchar(255) NOT NULL,
   `sa_address` varchar(100) NOT NULL,
-  `sa_password` varchar(256) NOT NULL,
+  `sa_pic_format` varchar(8) NOT NULL,
+  `sa_password` varchar(256) NOT NULL DEFAULT 'password',
   `su_phone` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `sales_agents`
+--
+
+INSERT INTO `sales_agents` (`sa_phone`, `sa_first_name`, `sa_last_name`, `sa_busines_name`, `sa_address`, `sa_pic_format`, `sa_password`, `su_phone`) VALUES
+('22', '3', 'd', 'q', 'c', '', 'password', '0112223333'),
+('4111', 'd111', 'x111', 'a111', 'w111', 'png', 'password', '0112223333');
 
 -- --------------------------------------------------------
 
@@ -305,7 +340,7 @@ CREATE TABLE `shops` (
 --
 
 INSERT INTO `shops` (`so_phone`, `shop_name`, `shop_address`, `cash_drawer_balance`, `bank_balance`, `so_first_name`, `so_last_name`, `so_address`, `so_password`) VALUES
-('0112223333', 'default', 'default', 7500, 0, 'default', 'default', 'default', 'default');
+('0112223333', 'default', 'default', 8450, 0, 'default', 'default', 'default', 'default');
 
 -- --------------------------------------------------------
 
@@ -346,6 +381,13 @@ CREATE TABLE `suppliers` (
   `su_address` varchar(100) NOT NULL,
   `su_password` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `suppliers`
+--
+
+INSERT INTO `suppliers` (`su_phone`, `business_name`, `su_first_name`, `su_last_name`, `su_address`, `su_password`) VALUES
+('0112223333', 'Test', 'Sunil', 'Perera', 'Colombo', 'DEFAULT');
 
 -- --------------------------------------------------------
 
@@ -444,6 +486,13 @@ ALTER TABLE `loyalty_customers`
   ADD KEY `cus_phone` (`cus_phone`);
 
 --
+-- Indexes for table `loyalty_requests`
+--
+ALTER TABLE `loyalty_requests`
+  ADD PRIMARY KEY (`cus_phone`,`so_phone`),
+  ADD KEY `so_phone` (`so_phone`);
+
+--
 -- Indexes for table `pre_order`
 --
 ALTER TABLE `pre_order`
@@ -517,7 +566,7 @@ ALTER TABLE `transactions_description`
 -- AUTO_INCREMENT for table `bills`
 --
 ALTER TABLE `bills`
-  MODIFY `bill_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=185;
+  MODIFY `bill_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=186;
 
 --
 -- AUTO_INCREMENT for table `bulk_order`
@@ -608,6 +657,13 @@ ALTER TABLE `discount`
 ALTER TABLE `loyalty_customers`
   ADD CONSTRAINT `loyalty_customers_ibfk_1` FOREIGN KEY (`cus_phone`) REFERENCES `customers` (`cus_phone`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `loyalty_customers_ibfk_2` FOREIGN KEY (`so_phone`) REFERENCES `shops` (`so_phone`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `loyalty_requests`
+--
+ALTER TABLE `loyalty_requests`
+  ADD CONSTRAINT `loyalty_requests_ibfk_1` FOREIGN KEY (`so_phone`) REFERENCES `shops` (`so_phone`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `loyalty_requests_ibfk_2` FOREIGN KEY (`cus_phone`) REFERENCES `customers` (`cus_phone`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `pre_order`

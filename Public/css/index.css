@@ -3,12 +3,10 @@
 @import url(common.css);
 @import url(color.css);
 @import url(card.css);
-@import url(carousel.css);
 
-@import url(admin.css);
+@import url(carousel.css);
 @import url(customer.css);
 @import url(salesAgent.css);
 @import url(shopOwner.css);
 @import url(supplier.css);
 @import url(addNewAgents.css);
-@import url(register.css);

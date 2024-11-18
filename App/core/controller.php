@@ -32,4 +32,38 @@
             require $filename;
         }
     }
+
+    public function saveImage($fileImage, $uploadDir, $newImageName)
+    {
+        $allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+        $maxSize = 2 * 1024 * 1024;
+    
+        if (!in_array($fileImage['type'], $allowedTypes)) {
+            echo "Only JPG, PNG, and GIF files are allowed.";
+            exit;
+        }
+    
+        if ($fileImage['size'] > $maxSize) {
+            echo "File size exceeds the limit of 2MB.";
+            exit;
+        }
+    
+        $imageFileType = strtolower(pathinfo($fileImage['name'], PATHINFO_EXTENSION));
+        $targetFilePath = $uploadDir . $newImageName . '.' . $imageFileType;
+    
+        if (move_uploaded_file($fileImage['tmp_name'], $targetFilePath)) {
+            // echo "Image uploaded successfully to $targetFilePath";
+            return $imageFileType;
+        } else {
+            // echo "Failed to upload image.";
+            return false;
+        }
+    }
+
+    public function deleteImage($imagePath)
+    {
+        if (file_exists($imagePath)) {
+            unlink($imagePath);
+        }
+    }
  }
