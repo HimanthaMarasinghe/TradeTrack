@@ -3,7 +3,8 @@
 class Admin extends Controller 
 {
     protected $data = [
-        'tabs' => ['tabs' => ['Home', 'Remove User', 'Stocks', 'Accounts', 'Add New products'], 'userType' => 'Admin']
+        'tabs' => ['tabs' => ['Home', 'Remove User', 'Stocks', 'Accounts', 'Add New products'], 'userType' => 'Admin'],
+        'styleSheet' => ['styleSheet'=>'admin']
     ];
 
     //create new methods after this line.
@@ -183,5 +184,20 @@ class Admin extends Controller
             $prdct->delete(['barcode' => $_POST['barcode']]);
         }
         header('Location: ' . LINKROOT . '/admin/addNewProducts'); //Todo: Change this to a product page.
+    }
+
+
+
+
+
+
+
+
+
+
+
+    
+    public function new($viewName) {
+        $this->view('Admin/'.$viewName, $this->data);
     }
 }

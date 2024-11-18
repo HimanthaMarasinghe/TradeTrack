@@ -3,7 +3,8 @@
 class SalesAgent extends Controller 
 {
     protected $data = [
-        'tabs' => ['tabs' => ['Home', 'Loyalty Customers', 'Stocks', 'Accounts'], 'userType' => 'SalesAgent']
+        'tabs' => ['tabs' => ['Home', 'Loyalty Customers', 'Stocks', 'Accounts'], 'userType' => 'SalesAgent'],
+        'styleSheet' => ['styleSheet'=>'salesAgent']
     ];
 
     //create new methods after this line.
@@ -11,4 +12,13 @@ class SalesAgent extends Controller
         $this->view('SalesAgent/shops', $this->data);
     }
 
+
+
+
+
+
+    
+    public function new($viewName) {
+        $this->view('SalesAgent/'.$viewName, $this->data);
+    }
 }

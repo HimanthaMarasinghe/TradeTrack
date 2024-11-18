@@ -3,7 +3,8 @@
 class Supplier extends Controller 
 {
     protected $data = [
-        'tabs' => ['tabs' => ['Home', 'Products', 'Orders', 'Agents'], 'userType' => 'Supplier']
+        'tabs' => ['tabs' => ['Home', 'Products', 'Orders', 'Agents'], 'userType' => 'Supplier'],
+        'styleSheet' => ['styleSheet'=>'supplier']
     ];
 
     public function index()
@@ -179,5 +180,22 @@ class Supplier extends Controller
     }
 
     //create new methods after this line.
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    public function new($viewName) {
+        $this->view('Supplier/'.$viewName, $this->data);
+    }
 
 }
