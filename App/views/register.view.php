@@ -1,4 +1,4 @@
-<?php $this->component('header'); ?>
+<?php $this->component("header", $styleSheet); ?>
 
 <div class="regBackground">
     <div class="regFormBackground">
