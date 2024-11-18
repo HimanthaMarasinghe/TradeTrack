@@ -180,6 +180,9 @@ class Supplier extends Controller
     }
 
     //create new methods after this line.
+    public function agentProfile() {
+        $this->view('supplier/agentProfile', $this->data);
+    }
 
 
 
