@@ -1,3 +1,10 @@
+@import url(color.css);
+@import url(font.css);
+@import url(styles.css);
+@import url(common.css);
+@import url(card.css);
+
+
 /* admin */
 .admin-panel {
     text-align: center;
@@ -42,19 +49,20 @@
 }
 
 /*----------------Admin add new products section--------------------*/
-body {
+
+/* body {
     font-family: 'Arial', sans-serif;
     background-color: #f5f7fa;
-}
+} */
 
-.main-content {
+/* .main-content {
     width: 50%;
     margin: auto;
     background-color: #fff;
     padding: 60px;
     border-radius: 10px;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-}
+} */
 
 h2 {
     text-align: left;
@@ -154,6 +162,22 @@ label {
 }
 
 
+.imageChooseBtn {
+    background-color: #007bff;
+}
+
+.imageChooseBtn:hover {
+    background-color: #0056b3;
+}
+
+
+.imageRemoveBtn {
+    background-color: #dc3545;
+}
+
+.imageRemoveBtn:hover {
+    background-color: #a71d2a;
+}
 
 /* Add a red background color and white text to the "Delete profile" button */
 .btn-danger {

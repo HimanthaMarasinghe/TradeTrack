@@ -1,4 +1,11 @@
 /* shopOwner */
+@import url(color.css);
+@import url(font.css);
+@import url(styles.css);
+@import url(common.css);
+@import url(card.css);
+
+@import url(profileupdate.css);
 
 /* purchaseDone */
 

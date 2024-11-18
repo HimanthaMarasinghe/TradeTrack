@@ -1,15 +1,18 @@
 <?php
-    $this->component("header");
+    $this->component("header", $styleSheet);
     $this->component("sidebar", $tabs);
 ?>
 
 <div class="main-content">
 
-        <div class="bar">
-            <img src="<?=ROOT?>/images/icons/home.svg" alt="">
-            <!-- <h1><?=$_SESSION['name']?></h1> -->
-             <h1>Add New Product</h1>
-        </div>
+<div class="bar">
+    <img src="<?=ROOT?>/images/icons/home.svg" alt="">
+    <h1>Add new products</h1>
+    <div>
+      <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
+      <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
+    </div>
+  </div>
 
     <!-- Success and error messages -->
     <?php if (isset($data['success'])): ?>
@@ -19,7 +22,7 @@
     <?php endif; ?>
 
     <!-- Product Form -->
-    <form action="/admin/addNewProducts" method="POST" enctype="multipart/form-data">
+    <form action="<?=LINKROOT?>/admin/addNewProducts" method="POST" enctype="multipart/form-data">
         <label for="barcode">Barcode:</label>
         <input type="text" class="userInput" id="barcode" name="barcode" placeholder="Enter barcode" required>
 
