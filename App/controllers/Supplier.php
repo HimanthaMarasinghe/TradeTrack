@@ -179,12 +179,6 @@ class Supplier extends Controller
         header('Location: ' . LINKROOT . '/admin/addNewProducts');       
     }
 
-    //create new methods after this line.
-    public function agentProfile() {
-        $this->view('supplier/agentProfile', $this->data);
-    }
-
-
 
 
 
