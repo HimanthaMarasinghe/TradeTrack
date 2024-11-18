@@ -3,17 +3,6 @@
 <div class="regBackground">
     <div class="regFormBackground">
         <form id="registerForm" action="http://localhost/TradeTrack/FormTest" method="POST" enctype="multipart/form-data">
-            <!-- Image Upload Box -->
-            <div class="imageUploadBox">
-                <div id="imagePreview" class="imagePreviewBox">
-                    <div id="imageContainer"></div>
-                </div>
-                <input type="file" class="imageChooseInput" name="image" id="image" 
-                    accept="image/jpg, image/jpeg, image/png, image/webp" 
-                    onchange="previewImage(event)">
-                <button type="button" class="imageChooseBtn" onclick="triggerFileInput()">Choose</button>
-                <button type="button" class="imageRemoveBtn" onclick="removeImage()">Remove</button>
-            </div>
 
             <!-- Table -->
             <table class="registerTable">
@@ -23,6 +12,21 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <tr rowspan="4">
+                        <td colspan="2">
+                        <!-- Image Upload Box -->
+                        <div class="imageUploadBox">
+                            <div id="imagePreview" class="imagePreviewBox">
+                                <div id="imageContainer"></div>
+                            </div>
+                            <input type="file" class="imageChooseInput" name="image" id="image" 
+                                accept="image/jpg, image/jpeg, image/png, image/webp" 
+                                onchange="previewImage(event)">
+                            <button type="button" class="imageChooseBtn" onclick="triggerFileInput()">Choose</button>
+                            <button type="button" class="imageRemoveBtn" onclick="removeImage()">Remove</button>
+                        </div>
+                        </td>
+                    </tr>
                     <tr>
                         <td>First Name</td>
                         <td><input class="userInput" type="text" name="firstName" id="firstName" placeholder="Enter your first name" required></td>
