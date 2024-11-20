@@ -9,6 +9,7 @@
     justify-content: center;
     align-items: center;
     overflow: auto;
+    
 }
 
 
@@ -22,6 +23,8 @@
     background-color: #F5F5F5;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     overflow-y: auto;
+    scrollbar-width: none; 
+    -ms-overflow-style: none;
 }
 
 /* Image Upload Box */
