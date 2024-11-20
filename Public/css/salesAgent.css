@@ -4,3 +4,46 @@
 @import url(styles.css);
 @import url(common.css);
 @import url(card.css);
+
+.newReqBody {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.leftBody {
+    width: 30%;
+    height: 100%;
+    overflow-y: auto;
+    scrollbar-width: none; 
+    -ms-overflow-style: none;
+    padding-right:10px;
+   
+}
+
+.rightBody {
+    flex: 1;
+    height: 100%;
+}
+
+.salesagenttablebody{
+    height: calc(100vh - 350px);
+    overflow-y: auto;
+}
+
+.salesagentproducts{
+    top: auto;
+    margin-top:30px;
+    padding-top: 30px;
+}
+
+   
+.salesagentrow{
+    position: fixed;
+    top: 10px;;
+    margin-bottom: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    height: 70px;
+    background-color: #F5F5F5;
+}
