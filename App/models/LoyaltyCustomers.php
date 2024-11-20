@@ -27,4 +27,25 @@ class LoyaltyCustomers extends Model
         return $this->query($query, $data);
     }
 
+    public function allLoyaltyShops($cus_phone)
+    {
+        $query = "SELECT s.so_phone, shop_name, shop_address, so_first_name, so_last_name, so_address, pic_format, so_pic_format  
+                  FROM shops s 
+                  JOIN loyalty_customers lc ON s.so_phone = lc.so_phone
+                  WHERE lc.cus_phone = :cus_phone";
+        $data = ['cus_phone' => $cus_phone];
+        return $this->query($query, $data);
+    }
+
+    public function notLoyaltyShops($cus_phone)
+    {
+        $query = "SELECT s.so_phone, shop_name, shop_address, so_first_name, so_last_name, so_address, pic_format, so_pic_format 
+                  FROM shops s
+                  LEFT JOIN loyalty_customers lc ON s.so_phone = lc.so_phone AND lc.cus_phone = :cus_phone
+                  WHERE lc.so_phone IS NULL";
+
+        $data = ['cus_phone' => $cus_phone];
+        return $this->query($query, $data);
+    }
+
 }

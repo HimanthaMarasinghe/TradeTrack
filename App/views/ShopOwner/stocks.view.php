@@ -28,22 +28,6 @@
                     {
                         $this->component('card/product', $stock); 
                     }
-                    foreach ($staticStocks as $stock)
-                    {
-                        $this->component('card/product', $stock); 
-                    }
-                ?>
-            </div>
-        </div>
-
-        <div class="panel warning mg-10 fg1">
-        <h2>Low Stocks</h2>
-            <div class="scroll-box grid g-resp-300">
-                <?php
-                    foreach ($lowStocks as $stock)
-                    {
-                        $this->component('card/product', $stock); 
-                    }
                 ?>
             </div>
         </div>

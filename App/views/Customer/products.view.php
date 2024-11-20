@@ -24,7 +24,7 @@
       <?php
         foreach ($products as $product)
         {
-          $this->component('card/productVert', $product); 
+          $this->component('card/Customer/productVert', $product); 
         }
       ?>
     </div>
