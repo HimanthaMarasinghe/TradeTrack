@@ -1,4 +1,4 @@
-<a href="<?=LINKROOT?>/ShopOwner/stocks" class="card btn-card center-al">
+<a href="<?=LINKROOT?>/ShopOwner/product/<?=$barcode?>" class="card btn-card center-al <?php if($quantity < 100){?> low <?php } ?>">
     <div class="details h-100">
         <h4><?=$product_name?></h4>
         <h4><?=$quantity?></h4>

@@ -22,4 +22,9 @@
         flex-direction: column;
         justify-content: space-around;
     }
+
+    &.low {
+        border-color: #ff2f00;
+        background: linear-gradient(90deg, #FF8C0099, #ff370099);
+    }
 }

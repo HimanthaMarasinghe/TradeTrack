@@ -26,36 +26,22 @@
                 <td>Unit Price</td>
                 <td>Rs.<?= number_format($product['unit_price'], 2) ?></td>
             </tr>
-            <!-- <tr>
-                <td colspan="2">
-                    <button onclick="addLoyCustmer('<?=$product['cus_phone']?>')" class="btn">Accept Loyalty Customer Request</button>
-                </td>
-            </tr> -->
         </table>
         <?php if(file_exists("./images/Products/".$product['barcode'].".".$product['pic_format'])){ ?>
-            <img class="profile-img big" src="<?=ROOT?>/images/Products/<?=$product['barcode']?>.<?=$product['pic_format']?>" alt="">
+            <img class="profile-img" src="<?=ROOT?>/images/Products/<?=$product['barcode']?>.<?=$product['pic_format']?>" alt="">
         <?php } else { ?>
-            <img class="profile-img big" src="<?=ROOT?>/images/Products/default.jpg" alt="">
+            <img class="profile-img" src="<?=ROOT?>/images/Products/default.jpeg" alt="">
         <?php } ?>
     </div>
-    
-    <h3>Sales agents that you can purchase this product from</h3>
+    <h2>Shops where you can buy this product</h2>
     <div class="grid g-resp-200 scroll-box">
-    <?php
-        foreach ($agents as $agent)
+      <?php
+        foreach ($shops as $shop)
         {
-        $this->component('card/ShopOwner/agent', $agent); 
+          $this->component('card/Customer/shop', $shop); 
         }
-    ?>
+      ?>
     </div>
 </div>
-        
-
-        
-
-<!-- <script>
-    const LINKROOT = "<?=LINKROOT?>";
-</script>
-<script src="<?=ROOT?>/js/addLoyCustomer.js"></script> -->
 
 <?php $this->component("footer") ?>
