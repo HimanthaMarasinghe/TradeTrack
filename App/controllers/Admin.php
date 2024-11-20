@@ -3,7 +3,7 @@
 class Admin extends Controller 
 {
     protected $data = [
-        'tabs' => ['tabs' => ['Home', 'Remove User', 'Stocks', 'Accounts', 'Add New products'], 'userType' => 'Admin'],
+        'tabs' => ['tabs' => ['Home', 'Customers', 'SalesAgents', 'ShopOwners', 'Suppliers', 'Products'], 'userType' => 'Admin'],
         'styleSheet' => ['styleSheet'=>'admin']
     ];
 
@@ -186,12 +186,53 @@ class Admin extends Controller
         header('Location: ' . LINKROOT . '/admin/addNewProducts'); //Todo: Change this to a product page.
     }
 
+    public function products(){
+        $this->data['tabs']['active'] = 'Products';
+        $prdct = new Products;
+        $this->data['products'] = $prdct->readAll();
+        $this->view('Admin/products', $this->data);
+    }
 
 
+    public function Customers(){
+        $this->data['tabs']['active'] = 'Customers';
+        $this->view('Admin/customers', $this->data);
+    }
 
+    public function SalesAgents(){
+        $this->data['tabs']['active'] = 'SalesAgents';
+        $this->view('Admin/salesAgents', $this->data);
+    }
 
+    public function customer(){
+        $this->data['tabs']['active'] = 'Customers';
+        $this->view('Admin/customer', $this->data);
+    }
 
+    public function salesAgent(){
+        $this->data['tabs']['active'] = 'SalesAgents';
+        $this->view('Admin/salesAgent', $this->data);
+    }
 
+    public function ShopOwners(){
+        $this->data['tabs']['active'] = 'ShopOwners';
+        $this->view('Admin/shopOwners', $this->data);
+    }
+
+    public function shopOwner(){
+        $this->data['tabs']['active'] = 'ShopOwners';
+        $this->view('Admin/shopOwner', $this->data);
+    }
+
+    public function Suppliers(){
+        $this->data['tabs']['active'] = 'Suppliers';
+        $this->view('Admin/suppliers', $this->data);
+    }
+
+    public function supplier(){
+        $this->data['tabs']['active'] = 'Suppliers';
+        $this->view('Admin/supplier', $this->data);
+    }
 
 
 
