@@ -21,7 +21,7 @@
             </tr>
             <tr>
                 <td>Business name</td>
-                <td>Maliban</td>
+                <td>Sumudu distributers</td>
             </tr>
             <tr>
                 <td>Phone number</td>
@@ -29,6 +29,19 @@
             </tr>
         </table>
         <img class="profile-img big" src="<?=ROOT?>/images/Profile/0987654321.jpg" alt="">
+    </div>
+    <h3>Distributing shops</h3>
+    <div class="grid g-resp-200 scroll-box">
+    <?php for($x = 0; $x <4; $x++){?>
+        <a href="" class="card btn-card colomn asp-rtio">
+                <img class="product-img" src="<?=ROOT?>/images/Profile/PhoneNumber.jpg" alt="">
+                <div class="details h-50">
+                    <h4>vijewrdana stores</h4>
+                    <h4>Maliban power milk</h4>
+                    <h4>2300</h4>
+                </div>
+        </a>
+    <?php } ?>
     </div>
 </div>
 

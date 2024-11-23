@@ -25,8 +25,9 @@
         <a href="<?=LINKROOT?>/Admin/salesAgent" class="card btn-card colomn asp-rtio">
             <img class="product-img" src="<?=ROOT?>/images/Profile/PhoneNumber.jpg" alt="">
             <div class="details h-50">
-                <h4>Chenuka</h4>
+                <h4>Sumudu distributers</h4>
                 <h4>111, colombo, srilanka</h4>
+                <h4>0771488164</h4>
             </div>
         </a>
     <?php }?>
