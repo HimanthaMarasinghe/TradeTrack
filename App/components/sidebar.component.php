@@ -12,4 +12,8 @@
         </li>
         <?php } ?>
     </ul>
+    <a class="logout" href="<?=LINKROOT?>/login/logout">
+        <img src="<?=ROOT?>/images/icons/logout.svg" alt="">
+        <span>Log Out</span>
+    </a>
 </div>

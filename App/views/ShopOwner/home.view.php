@@ -7,7 +7,7 @@
 
     <div class="top">
         <div class="bar">
-            <img src="<?=ROOT?>/images/icons/home.svg" alt="">
+            <img src="<?=ROOT?>/images/icons/home.svg" alt="" style="visibility:hidden;">
             <div>
                 <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
                 <a href="<?=LINKROOT?>/ShopOwner/profileUpdate"><img src="<?=ROOT?>/images/icons/Profile.svg" alt=""></a>

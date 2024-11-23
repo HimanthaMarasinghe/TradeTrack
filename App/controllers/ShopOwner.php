@@ -6,10 +6,19 @@ class ShopOwner extends Controller
         'tabs' => ['tabs' => ['Home', 'Customers', 'Stocks', 'Accounts'], 'userType' => 'ShopOwner'],
         'styleSheet' => ['styleSheet'=>'shopOwner']
     ];
+
+    public function __construct() {
+        if(!isset($_SESSION['so_phone'])){
+            redirect('login');
+            exit;
+        }
+    }
+
+
     public function index () 
     {
 
-        $_SESSION['so_phone'] = '0112223333'; //ToDo : to be changed to the logged in user's phone number (tbc)
+        //$_SESSION['so_phone'] = '0112223333'; //ToDo : to be changed to the logged in user's phone number (tbc)
 
         $this->data['tabs']['active'] = 'Home';
         

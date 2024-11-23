@@ -8,17 +8,19 @@ class Register extends Controller
     public function index()
     {
         
-        // if($_SERVER['REQUEST_METHOD'] == 'POST')
-        // {
-        //     $user = new User();
-        //     if($user->validate($_POST))
-        //     {
-        //         $user->insert($_POST);
-        //         redirect('home');
-        //     }
-            
-        //     $this->data['errors'] = $user->errors;
-        // }
+        if($_SERVER['REQUEST_METHOD'] == 'POST')
+        {
+            $user = new User();
+            if($user->first(['phone' => $_POST['phone']])){
+                $this->data['error'] = 'User already exists';
+            }
+            else{
+                $toBeSaved = $_POST;
+                $toBeSaved['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
+                $user->insert($toBeSaved);
+               redirect('login');
+            }
+        }
 
         $this->view('register', $this->data);
     }

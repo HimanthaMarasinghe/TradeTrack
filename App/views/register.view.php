@@ -2,7 +2,7 @@
 
 <div class="regBackground">
     <div class="regFormBackground">
-        <form id="registerForm" action="http://localhost/TradeTrack/FormTest" method="POST" enctype="multipart/form-data">
+        <form id="registerForm" method="POST" enctype="multipart/form-data">
 
             <!-- Table -->
             <table class="registerTable">
@@ -29,25 +29,25 @@
                     </tr>
                     <tr>
                         <td>First Name</td>
-                        <td><input class="userInput" type="text" name="firstName" id="firstName" placeholder="Enter your first name" required></td>
+                        <td><input class="userInput" type="text" name="first_name" id="firstName" placeholder="Enter your first name" required></td>
                     </tr>
                     <tr>
                         <td>Last Name</td>
-                        <td><input class="userInput" type="text" name="lastName" id="lastName" placeholder="Enter your last name" required></td>
+                        <td><input class="userInput" type="text" name="last_name" id="lastName" placeholder="Enter your last name" required></td>
                     </tr>
                     <tr>
                         <td>Phone Number</td>
-                        <td><input class="userInput" type="text" name="phoneNumber" id="phoneNumber" placeholder="Enter your phone number" required></td>
+                        <td><input class="userInput" type="text" name="phone" id="phoneNumber" placeholder="Enter your phone number" required></td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <td>Email</td>
                         <td><input class="userInput" type="email" name="email" id="email" placeholder="Enter your email address" required></td>
-                    </tr>
+                    </tr> -->
                     <tr>
                         <td>Address</td>
                         <td><input class="userInput" type="text" name="address" id="address" placeholder="Enter your address" required></td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <td>Gender</td>
                         <td>
                             <label class="customRadio">
@@ -59,25 +59,25 @@
                                 <span>Female</span>
                             </label>
                         </td>
-                    </tr>
-                    <tr>
+                    </tr> -->
+                    <!-- <tr>
                         <td>Date of Birth</td>
                         <td><input class="userInput" type="date" name="dob" id="dob" required></td>
-                    </tr>
+                    </tr> -->
                     <tr>
                         <td>Register As</td>
                         <td>
                             <label class="customRadio">
-                                <input type="radio" name="accType" value="customer" required>
+                                <input type="radio" name="role" value="0" required>
                                 <span>Customer</span>
                             </label>
                             <label class="customRadio">
-                                <input type="radio" name="accType" value="supplier">
-                                <span>Supplier</span>
+                                <input type="radio" name="role" value="1">
+                                <span>Shop Owner</span>
                             </label>
                             <label class="customRadio">
-                                <input type="radio" name="accType" value="shop owner">
-                                <span>Shop Owner</span>
+                                <input type="radio" name="role" value="2">
+                                <span>Supplier</span>
                             </label>
                         </td>
                     </tr>
@@ -107,7 +107,7 @@
                     <tr>
                         <td colspan="2">
                             <div class="formFooter">
-                                <input type="submit" id="submitButton" class="btn" value="Submit" disabled onclick="handleSubmit(event)">
+                                <input type="submit" id="submitButton" class="btn" value="Submit">
                             </div>
                         </td>
                     </tr>

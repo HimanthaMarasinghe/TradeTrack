@@ -33,8 +33,6 @@
 </div>
 
 <?php $this->component("footer") ?><?php 
-    $this->component("header", $styleSheet);
-    $this->component("sidebar", $tabs) 
 ?>
 
 <?php $this->component("footer") ?>

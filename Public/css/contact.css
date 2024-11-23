@@ -12,7 +12,7 @@
   
   .container {
     width: 100%;
-    background:url(on.jpeg);
+    background:url(../images/Assets/on.jpeg);
     background-position: center;
     background-size: cover;
     height: 130vh;
@@ -165,7 +165,7 @@
     font-size: 0.95rem;
   }
   
-  .icon {
+  .icon_2 {
     width: 28px;
     margin-right: 0.7rem;
   }
@@ -206,14 +206,14 @@
     opacity: 0.3;
   }
   
-  .icon_2{
+  .icon{
     width: 200px;
     float: left;
     height: 70px;
     cursor: pointer;
 }
 
-.icon_2 span{
+.icon span{
     color: yellowgreen;
 }
   
@@ -221,17 +221,6 @@
   width: 1200px;
   height: 75px;
   margin: auto;
-}
-
-.icon_2{
-  width: 200px;
-  float: left;
-  height: 70px;
-  cursor: pointer;
-}
-
-.icon_2 span{
-  color: yellowgreen;
 }
 
 .logo{

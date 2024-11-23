@@ -7,9 +7,16 @@ class Customer extends Controller
         'styleSheet' => ['styleSheet'=>'customer']
     ];
 
+    public function __construct() {
+        if(!isset($_SESSION['cus_phone'])){
+            redirect('login');
+            exit;
+        }
+    }
+
     public function index(){
 
-        $_SESSION['cus_phone'] = '0123456789'; //ToDo : to be changed to the logged in user's phone number (tbc)
+        //$_SESSION['cus_phone'] = '0123456789'; //ToDo : to be changed to the logged in user's phone number (tbc)
 
         $this->data['tabs']['active'] = 'Home';
         $this->view('Customer/home',$this->data);

@@ -2,36 +2,20 @@
 <html lang="en">
 <head>
     <title>Webpage Design</title>
-    <link rel="stylesheet" href="style2.css">
+    <link rel="stylesheet" href="<?=ROOT?>/css/style2.css">
 </head>
 <body>
 
     <div class="main">
     
-        <div class="navbar">
-            <div class="icon">
-                <h2 class="logo">Trade<span>Track</span></h2>
-            </div>
-
-            <div class="menu">
-                <ul>
-                    <li><a href="#">HOME</a></li>
-                    <li><a href="#">ACCOUNT</a></li>
-                    <li><a href="#">MESSAGE</a></li>
-                    <li><a href="about.html">ABOUT US</a></li>
-                    <li><a href="contact.html">CONTACT US</a></li>
-                </ul>
-            </div>
-                
-        </div>
+    <?php $this->component("LandingPageNavigation") ?>
 
         <section class="about-us">
             <div class="about">
-              <img src="about.png" class="pic" />
+              <img src="<?=ROOT?>/images/Assets/about.png" class="pic" />
               <div class="text">
                 <h2>About Us</h2>
-                <h5>Front-end Developer & <span>Designer</span></h5>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita natus ad sed harum itaque ullam enim quas, veniam accusantium, quia animi id eos adipisci iusto molestias asperiores explicabo cum vero atque amet corporis! Soluta illum facere consequuntur magni. Ullam dolorem repudiandae cumque voluptate consequatur consectetur, eos provident necessitatibus reiciendis corrupti!</p>
+                <p>Welcome to our Inventory Management and Billing System, a solution designed to simplify the operations of small businesses. As passionate university students, we developed this platform to empower shop owners, customers, and suppliers with seamless inventory tracking, automated updates, and efficient bill generation. Combining our technical skills and innovative ideas, we aim to create a user-friendly solution that enhances productivity and makes managing daily business tasks hassle-free.</p>
                 <div class="data">
                   <a href="#" class="hire">Learn More</a>
                 </div>

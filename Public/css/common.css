@@ -6,7 +6,8 @@
 }
 
 body {
-    background-color: var(--navbar-background);
+    /* background-color: var(--navbar-background); */
+    background:url(../images/Assets/on.jpeg);
     overscroll-behavior: none;
 }
 
