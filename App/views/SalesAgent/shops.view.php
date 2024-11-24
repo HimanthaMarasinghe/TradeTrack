@@ -21,16 +21,61 @@
     </div>
 
     <div class="grid g-resp-200 scroll-box">
-      <?php for($x = 0 ;$x < 24;$x++) { ?>
-        <a href="<?=LINKROOT?>/SalesAgent/shopProfile" class="card btn-card colomn asp-rtio">
-                <!-- <img class="product-img" src="<?=ROOT?>/images/shops/<?=$so_phone?>.jpeg" alt=""> -->
-                <img class="product-img" src="<?=ROOT?>/images/shops/default.jpeg" alt="">
-            <div class="details h-50">
-                <h4>Shop Name</h4>
-                <h4>Shop Address</h4>
-            </div>
-        </a>
-      <?php }?>
+        <?php
+        $shops = [
+            [
+                "name" => "Beachside Groceries",
+                "address" => "10 Pitiwella Road, Boossa, Galle"
+            ],
+            [
+                "name" => "Golden Leaf Mart",
+                "address" => "22 Kalegana Road, Galle"
+            ],
+            [
+                "name" => "Fort Bazaar Grocery",
+                "address" => "35 Parawa Street, Galle Fort"
+            ],
+            [
+                "name" => "Coral Coast Groceries",
+                "address" => "18 Mihiripenna Road, Thalpe, Galle"
+            ],
+            [
+                "name" => "Southern Spice Market",
+                "address" => "40 Karapitiya Road, Galle"
+            ],
+            [
+                "name" => "Pearl Groceries",
+                "address" => "7 Dangedara Junction, Galle"
+            ],
+            [
+                "name" => "Harbor View Mart",
+                "address" => "14 Mahamodara Road, Galle"
+            ],
+            [
+                "name" => "Tropical Delights Grocery",
+                "address" => "25 Wijayananda Mawatha, Galle"
+            ],
+            [
+                "name" => "Coconut Grove Groceries",
+                "address" => "9 Yaddehimulla Road, Unawatuna, Galle"
+            ],
+            [
+                "name" => "Lighthouse Grocery Center",
+                "address" => "5 Old Post Office Road, Fort, Galle"
+            ]
+        ];
+        ?>
+
+        <?php foreach ($shops as $shop): ?>
+            <a href="#" class="card btn-card colomn asp-rtio">
+                <img class="product-img" src="<?=ROOT?>/images/shops/default.jpeg" alt="<?= $shop['name']; ?>">
+                <div class="details h-50">
+                    <h4><?= $shop['name']; ?></h4>
+                    <h4><?= $shop['address']; ?></h4>
+                </div>
+            </a>
+        <?php endforeach; ?>
+
     </div>
 
 <?php $this->component("footer") ?>

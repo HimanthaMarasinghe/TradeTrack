@@ -25,7 +25,7 @@
         <a href="<?=LINKROOT?>/Admin/supplier" class="card btn-card colomn asp-rtio">
             <img class="product-img" src="<?=ROOT?>/images/Profile/SA/0123456789.jpg" alt="">
             <div class="details h-50">
-                <h4>Chenuka</h4>
+                <h4>Maliban</h4>
                 <h4>111, colombo, srilanka</h4>
             </div>
         </a>

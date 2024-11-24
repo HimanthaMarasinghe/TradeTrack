@@ -16,12 +16,12 @@
     <div class="row spc-btwn">
         <table class="profile">
             <tr>
-                <td>Supplier name</td>
-                <td>Chenuka</td>
+                <td>SCompany name</td>
+                <td>Maliban</td>
             </tr>
             <tr>
-                <td>Business name</td>
-                <td>Maliban</td>
+                <td>Address</td>
+                <td>111, Colombo, Sri Lanka</td>
             </tr>
             <tr>
                 <td>Phone number</td>
@@ -30,11 +30,17 @@
         </table>
         <img class="profile-img big" src="<?=ROOT?>/images/Profile/SA/0123456789.jpg" alt="">
     </div>
+    <h3>Sales agents</h3>
+    <div class="grid g-resp-200 scroll-box">
+    <?php for($x = 0; $x <4; $x++){?>
+        <a href="" class="card btn-card colomn asp-rtio">
+                <img class="product-img" src="<?=ROOT?>/images/Profile/PhoneNumber.jpg" alt="">
+                <div class="details h-50">
+                    <h4>Chenuka</h4>
+                    <h4>wijevardana stores</h4>
+                    <h4>0771488164</h4>
+                </div>
+        </a>
+    <?php } ?>
 </div>
-
-<?php $this->component("footer") ?><?php 
-    $this->component("header", $styleSheet);
-    $this->component("sidebar", $tabs) 
-?>
-
 <?php $this->component("footer") ?>
