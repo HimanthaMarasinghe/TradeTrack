@@ -185,6 +185,198 @@ label {
     color: white;
 }
 
+/*-------------------------------------------Admin home view--------------------*/  
+  .navbar {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .navbar h1 {
+    margin: 0;
+  }
+  
+  .navbar a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+  }
+  
+  .dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    font-weight: bold;
+  }
+  
+  .card h2 {
+    margin: 0;
+    font-size: 32px;
+    color: #333;
+  }
+  
+  .card p {
+    margin: 5px 0 20px;
+    color: #666;
+    font-size: 18px;
+  }
+  
+  .card a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 14px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+  }
+  
+  .card-blue {
+    background-color: #4db8ff;
+    color: #fff;
+  }
+  
+  .card-orange {
+    background-color: #ff9933;
+    color: #fff;
+  }
+  
+  .card-red {
+    background-color: #ff4d4d;
+    color: #fff;
+  }
+  
+  .card-green {
+    background-color: #4dff4d;
+    color: #fff;
+  }
+  
+  .card-purple {
+    background-color: #cc99ff;
+    color: #fff;
+  }
+  
+  .card-pink {
+    background-color: #ff66b3;
+    color: #fff;
+  }
+  
+  .card-teal {
+    background-color: #66cccc;
+    color: #fff;
+  }
+
+  /* Separator Line */
+.separator {
+    margin: 20px auto;
+    border: none;
+    height: 2px;
+    background-color: #ccc;
+    width: 100%;
+    position: relative;
+  }
+
+/* Announcement Section */
+.announcement-section {
+    padding: 20px;
+  }
+
+  .card-announcement {
+    background-color: #ffcc00;
+    color: #333;
+    padding: 30px;
+  }
+  
+  
+  .card-announcement h2 {
+    font-size: 20px;
+  }
+  
+  .card-announcement p {
+    font-size: 16px;
+  }
+  .card-announcement a {
+    font-size: 16px;
+    bottom: 20px;
+  }
+
+  /*--------------------------Announcement page view------------------*/
+  
+  /* Container for the announcement page */
+  .announcement-container {
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  /* Label Styles */
+  label {
+    display: block;
+    font-size: 16px;
+    margin: 10px 0 5px;
+  }
+  
+  /* Dropdown Styles */
+  select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 20px;
+  }
+  
+  /* Textarea Styles */
+  textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+    margin-bottom: 20px;
+  }
+  
+  /* Submit Button Styles */
+  button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  
+
 @media only screen and (max-width: 1024px) {
     .main-content {
         height: unset;

@@ -234,10 +234,12 @@ class Admin extends Controller
         $this->view('Admin/supplier', $this->data);
     }
 
+    public function announcements(){
+        $this->data['tabs']['active'] = 'Home';
+        $this->view('Admin/announcements', $this->data);
+    }
 
 
-
-    
     public function new($viewName) {
         $this->view('Admin/'.$viewName, $this->data);
     }
