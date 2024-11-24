@@ -17,7 +17,7 @@
         <table class="profile w-100">
             <tr>
                 <td>Shop owner's name</td>
-                <td><?=$shop['so_first_name']." ".$shop['so_last_name']?></td>
+                <td><?=$shop['first_name']." ".$shop['last_name']?></td>
             </tr>
             <tr>
                 <td>Shop owner's Phone number</td>
@@ -62,8 +62,8 @@
         <?php } ?>
 
         </table>
-        <?php if(file_exists("./images/shops/".$shop['so_phone'].$shop['pic_format'])){ ?>
-            <img class="profile-img big" src="<?=ROOT?>/images/shops/<?=$shop['so_phone'].$shop['pic_format']?>" alt="">
+        <?php if(file_exists("./images/shops/".$shop['so_phone'].$shop['shop_pic_format'])){ ?>
+            <img class="profile-img big" src="<?=ROOT?>/images/shops/<?=$shop['so_phone'].$shop['shop_pic_format']?>" alt="">
         <?php }else{ ?>
             <img class="profile-img big" src="<?=ROOT?>/images/shops/default.jpeg" alt="">
         <?php } ?>

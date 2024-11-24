@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 20, 2024 at 05:40 AM
+-- Generation Time: Nov 24, 2024 at 03:32 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -47,7 +47,16 @@ INSERT INTO `bills` (`bill_id`, `date`, `time`, `cus_phone`, `so_phone`) VALUES
 (184, '2024-11-11', '13:08:29', '0123456789', '0112223333'),
 (185, '2024-11-15', '23:44:32', '0123456789', '0112223333'),
 (186, '2024-11-17', '19:52:30', '0123456789', '0112223333'),
-(187, '2024-11-18', '11:11:03', '0123456789', '0112223333');
+(187, '2024-11-18', '11:11:03', '0123456789', '0112223333'),
+(188, '2024-11-20', '10:37:24', '', '0112223333'),
+(189, '2024-11-20', '10:38:24', '', '0112223333'),
+(190, '2024-11-20', '10:42:41', '', '0112223333'),
+(191, '2024-11-20', '10:43:19', '', '0112223333'),
+(192, '2024-11-20', '10:43:59', '', '0112223333'),
+(193, '2024-11-20', '14:41:23', '', '0112223333'),
+(194, '2024-11-20', '15:39:14', '0123456789', '0112223333'),
+(195, '2024-11-20', '15:45:03', '0123456789', '0112223333'),
+(197, '2024-11-23', '14:13:27', '0123456789', '0112223333');
 
 -- --------------------------------------------------------
 
@@ -71,7 +80,17 @@ INSERT INTO `bill_items` (`bill_id`, `barcode`, `quantity`) VALUES
 (184, '4791010040044', 12),
 (185, '4791010040044', 4),
 (186, '4790015950624', 2),
-(187, '4790015950624', 3);
+(187, '4790015950624', 3),
+(188, '4790015950624', 2),
+(189, '4790015950624', 3),
+(190, '4790015950624', 2),
+(191, '4790015950624', 2),
+(192, '4790015950624', 6),
+(193, '4790015950624', 3),
+(194, '4790015950624', 2),
+(195, '4790015950624', 7),
+(195, '4791010040044', 3),
+(197, '4790015950624', 2);
 
 -- --------------------------------------------------------
 
@@ -206,9 +225,10 @@ CREATE TABLE `loyalty_customers` (
 --
 
 INSERT INTO `loyalty_customers` (`so_phone`, `cus_phone`, `wallet`, `since`) VALUES
-('0112223333', '0123456789', 4600, '2024-10-24'),
+('0112223333', '0123456789', 5400, '2024-10-24'),
 ('0112223333', '0712345678', 1500, '2024-10-24'),
 ('0112223333', '0756789123', 2000, '2024-10-24'),
+('0112223333', '0763322110', 0, '2024-11-20'),
 ('0112223333', '0776543210', 500, '2024-10-24'),
 ('0112223333', '0778765432', 2300, '2024-10-24'),
 ('0112223333', '0781234567', 3000, '2024-10-24'),
@@ -238,8 +258,7 @@ CREATE TABLE `loyalty_requests` (
 INSERT INTO `loyalty_requests` (`cus_phone`, `so_phone`, `created_time`) VALUES
 ('0123456789', '0112223333', '2024-11-15 23:55:02'),
 ('0123456789', '0721234567', '2024-11-18 22:51:29'),
-('0721112223', '0112223333', '2024-11-18 22:52:46'),
-('0763322110', '0112223333', '2024-11-15 23:55:18');
+('0721112223', '0112223333', '2024-11-18 22:52:46');
 
 -- --------------------------------------------------------
 
@@ -293,21 +312,9 @@ INSERT INTO `products` (`barcode`, `product_name`, `unit_price`, `pic_format`) V
 
 CREATE TABLE `sales_agents` (
   `sa_phone` varchar(10) NOT NULL,
-  `sa_first_name` varchar(20) NOT NULL,
-  `sa_last_name` varchar(20) NOT NULL,
   `sa_busines_name` varchar(255) NOT NULL,
-  `sa_address` varchar(100) NOT NULL,
-  `sa_pic_format` varchar(8) NOT NULL,
-  `sa_password` varchar(256) NOT NULL DEFAULT 'password',
   `su_phone` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `sales_agents`
---
-
-INSERT INTO `sales_agents` (`sa_phone`, `sa_first_name`, `sa_last_name`, `sa_busines_name`, `sa_address`, `sa_pic_format`, `sa_password`, `su_phone`) VALUES
-('0372222690', 'Sumudu', 'Karunarathna', 'Sumudu Distributors', 'No.6, High level road, Nugegoda.', 'jpeg', 'password', '0112223333');
 
 -- --------------------------------------------------------
 
@@ -334,40 +341,35 @@ CREATE TABLE `shops` (
   `shop_address` varchar(30) NOT NULL,
   `cash_drawer_balance` float NOT NULL,
   `bank_balance` float NOT NULL,
-  `so_first_name` varchar(20) NOT NULL,
-  `so_last_name` varchar(20) NOT NULL,
-  `so_address` varchar(100) NOT NULL,
-  `pic_format` varchar(10) DEFAULT NULL,
-  `so_pic_format` varchar(10) DEFAULT NULL,
-  `so_password` varchar(256) NOT NULL
+  `shop_pic_format` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `shops`
 --
 
-INSERT INTO `shops` (`so_phone`, `shop_name`, `shop_address`, `cash_drawer_balance`, `bank_balance`, `so_first_name`, `so_last_name`, `so_address`, `pic_format`, `so_pic_format`, `so_password`) VALUES
-('0112223333', 'Gamunu Stores', 'No. 13, Negombo Road, Kurunega', 15450, 0, 'Gamunu', 'Jayawardhana', 'No. 10, Negambo Road, Kurunegala', '.jpg', NULL, 'default'),
-('0701234567', 'Jaffna Stores', 'No. 55, Stanley Road, Jaffna', 18000, 45000, 'Rajan', 'Nadarajah', 'No. 10, Main Street, Jaffna', '.webp', NULL, 'password4'),
-('0702345678', 'Vavuniya Market', 'No. 45, Bazaar Street, Vavuniy', 15000, 48000, 'Suresh', 'Kanagarajah', 'No. 8, 2nd Cross Street, Vavuniya', '.jpg', NULL, 'password17'),
-('0711234567', 'Kandy Grocers', 'No. 12, Peradeniya Road, Kandy', 10000, 50000, 'Nimal', 'Perera', 'No. 5, Temple Lane, Kandy', '.jpeg', NULL, 'password1'),
-('0712345678', 'Colombo Super', 'No. 45, Galle Road, Colombo 3', 15000, 60000, 'Sunil', 'Fernando', 'No. 22, Marine Drive, Colombo', '.jpg', NULL, 'password2'),
-('0713456789', 'Polonnaruwa Market', 'No. 9, Lake Road, Polonnaruwa', 17000, 40000, 'Upul', 'Rajapaksha', 'No. 4, New Town, Polonnaruwa', '.jpg', NULL, 'password13'),
-('0714567890', 'Kurunegala Supplies', 'No. 10, Dambulla Road, Kuruneg', 19000, 45000, 'Tharindu', 'Gunasekara', 'No. 8, Mallawapitiya, Kurunegala', '.jpg', NULL, 'password8'),
-('0718765432', 'Gampaha Groceries', 'No. 7, Miriswatte Road, Gampah', 18000, 55000, 'Chaminda', 'Edirisinghe', 'No. 3, Yakkala Road, Gampaha', '.jpg', NULL, 'password14'),
-('0719876543', 'Ratnapura Foods', 'No. 25, Gem Street, Ratnapura', 17000, 52000, 'Kasun', 'Bandara', 'No. 12, Muwagama, Ratnapura', '', NULL, 'password7'),
-('0721234567', 'Nuwara Eliya Greens', 'No. 50, Bazaar Street, Nuwara ', 20000, 48000, 'Ruwan', 'Karunaratne', 'No. 10, Queen Elizabeth Drive, Nuwara Eliya', '', NULL, 'password10'),
-('0723456789', 'Galle Mart', 'No. 8, Wakwella Road, Galle', 20000, 40000, 'Kumara', 'De Silva', 'No. 30, Lighthouse Street, Galle', '', NULL, 'password3'),
-('0731234567', 'Trincomalee Fresh', 'No. 18, Main Street, Trincomal', 16000, 46000, 'Roshan', 'Amarasinghe', 'No. 22, Orrs Hill, Trincomalee', '', NULL, 'password12'),
-('0734567890', 'Puttalam Grocers', 'No. 14, Station Road, Puttalam', 14000, 51000, 'Indika', 'Weerasinghe', 'No. 6, Kottukuliya, Puttalam', '', NULL, 'password20'),
-('0741234567', 'Anuradhapura Central', 'No. 5, New Town Road, Anuradha', 13000, 52000, 'Chandana', 'Hettiarachchi', 'No. 12, Mihintale Road, Anuradhapura', '', NULL, 'password11'),
-('0749876543', 'Batticaloa Central', 'No. 12, Bar Road, Batticaloa', 20000, 43000, 'Nuwan', 'Dissanayake', 'No. 9, Kattankudy Road, Batticaloa', '', NULL, 'password18'),
-('0751234567', 'Matara Mini Mart', 'No. 23, Beach Road, Matara', 12000, 55000, 'Samantha', 'Wijesinghe', 'No. 15, Wewahamanduwa, Matara', '', NULL, 'password5'),
-('0759876543', 'Kalutara Foods', 'No. 16, Nagoda Road, Kalutara', 14000, 52000, 'Sanjeewa', 'Ranasinghe', 'No. 1, Panadura Road, Kalutara', '', NULL, 'password15'),
-('0761234567', 'Negombo Fresh Market', 'No. 19, Main Street, Negombo', 14000, 30000, 'Anura', 'Jayasinghe', 'No. 7, Sea Street, Negombo', '', NULL, 'password6'),
-('0762345678', 'Chilaw Stores', 'No. 30, New Bazaar, Chilaw', 18000, 39000, 'Ranjith', 'Abeykoon', 'No. 11, Munneswaram Road, Chilaw', '', NULL, 'password19'),
-('0772345678', 'Badulla Bazaar', 'No. 34, Passara Road, Badulla', 11000, 62000, 'Mahesh', 'Senanayake', 'No. 6, Welimada Road, Badulla', '', NULL, 'password9'),
-('0774567890', 'Hambantota Corner', 'No. 22, Tissa Road, Hambantota', 13000, 40000, 'Jagath', 'Mendis', 'No. 10, New Bazaar, Hambantota', '', NULL, 'password16');
+INSERT INTO `shops` (`so_phone`, `shop_name`, `shop_address`, `cash_drawer_balance`, `bank_balance`, `shop_pic_format`) VALUES
+('0112223333', 'Gamunu Stores', 'No. 13, Negombo Road, Kurunega', 47300, 0, '.jpg'),
+('0701234567', 'Jaffna Stores', 'No. 55, Stanley Road, Jaffna', 18000, 45000, '.webp'),
+('0702345678', 'Vavuniya Market', 'No. 45, Bazaar Street, Vavuniy', 15000, 48000, '.jpg'),
+('0711234567', 'Kandy Grocers', 'No. 12, Peradeniya Road, Kandy', 10000, 50000, '.jpeg'),
+('0712345678', 'Colombo Super', 'No. 45, Galle Road, Colombo 3', 15000, 60000, '.jpg'),
+('0713456789', 'Polonnaruwa Market', 'No. 9, Lake Road, Polonnaruwa', 17000, 40000, '.jpg'),
+('0714567890', 'Kurunegala Supplies', 'No. 10, Dambulla Road, Kuruneg', 19000, 45000, '.jpg'),
+('0718765432', 'Gampaha Groceries', 'No. 7, Miriswatte Road, Gampah', 18000, 55000, '.jpg'),
+('0719876543', 'Ratnapura Foods', 'No. 25, Gem Street, Ratnapura', 17000, 52000, ''),
+('0721234567', 'Nuwara Eliya Greens', 'No. 50, Bazaar Street, Nuwara ', 20000, 48000, ''),
+('0723456789', 'Galle Mart', 'No. 8, Wakwella Road, Galle', 20000, 40000, ''),
+('0731234567', 'Trincomalee Fresh', 'No. 18, Main Street, Trincomal', 16000, 46000, ''),
+('0734567890', 'Puttalam Grocers', 'No. 14, Station Road, Puttalam', 14000, 51000, ''),
+('0741234567', 'Anuradhapura Central', 'No. 5, New Town Road, Anuradha', 13000, 52000, ''),
+('0749876543', 'Batticaloa Central', 'No. 12, Bar Road, Batticaloa', 20000, 43000, ''),
+('0751234567', 'Matara Mini Mart', 'No. 23, Beach Road, Matara', 12000, 55000, ''),
+('0759876543', 'Kalutara Foods', 'No. 16, Nagoda Road, Kalutara', 14000, 52000, ''),
+('0761234567', 'Negombo Fresh Market', 'No. 19, Main Street, Negombo', 14000, 30000, ''),
+('0762345678', 'Chilaw Stores', 'No. 30, New Bazaar, Chilaw', 18000, 39000, ''),
+('0772345678', 'Badulla Bazaar', 'No. 34, Passara Road, Badulla', 11000, 62000, ''),
+('0774567890', 'Hambantota Corner', 'No. 22, Tissa Road, Hambantota', 13000, 40000, '');
 
 -- --------------------------------------------------------
 
@@ -418,19 +420,9 @@ INSERT INTO `so_stocks` (`so_phone`, `barcode`, `quantity`) VALUES
 
 CREATE TABLE `suppliers` (
   `su_phone` varchar(10) NOT NULL,
-  `business_name` varchar(20) NOT NULL,
-  `su_first_name` varchar(20) NOT NULL,
-  `su_last_name` varchar(20) NOT NULL,
-  `su_address` varchar(100) NOT NULL,
-  `su_password` varchar(256) NOT NULL
+  `company_name` varchar(255) NOT NULL,
+  `company_address` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `suppliers`
---
-
-INSERT INTO `suppliers` (`su_phone`, `business_name`, `su_first_name`, `su_last_name`, `su_address`, `su_password`) VALUES
-('0112223333', 'Test', 'Sunil', 'Perera', 'Colombo', 'DEFAULT');
 
 -- --------------------------------------------------------
 
@@ -455,6 +447,66 @@ CREATE TABLE `transactions_description` (
   `transactions_id` int(11) NOT NULL,
   `description` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `phone` varchar(10) NOT NULL,
+  `first_name` varchar(255) NOT NULL,
+  `last_name` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `pic_format` varchar(10) NOT NULL,
+  `role` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`phone`, `first_name`, `last_name`, `address`, `password`, `pic_format`, `role`) VALUES
+('0112223333', 'Gamunu', 'Jayawardhana', 'No. 10, Negambo Road, Kurunegala', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
+('0123456789', 'Saman', 'Rathnayaka', 'No.120/1, Karadana, Gampaha', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', 'jpg', 0),
+('0372222690', 'Sumudu', 'Karunarathna', 'No.6, High level road, Nugegoda', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', 'jpeg', 3),
+('0701122334', 'Sarath', 'Gunasekara', 'No.12/3, Dutugemunu Mawatha, Maharagama', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
+('0701234567', 'Rajan', 'Nadarajah', 'No. 10, Main Street, Jaffna', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
+('0702345678', 'Suresh', 'Kanagarajah', 'No. 8, 2nd Cross Street, Vavuniya', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
+('0709876543', 'Mala', 'Jayawardena', 'No.20, Madampe Junction, Chilaw', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
+('0711234567', 'Nimal', 'Perera', 'No. 5, Temple Lane, Kandy', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
+('0712345678', 'Nimal', 'Perera', 'No.12, Kadawatha Road, Ragama', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
+('0713456789', 'Upul', 'Rajapaksha', 'No. 4, New Town, Polonnaruwa', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
+('0714567890', 'Tharindu', 'Gunasekara', 'No. 8, Mallawapitiya, Kurunegala', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
+('0718765432', 'Chaminda', 'Edirisinghe', 'No. 3, Yakkala Road, Gampaha', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
+('0718976543', 'Kumari', 'Rathnayake', 'No.45/7, Malwatte Road, Matara', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
+('0719876543', 'Kasun', 'Bandara', 'No. 12, Muwagama, Ratnapura', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
+('0721112223', 'Shanika', 'Jayasinghe', 'No.25, Kandy Road, Mawanella', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
+('0721234567', 'Ruwan', 'Karunaratne', 'No. 10, Queen Elizabeth Drive, Nuwara Eliya', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
+('0723456789', 'Kumara', 'De Silva', 'No. 30, Lighthouse Street, Galle', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
+('0731234567', 'Roshan', 'Amarasinghe', 'No. 22, Orrs Hill, Trincomalee', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
+('0734567890', 'Indika', 'Weerasinghe', 'No. 6, Kottukuliya, Puttalam', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
+('0741234567', 'Chandana', 'Hettiarachchi', 'No. 12, Mihintale Road, Anuradhapura', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
+('0747654321', 'Ruwan', 'Wickramasinghe', 'No.3/1, Aluthgama Road, Bandaragama', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
+('0749876543', 'Nuwan', 'Dissanayake', 'No. 9, Kattankudy Road, Batticaloa', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
+('0751234567', 'Samantha', 'Wijesinghe', 'No. 15, Wewahamanduwa, Matara', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
+('0756789123', 'Gayan', 'Kumarasinghe', 'No.14, Temple Lane, Kurunegala', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
+('0759876543', 'Sanjeewa', 'Ranasinghe', 'No. 1, Panadura Road, Kalutara', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
+('0761234567', 'Anura', 'Jayasinghe', 'No. 7, Sea Street, Negombo', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
+('0762345678', 'Ranjith', 'Abeykoon', 'No. 11, Munneswaram Road, Chilaw', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
+('0763322110', 'Hemantha', 'Dias', 'No.9, Lake Road, Anuradhapura', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
+('0765432198', 'Anura', 'Bandara', 'No.44, Rathnapura Road, Eheliyagoda', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
+('0772233445', 'Piumi', 'Senarath', 'No.7, Hospital Lane, Kalutara', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
+('0772345678', 'Mahesh', 'Senanayake', 'No. 6, Welimada Road, Badulla', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
+('0774567890', 'Jagath', 'Mendis', 'No. 10, New Bazaar, Hambantota', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
+('0776543210', 'Samantha', 'Fernando', 'No.66, Beach Road, Negombo', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
+('0778765432', 'Sunil', 'Wijesinghe', 'No.55, Main Street, Piliyandala', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
+('0781234567', 'Chandani', 'Silva', 'No.30, Galle Road, Hikkaduwa', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
+('0787766554', 'Janaka', 'Karunaratne', 'No.10/2, Rajagiriya Road, Nawala', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
+('0789988776', 'Harsha', 'Abeysekara', 'No.5, Peradeniya Road, Kandy', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
+('0987654321', 'Kamala', 'Gunawardana', 'No.111, Batuwaththa, Meerigama', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0);
 
 --
 -- Indexes for dumped tables
@@ -602,6 +654,12 @@ ALTER TABLE `transactions_description`
   ADD PRIMARY KEY (`transactions_id`);
 
 --
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`phone`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -609,7 +667,7 @@ ALTER TABLE `transactions_description`
 -- AUTO_INCREMENT for table `bills`
 --
 ALTER TABLE `bills`
-  MODIFY `bill_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=188;
+  MODIFY `bill_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=198;
 
 --
 -- AUTO_INCREMENT for table `bulk_order`
@@ -688,6 +746,12 @@ ALTER TABLE `chat_so_sa`
   ADD CONSTRAINT `chat_so_sa_ibfk_2` FOREIGN KEY (`so_phone`) REFERENCES `shops` (`so_phone`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `customers`
+--
+ALTER TABLE `customers`
+  ADD CONSTRAINT `customers_ibfk_1` FOREIGN KEY (`cus_phone`) REFERENCES `users` (`phone`) ON UPDATE CASCADE;
+
+--
 -- Constraints for table `discount`
 --
 ALTER TABLE `discount`
@@ -720,7 +784,8 @@ ALTER TABLE `pre_order`
 -- Constraints for table `sales_agents`
 --
 ALTER TABLE `sales_agents`
-  ADD CONSTRAINT `sales_agents_ibfk_1` FOREIGN KEY (`su_phone`) REFERENCES `suppliers` (`su_phone`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `sales_agents_ibfk_1` FOREIGN KEY (`su_phone`) REFERENCES `suppliers` (`su_phone`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `sales_agents_ibfk_2` FOREIGN KEY (`sa_phone`) REFERENCES `users` (`phone`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `sa_stocks`
@@ -728,6 +793,12 @@ ALTER TABLE `sales_agents`
 ALTER TABLE `sa_stocks`
   ADD CONSTRAINT `sa_stocks_ibfk_1` FOREIGN KEY (`barcode`) REFERENCES `products` (`barcode`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `sa_stocks_ibfk_2` FOREIGN KEY (`sa_phone`) REFERENCES `sales_agents` (`sa_phone`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `shops`
+--
+ALTER TABLE `shops`
+  ADD CONSTRAINT `shops_ibfk_1` FOREIGN KEY (`so_phone`) REFERENCES `users` (`phone`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `shop_unique_products`
@@ -741,6 +812,12 @@ ALTER TABLE `shop_unique_products`
 ALTER TABLE `so_stocks`
   ADD CONSTRAINT `so_stocks_ibfk_1` FOREIGN KEY (`barcode`) REFERENCES `products` (`barcode`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `so_stocks_ibfk_2` FOREIGN KEY (`so_phone`) REFERENCES `shops` (`so_phone`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `suppliers`
+--
+ALTER TABLE `suppliers`
+  ADD CONSTRAINT `suppliers_ibfk_1` FOREIGN KEY (`su_phone`) REFERENCES `users` (`phone`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `transactions`

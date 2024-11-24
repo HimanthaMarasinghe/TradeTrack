@@ -4,20 +4,6 @@ class User extends Model
 {
 
     protected $table = 'users';
-    protected $fillable = ['name', 'age','date'];
+    protected $fillable = ['phone', 'first_name','last_name', 'address', 'password', 'pic_format', 'role'];
 
-    public function validate($data)
-    {
-        $this->errors = [];
-
-        if(empty($data['name']))
-        {
-            $this->errors['name'] = "Name is required.";
-        }
-
-        if(empty($this->errors))
-            return true;
-
-        return false;
-    }
 }

@@ -7,7 +7,12 @@ class Model extends Database
     {
         $keys = array_keys($data);
         $keys_not = array_keys($data_not);
-        $query = "SELECT * FROM $this->table WHERE ";
+
+        if(!isset($this->readTable)){
+            $this->readTable = $this->table;
+        }
+
+        $query = "SELECT * FROM $this->readTable WHERE ";
         foreach($keys as $key)
         {
             $query .= $key." = :".$key . " && ";
@@ -28,7 +33,12 @@ class Model extends Database
     {
         $keys = array_keys($data);
         $keys_not = array_keys($data_not);
-        $query = "SELECT * FROM $this->table WHERE ";
+
+        if(!isset($this->readTable)){
+            $this->readTable = $this->table;
+        }
+
+        $query = "SELECT * FROM $this->readTable WHERE ";
         foreach($keys as $key)
         {
             $query .= $key." = :".$key . " && ";
@@ -52,7 +62,11 @@ class Model extends Database
 
     public function readAll()
     {
-        $query = "SELECT * FROM $this->table";
+        if(!isset($this->readTable)){
+            $this->readTable = $this->table;
+        }
+
+        $query = "SELECT * FROM $this->readTable";
         return $this->query($query);
     }
 

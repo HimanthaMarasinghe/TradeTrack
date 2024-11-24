@@ -38,21 +38,21 @@
         </div>
         <div class="row mg-0">
             <div class="panel row w-50 spc-btwn">
-                <h2>Profit (Aug)</h2>
+                <h2>Profit (Des)</h2>
                 <h2>Rs.84021.00</h2>
             </div>
             <div class="panel row w-50 spc-btwn">
-                <h2>Withdrawal (Aug)</h2>
+                <h2>Withdrawal (Des)</h2>
                 <h2>Rs.948302.00</h2>
             </div>
         </div>
         <div class="row mg-0">
             <div class="panel row w-50 spc-btwn">
-                <h2>Income (Aug)</h2>
+                <h2>Income (Des)</h2>
                 <h2>Rs.9389.00</h2>
             </div>
             <div class="panel row w-50 spc-btwn">
-                <h2>Expenses (Aug)</h2>
+                <h2>Expenses (Des)</h2>
                 <h2>Rs.40324.00</h2>
             </div>
         </div>
@@ -63,6 +63,34 @@
         <div class="row max-w-900 m-i-auto">
             <a href="<?=LINKROOT?>/ShopOwner/recordTransaction/PutCapital" class="btn fg1">Putting Capital</a>
             <a href="<?=LINKROOT?>/ShopOwner/recordTransaction" class="btn fg1">See Analytics</a>
+        </div>
+        <h2>Other expences (December)</h2>
+        <div class="billScroll">
+            <table class="bill">
+                <thead>
+                    <tr class="BillHeadings">
+                        <th class='center-al'>Bill Id</th>
+                        <th class='left-al'>Date</th>
+                        <th class='left-al'>Time</th>
+                        <th>Amount</th>
+                        <th class='center-al'>More Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    for($i = 1; $i<25; $i++){
+                        echo "<tr class='Item'>
+                                <td class='center-al'>$i</td>
+                                <td class='left-al'>2024.03.20</td>
+                                <td class='left-al'>09.45 a.m.</td>
+                                <td>Rs.300.00</td>
+                                <td class='center-al'><button class='btn btn-mini'>More</button></td>
+                            </tr>";
+                    }
+                ?>
+                    <tr></tr>
+                </tbody>
+            </table>
         </div>
         <br>
         <br>

@@ -7,10 +7,17 @@ class Supplier extends Controller
         'styleSheet' => ['styleSheet'=>'supplier']
     ];
 
+    public function __construct() {
+        if(!isset($_SESSION['su_phone'])){
+            redirect('login');
+            exit;
+        }
+    }
+
     public function index()
     {
 
-        $_SESSION['su_phone'] = '0112223333'; //ToDo : to be changed to the logged in user's phone number (tbc)
+        //$_SESSION['su_phone'] = '0112223333'; //ToDo : to be changed to the logged in user's phone number (tbc)
 
         $this->data['tabs']['active'] = 'Home';
         $this->view('supplier/home', $this->data);

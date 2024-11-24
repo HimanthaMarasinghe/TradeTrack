@@ -1,6 +1,6 @@
 <a href="<?=LINKROOT?>/Customer/shop/<?=$so_phone?>" class="card btn-card colomn asp-rtio">
-    <?php if(file_exists("./images/shops/".$so_phone.$pic_format)){ ?>
-        <img class="product-img" src="<?=ROOT?>/images/shops/<?=$so_phone.$pic_format?>" alt="">
+    <?php if(file_exists("./images/shops/".$so_phone.$shop_pic_format)){ ?>
+        <img class="product-img" src="<?=ROOT?>/images/shops/<?=$so_phone.$shop_pic_format?>" alt="">
     <?php }else{ ?>
         <img class="product-img" src="<?=ROOT?>/images/shops/default.jpeg" alt="">
     <?php } ?>
