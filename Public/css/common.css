@@ -23,6 +23,10 @@ body {
     flex-direction: column;
 }
 
+.gap-10{
+    gap: 10px;
+}
+
 .flex-wrap {
     display: flex;
     flex-wrap: wrap;

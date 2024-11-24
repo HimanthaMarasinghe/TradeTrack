@@ -230,7 +230,7 @@ class ShopOwner extends Controller
         $prd = new Products;
         $agnt = new SalesAgent;
         $this->data['product'] = $prd->first(['barcode' => $barcodeIn]);
-        $this->data['agents'] = $agnt->readAll();
+        $this->data['agents'] = $agnt->readAll(); //todo : Emplement properly
         $this->data['tabs']['active'] = 'Stocks';
         $this->view('shopOwner/product', $this->data);
     }

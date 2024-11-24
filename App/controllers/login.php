@@ -6,7 +6,7 @@ class login extends Controller
     {
         if($_SERVER['REQUEST_METHOD'] == 'POST')
         {
-            $user = new User();
+            $user = new User;
             $row = $user->first(['phone' => $_POST['phone']]);
             if($row){
                 if(password_verify($_POST['password'], $row['password'])){
