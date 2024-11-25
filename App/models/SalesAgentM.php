@@ -1,6 +1,6 @@
 <?php
 
-class SalesAgent extends Model
+class SalesAgentM extends Model
 {
 
     protected $table = 'sales_agents';
