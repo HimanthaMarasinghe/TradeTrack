@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 24, 2024 at 03:32 PM
+-- Generation Time: Nov 25, 2024 at 12:47 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -283,26 +283,27 @@ CREATE TABLE `products` (
   `barcode` varchar(13) NOT NULL,
   `product_name` varchar(50) NOT NULL,
   `unit_price` float NOT NULL,
-  `pic_format` enum('jpeg','jpg','png','') NOT NULL DEFAULT 'jpeg'
+  `pic_format` enum('jpeg','jpg','png','') NOT NULL DEFAULT 'jpeg',
+  `man_phone` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`barcode`, `product_name`, `unit_price`, `pic_format`) VALUES
-('4790015950624', 'MALIBAN Full Cream Milk Powder 400g', 1050, 'png'),
-('4791010040044', 'NINJA POWER 12 0.01% MOSQUITO COILS', 200, 'jpeg'),
-('4791034072366', 'MALIBAN Real Chocolate Cream Biscuit', 240, 'jpeg'),
-('4791111102948', 'CLOGARD fluoridated Toothpaste 120g', 240, 'jpeg'),
-('4792024019545', 'NESTOMOALT 450g', 780, 'jpeg'),
-('4792081031580', 'LUX soap 70g', 135, 'jpeg'),
-('4792173000005', 'WIJAYA Chilli Pieces 50g', 80, 'jpeg'),
-('4792225001189', 'DIAMOND full cream milk powder 400g', 1050, 'jpeg'),
-('4796000301471', 'MATARA FREELAN Roasted Curry Powder 50g', 100, 'jpeg'),
-('4796010610921', 'PURE DALE Full cream milk powder', 910, 'jpeg'),
-('4796020480217', 'ARALIYA PREMIUM NADU RICE 5kg', 1100, 'jpeg'),
-('8888101611705', 'MUNCHEE Cheese Buttons Biscuits', 400, 'jpeg');
+INSERT INTO `products` (`barcode`, `product_name`, `unit_price`, `pic_format`, `man_phone`) VALUES
+('4790015950624', 'MALIBAN Full Cream Milk Powder 400g', 1050, 'png', '0770378393'),
+('4791010040044', 'NINJA POWER 12 0.01% MOSQUITO COILS', 200, 'jpeg', NULL),
+('4791034072366', 'MALIBAN Real Chocolate Cream Biscuit', 240, 'jpeg', '0770378393'),
+('4791111102948', 'CLOGARD fluoridated Toothpaste 120g', 240, 'jpeg', NULL),
+('4792024019545', 'NESTOMOALT 450g', 780, 'jpeg', NULL),
+('4792081031580', 'LUX soap 70g', 135, 'jpeg', NULL),
+('4792173000005', 'WIJAYA Chilli Pieces 50g', 80, 'jpeg', NULL),
+('4792225001189', 'DIAMOND full cream milk powder 400g', 1050, 'jpeg', NULL),
+('4796000301471', 'MATARA FREELAN Roasted Curry Powder 50g', 100, 'jpeg', NULL),
+('4796010610921', 'PURE DALE Full cream milk powder', 910, 'jpeg', NULL),
+('4796020480217', 'ARALIYA PREMIUM NADU RICE 5kg', 1100, 'jpeg', NULL),
+('8888101611705', 'MUNCHEE Cheese Buttons Biscuits', 400, 'jpeg', NULL);
 
 -- --------------------------------------------------------
 
@@ -313,7 +314,30 @@ INSERT INTO `products` (`barcode`, `product_name`, `unit_price`, `pic_format`) V
 CREATE TABLE `sales_agents` (
   `sa_phone` varchar(10) NOT NULL,
   `sa_busines_name` varchar(255) NOT NULL,
-  `su_phone` varchar(10) NOT NULL
+  `su_phone` varchar(10) NOT NULL,
+  `cash_drawer_balance` float NOT NULL,
+  `bank_balance` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `sales_agents`
+--
+
+INSERT INTO `sales_agents` (`sa_phone`, `sa_busines_name`, `su_phone`, `cash_drawer_balance`, `bank_balance`) VALUES
+('0712345678', 'USCS', '0770378393', 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sa_other_expences`
+--
+
+CREATE TABLE `sa_other_expences` (
+  `other_expences_id` int(11) NOT NULL,
+  `sa_phone` varchar(10) NOT NULL,
+  `amount` float NOT NULL,
+  `date` date NOT NULL,
+  `description` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -424,6 +448,13 @@ CREATE TABLE `suppliers` (
   `company_address` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `suppliers`
+--
+
+INSERT INTO `suppliers` (`su_phone`, `company_name`, `company_address`) VALUES
+('0770378393', 'UCSC', 'Reid Avenue');
+
 -- --------------------------------------------------------
 
 --
@@ -477,7 +508,7 @@ INSERT INTO `users` (`phone`, `first_name`, `last_name`, `address`, `password`, 
 ('0702345678', 'Suresh', 'Kanagarajah', 'No. 8, 2nd Cross Street, Vavuniya', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
 ('0709876543', 'Mala', 'Jayawardena', 'No.20, Madampe Junction, Chilaw', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
 ('0711234567', 'Nimal', 'Perera', 'No. 5, Temple Lane, Kandy', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
-('0712345678', 'Nimal', 'Perera', 'No.12, Kadawatha Road, Ragama', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
+('0712345678', 'Nimal', 'Perera', 'No.12, Kadawatha Road, Ragama', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 3),
 ('0713456789', 'Upul', 'Rajapaksha', 'No. 4, New Town, Polonnaruwa', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
 ('0714567890', 'Tharindu', 'Gunasekara', 'No. 8, Mallawapitiya, Kurunegala', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
 ('0718765432', 'Chaminda', 'Edirisinghe', 'No. 3, Yakkala Road, Gampaha', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
@@ -498,6 +529,7 @@ INSERT INTO `users` (`phone`, `first_name`, `last_name`, `address`, `password`, 
 ('0762345678', 'Ranjith', 'Abeykoon', 'No. 11, Munneswaram Road, Chilaw', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
 ('0763322110', 'Hemantha', 'Dias', 'No.9, Lake Road, Anuradhapura', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
 ('0765432198', 'Anura', 'Bandara', 'No.44, Rathnapura Road, Eheliyagoda', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
+('0770378393', 'Mohamed Hamdi', 'Mohamed Hamsa', '174/4A,Olcott Mawathe,Galle', '$2y$10$yvFC/AdCkVebfE1CNJZ/T.1wCDkfH3dQo3zb/lPGcEwJN8s6Q6sCq', '', 2),
 ('0772233445', 'Piumi', 'Senarath', 'No.7, Hospital Lane, Kalutara', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
 ('0772345678', 'Mahesh', 'Senanayake', 'No. 6, Welimada Road, Badulla', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
 ('0774567890', 'Jagath', 'Mendis', 'No. 10, New Bazaar, Hambantota', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
@@ -609,6 +641,13 @@ ALTER TABLE `sales_agents`
   ADD KEY `su_phone` (`su_phone`);
 
 --
+-- Indexes for table `sa_other_expences`
+--
+ALTER TABLE `sa_other_expences`
+  ADD PRIMARY KEY (`other_expences_id`),
+  ADD KEY `sa_phone` (`sa_phone`);
+
+--
 -- Indexes for table `sa_stocks`
 --
 ALTER TABLE `sa_stocks`
@@ -692,6 +731,12 @@ ALTER TABLE `chat_sa_su`
 --
 ALTER TABLE `chat_so_sa`
   MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `sa_other_expences`
+--
+ALTER TABLE `sa_other_expences`
+  MODIFY `other_expences_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `transactions`
@@ -786,6 +831,12 @@ ALTER TABLE `pre_order`
 ALTER TABLE `sales_agents`
   ADD CONSTRAINT `sales_agents_ibfk_1` FOREIGN KEY (`su_phone`) REFERENCES `suppliers` (`su_phone`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `sales_agents_ibfk_2` FOREIGN KEY (`sa_phone`) REFERENCES `users` (`phone`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `sa_other_expences`
+--
+ALTER TABLE `sa_other_expences`
+  ADD CONSTRAINT `sa_other_expences_ibfk_1` FOREIGN KEY (`sa_phone`) REFERENCES `sales_agents` (`sa_phone`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `sa_stocks`

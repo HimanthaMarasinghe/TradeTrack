@@ -57,6 +57,10 @@ class SalesAgent extends Controller
     }
 
     public function newInventryRequest(){
+        $product = new Products;
+        $distributor = new SalesAgentM;
+        $distDetail = $distributor->first(['sa_phone'=> $_SESSION['sa_phone']]);
+        $this->data['products'] = $product->where(['man_phone'=> $distDetail['su_phone']]);
         $this->data['tabs']['active'] = 'Stocks';
         $this->view('SalesAgent/newInventryRequest', $this->data);
     }
@@ -64,6 +68,20 @@ class SalesAgent extends Controller
     public function orders(){
         $this->data['tabs']['active'] = 'Orders';
         $this->view('SalesAgent/orders', $this->data);
+    }
+
+    public function addOrderItemToSession(){
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['barcode']) && isset($_POST['qty'])){
+            if(!isset($_SESSION['order']))
+            {
+                $_SESSION['order'] = [];
+            }
+
+            $_SESSION['order'][] = [
+                'barcode' => $_POST['barcode'],
+                'qty' => $_POST['qty']
+            ];
+        }
     }
 
 

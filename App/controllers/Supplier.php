@@ -59,7 +59,7 @@ class Supplier extends Controller
 
     public function agents()
     {
-        $agent = new SalesAgent;
+        $agent = new SalesAgentM;
         $this->data['agents'] = $agent->where(['su_phone' => $_SESSION['su_phone']]);
 
         $this->data['tabs']['active'] = 'Agents';
@@ -70,7 +70,7 @@ class Supplier extends Controller
     public function AddNewAgents() {
         if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_SESSION['su_phone']) && !empty($_POST['phone']) && !empty($_POST['first_name']) && !empty($_POST['last_name']) && !empty($_POST['sa_busines_name']) && !empty($_POST['address']))
         {
-            $agent = new SalesAgent;
+            $agent = new SalesAgentM;
             $user = new User;
             $oldAgent = $agent->first(['sa_phone' => $_POST['phone'], 'su_phone' => $_SESSION['su_phone']]);
             $existingUser = $user->first(['phone' => $_POST['phone']]);
@@ -114,7 +114,7 @@ class Supplier extends Controller
             return;
         }
 
-        $agent = new SalesAgent;
+        $agent = new SalesAgentM;
         $this->data['agent'] = $agent->first(['sa_phone' => $sap, 'su_phone' => $_SESSION['su_phone']]);
         if(!$this->data['agent']){
             header('Location: ' . LINKROOT . '/Supplier/Agents');
@@ -132,7 +132,7 @@ class Supplier extends Controller
             return;
         }
 
-        $agent = new SalesAgent;
+        $agent = new SalesAgentM;
         $agentData = $agent->first(['sa_phone' => $sap, 'su_phone' => $_SESSION['su_phone']]);
         if(empty($agentData))
         {
@@ -185,7 +185,7 @@ class Supplier extends Controller
 
     public function deleteAgent() {
         if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['sa_phone'])){
-            $agnt = new SalesAgent;
+            $agnt = new SalesAgentM;
             $agnt->delete(['sa_phone' => $_POST['sa_phone'], 'su_phone' => $_SESSION['su_phone']]);
         }
         header('Location: ' . LINKROOT . '/admin/addNewProducts');       
