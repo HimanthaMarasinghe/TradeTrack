@@ -11,18 +11,25 @@
                 <button class="btn">Search</button>
             </div>
             <div class="salesagentproducts">
-                
-            <a href="#" class="card btn-card center-al">
+             
+            
+            <?php
+            foreach($products as $product){ ?>
+                <a href="#" class="card btn-card center-al">
+                <p class="hidden"><?=$product['barcode']?></p>
                 <div class="details h-100">
-                    <h4>Maliban Milk Powder 400g</h4>
-                    <h4>Rs.1260.00</h4>
+                    <h4><?=$product['product_name']?></h4>
+                    <h4>Rs.<?=$product['unit_price']?>.00</h4>
                 </div>
                 <div class="product-img-container">
-                    <img class="product-img" src="<?=ROOT?>/images/Products/4790015950624.png" alt="Maliban Milk Powder 400g">
+                    <img class="product-img" src="<?=ROOT?>/images/Products/<?=$product['barcode']?>.<?=$product['pic_format']?>">
                 </div>
             </a>
+           <?php }
+            ?>
+            
 
-            <a href="#" class="card btn-card center-al">
+            <!-- <a href="#" class="card btn-card center-al">
                 <div class="details h-100">
                     <h4>Maliban Chocolate Biscuit 100g</h4>
                     <h4>Rs.110.00</h4>
@@ -150,7 +157,7 @@
                 <div class="product-img-container">
                     <img class="product-img" src="<?=ROOT?>/images/Products/Maliban Orange Cream Biscuit 200g.webp" alt="Maliban Fruit Biscuit 200g">
                 </div>
-            </a>
+            </a> -->
 
                
                 
@@ -243,6 +250,10 @@
 </div>
 
 <script>
+
+let barcode;
+const LINKROOT = "<?=LINKROOT?>";
+
 // Empty rows in the table
 function emptyRows() {
     const billTable = document.getElementById('bill');
@@ -339,6 +350,17 @@ document.getElementById('addBtn').addEventListener('click', function () {
 
         billTotal.textContent = (currentTotal + total).toFixed(2);
     }
+
+    fetch(LINKROOT + '/SalesAgent/addOrderItemToSession', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: 'barcode=' + encodeURIComponent(barcode) + 
+            '&qty=' + encodeURIComponent(document.getElementById('qty').value)
+    })
+    .catch(error => console.error('Error:', error));
+
 
     // Clear input
     document.getElementById('product-name').value = '';
@@ -444,6 +466,7 @@ document.querySelectorAll('.card').forEach(card => {
         const productName = this.querySelector('h4:first-child').textContent;
         const unitPrice = parseFloat(this.querySelector('h4:last-child').textContent.replace('Rs.', '').trim());
         const productImgSrc = this.querySelector('.product-img').getAttribute('src');
+        barcode = this.querySelector('.hidden').innerHTML;
 
         document.getElementById('product-name').value = productName;
         document.getElementById('unit-price').value = unitPrice;
