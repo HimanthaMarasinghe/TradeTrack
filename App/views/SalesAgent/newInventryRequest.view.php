@@ -252,6 +252,7 @@
 <script>
 
 let barcode;
+let billArray = [];
 const LINKROOT = "<?=LINKROOT?>";
 
 // Empty rows in the table
@@ -274,10 +275,11 @@ function emptyRows() {
 // Add product to the table
 document.getElementById('addBtn').addEventListener('click', function () {
     const productName = document.getElementById('product-name').value;
-    const unitPrice = parseFloat(document.getElementById('unit-price').value) || 0;
+    const unitPrice = parseFloat(document.getElementById('unit-price').value);
+    const quantity = parseFloat(document.getElementById('qty').value) || 1;
 
     // Default quantity is 1
-    const quantity = 1;
+    // const quantity = 1;
     const total = unitPrice * quantity;
 
     if (!productName || !unitPrice) {
@@ -309,6 +311,14 @@ document.getElementById('addBtn').addEventListener('click', function () {
         existingRow.cells[4].textContent = newTotal.toFixed(2);
 
         billTotal.textContent = (currentTotal + total).toFixed(2);
+
+        let item = billArray.find(item => item.barcode === barcode);
+        if (item) {
+            item.quantity += quantity;
+        } else {
+            console.log("Item not found!");
+        }
+
     } else {
         // Find the first empty row
         let emptyRow = Array.from(billTable.rows).find(row => row.classList.contains('empty-row'));
@@ -349,17 +359,21 @@ document.getElementById('addBtn').addEventListener('click', function () {
         }
 
         billTotal.textContent = (currentTotal + total).toFixed(2);
+        billArray.push({ barcode: barcode, quantity: quantity });
     }
 
-    fetch(LINKROOT + '/SalesAgent/addOrderItemToSession', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: 'barcode=' + encodeURIComponent(barcode) + 
-            '&qty=' + encodeURIComponent(document.getElementById('qty').value)
-    })
-    .catch(error => console.error('Error:', error));
+
+    // fetch(LINKROOT + '/SalesAgent/addOrderItemToSession', {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/x-www-form-urlencoded'
+    //     },
+    //     body: 'barcode=' + encodeURIComponent(barcode) + 
+    //         '&qty=' + encodeURIComponent(document.getElementById('qty').value)
+    // })
+    // .catch(error => console.error('Error:', error));
+
+
 
 
     // Clear input
@@ -372,17 +386,21 @@ document.getElementById('addBtn').addEventListener('click', function () {
 // Handle quantity updates via buttons
 document.getElementById('bill').addEventListener('click', function (event) {
     const target = event.target;
+    const row = target.closest('tr');
+    const arrayIndex = row.querySelector('.center-al').textContent - 1;
 
     if (target.classList.contains('plus-btn') || target.classList.contains('minus-btn')) {
-        const row = target.closest('tr');
         const unitPrice = parseFloat(row.cells[2].textContent) || 0;
         const quantitySpan = row.querySelector('.quantity-input');
         let quantity = parseFloat(quantitySpan.textContent) || 0;
 
+
         if (target.classList.contains('plus-btn')) {
             quantity++;
+            billArray[arrayIndex].quantity++;
         } else if (target.classList.contains('minus-btn')) {
             quantity--;
+            billArray[arrayIndex].quantity--;
             if (quantity <= 0) {
                 alert('Quantity must be greater than 0.');
                 return;
@@ -410,6 +428,9 @@ document.getElementById('bill').addEventListener('click', function (event) {
 
         // Remove the row
         row.remove();
+
+        // Remove the item from the billArray
+        billArray.splice(arrayIndex, 1);
 
         // Re-index rows
         reindexRows();
@@ -494,7 +515,12 @@ emptyRows();
 // Handle Place Order Button Click
 document.getElementById('placeOrderBtn').addEventListener('click', function (event) {
     event.preventDefault(); // Prevent default link behavior
-
+    if(billArray.length === 0) {
+        console.log("No items in the bill!");
+        alert("Please add items to the bill before placing the order.");
+        return;
+    }
+    sendBillToBackEnd();
     const billTable = document.getElementById('bill');
     const orderDetailsBody = document.getElementById('orderDetailsBody');
     const billTotal = document.getElementById('bill-Total');
@@ -541,6 +567,35 @@ window.addEventListener('click', function (event) {
         document.getElementById('orderSuccessModal').style.display = 'none';
     }
 });
+
+function sendBillToBackEnd() {
+
+    // Convert billItems to JSON
+    let billData = JSON.stringify(billArray);
+
+    // Send to backend
+    fetch(LINKROOT + '/SalesAgent/placeOrder', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: billData
+    })
+    .then(response => response.json()) // Parse response from backend
+    .then(data => {
+        if (data.success) {
+            console.log("Bill finalized successfully!", data);
+            // Clear the billItems array if needed
+            billItems = [];
+        } else {
+            console.log("Error finalizing bill:", data.error);
+        }
+    })
+    .catch(error => {
+        console.error("Error during fetch:", error);
+    });
+}
+
 
 
 
