@@ -30,7 +30,7 @@
             <textarea id="announcement-text" rows="10" placeholder="Write your announcement here..."></textarea>
             
             <!-- Submit button -->
-            <button id="submit-btn">Submit</button>
+            <button id="submit-btn" class="btn w-100">Submit</button>
         </div>
 
     <script src="announcement.js"></script>

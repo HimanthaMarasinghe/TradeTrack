@@ -4,7 +4,7 @@
 ?>
 
 
-<div class="main-content colomn scroll-box">
+<div class="main-content scroll-box">
     <div class="bar">
         <img src="<?=ROOT?>/images/icons/home.svg" alt="">
         <h2>Shop Owner details</h2>

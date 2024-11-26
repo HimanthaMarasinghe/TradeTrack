@@ -16,7 +16,7 @@
         <table class="profile">
             <tr>
                 <td>Sale Agen Name</td>
-                <td><?=$agent['sa_first_name']?> <?=$agent['sa_last_name']?></td>
+                <td><?=$agent['first_name']?> <?=$agent['last_name']?></td>
             </tr>
             <tr>
                 <td>Phone Number</td>
@@ -24,7 +24,7 @@
             </tr>
             <tr>
                 <td>Address</td>
-                <td><?=$agent['sa_address']?></td>
+                <td><?=$agent['address']?></td>
             </tr>
             <tr>
                 <td>Busines Name</td>

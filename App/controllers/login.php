@@ -32,7 +32,7 @@ class login extends Controller
                             break;
                         
                         case '4':
-                            $_SESSION['adminId'] = $row['phone'];
+                            $_SESSION['ad_phone'] = $row['phone'];
                             redirect('admin/home');
                             break;
                     }
