@@ -25,17 +25,12 @@ class Supplier extends Controller
 
     public function products()
     {
-        $this->data['lowStocks'] = [
-            ['product_name' => 'Samen', 'quantity' => 5, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
-            ['product_name' => 'Rice', 'quantity' => 10, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
-            ['product_name' => 'Sugar', 'quantity' => 15, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
-            ['product_name' => 'Yogurt', 'quantity' => 50, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg']
-        ];
         $this->data['staticStocks'] = [
-            ['product_name' => 'Samen', 'quantity' => 5, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
-            ['product_name' => 'Rice', 'quantity' => 10, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
-            ['product_name' => 'Sugar', 'quantity' => 15, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
-            ['product_name' => 'Salt', 'quantity' => 20, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
+            ['product_name' => 'Maliban Chocolate Puff Biscuit 200g', 'quantity' => 80, 'barcode' => 'Maliban Chocolate Puff Biscuit 200g', 'price' => 100, 'pic_format' => 'png'],
+            ['product_name' => 'Samen', 'quantity' => 500, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
+            ['product_name' => 'Rice', 'quantity' => 1000, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
+            ['product_name' => 'Sugar', 'quantity' => 1500, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
+            ['product_name' => 'Salt', 'quantity' => 2000, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
         ];
         $this->data['tabs']['active'] = 'Products';
         $this->view('supplier/products', $this->data);    
@@ -73,11 +68,12 @@ class Supplier extends Controller
 
     
     public function AddNewAgents() {
-        if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_SESSION['su_phone']) && !empty($_POST['sa_phone']) && !empty($_POST['sa_first_name']) && !empty($_POST['sa_last_name']) && !empty($_POST['sa_busines_name']) && !empty($_POST['sa_address']))
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_SESSION['su_phone']) && !empty($_POST['phone']) && !empty($_POST['first_name']) && !empty($_POST['last_name']) && !empty($_POST['sa_busines_name']) && !empty($_POST['address']))
         {
-            // echo "POSTED";
             $agent = new SalesAgentM;
-            $oldAgent = $agent->first(['sa_phone' => $_POST['sa_phone'], 'su_phone' => $_SESSION['su_phone']]);
+            $user = new User;
+            $oldAgent = $agent->first(['sa_phone' => $_POST['phone'], 'su_phone' => $_SESSION['su_phone']]);
+            $existingUser = $user->first(['phone' => $_POST['phone']]);
             if(!empty($oldAgent))
             {
                 echo "Agent with this phone number already exist."; //Todo : change this to a proper error page.
@@ -87,14 +83,23 @@ class Supplier extends Controller
 
             unset($_POST['sa_password']);   //Supplier is not alowed to set a password for Sales agent. A default password will be set and sales agent should change it after login.
 
-            $extension = (isset($_FILES['image']) && $_FILES['image']['error'] === 0) ? $this->saveImage($_FILES['image'], 'images/Profile/SA/', $_POST['sa_phone']) : false;
+            // $extension = (isset($_FILES['image']) && $_FILES['image']['error'] === 0) ? $this->saveImage($_FILES['image'], 'images/Profile/SA/', $_POST['sa_phone']) : false;
 
-            $insertData = array_merge($_POST, ['su_phone' => $_SESSION['su_phone']]);
-            if ($extension !== false) {
-                $insertData['sa_pic_format'] = $extension;
+            $insertData = array_merge($_POST, ['su_phone' => $_SESSION['su_phone'], 'sa_phone' => $_POST['phone']]);
+            // if ($extension !== false) {
+            //     $insertData['sa_pic_format'] = $extension;
+            // }
+
+            //todo:Below tarnsaction should be moved in to a service file.
+            $con = $agent->startTransaction();
+            if(!$existingUser){
+                $insertData = array_merge($insertData, ['password' => password_hash('password', PASSWORD_DEFAULT), 'role' => '3']);
+                $user->insert($insertData, $con);
+            }else{
+                $user->update(['phone' => $_POST['phone']], ['role' => '3'], $con);
             }
-            
-            $agent->insert($insertData);
+            $agent->insert($insertData, $con);
+            $con->commit();
             header('Location: ' . LINKROOT . '/Supplier/Agents');
             return;
         }

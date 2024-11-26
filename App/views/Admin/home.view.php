@@ -58,14 +58,14 @@
         <br>
 
         <!-- Separator line -->
-        <hr class="separator">
+    </div>
+    <hr class="separator">
 
-        <!-- Announcement card section -->
-        <div class="announcement-section">
-            <div class="card card-announcement">
-            <h2>Make Announcements</h2>
-            <a href="<?=LINKROOT?>/Admin/announcements">Go to Announcements</a>
-            </div>
+    <!-- Announcement card section -->
+    <div class="announcement-section">
+        <div class="card card-announcement">
+        <h2>Make Announcements</h2>
+        <a href="<?=LINKROOT?>/Admin/announcements">Go to Announcements</a>
         </div>
     </div>
 </div>

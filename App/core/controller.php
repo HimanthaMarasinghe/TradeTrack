@@ -35,18 +35,18 @@
 
     public function saveImage($fileImage, $uploadDir, $newImageName)
     {
-        $allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
-        $maxSize = 2 * 1024 * 1024;
+        // $allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+        // $maxSize = 2 * 1024 * 1024;
     
-        if (!in_array($fileImage['type'], $allowedTypes)) {
-            echo "Only JPG, PNG, and GIF files are allowed.";
-            exit;
-        }
+        // if (!in_array($fileImage['type'], $allowedTypes)) {
+        //     echo "Only JPG, PNG, and GIF files are allowed.";
+        //     exit;
+        // }
     
-        if ($fileImage['size'] > $maxSize) {
-            echo "File size exceeds the limit of 2MB.";
-            exit;
-        }
+        // if ($fileImage['size'] > $maxSize) {
+        //     echo "File size exceeds the limit of 2MB.";
+        //     exit;
+        // }
     
         $imageFileType = strtolower(pathinfo($fileImage['name'], PATHINFO_EXTENSION));
         $targetFilePath = $uploadDir . $newImageName . '.' . $imageFileType;
