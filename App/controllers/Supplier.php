@@ -25,15 +25,36 @@ class Supplier extends Controller
 
     public function products()
     {
-        $this->data['staticStocks'] = [
-            ['product_name' => 'Maliban Chocolate Puff Biscuit 200g', 'quantity' => 80, 'barcode' => 'Maliban Chocolate Puff Biscuit 200g', 'price' => 100, 'pic_format' => 'png'],
-            ['product_name' => 'Samen', 'quantity' => 500, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
-            ['product_name' => 'Rice', 'quantity' => 1000, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
-            ['product_name' => 'Sugar', 'quantity' => 1500, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
-            ['product_name' => 'Salt', 'quantity' => 2000, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
-        ];
+        $manStock = new manufacturerStock;
+        $this->data['staticStocks'] = $manStock->where(['man_phone' => $_SESSION['su_phone']]);
+
+        $pendingProducts = new pendingProductRequests;
+        $this->data['pendingProducts'] = $pendingProducts->where(['man_phone' => $_SESSION['su_phone']]);
         $this->data['tabs']['active'] = 'Products';
         $this->view('supplier/products', $this->data);    
+    }
+
+    public function pendingProductRequestDetails(){
+        if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['barcodeIn'])){
+            $req = new pendingProductRequests;
+            echo json_encode($req->first(['barcode' => $_POST['barcodeIn']]));
+        }
+    }
+
+    public function deleteProductRequest(){
+        if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['barcode'])){
+            $req = new pendingProductRequests;
+            $req->delete(['barcode' => $_POST['barcode']]);
+            echo json_encode(['status' => 'success']);
+        }
+    }
+
+    public function updateProductRequest($barcode){
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            $req = new pendingProductRequests;
+            $req->update(['barcode' => $barcode], $_POST);
+        }
+        redirect('Supplier/products');
     }
 
     public function orders()
@@ -125,7 +146,7 @@ class Supplier extends Controller
         $this->view('supplier/agent', $this->data);
     }
 
-    public function UpdateAgent($sap = null) {
+    public function UpdateAgent($sap = null) { //todo : after user table, this method did not get updated
         if($sap == null)
         {
             header('Location: ' . LINKROOT . '/Supplier/Agents');
@@ -183,13 +204,24 @@ class Supplier extends Controller
         $this->view('supplier/updateAgent', $this->data);
     }
 
-    public function deleteAgent() {
+    public function deleteAgent() { //todo : deleted agent should be in a anothe table, and baned agents may still log in to his distributor account but not be able to do anything in it.
         if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['sa_phone'])){
             $agnt = new SalesAgentM;
             $agnt->delete(['sa_phone' => $_POST['sa_phone'], 'su_phone' => $_SESSION['su_phone']]);
         }
         header('Location: ' . LINKROOT . '/admin/addNewProducts');       
     }
+
+    public function newProductRequest(){
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            $req = new pendingProductRequests;
+            $insertArray = array_merge($_POST, ['man_phone' => $_SESSION['su_phone']]);
+            $req->insert( $insertArray);
+        }
+        redirect('Supplier/products');
+    }
+
+
 
 
 

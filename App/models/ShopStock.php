@@ -9,9 +9,9 @@ class ShopStock extends Model
     public function readStock($sop, $sort = 'DESC'){
         $query = "SELECT * FROM products p JOIN so_stocks s ON p.barcode = s.barcode WHERE s.so_phone = :so_phone ";
         if($sort === 'low')
-            $query .= "AND s.quantity < 100 ORDER BY s.quantity ASC";
+            $query .= "AND s.quantity < s.low_stock_level ORDER BY s.quantity ASC";
         else
-            $query .= "ORDER BY s.quantity ".$sort;
+            $query .= "ORDER BY s.quantity - s.low_stock_level ".$sort;
         return $this->query($query,['so_phone' => $sop]);
     }
 

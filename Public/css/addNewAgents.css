@@ -1,11 +1,11 @@
 .addNewAgentsTable {
-    width: 90%; 
+    /* width: 90%;  */
     margin: 40px auto; 
     border-collapse: separate;
     border-spacing: 0 15px;
     font-family: Arial, sans-serif;
     font-size: 22;
-    padding-right: 20%;
+    /* padding-right: 20%; */
 }
 
 .addNewAgentsTable tr {
@@ -30,9 +30,9 @@
 
 
 .imageUploadBox {
-    position: fixed;
+    /* position: fixed;
     top: 20px;
-    right: 20px;
+    right: 20px; */
     width: 240px;
     padding: 15px;
     background-color: #f9f9f9;
