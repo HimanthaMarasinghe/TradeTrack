@@ -26,7 +26,7 @@
             <div class="scroll-box grid g-resp-300">
                 <?php
                     foreach ($staticStocks as $stock) { 
-                        $this->component('card/product', $stock); 
+                        $this->component('card/product', $stock, ['baseUrl' => 'Supplier/product']); 
                     }
                     foreach ($pendingProducts as $stock) { 
                         $this->component('card/product', $stock, ['special' => "Request Pending"]); 

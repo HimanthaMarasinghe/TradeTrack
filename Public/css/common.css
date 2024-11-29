@@ -83,6 +83,10 @@ body {
     margin: 15px 2px;
 }
 
+.w-25 {
+    width: 25%;
+}
+
 .w-50 {
     width: 50%;
 }

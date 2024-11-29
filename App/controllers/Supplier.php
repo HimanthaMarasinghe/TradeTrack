@@ -34,6 +34,13 @@ class Supplier extends Controller
         $this->view('supplier/products', $this->data);    
     }
 
+    public function product($barcode){
+        $product = new manufacturerStock;
+        $this->data['product'] = $product->first(['products.barcode' => $barcode]);
+        $this->data['tabs']['active'] = 'Products';
+        $this->view('supplier/product', $this->data);
+    }
+
     public function pendingProductRequestDetails(){
         if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['barcodeIn'])){
             $req = new pendingProductRequests;
