@@ -20,11 +20,14 @@
 
     }
 
-    public function component($componentName, $data = []) 
+    public function component($componentName, $data = [], $configerations = []) 
     {
 
         if(!empty($data))
             extract($data);
+
+        if(!empty($configerations))
+            extract($configerations);
 
         $filename = "../app/components/".$componentName.".component.php";
 

@@ -7,12 +7,12 @@ class SalesAgent extends Controller
         'styleSheet' => ['styleSheet'=>'salesAgent']
     ];
 
-    // public function __construct() {
-    //     if(!isset($_SESSION['sa_phone'])){
-    //         redirect('login');
-    //         exit;
-    //     }
-    // }
+    public function __construct() {
+        if(!isset($_SESSION['sa_phone'])){
+            redirect('login');
+            exit;
+        }
+    }
 
     //create new methods after this line.
 

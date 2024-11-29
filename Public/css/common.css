@@ -83,6 +83,10 @@ body {
     margin: 15px 2px;
 }
 
+.w-25 {
+    width: 25%;
+}
+
 .w-50 {
     width: 50%;
 }
@@ -193,6 +197,10 @@ input[type='text'].search-bar {
     color: green;
 }
 
+.orange-text{
+    color: orange;
+}
+
 .faded-text{
     color: var(--secondary-color);
 }
@@ -203,7 +211,20 @@ input[type='text'].search-bar {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
+}
+
+/************ images ***********/
+img.default{
+    aspect-ratio: 1;
+    object-fit: scale-down;
+    height: 100px;
+    border-radius: 2px;
+
+    &.big{
+        height: 200px;
+    }
+
 }
 
 
