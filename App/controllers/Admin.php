@@ -3,7 +3,7 @@
 class Admin extends Controller 
 {
     protected $data = [
-        'tabs' => ['tabs' => ['Home', 'Customers', 'SalesAgents', 'ShopOwners', 'Suppliers', 'Products'], 'userType' => 'Admin'],
+        'tabs' => ['tabs' => ['Home', 'Customers', 'ShopOwners', 'Distributors', 'Manufacturers', 'Products'], 'userType' => 'Admin'],
         'styleSheet' => ['styleSheet'=>'admin']
     ];
 
@@ -199,8 +199,8 @@ class Admin extends Controller
         $this->view('Admin/customers', $this->data);
     }
 
-    public function SalesAgents(){
-        $this->data['tabs']['active'] = 'SalesAgents';
+    public function Distributors(){
+        $this->data['tabs']['active'] = 'Distributors';
         $this->view('Admin/salesAgents', $this->data);
     }
 
@@ -210,7 +210,7 @@ class Admin extends Controller
     }
 
     public function salesAgent(){
-        $this->data['tabs']['active'] = 'SalesAgents';
+        $this->data['tabs']['active'] = 'Distributors';
         $this->view('Admin/salesAgent', $this->data);
     }
 
@@ -224,21 +224,70 @@ class Admin extends Controller
         $this->view('Admin/shopOwner', $this->data);
     }
 
-    public function Suppliers(){
-        $this->data['tabs']['active'] = 'Suppliers';
+    public function Manufacturers(){
+        $this->data['tabs']['active'] = 'Manufacturers';
         $this->view('Admin/suppliers', $this->data);
     }
 
     public function supplier(){
-        $this->data['tabs']['active'] = 'Suppliers';
+        $this->data['tabs']['active'] = 'Manufacturers';
         $this->view('Admin/supplier', $this->data);
     }
 
     public function announcements(){
+        $announcement = new Announcements;
+        
+        $this->data['announcements'] = $announcement->readAll();
         $this->data['tabs']['active'] = 'Home';
         $this->view('Admin/announcements', $this->data);
     }
 
+    public function newAnnouncement(){
+        if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['title']) && !empty($_POST['message']) && isset($_POST['role'])) {
+            $announcement = new Announcements;
+            $announcement->insert(['title' => $_POST['title'], 'message' => $_POST['message'], 'role' => $_POST['role'], 'date' => date('Y-m-d'), 'time' => date('H:i:s')]);
+        }
+        // else {
+        //     echo "Error: Invalid data";
+        //     echo "<br>";
+        //     print_r($_POST);
+        //     echo "<br>";
+        //     echo $_SERVER['REQUEST_METHOD'];
+        //     echo "<br> method check";
+        //     echo $_SERVER['REQUEST_METHOD'] === 'POST';
+        //     echo "<br> title check";
+        //     echo !empty($_POST['title']);
+        //     echo "<br> message check";
+        //     echo !empty($_POST['message']);
+        //     echo "<br> role check";
+        //     echo !empty($_POST['role']);
+
+        // }
+        redirect('Admin/announcements');
+    }
+
+    public function getAnnouncement($id){
+        $announcement = new Announcements;
+        $announcement = $announcement->first(['id' => $id]);
+        echo json_encode($announcement);
+    }
+
+    public function updateAnnouncement($id){
+        if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['title']) && !empty($_POST['message']) && isset($_POST['role'])) {
+            $announcement = new Announcements;
+            $announcement->update(['id' => $id], ['title' => $_POST['title'], 'message' => $_POST['message'], 'role' => $_POST['role'], 'date' => date('Y-m-d'), 'time' => date('H:i:s')]);
+        }
+        redirect('Admin/announcements');
+    }
+
+    public function deleteAnnouncement($id){
+        if($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+            $announcement = new Announcements;
+            $announcement->delete(['id' => $id]);
+            echo json_encode(['status' => 'success']);
+        }
+    }
+    
 
     public function new($viewName) {
         $this->view('Admin/'.$viewName, $this->data);

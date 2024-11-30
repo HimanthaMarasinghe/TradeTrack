@@ -316,47 +316,48 @@ label {
   
   /* Container for the announcement page */
   .announcement-container {
-    max-width: 600px;
-    margin: 50px auto;
+    width: 600px;
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    
+    & h1 {
+      text-align: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    
+    /* Label Styles */
+    & label {
+      display: block;
+      font-size: 16px;
+      margin: 10px 0 5px;
+    }
+    
+    /* Dropdown Styles */
+    & input,
+    & select {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+    
+    /* Textarea Styles */
+    & textarea {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: none;
+      margin-bottom: 20px;
+    }
   }
   
-  h1 {
-    text-align: center;
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
-  
-  /* Label Styles */
-  label {
-    display: block;
-    font-size: 16px;
-    margin: 10px 0 5px;
-  }
-  
-  /* Dropdown Styles */
-  select {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 20px;
-  }
-  
-  /* Textarea Styles */
-  textarea {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    resize: none;
-    margin-bottom: 20px;
-  }
   
   /* Submit Button Styles */
   /* button {

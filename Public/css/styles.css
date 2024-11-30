@@ -404,6 +404,33 @@ input.userInput {
     cursor: pointer;
 }
 
+.announcement {
+    background-color: #ffffff; /* Card background color */
+    border: 1px solid #e0e0e0; /* Light border for the card */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 16px; /* Inner spacing */
+    width: 100%; /* Full width */
+    height: 200px; /* Limit the height of the card */
+    overflow: hidden;
+    margin: 5px auto; /* Center the card with spacing */
+}
+
+.announcement h3 {
+    margin-top: 0; /* Remove margin from top */
+    margin-bottom: 8px; /* Space below the title */
+    color: #333; /* Title text color */
+    font-size: 1.25rem; /* Font size for the title */
+}
+
+.announcement p {
+    margin: 0; /* Remove default margin */
+    color: #555; /* Text color for the description */
+    font-size: 1rem; /* Font size for the description */
+    line-height: 1.5; /* Better readability */
+}
+
+
 /********************** popUp ***********************/
 div#popUpBackDrop{
     position: fixed;
