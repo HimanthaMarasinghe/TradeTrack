@@ -275,7 +275,7 @@ img.product-img {
 
 
 .bill {
-    border-collapse: collapse;
+    border-collapse: collapse !important;
     width: 100%;
     text-align: right;
 }

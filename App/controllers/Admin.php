@@ -7,6 +7,12 @@ class Admin extends Controller
         'styleSheet' => ['styleSheet'=>'admin']
     ];
 
+    public function __construct() {
+        if(!isset($_SESSION['ad_phone'])){
+            redirect('login');
+            exit;
+        }
+    }
     //create new methods after this line.
     public function index(){
         $this->data['tabs']['active'] = 'Home';

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 30, 2024 at 09:36 AM
+-- Generation Time: Nov 30, 2024 at 04:22 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -86,7 +86,13 @@ INSERT INTO `bills` (`bill_id`, `date`, `time`, `cus_phone`, `so_phone`) VALUES
 (194, '2024-11-20', '15:39:14', '0123456789', '0112223333'),
 (195, '2024-11-20', '15:45:03', '0123456789', '0112223333'),
 (197, '2024-11-23', '14:13:27', '0123456789', '0112223333'),
-(198, '2024-11-30', '00:00:45', '0123456789', '0112223333');
+(198, '2024-11-30', '00:00:45', '0123456789', '0112223333'),
+(199, '2024-11-30', '19:21:53', '0123456789', '0112223333'),
+(200, '2024-11-30', '19:23:51', '0123456789', '0112223333'),
+(201, '2024-11-30', '19:24:33', '0123456789', '0112223333'),
+(202, '2024-11-30', '19:25:11', '', '0112223333'),
+(203, '2024-11-30', '19:45:03', '0987654321', '0112223333'),
+(204, '2024-11-30', '20:19:39', '', '0112223333');
 
 -- --------------------------------------------------------
 
@@ -121,7 +127,18 @@ INSERT INTO `bill_items` (`bill_id`, `barcode`, `quantity`) VALUES
 (195, '4790015950624', 7),
 (195, '4791010040044', 3),
 (197, '4790015950624', 2),
-(198, '4790015950624', 2);
+(198, '4790015950624', 2),
+(199, '4790015950624', 2),
+(199, '4791010040044', 1),
+(199, '4791034015318', 1),
+(199, '4791034070287', 1),
+(199, '4791034072366', 4),
+(199, '4791034072663', 4),
+(200, '4791034072663', 1),
+(201, '4791034072663', 1),
+(202, '4791034072663', 1),
+(203, '4791034072366', 3),
+(204, '4791034072366', 3);
 
 -- --------------------------------------------------------
 
@@ -345,7 +362,7 @@ CREATE TABLE `loyalty_customers` (
 --
 
 INSERT INTO `loyalty_customers` (`so_phone`, `cus_phone`, `wallet`, `since`) VALUES
-('0112223333', '0123456789', 5400, '2024-10-24'),
+('0112223333', '0123456789', 13980, '2024-10-24'),
 ('0112223333', '0712345678', 1500, '2024-10-24'),
 ('0112223333', '0756789123', 2000, '2024-10-24'),
 ('0112223333', '0763322110', 0, '2024-11-20'),
@@ -515,7 +532,7 @@ CREATE TABLE `shops` (
 --
 
 INSERT INTO `shops` (`so_phone`, `shop_name`, `shop_address`, `cash_drawer_balance`, `bank_balance`, `shop_pic_format`) VALUES
-('0112223333', 'Gamunu Stores', 'No. 13, Negombo Road, Kurunega', 49400, 0, '.jpg'),
+('0112223333', 'Gamunu Stores', 'No. 13, Negombo Road, Kurunega', 64860, 0, '.jpg'),
 ('0701234567', 'Jaffna Stores', 'No. 55, Stanley Road, Jaffna', 18000, 45000, '.webp'),
 ('0702345678', 'Vavuniya Market', 'No. 45, Bazaar Street, Vavuniy', 15000, 48000, '.jpg'),
 ('0711234567', 'Kandy Grocers', 'No. 12, Peradeniya Road, Kandy', 10000, 50000, '.jpeg'),
@@ -696,7 +713,8 @@ INSERT INTO `users` (`phone`, `first_name`, `last_name`, `address`, `password`, 
 ('0781234567', 'Chandani', 'Silva', 'No.30, Galle Road, Hikkaduwa', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
 ('0787766554', 'Janaka', 'Karunaratne', 'No.10/2, Rajagiriya Road, Nawala', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
 ('0789988776', 'Harsha', 'Abeysekara', 'No.5, Peradeniya Road, Kandy', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
-('0987654321', 'Kamala', 'Gunawardana', 'No.111, Batuwaththa, Meerigama', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
+('0987654321', 'Kamala', 'Gunawardana', 'No.111, Batuwaththa, Meerigama', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', 'jpg', 0),
+('22020586', 'Admin', 'Admin', 'Admin', '$2y$10$LEyOQFzgjQNmezi9Yo0/E.8VQgfFPXcbRYB6P0mDQI.RDPMn88/ye', '', 4),
 ('6099649217', 'IhMaPZT9Ak', 'Z5YL4BjXrN', 'BJ8YRJPSu7', '$2y$10$CtBX9j.sUahzoQLPZQ9GgOMvztTkP/.hGuWVfSPks6.i7o4SxOBz2', '', 3),
 ('9089105656', 'm1uE3QtBIX', 'EYVLYqjOrM', 'stNCXXBTM8', '$2y$10$DP/GFByRCs9rVBEkSyT9aetwq/Haft6S0bWrZdqjlEbwL6sxJlGd6', '', 3),
 ('9208856537', 'bqajuME11B', 'hkxc37fBoR', 'ILobQm4cdb', '$2y$10$6UGxA/bLrX0zPO34c8jQr.eLJbM4DATl5JZEx7D9aJHxMFRqTvWCO', '', 3);
@@ -907,7 +925,7 @@ ALTER TABLE `announcements`
 -- AUTO_INCREMENT for table `bills`
 --
 ALTER TABLE `bills`
-  MODIFY `bill_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=199;
+  MODIFY `bill_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=205;
 
 --
 -- AUTO_INCREMENT for table `bulk_order`

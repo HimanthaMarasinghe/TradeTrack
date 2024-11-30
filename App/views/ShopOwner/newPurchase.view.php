@@ -66,7 +66,7 @@
     <hr>
 
     <div class="row">
-        <a class="btn fg1 disabled-link">Card Payment</a>
+        <a class="btn fg1 disabled-link" style="visibility:hidden;">Card Payment</a>
         <a href="<?=LINKROOT?>/ShopOwner/billSettle" class="btn fg1 disabled-link" id="cashPayBtn">Cash Payment</a>
     </div>
 
