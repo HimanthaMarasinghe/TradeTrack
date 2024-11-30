@@ -24,6 +24,9 @@
                 <a class="btn" href="<?=LINKROOT?>/SalesAgent/newInventryRequest">
                     <h4>New Inventory Request</h4>
                 </a>
+                <a class="btn" href="<?=LINKROOT?>/SalesAgent/requestDetails">
+                    <h4>Request Details</h4>
+                </a>
             </div>
             <div class="scroll-box grid g-resp-300">
                 <!-- Product Cards -->

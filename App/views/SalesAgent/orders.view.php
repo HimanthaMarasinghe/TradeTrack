@@ -20,6 +20,9 @@
             <div class="row">
                 <input type="text" class="search-bar fg1" placeholder="Search Order">
                 <button class="btn">Search</button>
+                <a class="btn" href="<?=LINKROOT?>/SalesAgent/orderHistory">
+                    <h4>Order History</h4>
+                </a>
             </div>
             <div class="scroll-box grid g-resp-300">
                 <!-- Order Cards -->
@@ -39,7 +42,7 @@
                         [
                             "name" => "Green Valley Groceries",
                             "time" => "2 hours ago",
-                            "status" => "success"
+                            "status" => "ready"
                         ],
                         [
                             "name" => "Fort Fresh Market",
@@ -49,7 +52,7 @@
                         [
                             "name" => "Ocean View Grocery",
                             "time" => "4 hours ago",
-                            "status" => "success"
+                            "status" => "ready"
                         ],
                         [
                             "name" => "Galle Essentials",
@@ -69,7 +72,7 @@
                         [
                             "name" => "Hilltop Grocery",
                             "time" => "8 hours ago",
-                            "status" => "success"
+                            "status" => "ready"
                         ],
                         [
                             "name" => "Galle Mart",
@@ -79,7 +82,7 @@
                         [
                             "name" => "Pearl Groceries",
                             "time" => "10 hours ago",
-                            "status" => "success"
+                            "status" => "ready"
                         ],
                         [
                             "name" => "Harbor View Mart",
@@ -99,7 +102,7 @@
                         [
                             "name" => "Coral Coast Groceries",
                             "time" => "14 hours ago",
-                            "status" => "success"
+                            "status" => "pending"
                         ],
                         [
                             "name" => "Southern Spice Market",
@@ -114,7 +117,7 @@
                         [
                             "name" => "Coconut Grove Groceries",
                             "time" => "17 hours ago",
-                            "status" => "success"
+                            "status" => "ready"
                         ],
                         [
                             "name" => "Fort Bazaar Grocery",
@@ -152,7 +155,6 @@
                     // Separate orders by status
                     $pendingOrders = [];
                     $readyOrders = [];
-                    $successOrders = [];
                     
                     foreach ($orders as $order) {
                         switch ($order['status']) {
@@ -162,14 +164,11 @@
                             case 'ready':
                                 $readyOrders[] = $order;
                                 break;
-                            case 'success':
-                                $successOrders[] = $order;
-                                break;
                         }
                     }
 
                     // Display orders grouped by status
-                    $allOrders = array_merge($pendingOrders, $readyOrders, $successOrders);
+                    $allOrders = array_merge($pendingOrders, $readyOrders);
                 ?>
 
                 <?php foreach ($allOrders as $order): ?>
