@@ -95,6 +95,8 @@ class Supplier extends Controller
     }
 
     
+
+    
     public function AddNewAgents() {
         if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_SESSION['su_phone']) && !empty($_POST['phone']) && !empty($_POST['first_name']) && !empty($_POST['last_name']) && !empty($_POST['sa_busines_name']) && !empty($_POST['address']))
         {

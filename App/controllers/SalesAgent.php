@@ -47,6 +47,10 @@ class SalesAgent extends Controller
     }
 
     public function accounts(){
+
+        $otherExpense = new SaOtherExpenses;
+        
+        $this->data['otherExpenses'] = $otherExpense->where(['sa_phone' => $_SESSION['sa_phone']]);
         $this->data['tabs']['active'] = 'Accounts';
         $this->view('SalesAgent/accounts', $this->data);
     }
@@ -68,6 +72,12 @@ class SalesAgent extends Controller
     public function orders(){
         $this->data['tabs']['active'] = 'Orders';
         $this->view('SalesAgent/orders', $this->data);
+    }
+
+
+    public function orderHistory(){
+        $this->data['tabs']['active'] = 'Orders';
+        $this->view('SalesAgent/orderHistory', $this->data);
     }
 
     // public function addOrderItemToSession(){
@@ -108,6 +118,13 @@ class SalesAgent extends Controller
         }
         echo json_encode(['success' => 'success']);
     }
+
+    public function requestDetails(){
+        $this->data['tabs']['active'] = 'Stocks';
+        $this->view('SalesAgent/requestDetails', $this->data);
+    }
+
+    
 
 
 

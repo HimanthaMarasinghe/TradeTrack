@@ -188,5 +188,84 @@
 .status-success {
     color: #2ecc71; /* Green for success */
 }
+.status-failed {
+    color: red; /* Green for success */
+}
+.status-complete {
+    color: green; /* Green for success */
+}
+.status-requested {
+    color: #f39c12; /* Green for success */
+}
 
+/* Order Popup Modal Styling */
+.order-modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    z-index: 1000;
+    overflow: hidden; /* Hides scrollbars completely */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}
 
+/* Centered modal content */
+.order-modal-content {
+    position: relative;
+    background: white;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 80%; /* Limits modal width */
+    min-width: 300px;
+    max-height: 90%; /* Keeps the modal within the viewport */
+    overflow-y: auto; /* Enables scrolling for large content */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    scrollbar-width: none; /* Hides scrollbars on Firefox */
+}
+
+/* For webkit-based browsers (Chrome, Safari, etc.) */
+.order-modal-content::-webkit-scrollbar {
+    display: none; /* Hides the scrollbar */
+}
+
+/* Close button styling */
+.order-close-btn {
+    position: absolute;
+    top: 5%; /* Center vertically */
+    right: 5%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust alignment */
+    font-size: 20px;
+    cursor: pointer;
+    color: #333;
+    border: none;
+    background: none;
+    outline: none;
+}
+
+/* For the table inside the modal */
+.order-details-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.order-details-table th, .order-details-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.order-details-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.reqclosebtn{
+    margin-top:10px;
+    margin-left: 45%;
+}
