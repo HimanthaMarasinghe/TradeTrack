@@ -18,6 +18,11 @@ class login extends Controller
                         
                         case '1':
                             $_SESSION['so_phone'] = $row['phone'];
+                            $shop = new Shops;
+                            $shop_row = $shop->first(['phone' => $row['phone']]);
+                            if($shop_row){
+                                $_SESSION['shop'] = $shop_row;
+                            }
                             redirect('ShopOwner/home');
                             break;
                         

@@ -8,7 +8,7 @@ class ShopOwner extends Controller
     ];
 
     public function __construct() {
-        if(!isset($_SESSION['so_phone'])){
+        if(!isset($_SESSION['so_phone']) || !isset($_SESSION['shop'])){
             redirect('login');
             exit;
         }
@@ -239,13 +239,40 @@ class ShopOwner extends Controller
     }
     
     public function accounts() {
+        $bill = new Bills;
+        $billItems = new BillItems;
+        $this->data['recentBills'] = $bill->getRecentBillDetails($_SESSION['so_phone']);
+        foreach($this->data['recentBills'] as &$bill){
+            $bill['total'] = $billItems->getBillTotal($bill['bill_id']);
+        }
+        $shop = new Shops;
+        $this->data['cashDrawerBallance'] = $shop->first(['so_phone' => $_SESSION['so_phone']])['cash_drawer_balance'];
         $this->data['tabs']['active'] = 'Accounts';
         $this->view('shopOwner/accounts', $this->data);
+    }
+
+    public function getBillDetails($billId){
+        $bill = new Bills;
+        $Billdata['billDetails'] = $bill->first(['bill_id' => $billId]);
+        $billItem = new BillItems;
+        $Billdata['billItems'] = $billItem->where(['bill_id' => $billId]);
+        $Billdata['total'] = 0;
+        foreach($Billdata['billItems'] as &$item){
+            $item['total'] += $item['unit_price'] * $item['quantity'];
+        }
+        foreach($Billdata['billItems'] as $item){
+            $Billdata['total'] += $item['total'];
+        }
+        echo json_encode($Billdata);
     }
 
     public function recordTransaction() {
         $this->data['tabs']['active'] = 'Accounts';
         $this->view('shopOwner/recordTransaction', $this->data);
+    }
+
+    public function profitAndLossStatement() {
+        $this->view('shopOwner/profitAndLossStatement');
     }
 
     

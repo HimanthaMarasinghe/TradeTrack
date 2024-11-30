@@ -127,6 +127,10 @@ body {
     max-width: 900px;
 }
 
+.min-w-1200{
+    min-width: 1200px;
+}
+
 a.card {
     text-decoration: none;
     color: var(--text-color);
@@ -214,6 +218,10 @@ input[type='text'].search-bar {
     display: none !important;
 }
 
+.clickable {
+    cursor: pointer;
+}
+
 /************ images ***********/
 img.default{
     aspect-ratio: 1;
@@ -236,7 +244,95 @@ img.default{
 }
 
 @media print {
-    .bill-content {
+    body * {
+        visibility: hidden;
+    }
+    
+    #bill-content {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0 auto;
+        padding: 15px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        font-family: Arial, sans-serif;
+        background-color: #fdfdfd;
+        text-align: center;
+        visibility: visible;
+    
+        & * {
+            visibility: visible;
+        }
+
+        & h1 {
+            font-size: 30px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        & p {
+            font-size: 24px;
+            margin: 5px 0;
+            color: #555;
+        }
+
+        & hr {
+            margin: 15px 0;
+            border: none;
+            border-top: 1px dashed #ccc;
+        }
+
+        /* Table Styles */
+        & table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+
+        & thead {
+            background-color: #f7f7f7;
+            font-size: 24px;
+        }
+
+        & thead th {
+            padding: 8px;
+            border: 1px solid #ccc;
+            font-weight: bold;
+            color: #333;
+        }
+
+        & tbody td {
+            padding: 8px;
+            border: 1px solid #ccc;
+            font-size: 23px;
+            color: #555;
+            text-align: center;
+        }
+
+        & tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        & tbody tr:last-child {
+            font-weight: bold;
+            background-color: #f7f7f7;
+        }
+
+        & tbody tr:last-child td {
+            color: #333;
+        }
+
+        /* Thank You Message */
+        & p:last-child {
+            font-size: 26px;
+            font-weight: bold;
+            margin-top: 10px;
+            color: #333;
+        }
+    }
+    /* .bill-content {
         width: 100%;
         font-size: 16px;
         padding: 0;
@@ -268,16 +364,19 @@ img.default{
         & hr{
             border-color: black;
         }
-    }
-    body * {
-        visibility: hidden;
-    }
-    #bill-content, #bill-content * {
+    } */
+    /* #bill-content, #bill-content * {
         visibility: visible;
-    }
-    #bill-content {
+    } */
+    /* #bill-content {
         position: absolute;
         left: 0;
         top: 0;
-    }
+    } */
+
+
+
+    /* General Styles */
+    
+
 }
