@@ -37,6 +37,9 @@ class ShopOwner extends Controller
 
         $stck = new ShopStock;
         $this->data['lowStocks'] = $stck->readStock($_SESSION['so_phone'], 'low');
+
+        $shop = new Shops;
+        $this->data['cashDrawerBallance'] = $shop->first(['so_phone' => $_SESSION['so_phone']])['cash_drawer_balance'];
         
 
         $this->view('ShopOwner/home', $this->data);
@@ -228,7 +231,7 @@ class ShopOwner extends Controller
             return;
         }
         $prd = new Products;
-        $agnt = new SalesAgent;
+        $agnt = new SalesAgentM;
         $this->data['product'] = $prd->first(['barcode' => $barcodeIn]);
         $this->data['agents'] = $agnt->readAll(); //todo : Emplement properly
         $this->data['tabs']['active'] = 'Stocks';

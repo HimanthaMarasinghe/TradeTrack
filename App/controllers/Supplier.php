@@ -25,20 +25,43 @@ class Supplier extends Controller
 
     public function products()
     {
-        $this->data['lowStocks'] = [
-            ['product_name' => 'Samen', 'quantity' => 5, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
-            ['product_name' => 'Rice', 'quantity' => 10, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
-            ['product_name' => 'Sugar', 'quantity' => 15, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
-            ['product_name' => 'Yogurt', 'quantity' => 50, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg']
-        ];
-        $this->data['staticStocks'] = [
-            ['product_name' => 'Samen', 'quantity' => 5, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
-            ['product_name' => 'Rice', 'quantity' => 10, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
-            ['product_name' => 'Sugar', 'quantity' => 15, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
-            ['product_name' => 'Salt', 'quantity' => 20, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
-        ];
+        $manStock = new manufacturerStock;
+        $this->data['staticStocks'] = $manStock->where(['man_phone' => $_SESSION['su_phone']]);
+
+        $pendingProducts = new pendingProductRequests;
+        $this->data['pendingProducts'] = $pendingProducts->where(['man_phone' => $_SESSION['su_phone']]);
         $this->data['tabs']['active'] = 'Products';
         $this->view('supplier/products', $this->data);    
+    }
+
+    public function product($barcode){
+        $product = new manufacturerStock;
+        $this->data['product'] = $product->first(['products.barcode' => $barcode]);
+        $this->data['tabs']['active'] = 'Products';
+        $this->view('supplier/product', $this->data);
+    }
+
+    public function pendingProductRequestDetails(){
+        if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['barcodeIn'])){
+            $req = new pendingProductRequests;
+            echo json_encode($req->first(['barcode' => $_POST['barcodeIn']]));
+        }
+    }
+
+    public function deleteProductRequest(){
+        if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['barcode'])){
+            $req = new pendingProductRequests;
+            $req->delete(['barcode' => $_POST['barcode']]);
+            echo json_encode(['status' => 'success']);
+        }
+    }
+
+    public function updateProductRequest($barcode){
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            $req = new pendingProductRequests;
+            $req->update(['barcode' => $barcode], $_POST);
+        }
+        redirect('Supplier/products');
     }
 
     public function orders()
@@ -75,11 +98,12 @@ class Supplier extends Controller
 
     
     public function AddNewAgents() {
-        if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_SESSION['su_phone']) && !empty($_POST['sa_phone']) && !empty($_POST['sa_first_name']) && !empty($_POST['sa_last_name']) && !empty($_POST['sa_busines_name']) && !empty($_POST['sa_address']))
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_SESSION['su_phone']) && !empty($_POST['phone']) && !empty($_POST['first_name']) && !empty($_POST['last_name']) && !empty($_POST['sa_busines_name']) && !empty($_POST['address']))
         {
-            // echo "POSTED";
             $agent = new SalesAgentM;
-            $oldAgent = $agent->first(['sa_phone' => $_POST['sa_phone'], 'su_phone' => $_SESSION['su_phone']]);
+            $user = new User;
+            $oldAgent = $agent->first(['sa_phone' => $_POST['phone'], 'su_phone' => $_SESSION['su_phone']]);
+            $existingUser = $user->first(['phone' => $_POST['phone']]);
             if(!empty($oldAgent))
             {
                 echo "Agent with this phone number already exist."; //Todo : change this to a proper error page.
@@ -89,14 +113,23 @@ class Supplier extends Controller
 
             unset($_POST['sa_password']);   //Supplier is not alowed to set a password for Sales agent. A default password will be set and sales agent should change it after login.
 
-            $extension = (isset($_FILES['image']) && $_FILES['image']['error'] === 0) ? $this->saveImage($_FILES['image'], 'images/Profile/SA/', $_POST['sa_phone']) : false;
+            // $extension = (isset($_FILES['image']) && $_FILES['image']['error'] === 0) ? $this->saveImage($_FILES['image'], 'images/Profile/SA/', $_POST['sa_phone']) : false;
 
-            $insertData = array_merge($_POST, ['su_phone' => $_SESSION['su_phone']]);
-            if ($extension !== false) {
-                $insertData['sa_pic_format'] = $extension;
+            $insertData = array_merge($_POST, ['su_phone' => $_SESSION['su_phone'], 'sa_phone' => $_POST['phone']]);
+            // if ($extension !== false) {
+            //     $insertData['sa_pic_format'] = $extension;
+            // }
+
+            //todo:Below tarnsaction should be moved in to a service file.
+            $con = $agent->startTransaction();
+            if(!$existingUser){
+                $insertData = array_merge($insertData, ['password' => password_hash('password', PASSWORD_DEFAULT), 'role' => '3']);
+                $user->insert($insertData, $con);
+            }else{
+                $user->update(['phone' => $_POST['phone']], ['role' => '3'], $con);
             }
-            
-            $agent->insert($insertData);
+            $agent->insert($insertData, $con);
+            $con->commit();
             header('Location: ' . LINKROOT . '/Supplier/Agents');
             return;
         }
@@ -122,7 +155,7 @@ class Supplier extends Controller
         $this->view('supplier/agent', $this->data);
     }
 
-    public function UpdateAgent($sap = null) {
+    public function UpdateAgent($sap = null) { //todo : after user table, this method did not get updated
         if($sap == null)
         {
             header('Location: ' . LINKROOT . '/Supplier/Agents');
@@ -180,13 +213,24 @@ class Supplier extends Controller
         $this->view('supplier/updateAgent', $this->data);
     }
 
-    public function deleteAgent() {
+    public function deleteAgent() { //todo : deleted agent should be in a anothe table, and baned agents may still log in to his distributor account but not be able to do anything in it.
         if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['sa_phone'])){
             $agnt = new SalesAgentM;
             $agnt->delete(['sa_phone' => $_POST['sa_phone'], 'su_phone' => $_SESSION['su_phone']]);
         }
         header('Location: ' . LINKROOT . '/admin/addNewProducts');       
     }
+
+    public function newProductRequest(){
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            $req = new pendingProductRequests;
+            $insertArray = array_merge($_POST, ['man_phone' => $_SESSION['su_phone']]);
+            $req->insert( $insertArray);
+        }
+        redirect('Supplier/products');
+    }
+
+
 
 
 

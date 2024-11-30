@@ -3,7 +3,7 @@
     $this->component("sidebar", $tabs) 
 ?>
 
-<div class="main-content colomn">
+<div class="main-content colomn scroll-box">
     <div class="bar">
         <img src="<?=ROOT?>/images/icons/home.svg" alt="">
         <h1>Sales Agent</h1>
@@ -16,7 +16,7 @@
         <table class="profile">
             <tr>
                 <td>Sale Agen Name</td>
-                <td><?=$agent['sa_first_name']?> <?=$agent['sa_last_name']?></td>
+                <td><?=$agent['first_name']?> <?=$agent['last_name']?></td>
             </tr>
             <tr>
                 <td>Phone Number</td>
@@ -24,7 +24,7 @@
             </tr>
             <tr>
                 <td>Address</td>
-                <td><?=$agent['sa_address']?></td>
+                <td><?=$agent['address']?></td>
             </tr>
             <tr>
                 <td>Busines Name</td>
@@ -43,8 +43,14 @@
             <img class="profile-img big"  src="<?=ROOT?>/images/Profile/PhoneNumber.jpg" alt="">
         <?php } ?>
     </div>
+
+    <div class="colomn alitem-center h-100">
+        <h3>Performance</h3>
+        <canvas id="performance"></canvas>
+    </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     const LINKROOT = "<?=LINKROOT?>";
     function deleteSalesAgent(sa_phone){
@@ -60,6 +66,52 @@
         )
         .catch(error => console.error('Error:', error));
         }
+
+    // chart.js
+    const performance = document.getElementById('performance');
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    new Chart(performance, {
+        type: 'line',
+        data: {
+            labels: months,
+            datasets: [
+                {
+                    label: 'Maliban Chocolate Biscuit',
+                    data: Array.from({ length: months.length }, () => Math.floor(Math.random() * 10000)),
+                    backgroundColor: '#5afc03',
+                    borderColor: '#5afc03',
+                    borderWidth: 1,
+                    tension: 0.2
+                },
+                {
+                    label: 'Maliban Smart cream cracker',
+                    data: Array.from({ length: months.length }, () => Math.floor(Math.random() * 10000)),
+                    backgroundColor: '#162359',
+                    borderColor: '#162359',
+                    borderWidth: 1,
+                    tension: 0.2
+                },
+            ]
+        },
+        options: {
+            scales: {
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Number of units sold'
+                    },
+                    beginAtZero: true
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Months'
+                    }
+                }
+            }
+        }
+    })
+
 </script>
 
 <?php $this->component("footer") ?>

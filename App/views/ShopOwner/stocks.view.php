@@ -26,7 +26,7 @@
                 <?php 
                     foreach ($stocks as $stock)
                     {
-                        $this->component('card/product', $stock); 
+                        $this->component('card/product', $stock, ['baseUrl' => "ShopOwner/product"]); 
                     }
                 ?>
             </div>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 25, 2024 at 12:47 PM
+-- Generation Time: Nov 30, 2024 at 09:36 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -22,6 +22,35 @@ SET time_zone = "+00:00";
 --
 CREATE DATABASE IF NOT EXISTS `trade_track` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `trade_track`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `announcements`
+--
+
+CREATE TABLE `announcements` (
+  `id` int(11) NOT NULL,
+  `role` enum('0','1','2','3') NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `message` varchar(1000) NOT NULL,
+  `date` date NOT NULL,
+  `time` time NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `announcements`
+--
+
+INSERT INTO `announcements` (`id`, `role`, `title`, `message`, `date`, `time`) VALUES
+(1, '3', 'check', 'new message\r\nnew message\r\nnew message\r\nnew message\r\nnew messagenew message\r\nnew message\r\nnew message\r\nnew message\r\nnew messagenew message\r\nnew message\r\nnew message\r\nnew message\r\nnew messagenew message\r\nnew message\r\nnew message\r\nnew message\r\nnew messagenew message\r\nnew message\r\nnew message\r\nnew message\r\nnew messagenew message\r\nnew message\r\nnew message\r\nnew message\r\nnew message', '2024-11-30', '13:53:35'),
+(4, '0', 'Vj3CZpLusq', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including dversions of Lorem Ipsum', '2024-11-30', '08:05:00'),
+(5, '0', 'BU53BZHFAb', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including dversions of Lorem Ipsum', '2024-11-30', '12:50:05'),
+(7, '3', 'wzD0zXIdAa', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including dversions of Lorem Ipsum', '2024-11-30', '13:54:03'),
+(8, '2', '2Sryje0i3d', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including dversions of Lorem Ipsum', '2024-11-30', '13:54:21'),
+(9, '2', 'CyGEtc08uQ', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including dversions of Lorem Ipsum', '2024-11-30', '13:54:31'),
+(10, '2', 'Y2MWxLO9AR', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including dversions of Lorem Ipsum', '2024-11-30', '13:54:42'),
+(11, '2', 'ihE6NiYbs5', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including dversions of Lorem Ipsum', '2024-11-30', '13:54:52');
 
 -- --------------------------------------------------------
 
@@ -56,7 +85,8 @@ INSERT INTO `bills` (`bill_id`, `date`, `time`, `cus_phone`, `so_phone`) VALUES
 (193, '2024-11-20', '14:41:23', '', '0112223333'),
 (194, '2024-11-20', '15:39:14', '0123456789', '0112223333'),
 (195, '2024-11-20', '15:45:03', '0123456789', '0112223333'),
-(197, '2024-11-23', '14:13:27', '0123456789', '0112223333');
+(197, '2024-11-23', '14:13:27', '0123456789', '0112223333'),
+(198, '2024-11-30', '00:00:45', '0123456789', '0112223333');
 
 -- --------------------------------------------------------
 
@@ -90,7 +120,8 @@ INSERT INTO `bill_items` (`bill_id`, `barcode`, `quantity`) VALUES
 (194, '4790015950624', 2),
 (195, '4790015950624', 7),
 (195, '4791010040044', 3),
-(197, '4790015950624', 2);
+(197, '4790015950624', 2),
+(198, '4790015950624', 2);
 
 -- --------------------------------------------------------
 
@@ -210,6 +241,95 @@ CREATE TABLE `discount` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `distributer_orders`
+--
+
+CREATE TABLE `distributer_orders` (
+  `order_id` int(11) NOT NULL,
+  `date` date NOT NULL DEFAULT current_timestamp(),
+  `time` time NOT NULL DEFAULT current_timestamp(),
+  `dis_phone` varchar(10) NOT NULL,
+  `man_phone` varchar(10) NOT NULL,
+  `status` enum('Ready','Pending','Done','') NOT NULL DEFAULT 'Pending'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `distributer_orders`
+--
+
+INSERT INTO `distributer_orders` (`order_id`, `date`, `time`, `dis_phone`, `man_phone`, `status`) VALUES
+(1, '2024-11-25', '08:00:00', '0372222690', '0771111111', 'Ready'),
+(2, '2024-11-25', '08:15:00', '0372222690', '0771111111', 'Pending'),
+(3, '2024-11-25', '08:30:00', '0372222690', '0771111111', 'Done'),
+(4, '2024-11-25', '08:45:00', '0372222690', '0771111111', 'Ready'),
+(5, '2024-11-25', '09:00:00', '0372222690', '0771111111', 'Pending'),
+(6, '2024-11-25', '09:15:00', '0372222690', '0771111111', 'Done'),
+(7, '2024-11-25', '09:30:00', '0372222690', '0771111111', 'Ready'),
+(8, '2024-11-25', '09:45:00', '0372222690', '0771111111', 'Pending'),
+(9, '2024-11-25', '10:00:00', '0372222690', '0771111111', 'Done'),
+(10, '2024-11-25', '10:15:00', '0372222690', '0771111111', 'Ready'),
+(11, '2024-11-25', '10:30:00', '0372222690', '0771111111', 'Pending'),
+(12, '2024-11-25', '10:45:00', '0372222690', '0771111111', 'Done'),
+(13, '2024-11-25', '11:00:00', '0372222690', '0771111111', 'Ready'),
+(14, '2024-11-25', '11:15:00', '0372222690', '0771111111', 'Pending'),
+(15, '2024-11-25', '11:30:00', '0372222690', '0771111111', 'Done'),
+(16, '2024-11-25', '11:45:00', '0372222690', '0771111111', 'Ready'),
+(17, '2024-11-25', '12:00:00', '0372222690', '0771111111', 'Pending'),
+(18, '2024-11-25', '12:15:00', '0372222690', '0771111111', 'Done'),
+(19, '2024-11-25', '12:30:00', '0372222690', '0771111111', 'Ready'),
+(20, '2024-11-25', '12:45:00', '0372222690', '0771111111', 'Pending'),
+(22, '2024-11-26', '20:23:59', '0372222690', '0771111111', 'Pending'),
+(24, '2024-11-26', '20:45:56', '0372222690', '0771111111', 'Pending'),
+(25, '2024-11-26', '20:46:36', '0372222690', '0771111111', 'Pending'),
+(26, '2024-11-26', '22:11:45', '0372222690', '0771111111', 'Pending'),
+(27, '2024-11-26', '22:22:54', '0372222690', '0771111111', 'Pending'),
+(28, '2024-11-29', '19:58:07', '0372222690', '0771111111', 'Pending'),
+(29, '2024-11-29', '19:58:50', '0372222690', '0771111111', 'Pending');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `distributer_order_items`
+--
+
+CREATE TABLE `distributer_order_items` (
+  `order_id` int(11) NOT NULL,
+  `barcode` varchar(13) NOT NULL,
+  `quantity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `distributer_order_items`
+--
+
+INSERT INTO `distributer_order_items` (`order_id`, `barcode`, `quantity`) VALUES
+(24, '4791034015318', 1),
+(24, '4791034070287', 1),
+(24, '4791034072366', 1),
+(25, '4791034015318', 600),
+(26, '4790015950624', 1),
+(27, '4790015950624', 10),
+(27, '4791034015318', 15),
+(27, '4791034070287', 9),
+(27, '4791034072366', 8),
+(28, '4791034015318', 2),
+(29, '4791034072366', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `distributor_stocks`
+--
+
+CREATE TABLE `distributor_stocks` (
+  `dis_phone` varchar(10) NOT NULL,
+  `barcode` varchar(13) NOT NULL,
+  `quantity` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `loyalty_customers`
 --
 
@@ -263,6 +383,52 @@ INSERT INTO `loyalty_requests` (`cus_phone`, `so_phone`, `created_time`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `manufacturer_stock`
+--
+
+CREATE TABLE `manufacturer_stock` (
+  `barcode` varchar(13) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `low_stock_level` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `manufacturer_stock`
+--
+
+INSERT INTO `manufacturer_stock` (`barcode`, `quantity`, `low_stock_level`) VALUES
+('4790015950624', 10000, 10000),
+('4791034015318', 30000, 10000),
+('4791034070287', 25000, 10000),
+('4791034072366', 20000, 10000);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pending_product_requests`
+--
+
+CREATE TABLE `pending_product_requests` (
+  `barcode` varchar(13) NOT NULL,
+  `product_name` varchar(255) NOT NULL,
+  `unit_price` float NOT NULL,
+  `bulk_price` float NOT NULL,
+  `pic_format` varchar(10) NOT NULL,
+  `man_phone` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `pending_product_requests`
+--
+
+INSERT INTO `pending_product_requests` (`barcode`, `product_name`, `unit_price`, `bulk_price`, `pic_format`, `man_phone`) VALUES
+('1231233213211', 'Maliban Smart Cream Cracker 200g', 890, 450, '', '0771111111'),
+('8976785674563', 'Maliban Gold Marie 500g', 200, 180, '', '0771111111'),
+('9187265341231', 'Maliban Sun Cracker 80g', 170, 140, '', '0771111111');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `pre_order`
 --
 
@@ -283,27 +449,31 @@ CREATE TABLE `products` (
   `barcode` varchar(13) NOT NULL,
   `product_name` varchar(50) NOT NULL,
   `unit_price` float NOT NULL,
-  `pic_format` enum('jpeg','jpg','png','') NOT NULL DEFAULT 'jpeg',
-  `man_phone` varchar(10) DEFAULT NULL
+  `bulk_price` float NOT NULL,
+  `pic_format` varchar(10) NOT NULL DEFAULT 'jpeg',
+  `man_phone` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`barcode`, `product_name`, `unit_price`, `pic_format`, `man_phone`) VALUES
-('4790015950624', 'MALIBAN Full Cream Milk Powder 400g', 1050, 'png', '0770378393'),
-('4791010040044', 'NINJA POWER 12 0.01% MOSQUITO COILS', 200, 'jpeg', NULL),
-('4791034072366', 'MALIBAN Real Chocolate Cream Biscuit', 240, 'jpeg', '0770378393'),
-('4791111102948', 'CLOGARD fluoridated Toothpaste 120g', 240, 'jpeg', NULL),
-('4792024019545', 'NESTOMOALT 450g', 780, 'jpeg', NULL),
-('4792081031580', 'LUX soap 70g', 135, 'jpeg', NULL),
-('4792173000005', 'WIJAYA Chilli Pieces 50g', 80, 'jpeg', NULL),
-('4792225001189', 'DIAMOND full cream milk powder 400g', 1050, 'jpeg', NULL),
-('4796000301471', 'MATARA FREELAN Roasted Curry Powder 50g', 100, 'jpeg', NULL),
-('4796010610921', 'PURE DALE Full cream milk powder', 910, 'jpeg', NULL),
-('4796020480217', 'ARALIYA PREMIUM NADU RICE 5kg', 1100, 'jpeg', NULL),
-('8888101611705', 'MUNCHEE Cheese Buttons Biscuits', 400, 'jpeg', NULL);
+INSERT INTO `products` (`barcode`, `product_name`, `unit_price`, `bulk_price`, `pic_format`, `man_phone`) VALUES
+('4790015950624', 'MALIBAN Full Cream Milk Powder 400g', 1050, 0, 'png', '0771111111'),
+('4791010040044', 'NINJA POWER 12 0.01% MOSQUITO COILS', 200, 0, 'jpeg', ''),
+('4791034015318', 'Maliban Krisco Snack Crackers Biscuits (170g)', 380, 0, 'jpg', '0771111111'),
+('4791034070287', 'Maliban Chocolate Puff Biscuit 200g', 260, 0, 'png', '0771111111'),
+('4791034072366', 'MALIBAN Real Chocolate Cream Biscuit', 240, 0, 'jpeg', '0771111111'),
+('4791034072663', 'Maliban Orange Cream Biscuit 200g', 220, 0, 'webp', ''),
+('4791111102948', 'CLOGARD fluoridated Toothpaste 120g', 240, 0, 'jpeg', ''),
+('4792024019545', 'NESTOMOALT 450g', 780, 0, 'jpeg', ''),
+('4792081031580', 'LUX soap 70g', 135, 0, 'jpeg', ''),
+('4792173000005', 'WIJAYA Chilli Pieces 50g', 80, 0, 'jpeg', ''),
+('4792225001189', 'DIAMOND full cream milk powder 400g', 1050, 0, 'jpeg', ''),
+('4796000301471', 'MATARA FREELAN Roasted Curry Powder 50g', 100, 0, 'jpeg', ''),
+('4796010610921', 'PURE DALE Full cream milk powder', 910, 0, 'jpeg', ''),
+('4796020480217', 'ARALIYA PREMIUM NADU RICE 5kg', 1100, 0, 'jpeg', ''),
+('8888101611705', 'MUNCHEE Cheese Buttons Biscuits', 400, 0, 'jpeg', '');
 
 -- --------------------------------------------------------
 
@@ -314,44 +484,16 @@ INSERT INTO `products` (`barcode`, `product_name`, `unit_price`, `pic_format`, `
 CREATE TABLE `sales_agents` (
   `sa_phone` varchar(10) NOT NULL,
   `sa_busines_name` varchar(255) NOT NULL,
-  `su_phone` varchar(10) NOT NULL,
-  `cash_drawer_balance` float NOT NULL,
-  `bank_balance` float NOT NULL
+  `su_phone` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `sales_agents`
 --
 
-INSERT INTO `sales_agents` (`sa_phone`, `sa_busines_name`, `su_phone`, `cash_drawer_balance`, `bank_balance`) VALUES
-('0712345678', 'USCS', '0770378393', 0, 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `sa_other_expences`
---
-
-CREATE TABLE `sa_other_expences` (
-  `other_expences_id` int(11) NOT NULL,
-  `sa_phone` varchar(10) NOT NULL,
-  `amount` float NOT NULL,
-  `date` date NOT NULL,
-  `description` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `sa_stocks`
---
-
-CREATE TABLE `sa_stocks` (
-  `sa_phone` varchar(10) NOT NULL,
-  `barcode` varchar(13) NOT NULL,
-  `quantity` float NOT NULL,
-  `wholesale_price` float NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `sales_agents` (`sa_phone`, `sa_busines_name`, `su_phone`) VALUES
+('0372222690', 'Sumudu Bedaharinno', '0771111111'),
+('0718976543', 'ghibibibin', '0771111111');
 
 -- --------------------------------------------------------
 
@@ -373,7 +515,7 @@ CREATE TABLE `shops` (
 --
 
 INSERT INTO `shops` (`so_phone`, `shop_name`, `shop_address`, `cash_drawer_balance`, `bank_balance`, `shop_pic_format`) VALUES
-('0112223333', 'Gamunu Stores', 'No. 13, Negombo Road, Kurunega', 47300, 0, '.jpg'),
+('0112223333', 'Gamunu Stores', 'No. 13, Negombo Road, Kurunega', 49400, 0, '.jpg'),
 ('0701234567', 'Jaffna Stores', 'No. 55, Stanley Road, Jaffna', 18000, 45000, '.webp'),
 ('0702345678', 'Vavuniya Market', 'No. 45, Bazaar Street, Vavuniy', 15000, 48000, '.jpg'),
 ('0711234567', 'Kandy Grocers', 'No. 12, Peradeniya Road, Kandy', 10000, 50000, '.jpeg'),
@@ -398,6 +540,20 @@ INSERT INTO `shops` (`so_phone`, `shop_name`, `shop_address`, `cash_drawer_balan
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `shop_orders`
+--
+
+CREATE TABLE `shop_orders` (
+  `order_id` int(11) NOT NULL,
+  `date` date NOT NULL DEFAULT current_timestamp(),
+  `time` time NOT NULL DEFAULT current_timestamp(),
+  `so_phone` varchar(10) NOT NULL,
+  `dis_phone` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `shop_unique_products`
 --
 
@@ -417,24 +573,25 @@ CREATE TABLE `shop_unique_products` (
 CREATE TABLE `so_stocks` (
   `so_phone` varchar(10) NOT NULL,
   `barcode` varchar(13) NOT NULL,
-  `quantity` float NOT NULL
+  `quantity` float NOT NULL,
+  `low_stock_level` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `so_stocks`
 --
 
-INSERT INTO `so_stocks` (`so_phone`, `barcode`, `quantity`) VALUES
-('0112223333', '4790015950624', 100),
-('0112223333', '4791010040044', 50),
-('0112223333', '4791034072366', 400),
-('0112223333', '4791111102948', 350),
-('0112223333', '4792024019545', 240),
-('0112223333', '4792173000005', 380),
-('0112223333', '8888101611705', 146),
-('0701234567', '4790015950624', 300),
-('0712345678', '4790015950624', 100),
-('0718765432', '4790015950624', 200);
+INSERT INTO `so_stocks` (`so_phone`, `barcode`, `quantity`, `low_stock_level`) VALUES
+('0112223333', '4790015950624', 100, 50),
+('0112223333', '4791010040044', 40, 50),
+('0112223333', '4791034072366', 95, 100),
+('0112223333', '4791111102948', 350, 100),
+('0112223333', '4792024019545', 240, 50),
+('0112223333', '4792173000005', 380, 100),
+('0112223333', '8888101611705', 146, 20),
+('0701234567', '4790015950624', 300, 0),
+('0712345678', '4790015950624', 100, 0),
+('0718765432', '4790015950624', 200, 0);
 
 -- --------------------------------------------------------
 
@@ -453,7 +610,7 @@ CREATE TABLE `suppliers` (
 --
 
 INSERT INTO `suppliers` (`su_phone`, `company_name`, `company_address`) VALUES
-('0770378393', 'UCSC', 'Reid Avenue');
+('0771111111', 'Maliban Biscuit Manufactories (Pvt) Limited ', '389 Galle Rd, Dehiwala-Mount Lavinia');
 
 -- --------------------------------------------------------
 
@@ -508,11 +665,11 @@ INSERT INTO `users` (`phone`, `first_name`, `last_name`, `address`, `password`, 
 ('0702345678', 'Suresh', 'Kanagarajah', 'No. 8, 2nd Cross Street, Vavuniya', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
 ('0709876543', 'Mala', 'Jayawardena', 'No.20, Madampe Junction, Chilaw', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
 ('0711234567', 'Nimal', 'Perera', 'No. 5, Temple Lane, Kandy', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
-('0712345678', 'Nimal', 'Perera', 'No.12, Kadawatha Road, Ragama', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 3),
+('0712345678', 'Nimal', 'Perera', 'No.12, Kadawatha Road, Ragama', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
 ('0713456789', 'Upul', 'Rajapaksha', 'No. 4, New Town, Polonnaruwa', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
 ('0714567890', 'Tharindu', 'Gunasekara', 'No. 8, Mallawapitiya, Kurunegala', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
 ('0718765432', 'Chaminda', 'Edirisinghe', 'No. 3, Yakkala Road, Gampaha', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
-('0718976543', 'Kumari', 'Rathnayake', 'No.45/7, Malwatte Road, Matara', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
+('0718976543', 'Kumari', 'Rathnayake', 'No.45/7, Malwatte Road, Matara', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 3),
 ('0719876543', 'Kasun', 'Bandara', 'No. 12, Muwagama, Ratnapura', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
 ('0721112223', 'Shanika', 'Jayasinghe', 'No.25, Kandy Road, Mawanella', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
 ('0721234567', 'Ruwan', 'Karunaratne', 'No. 10, Queen Elizabeth Drive, Nuwara Eliya', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
@@ -529,7 +686,8 @@ INSERT INTO `users` (`phone`, `first_name`, `last_name`, `address`, `password`, 
 ('0762345678', 'Ranjith', 'Abeykoon', 'No. 11, Munneswaram Road, Chilaw', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
 ('0763322110', 'Hemantha', 'Dias', 'No.9, Lake Road, Anuradhapura', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
 ('0765432198', 'Anura', 'Bandara', 'No.44, Rathnapura Road, Eheliyagoda', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
-('0770378393', 'Mohamed Hamdi', 'Mohamed Hamsa', '174/4A,Olcott Mawathe,Galle', '$2y$10$yvFC/AdCkVebfE1CNJZ/T.1wCDkfH3dQo3zb/lPGcEwJN8s6Q6sCq', '', 2),
+('0770000000', 'Piyal', 'Karunarathna', 'No.6, High level road, Nugegoda.', '$2y$10$A7D1CK3gzVHgC5qx24EsYO2FXjvmu9v1U.HiqvXy8oVwJVhePO.Ry', '', 0),
+('0771111111', 'Jagath', 'Madurapperuma', 'No.54/3, Negombo road, Kurunegala', '$2y$10$kDyZIwnOk2SKDkfYTYURDuCfrSMYFZ55dMewsclqK9fm3gJzzsUZO', '', 2),
 ('0772233445', 'Piumi', 'Senarath', 'No.7, Hospital Lane, Kalutara', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
 ('0772345678', 'Mahesh', 'Senanayake', 'No. 6, Welimada Road, Badulla', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
 ('0774567890', 'Jagath', 'Mendis', 'No. 10, New Bazaar, Hambantota', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
@@ -538,11 +696,20 @@ INSERT INTO `users` (`phone`, `first_name`, `last_name`, `address`, `password`, 
 ('0781234567', 'Chandani', 'Silva', 'No.30, Galle Road, Hikkaduwa', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
 ('0787766554', 'Janaka', 'Karunaratne', 'No.10/2, Rajagiriya Road, Nawala', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
 ('0789988776', 'Harsha', 'Abeysekara', 'No.5, Peradeniya Road, Kandy', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
-('0987654321', 'Kamala', 'Gunawardana', 'No.111, Batuwaththa, Meerigama', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0);
+('0987654321', 'Kamala', 'Gunawardana', 'No.111, Batuwaththa, Meerigama', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
+('6099649217', 'IhMaPZT9Ak', 'Z5YL4BjXrN', 'BJ8YRJPSu7', '$2y$10$CtBX9j.sUahzoQLPZQ9GgOMvztTkP/.hGuWVfSPks6.i7o4SxOBz2', '', 3),
+('9089105656', 'm1uE3QtBIX', 'EYVLYqjOrM', 'stNCXXBTM8', '$2y$10$DP/GFByRCs9rVBEkSyT9aetwq/Haft6S0bWrZdqjlEbwL6sxJlGd6', '', 3),
+('9208856537', 'bqajuME11B', 'hkxc37fBoR', 'ILobQm4cdb', '$2y$10$6UGxA/bLrX0zPO34c8jQr.eLJbM4DATl5JZEx7D9aJHxMFRqTvWCO', '', 3);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `announcements`
+--
+ALTER TABLE `announcements`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `bills`
@@ -606,6 +773,27 @@ ALTER TABLE `discount`
   ADD KEY `so_phone` (`so_phone`);
 
 --
+-- Indexes for table `distributer_orders`
+--
+ALTER TABLE `distributer_orders`
+  ADD PRIMARY KEY (`order_id`),
+  ADD KEY `dis_phone` (`dis_phone`),
+  ADD KEY `man_phone` (`man_phone`);
+
+--
+-- Indexes for table `distributer_order_items`
+--
+ALTER TABLE `distributer_order_items`
+  ADD PRIMARY KEY (`order_id`,`barcode`);
+
+--
+-- Indexes for table `distributor_stocks`
+--
+ALTER TABLE `distributor_stocks`
+  ADD PRIMARY KEY (`dis_phone`,`barcode`),
+  ADD KEY `barcode` (`barcode`);
+
+--
 -- Indexes for table `loyalty_customers`
 --
 ALTER TABLE `loyalty_customers`
@@ -618,6 +806,19 @@ ALTER TABLE `loyalty_customers`
 ALTER TABLE `loyalty_requests`
   ADD PRIMARY KEY (`cus_phone`,`so_phone`),
   ADD KEY `so_phone` (`so_phone`);
+
+--
+-- Indexes for table `manufacturer_stock`
+--
+ALTER TABLE `manufacturer_stock`
+  ADD PRIMARY KEY (`barcode`);
+
+--
+-- Indexes for table `pending_product_requests`
+--
+ALTER TABLE `pending_product_requests`
+  ADD PRIMARY KEY (`barcode`,`man_phone`),
+  ADD KEY `man_phone` (`man_phone`);
 
 --
 -- Indexes for table `pre_order`
@@ -637,28 +838,22 @@ ALTER TABLE `products`
 -- Indexes for table `sales_agents`
 --
 ALTER TABLE `sales_agents`
-  ADD PRIMARY KEY (`sa_phone`),
+  ADD PRIMARY KEY (`sa_phone`,`su_phone`),
   ADD KEY `su_phone` (`su_phone`);
-
---
--- Indexes for table `sa_other_expences`
---
-ALTER TABLE `sa_other_expences`
-  ADD PRIMARY KEY (`other_expences_id`),
-  ADD KEY `sa_phone` (`sa_phone`);
-
---
--- Indexes for table `sa_stocks`
---
-ALTER TABLE `sa_stocks`
-  ADD PRIMARY KEY (`sa_phone`,`barcode`),
-  ADD KEY `barcode` (`barcode`);
 
 --
 -- Indexes for table `shops`
 --
 ALTER TABLE `shops`
   ADD PRIMARY KEY (`so_phone`);
+
+--
+-- Indexes for table `shop_orders`
+--
+ALTER TABLE `shop_orders`
+  ADD PRIMARY KEY (`order_id`),
+  ADD KEY `so_phone` (`so_phone`),
+  ADD KEY `dis_phone` (`dis_phone`);
 
 --
 -- Indexes for table `shop_unique_products`
@@ -703,10 +898,16 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `announcements`
+--
+ALTER TABLE `announcements`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
 -- AUTO_INCREMENT for table `bills`
 --
 ALTER TABLE `bills`
-  MODIFY `bill_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=198;
+  MODIFY `bill_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=199;
 
 --
 -- AUTO_INCREMENT for table `bulk_order`
@@ -733,10 +934,16 @@ ALTER TABLE `chat_so_sa`
   MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `sa_other_expences`
+-- AUTO_INCREMENT for table `distributer_orders`
 --
-ALTER TABLE `sa_other_expences`
-  MODIFY `other_expences_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `distributer_orders`
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+
+--
+-- AUTO_INCREMENT for table `shop_orders`
+--
+ALTER TABLE `shop_orders`
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `transactions`
@@ -804,6 +1011,26 @@ ALTER TABLE `discount`
   ADD CONSTRAINT `discount_ibfk_2` FOREIGN KEY (`so_phone`) REFERENCES `shops` (`so_phone`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `distributer_orders`
+--
+ALTER TABLE `distributer_orders`
+  ADD CONSTRAINT `distributer_orders_ibfk_1` FOREIGN KEY (`dis_phone`) REFERENCES `sales_agents` (`sa_phone`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `distributer_orders_ibfk_2` FOREIGN KEY (`man_phone`) REFERENCES `suppliers` (`su_phone`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `distributer_order_items`
+--
+ALTER TABLE `distributer_order_items`
+  ADD CONSTRAINT `distributer_order_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `distributer_orders` (`order_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `distributor_stocks`
+--
+ALTER TABLE `distributor_stocks`
+  ADD CONSTRAINT `distributor_stocks_ibfk_1` FOREIGN KEY (`barcode`) REFERENCES `products` (`barcode`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `distributor_stocks_ibfk_2` FOREIGN KEY (`dis_phone`) REFERENCES `sales_agents` (`sa_phone`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `loyalty_customers`
 --
 ALTER TABLE `loyalty_customers`
@@ -816,6 +1043,18 @@ ALTER TABLE `loyalty_customers`
 ALTER TABLE `loyalty_requests`
   ADD CONSTRAINT `loyalty_requests_ibfk_1` FOREIGN KEY (`so_phone`) REFERENCES `shops` (`so_phone`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `loyalty_requests_ibfk_2` FOREIGN KEY (`cus_phone`) REFERENCES `customers` (`cus_phone`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `manufacturer_stock`
+--
+ALTER TABLE `manufacturer_stock`
+  ADD CONSTRAINT `manufacturer_stock_ibfk_2` FOREIGN KEY (`barcode`) REFERENCES `products` (`barcode`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `pending_product_requests`
+--
+ALTER TABLE `pending_product_requests`
+  ADD CONSTRAINT `pending_product_requests_ibfk_1` FOREIGN KEY (`man_phone`) REFERENCES `suppliers` (`su_phone`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `pre_order`
@@ -833,23 +1072,17 @@ ALTER TABLE `sales_agents`
   ADD CONSTRAINT `sales_agents_ibfk_2` FOREIGN KEY (`sa_phone`) REFERENCES `users` (`phone`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `sa_other_expences`
---
-ALTER TABLE `sa_other_expences`
-  ADD CONSTRAINT `sa_other_expences_ibfk_1` FOREIGN KEY (`sa_phone`) REFERENCES `sales_agents` (`sa_phone`) ON UPDATE CASCADE;
-
---
--- Constraints for table `sa_stocks`
---
-ALTER TABLE `sa_stocks`
-  ADD CONSTRAINT `sa_stocks_ibfk_1` FOREIGN KEY (`barcode`) REFERENCES `products` (`barcode`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `sa_stocks_ibfk_2` FOREIGN KEY (`sa_phone`) REFERENCES `sales_agents` (`sa_phone`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Constraints for table `shops`
 --
 ALTER TABLE `shops`
   ADD CONSTRAINT `shops_ibfk_1` FOREIGN KEY (`so_phone`) REFERENCES `users` (`phone`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `shop_orders`
+--
+ALTER TABLE `shop_orders`
+  ADD CONSTRAINT `shop_orders_ibfk_1` FOREIGN KEY (`so_phone`) REFERENCES `shops` (`so_phone`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `shop_orders_ibfk_2` FOREIGN KEY (`dis_phone`) REFERENCES `sales_agents` (`sa_phone`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `shop_unique_products`
