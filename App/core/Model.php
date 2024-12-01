@@ -7,7 +7,12 @@ class Model extends Database
     {
         $keys = array_keys($data);
         $keys_not = array_keys($data_not);
-        $query = "SELECT * FROM $this->table WHERE ";
+
+        if(!isset($this->readTable)){
+            $this->readTable = $this->table;
+        }
+
+        $query = "SELECT * FROM $this->readTable WHERE ";
         foreach($keys as $key)
         {
             $query .= $key." = :".$key . " && ";
@@ -24,35 +29,80 @@ class Model extends Database
         return $this->query($query, $data);
     }
 
+    // public function first($data, $data_not = [])
+    // {
+    //     $keys = array_keys($data);
+    //     $keys_not = array_keys($data_not);
+
+    //     if(!isset($this->readTable)){
+    //         $this->readTable = $this->table;
+    //     }
+
+    //     $query = "SELECT * FROM $this->readTable WHERE ";
+    //     foreach($keys as $key)
+    //     {
+    //         $query .= $key." = :".$key . " && ";
+    //     }
+        
+    //     foreach($keys_not as $key)
+    //     {
+    //         $query .= $key." != :".$key . " && ";
+    //     }
+
+    //     $query = rtrim($query, " && "); 
+    //     $query .= " LIMIT 1";
+
+    //     $data = array_merge($data, $data_not);
+    //     $result = $this->query($query, $data);
+    //     if($result)
+    //         return $result[0];
+
+    //     return false;
+    // }
+
     public function first($data, $data_not = [])
     {
         $keys = array_keys($data);
         $keys_not = array_keys($data_not);
-        $query = "SELECT * FROM $this->table WHERE ";
-        foreach($keys as $key)
-        {
-            $query .= $key." = :".$key . " && ";
-        }
-        
-        foreach($keys_not as $key)
-        {
-            $query .= $key." != :".$key . " && ";
+
+        if (!isset($this->readTable)) {
+            $this->readTable = $this->table;
         }
 
-        $query = rtrim($query, " && "); 
+        $query = "SELECT * FROM $this->readTable WHERE ";
+        $placeholders = []; // Map original column names to placeholder-friendly keys
+
+        foreach ($keys as $key) {
+            $placeholder = str_replace(['.'], '', $key);
+            $placeholders[$placeholder] = $data[$key];
+            $query .= "$key = :$placeholder && ";
+        }
+
+        foreach ($keys_not as $key) {
+            $placeholder = str_replace(['.'], '', $key);
+            $placeholders[$placeholder] = $data_not[$key];
+            $query .= "$key != :$placeholder && ";
+        }
+
+        $query = rtrim($query, " && ");
         $query .= " LIMIT 1";
 
-        $data = array_merge($data, $data_not);
-        $result = $this->query($query, $data);
-        if($result)
+        $result = $this->query($query, $placeholders);
+        if ($result) {
             return $result[0];
+        }
 
         return false;
     }
 
+
     public function readAll()
     {
-        $query = "SELECT * FROM $this->table";
+        if(!isset($this->readTable)){
+            $this->readTable = $this->table;
+        }
+
+        $query = "SELECT * FROM $this->readTable";
         return $this->query($query);
     }
 

@@ -7,7 +7,7 @@
 
     <div class="top">
         <div class="bar">
-            <img src="<?=ROOT?>/images/icons/home.svg" alt="">
+            <img src="<?=ROOT?>/images/icons/home.svg" alt="" style="visibility:hidden;">
             <div>
                 <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
                 <a href="<?=LINKROOT?>/ShopOwner/profileUpdate"><img src="<?=ROOT?>/images/icons/Profile.svg" alt=""></a>
@@ -38,7 +38,7 @@
         <div class="panel cash-drawer">
             <h2>Cash Drawer Balance</h2>
             <div class="balance">
-                <h1>Rs. 150,000.00</h1>
+                <h1>Rs.<?=$cashDrawerBallance?>.00</h1>
             </div>
         </div>
 

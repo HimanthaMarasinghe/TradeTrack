@@ -6,17 +6,24 @@ class ShopOwner extends Controller
         'tabs' => ['tabs' => ['Home', 'Customers', 'Stocks', 'Accounts'], 'userType' => 'ShopOwner'],
         'styleSheet' => ['styleSheet'=>'shopOwner']
     ];
+
+    public function __construct() {
+        if(!isset($_SESSION['so_phone']) || !isset($_SESSION['shop'])){
+            redirect('login');
+            exit;
+        }
+    }
+
+
     public function index () 
     {
 
-        $_SESSION['so_phone'] = '0112223333'; //ToDo : to be changed to the logged in user's phone number (tbc)
+        //$_SESSION['so_phone'] = '0112223333'; //ToDo : to be changed to the logged in user's phone number (tbc)
 
-        $shopOwner = new ShopOwner();
-        $p = new Products;
         $this->data['tabs']['active'] = 'Home';
         
         $this->data['preOrders'] = [
-            // ['phone' => 'PhoneNumber', 'name' => 'John Doe', 'total' => 15000, 'time' => '5 min'],
+            ['phone' => 'PhoneNumber', 'name' => 'John Doe', 'total' => 15000, 'time' => '5 min'],
             ['phone' => 'PhoneNumber', 'name' => 'Jane Smith', 'total' => 24000, 'time' => '10 min'],
             ['phone' => 'PhoneNumber', 'name' => 'Alice Johnson', 'total' => 32000, 'time' => '7 min'],
             ['phone' => 'PhoneNumber', 'name' => 'Bob Brown', 'total' => 27000, 'time' => '8 min'],
@@ -28,12 +35,11 @@ class ShopOwner extends Controller
             ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson', 'total' => 22000, 'time' => '11 min']
         ];
 
-        $this->data['lowStocks'] = [
-            ['product_name' => 'Samen', 'quantity' => 5, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
-            ['product_name' => 'Rice', 'quantity' => 10, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
-            ['product_name' => 'Sugar', 'quantity' => 15, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
-            ['product_name' => 'Yogurt', 'quantity' => 50, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg']
-        ];
+        $stck = new ShopStock;
+        $this->data['lowStocks'] = $stck->readStock($_SESSION['so_phone'], 'low');
+
+        $shop = new Shops;
+        $this->data['cashDrawerBallance'] = $shop->first(['so_phone' => $_SESSION['so_phone']])['cash_drawer_balance'];
         
 
         $this->view('ShopOwner/home', $this->data);
@@ -58,6 +64,7 @@ class ShopOwner extends Controller
         $this->view('shopOwner/billSettle', $this->data);
     }
 
+    //Used in billSettle.js
     public function checkCustomer(){
         if (!isset($_POST['cus-phone']))
         {
@@ -137,18 +144,6 @@ class ShopOwner extends Controller
             ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson', 'total' => 22000, 'time' => '11 min', 'pic_format' => 'jpeg']
         ];
 
-        // $this->data['newLoyalCusReq'] = [
-        //     ['phone' => 'PhoneNumber', 'name' => 'John Doe'],
-        //     ['phone' => 'PhoneNumber', 'name' => 'Jane Smith'],
-        //     ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson'],
-        //     ['phone' => 'PhoneNumber', 'name' => 'John Doe'],
-        //     ['phone' => 'PhoneNumber', 'name' => 'Jane Smith'],
-        //     ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson'],
-        //     ['phone' => 'PhoneNumber', 'name' => 'John Doe'],
-        //     ['phone' => 'PhoneNumber', 'name' => 'Jane Smith'],
-        //     ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson']
-        // ];
-
         $loyReq = new LoyaltyRequests;
         $this->data['newLoyalCusReq'] = $loyReq->allRequests($_SESSION['so_phone']);
         
@@ -224,26 +219,8 @@ class ShopOwner extends Controller
     }
     
     public function stocks() {
-        $this->data['lowStocks'] = [
-            ['product_name' => 'Samen', 'quantity' => 5, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
-            ['product_name' => 'Rice', 'quantity' => 10, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
-            ['product_name' => 'Sugar', 'quantity' => 15, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
-            ['product_name' => 'Yogurt', 'quantity' => 50, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg']
-        ];
-        $product = new Products;
-        $this->data['stocks'] = $product->readAll();
-        $this->data['staticStocks'] = [
-            ['product_name' => 'Samen', 'quantity' => 5, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
-            ['product_name' => 'Rice', 'quantity' => 10, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
-            ['product_name' => 'Sugar', 'quantity' => 15, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
-            ['product_name' => 'Salt', 'quantity' => 20, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
-            ['product_name' => 'Milk', 'quantity' => 25, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
-            ['product_name' => 'Eggs', 'quantity' => 30, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
-            ['product_name' => 'Bread', 'quantity' => 35, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
-            ['product_name' => 'Butter', 'quantity' => 40, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
-            ['product_name' => 'Cheese', 'quantity' => 45, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg'],
-            ['product_name' => 'Yogurt', 'quantity' => 50, 'barcode' => 'samen', 'price' => 100, 'pic_format' => 'jpeg']
-        ];
+        $stck = new ShopStock;
+        $this->data['stocks'] = $stck->readStock($_SESSION['so_phone'], 'ASC');
         $this->data['tabs']['active'] = 'Stocks';
         $this->view('shopOwner/stocks', $this->data);
     }
@@ -254,19 +231,48 @@ class ShopOwner extends Controller
             return;
         }
         $prd = new Products;
+        $agnt = new SalesAgentM;
         $this->data['product'] = $prd->first(['barcode' => $barcodeIn]);
+        $this->data['agents'] = $agnt->readAll(); //todo : Emplement properly
         $this->data['tabs']['active'] = 'Stocks';
         $this->view('shopOwner/product', $this->data);
     }
     
     public function accounts() {
+        $bill = new Bills;
+        $billItems = new BillItems;
+        $this->data['recentBills'] = $bill->getRecentBillDetails($_SESSION['so_phone']);
+        foreach($this->data['recentBills'] as &$bill){
+            $bill['total'] = $billItems->getBillTotal($bill['bill_id']);
+        }
+        $shop = new Shops;
+        $this->data['cashDrawerBallance'] = $shop->first(['so_phone' => $_SESSION['so_phone']])['cash_drawer_balance'];
         $this->data['tabs']['active'] = 'Accounts';
         $this->view('shopOwner/accounts', $this->data);
+    }
+
+    public function getBillDetails($billId){
+        $bill = new Bills;
+        $Billdata['billDetails'] = $bill->first(['bill_id' => $billId]);
+        $billItem = new BillItems;
+        $Billdata['billItems'] = $billItem->where(['bill_id' => $billId]);
+        $Billdata['total'] = 0;
+        foreach($Billdata['billItems'] as &$item){
+            $item['total'] += $item['unit_price'] * $item['quantity'];
+        }
+        foreach($Billdata['billItems'] as $item){
+            $Billdata['total'] += $item['total'];
+        }
+        echo json_encode($Billdata);
     }
 
     public function recordTransaction() {
         $this->data['tabs']['active'] = 'Accounts';
         $this->view('shopOwner/recordTransaction', $this->data);
+    }
+
+    public function profitAndLossStatement() {
+        $this->view('shopOwner/profitAndLossStatement');
     }
 
     

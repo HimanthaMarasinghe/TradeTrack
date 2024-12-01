@@ -3,10 +3,16 @@
 class Admin extends Controller 
 {
     protected $data = [
-        'tabs' => ['tabs' => ['Home', 'Remove User', 'Stocks', 'Accounts', 'Add New products'], 'userType' => 'Admin'],
+        'tabs' => ['tabs' => ['Home', 'Customers', 'ShopOwners', 'Distributors', 'Manufacturers', 'Products'], 'userType' => 'Admin'],
         'styleSheet' => ['styleSheet'=>'admin']
     ];
 
+    public function __construct() {
+        if(!isset($_SESSION['ad_phone'])){
+            redirect('login');
+            exit;
+        }
+    }
     //create new methods after this line.
     public function index(){
         $this->data['tabs']['active'] = 'Home';
@@ -186,17 +192,109 @@ class Admin extends Controller
         header('Location: ' . LINKROOT . '/admin/addNewProducts'); //Todo: Change this to a product page.
     }
 
+    public function products(){
+        $this->data['tabs']['active'] = 'Products';
+        $prdct = new Products;
+        $this->data['products'] = $prdct->readAll();
+        $this->view('Admin/products', $this->data);
+    }
 
 
+    public function Customers(){
+        $this->data['tabs']['active'] = 'Customers';
+        $this->view('Admin/customers', $this->data);
+    }
 
+    public function Distributors(){
+        $this->data['tabs']['active'] = 'Distributors';
+        $this->view('Admin/salesAgents', $this->data);
+    }
 
+    public function customer(){
+        $this->data['tabs']['active'] = 'Customers';
+        $this->view('Admin/customer', $this->data);
+    }
 
+    public function salesAgent(){
+        $this->data['tabs']['active'] = 'Distributors';
+        $this->view('Admin/salesAgent', $this->data);
+    }
 
+    public function ShopOwners(){
+        $this->data['tabs']['active'] = 'ShopOwners';
+        $this->view('Admin/shopOwners', $this->data);
+    }
 
+    public function shopOwner(){
+        $this->data['tabs']['active'] = 'ShopOwners';
+        $this->view('Admin/shopOwner', $this->data);
+    }
 
+    public function Manufacturers(){
+        $this->data['tabs']['active'] = 'Manufacturers';
+        $this->view('Admin/suppliers', $this->data);
+    }
 
+    public function supplier(){
+        $this->data['tabs']['active'] = 'Manufacturers';
+        $this->view('Admin/supplier', $this->data);
+    }
 
+    public function announcements(){
+        $announcement = new Announcements;
+        
+        $this->data['announcements'] = $announcement->readAll();
+        $this->data['tabs']['active'] = 'Home';
+        $this->view('Admin/announcements', $this->data);
+    }
+
+    public function newAnnouncement(){
+        if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['title']) && !empty($_POST['message']) && isset($_POST['role'])) {
+            $announcement = new Announcements;
+            $announcement->insert(['title' => $_POST['title'], 'message' => $_POST['message'], 'role' => $_POST['role'], 'date' => date('Y-m-d'), 'time' => date('H:i:s')]);
+        }
+        // else {
+        //     echo "Error: Invalid data";
+        //     echo "<br>";
+        //     print_r($_POST);
+        //     echo "<br>";
+        //     echo $_SERVER['REQUEST_METHOD'];
+        //     echo "<br> method check";
+        //     echo $_SERVER['REQUEST_METHOD'] === 'POST';
+        //     echo "<br> title check";
+        //     echo !empty($_POST['title']);
+        //     echo "<br> message check";
+        //     echo !empty($_POST['message']);
+        //     echo "<br> role check";
+        //     echo !empty($_POST['role']);
+
+        // }
+        redirect('Admin/announcements');
+    }
+
+    public function getAnnouncement($id){
+        $announcement = new Announcements;
+        $announcement = $announcement->first(['id' => $id]);
+        echo json_encode($announcement);
+    }
+
+    public function updateAnnouncement($id){
+        if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['title']) && !empty($_POST['message']) && isset($_POST['role'])) {
+            $announcement = new Announcements;
+            $announcement->update(['id' => $id], ['title' => $_POST['title'], 'message' => $_POST['message'], 'role' => $_POST['role'], 'date' => date('Y-m-d'), 'time' => date('H:i:s')]);
+        }
+        redirect('Admin/announcements');
+    }
+
+    public function deleteAnnouncement($id){
+        if($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+            $announcement = new Announcements;
+            $announcement->delete(['id' => $id]);
+            echo json_encode(['status' => 'success']);
+        }
+    }
     
+
     public function new($viewName) {
         $this->view('Admin/'.$viewName, $this->data);
     }

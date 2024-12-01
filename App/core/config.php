@@ -16,5 +16,5 @@ else
 {
     
 }
-
+date_default_timezone_set('Asia/Colombo'); 
 define ('DEBUG', true); // set to false when in production, so that no error messages will be shown

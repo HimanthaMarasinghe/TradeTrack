@@ -84,7 +84,7 @@
 <!-- Printable Bill format -->
 
 <div id="bill-content" class="bill-content">
-        <h1 id="bill-shopName">Shop Name</h1>
+        <h1 id="bill-shopName">Gamunu Stores</h1>
         <p id="bill-date"></p>
         <p id="bill-time"></p>
         <hr>

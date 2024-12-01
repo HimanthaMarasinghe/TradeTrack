@@ -37,11 +37,21 @@
         <?php } else { ?>
             <img class="profile-img big" src="<?=ROOT?>/images/Products/default.jpg" alt="">
         <?php } ?>
-
-
-
+    </div>
+    
+    <h3>Sales agents that you can purchase this product from</h3>
+    <div class="grid g-resp-200 scroll-box">
+    <?php
+        foreach ($agents as $agent)
+        {
+        $this->component('card/ShopOwner/agent', $agent); 
+        }
+    ?>
     </div>
 </div>
+        
+
+        
 
 <!-- <script>
     const LINKROOT = "<?=LINKROOT?>";
