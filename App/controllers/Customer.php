@@ -22,6 +22,14 @@ class Customer extends Controller
         $this->view('Customer/home',$this->data);
     }
 
+    public function placePreOrder(){
+
+        //$_SESSION['cus_phone'] = '0123456789'; //ToDo : to be changed to the logged in user's phone number (tbc)
+
+        $this->data['tabs']['active'] = 'Home';
+        $this->view('Customer/placePreOrder',$this->data);
+    }
+
     public function products(){
         $this->data['tabs']['active'] = 'Products';
         $prdct = new Products;
