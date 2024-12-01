@@ -44,7 +44,7 @@
                         [
                             "name" => "Green Valley Groceries",
                             "time" => "2 hours ago",
-                            "status" => "success"
+                            "status" => "pending"
                         ],
                         [
                             "name" => "Fort Fresh Market",
@@ -54,7 +54,7 @@
                         [
                             "name" => "Ocean View Grocery",
                             "time" => "4 hours ago",
-                            "status" => "success"
+                            "status" => "pending"
                         ],
                         [
                             "name" => "Galle Essentials",
@@ -74,7 +74,7 @@
                         [
                             "name" => "Hilltop Grocery",
                             "time" => "8 hours ago",
-                            "status" => "success"
+                            "status" => "pending"
                         ],
                         [
                             "name" => "Galle Mart",
@@ -84,7 +84,7 @@
                         [
                             "name" => "Pearl Groceries",
                             "time" => "10 hours ago",
-                            "status" => "success"
+                            "status" => "pending"
                         ],
                         [
                             "name" => "Harbor View Mart",
@@ -104,7 +104,7 @@
                         [
                             "name" => "Coral Coast Groceries",
                             "time" => "14 hours ago",
-                            "status" => "success"
+                            "status" => "pending"
                         ],
                         [
                             "name" => "Southern Spice Market",
@@ -119,7 +119,7 @@
                         [
                             "name" => "Coconut Grove Groceries",
                             "time" => "17 hours ago",
-                            "status" => "success"
+                            "status" => "pending"
                         ],
                         [
                             "name" => "Fort Bazaar Grocery",
@@ -157,7 +157,6 @@
                     // Separate orders by status
                     $pendingOrders = [];
                     $readyOrders = [];
-                    $successOrders = [];
                     
                     foreach ($orders as $order) {
                         switch ($order['status']) {
@@ -167,14 +166,11 @@
                             case 'ready':
                                 $readyOrders[] = $order;
                                 break;
-                            case 'success':
-                                $successOrders[] = $order;
-                                break;
                         }
                     }
 
                     // Display orders grouped by status
-                    $allOrders = array_merge($pendingOrders, $readyOrders, $successOrders);
+                    $allOrders = array_merge($pendingOrders, $readyOrders);
                 ?>
 
                 <?php foreach ($allOrders as $order): ?>
