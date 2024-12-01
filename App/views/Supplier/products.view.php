@@ -23,24 +23,50 @@
                 <button class="btn">Search</button>
             </div>
             <div class="scroll-box grid g-resp-300">
-                <?php
+                <!-- <?php
                     foreach ($staticStocks as $stock)
                     {
                         $this->component('card/product', $stock); 
                     }
-                ?>
+                ?> -->
+                 <?php for($x = 0; $x <20; $x++){ ?>
+                <a href="<?=LINKROOT?>/supplier/new/stockproduct" class="card btn-card center-al">
+                    <div class="details h-100">
+                        <h4>Maliban Milk Powder 400g</h4>
+                        <h4>5000</h4>
+                        <h4>Rs.1260.00</h4>
+                    </div>
+                    <div class="product-img-container">
+                        <img class="product-img" src="<?=ROOT?>/images/Products/4790015950624.png" alt="">
+                    </div>
+                </a>
+                <?php }?>
             </div>
         </div>
 
         <div class="panel warning mg-10 fg1">
         <h2>Low Stocks</h2>
             <div class="scroll-box grid g-resp-300">
-                <?php
+                <!-- <?php
                     foreach ($lowStocks as $stock)
                     {
                         $this->component('card/product', $stock); 
                     }
-                ?>
+                       
+                ?> -->
+
+               <?php for($x = 0; $x <20; $x++){ ?>
+                <a href="<?=LINKROOT?>/supplier/new/stockproduct" class="card btn-card center-al">
+                    <div class="details h-100">
+                        <h4>Maliban Milk Powder 400g</h4>
+                        <h4>5000</h4>
+                        <h4>Rs.1260.00</h4>
+                    </div>
+                    <div class="product-img-container">
+                        <img class="product-img" src="<?=ROOT?>/images/Products/4790015950624.png" alt="">
+                    </div>
+                </a>
+                <?php }?>
             </div>
         </div>
     </div>

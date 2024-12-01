@@ -19,24 +19,34 @@
         <div class="panel mg-10 fg1">
             <h2>New Orders</h2>
             <div class="scroll-box grid g-resp-300">
-                <?php 
-                    foreach ($newOrders as $nOrder)
-                    {
-                        $this->component('card/order', $nOrder); 
-                    }
-                ?>
-            </div>
+                <?php for($x = 0; $x < 10; $x++) { ?>
+            <a href="<?=LINKROOT?>/Supplier/new/orderdetails" class="card btn-card center-al">
+                <div class="profile-photo">
+                    <img src="<?=ROOT?>/images/Profile/PhoneNumber.jpg" alt="J">
+                </div>
+                <div class="details center-al">
+                    <h4>Name</h4>
+                    <h4>Rs.200</h4>
+                    <h4>1 hour ago</h4>
+                </div>
+            </a> <?php } ?>
+            </div>  
         </div>
 
         <div class="panel mg-10 fg1">
         <h2>Orders in process</h2>
             <div class="scroll-box grid g-resp-300">
-                <?php
-                    foreach ($processingOrders as $pOrder)
-                    {
-                        $this->component('card/order', $pOrder); 
-                    }
-                ?>
+            <?php for($x = 0; $x < 10; $x++) { ?>
+            <a href="<?=LINKROOT?>/Supplier/new/orderdetails" class="card btn-card center-al">
+                <div class="profile-photo">
+                    <img src="<?=ROOT?>/images/Profile/PhoneNumber.jpg" alt="J">
+                </div>
+                <div class="details center-al">
+                    <h4>Name</h4>
+                    <h4>Rs.200</h4>
+                    <h4>1 hour ago</h4>
+                </div>
+            </a> <?php } ?>
             </div>
         </div>
     </div>
