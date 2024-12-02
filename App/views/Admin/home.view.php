@@ -34,13 +34,13 @@
 
         <div class="card card-green">
         <h2>15</h2>
-        <p>Sales Agents</p>
+        <p>Distributors</p>
         <a href="#">More info</a>
         </div>
 
         <div class="card card-teal">
         <h2>12</h2>
-        <p>Suppliers</p>
+        <p>Manufacturers</p>
         <a href="#">More info</a>
         </div>
 
