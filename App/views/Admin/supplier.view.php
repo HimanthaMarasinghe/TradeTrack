@@ -7,7 +7,7 @@
 <div class="main-content colomn">
     <div class="bar">
         <img src="<?=ROOT?>/images/icons/home.svg" alt="">
-        <h2>Supplier details</h2>
+        <h2>Manufacturer details</h2>
         <div>
             <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
             <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
@@ -16,7 +16,7 @@
     <div class="row spc-btwn">
         <table class="profile">
             <tr>
-                <td>SCompany name</td>
+                <td>Company name</td>
                 <td>Maliban</td>
             </tr>
             <tr>
