@@ -9,11 +9,12 @@
     <div class="bar">
         <img src="<?=ROOT?>/images/icons/home.svg" alt="">
         <!-- <h1><?=$_SESSION['name']?></h1> -->
-        <h1>Customer Shops</h1>
+        <h1>Loyalty Shops</h1>
         <div>
             <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
             <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
         </div>
+    
     </div>
     <div class="row">
       <input type="text" class="search-bar fg1" placeholder="Search">

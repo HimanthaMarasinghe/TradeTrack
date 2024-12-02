@@ -51,6 +51,7 @@ class SalesAgent extends Controller
         // $otherExpense = new SaOtherExpenses;
         
         // $this->data['otherExpenses'] = $otherExpense->where(['sa_phone' => $_SESSION['sa_phone']]);
+
         $this->data['tabs']['active'] = 'Accounts';
         $this->view('SalesAgent/accounts', $this->data);
     }

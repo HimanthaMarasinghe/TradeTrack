@@ -6,7 +6,7 @@
 <div class="main-content colomn scroll-box">
     <div class="bar">
         <img src="<?=ROOT?>/images/icons/home.svg" alt="">
-        <h1>Sales Agent</h1>
+        <h1>Distributor</h1>
         <div>
             <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
             <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
@@ -15,7 +15,7 @@
     <div class="row spc-btwn">
         <table class="profile">
             <tr>
-                <td>Sale Agen Name</td>
+                <td>Distributor Name</td>
                 <td><?=$agent['first_name']?> <?=$agent['last_name']?></td>
             </tr>
             <tr>

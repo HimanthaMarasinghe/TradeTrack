@@ -49,7 +49,7 @@
         <div class="row mg-0">
             <div class="panel row w-50 spc-btwn">
                 <h2>Expenses</h2>
-                <h2>Rs.<?=$otherExpense['amount']?>.00</h2>
+                <h2>Rs.2000.00</h2>
             </div>
             <div class="panel row w-50 spc-btwn">
                 <h2>Creditors (Aug)</h2>

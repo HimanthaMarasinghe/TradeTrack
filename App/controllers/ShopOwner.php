@@ -291,6 +291,7 @@ class ShopOwner extends Controller
         $this->view('shopOwner/profileUpdate', $this->data);
     }
 
+
     public function announcements(){
         $announcement = new Announcements;
         
@@ -303,5 +304,18 @@ class ShopOwner extends Controller
         $announcement = new Announcements;
         $announcement = $announcement->first(['id' => $id]);
         echo json_encode($announcement);
+    }
+
+    public function orderStocks() {
+        
+        $this->data['tabs']['active'] = 'Stocks';
+        $this->view('shopOwner/orderStocks', $this->data);
+    }
+
+    public function Distributors() {
+        
+        $this->data['tabs']['active'] = 'Stocks';
+        $this->view('shopOwner/distributors', $this->data);
+
     }
 }
