@@ -290,4 +290,10 @@ class ShopOwner extends Controller
         $this->data['tabs']['active'] = 'Home';
         $this->view('shopOwner/profileUpdate', $this->data);
     }
+
+    public function orderStocks() {
+        
+        $this->data['tabs']['active'] = 'Stocks';
+        $this->view('shopOwner/orderStocks', $this->data);
+    }
 }
