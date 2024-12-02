@@ -296,4 +296,10 @@ class ShopOwner extends Controller
         $this->data['tabs']['active'] = 'Stocks';
         $this->view('shopOwner/orderStocks', $this->data);
     }
+
+    public function Distributors() {
+        
+        $this->data['tabs']['active'] = 'Stocks';
+        $this->view('shopOwner/distributors', $this->data);
+    }
 }
