@@ -20,6 +20,7 @@
      </div>
     
     <h2 class="center-al">Request History</h2>
+    <h5 class="center-al">Click on any row to see more details</h5>
     <div class="billScroll">
         <table class="bill">
             <thead>
@@ -105,9 +106,9 @@ function openModal(id) {
                     <tr>
                         <td>${item.barcode}</td>
                         <td>${item.product_name}</td>
-                        <td>${item.unit_price}</td>
+                        <td>${item.bulk_price}</td>
                         <td>${item.quantity}</td>
-                        <td>${item.unit_price * item.quantity}</td>
+                        <td>${item.bulk_price * item.quantity}</td>
                     </tr>
                 `;
             });

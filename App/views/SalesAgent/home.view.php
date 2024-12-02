@@ -10,7 +10,8 @@
         <div class="bar">
             <img src="<?=ROOT?>/images/icons/home.svg" alt="">
             <div>
-                <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
+                <!-- <img src="<?=ROOT?>/images/icons/settings.svg" alt=""> -->
+                <a href="<?=LINKROOT?>/Customer/announcements"><img src="<?=ROOT?>/images/icons/Announcement.svg" alt=""></a>
                 <a href="#"><img src="<?=ROOT?>/images/icons/Profile.svg" alt=""></a>
             </div>
         </div>

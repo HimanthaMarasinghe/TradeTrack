@@ -68,6 +68,19 @@ class Customer extends Controller
     }
     //create new methods after this line.
 
+    public function announcements(){
+        $announcement = new Announcements;
+        
+        $this->data['announcements'] = $announcement->where(['role' => 0]);
+        $this->data['tabs']['active'] = 'Home';
+        $this->view('Customer/announcements', $this->data);
+    }
+
+    public function getAnnouncement($id){
+        $announcement = new Announcements;
+        $announcement = $announcement->first(['id' => $id]);
+        echo json_encode($announcement);
+    }
 
 
 

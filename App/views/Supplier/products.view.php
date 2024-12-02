@@ -72,6 +72,13 @@
                 <td colspan="2"><p>If your product do not have a barcode leave the above field empty. The system will generate a barcode for your product.</p></td>
             </tr>
             <tr>
+                <td><label for="barcode">Barcode Registration Proof</label></td>
+                <td><input type="file" id="barcodeProof" name="barcodeProof" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"></td>
+            </tr>
+            <tr>
+                <td colspan="2"><p>If you add a barcode to the form, please upload the official barcode registration document, or a product wraper.</p></td>
+            </tr>
+            <tr>
                 <td><label for="unit_price">Unit price</label></td>
                 <td><input class="userInput" type="text" name="unit_price" id="unit_price" required></td>
             </tr>

@@ -3,6 +3,10 @@
     position: relative;
     margin: auto;
   }
+
+.slideshow-container img{
+  max-height: 300px;
+}
   
   /* Hide the images by default */
   .mySlides {

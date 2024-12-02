@@ -19,7 +19,7 @@
                 <p class="hidden"><?=$product['barcode']?></p>
                 <div class="details h-100">
                     <h4><?=$product['product_name']?></h4>
-                    <h4>Rs.<?=$product['unit_price']?>.00</h4>
+                    <h4>Rs.<?=$product['bulk_price']?>.00</h4>
                 </div>
                 <div class="product-img-container">
                     <img class="product-img" src="<?=ROOT?>/images/Products/<?=$product['barcode']?>.<?=$product['pic_format']?>">
@@ -206,7 +206,7 @@
                             <input class="userInput short" type="number" id="qty" name="qty">
                         </div>
                         <div>
-                            <label for="unit-price">Unit Price</label>
+                            <label for="unit-price">Bulk Price</label>
                             <input class="userInput short" type="text" id="unit-price" readonly tabindex="-1">
                         </div>
                         <div>
@@ -264,13 +264,13 @@ dataFromBackend.orderProducts.forEach(item => {
         <tr class="Item">
             <td class="center-al">${billTBody.rows.length + 1}</td>
             <td class="left-al">${item.product_name}</td>
-            <td>${item.unit_price.toFixed(2)}</td>
+            <td>${item.bulk_price.toFixed(2)}</td>
             <td class="quantity-cell">
                 <button class="minus-btn">-</button>
                 <span class="quantity-input">${item.quantity}</span>
                 <button class="plus-btn">+</button>
             </td>
-            <td>${(item.unit_price * item.quantity).toFixed(2)}</td>
+            <td>${(item.bulk_price * item.quantity).toFixed(2)}</td>
             <td>
                 <button class="delete-btn">x</button>
             </td>

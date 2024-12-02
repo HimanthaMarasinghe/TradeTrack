@@ -19,7 +19,7 @@
                 <p class="hidden"><?=$product['barcode']?></p>
                 <div class="details h-100">
                     <h4><?=$product['product_name']?></h4>
-                    <h4>Rs.<?=$product['unit_price']?>.00</h4>
+                    <h4>Rs.<?=$product['bulk_price']?>.00</h4>
                 </div>
                 <div class="product-img-container">
                     <img class="product-img" src="<?=ROOT?>/images/Products/<?=$product['barcode']?>.<?=$product['pic_format']?>">
@@ -204,7 +204,7 @@
                             <input class="userInput short" type="number" id="qty" name="qty">
                         </div>
                         <div>
-                            <label for="unit-price">Unit Price</label>
+                            <label for="unit-price">Bulk Price</label>
                             <input class="userInput short" type="text" id="unit-price" readonly tabindex="-1">
                         </div>
                         <div>

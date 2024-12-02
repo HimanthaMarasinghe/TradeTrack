@@ -48,9 +48,9 @@ class SalesAgent extends Controller
 
     public function accounts(){
 
-        $otherExpense = new SaOtherExpenses;
+        // $otherExpense = new SaOtherExpenses;
         
-        $this->data['otherExpenses'] = $otherExpense->where(['sa_phone' => $_SESSION['sa_phone']]);
+        // $this->data['otherExpenses'] = $otherExpense->where(['sa_phone' => $_SESSION['sa_phone']]);
         $this->data['tabs']['active'] = 'Accounts';
         $this->view('SalesAgent/accounts', $this->data);
     }
@@ -194,6 +194,20 @@ class SalesAgent extends Controller
             $con->commit();
         }
         echo json_encode(['success' => 'success']);
+    }
+
+    public function announcements(){
+        $announcement = new Announcements;
+        
+        $this->data['announcements'] = $announcement->where(['role' => 3]);
+        $this->data['tabs']['active'] = 'Home';
+        $this->view('SalesAgent/announcements', $this->data);
+    }
+
+    public function getAnnouncement($id){
+        $announcement = new Announcements;
+        $announcement = $announcement->first(['id' => $id]);
+        echo json_encode($announcement);
     }
 
 
