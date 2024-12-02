@@ -18,7 +18,7 @@ img {
 
 .main{
     width: 100%;
-    background:url(../images/Assets/on.jpeg);
+    background:url(../images/Assets/on.png);
     background-position: center;
     background-size: cover;
     height: 100vh;
@@ -39,7 +39,7 @@ img {
 }
 
 .icon span{
-    color: yellowgreen;
+    color: darkgray;
 }
 
 .logo{
@@ -126,7 +126,7 @@ ul li a:hover{
 .content .cn_2{
     width: 130px;
     height: 40px;
-    background: yellowgreen;
+    background: darkgray;
     border: none;
     margin-bottom: 10px;
     margin-left: 20px;
@@ -144,7 +144,7 @@ ul li a:hover{
 }
 
 .cn:hover{
-    background-color:yellowgreen;
+    background-color:darkgray;
 }
 
 .content .cn_2 a{
@@ -157,7 +157,7 @@ ul li a:hover{
     background-color:#162359;
 }
 .content span{
-    color:yellowgreen;
+    color:gray;
     font-size: 65px
 }
 

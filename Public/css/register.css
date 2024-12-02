@@ -10,6 +10,7 @@
     width: 100%;
     padding: 20px;
     /* background-color: --primary-color; */
+    background:url(../images/Assets/on.png);
     display: flex;
     justify-content: center;
     align-items: center;
