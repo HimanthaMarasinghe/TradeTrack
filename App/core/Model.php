@@ -182,7 +182,7 @@ class Model extends Database
         return false;
     }
 
-public function delete($ids)
+public function delete($ids, $con = null)
     {
         $data = [];
         $query = "DELETE FROM $this->table WHERE ";
@@ -194,7 +194,7 @@ public function delete($ids)
         }
         $query = rtrim($query, " && ");
 
-        $this->query($query, $data);
+        $this->query($query, $data, $con);
 
         return false;
     }

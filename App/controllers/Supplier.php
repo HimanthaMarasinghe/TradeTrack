@@ -64,25 +64,54 @@ class Supplier extends Controller
         redirect('Supplier/products');
     }
 
-    public function orders()
+    public function orders()//Todo: Should be recoded for beter optimisation with less queries.
     {
+        $now = new DateTime();
+        $order = new distributorOrders;
+        $orderItems = new distributorOrdersItems;
+        $newOrders = $order->where(['man_phone' => $_SESSION['su_phone'], 'status' => 'Pending']);
+        foreach ($newOrders as &$newOrder) {
+            $newOrder['total'] = $orderItems->getOrderTotal($newOrder['order_id']);
+            $dataTimeString = $newOrder['date'].' '.$newOrder['time'];
+            $orderDateTime = new DateTime($dataTimeString);
+            $newOrder['timeAgo'] = $now->diff($orderDateTime)->format('%hh %im');
+        }
+        $this->data['newOrders'] = $newOrders;
 
-        $this->data['newOrders'] = [
-            ['phone' => 'PhoneNumber', 'sa_first_name' => 'Vimal', 'sa_last_name' => 'Jayawardana', 'total' => 100, 'time' => '1h'],
-            ['phone' => 'PhoneNumber', 'sa_first_name' => 'Vimal', 'sa_last_name' => 'Jayawardana', 'total' => 100, 'time' => '1h'],
-            ['phone' => 'PhoneNumber', 'sa_first_name' => 'Vimal', 'sa_last_name' => 'Jayawardana', 'total' => 100, 'time' => '1h'],
-            ['phone' => 'PhoneNumber', 'sa_first_name' => 'Vimal', 'sa_last_name' => 'Jayawardana', 'total' => 100, 'time' => '1h'],
-        ];
-
-        $this->data['processingOrders'] = [
-            ['phone' => 'PhoneNumber', 'sa_first_name' => 'Vimal', 'sa_last_name' => 'Jayawardana', 'total' => 100, 'time' => '1h'],
-            ['phone' => 'PhoneNumber', 'sa_first_name' => 'Vimal', 'sa_last_name' => 'Jayawardana', 'total' => 100, 'time' => '1h'],
-            ['phone' => 'PhoneNumber', 'sa_first_name' => 'Vimal', 'sa_last_name' => 'Jayawardana', 'total' => 100, 'time' => '1h'],
-            ['phone' => 'PhoneNumber', 'sa_first_name' => 'Vimal', 'sa_last_name' => 'Jayawardana', 'total' => 100, 'time' => '1h'],
-        ];
+        $processingOrders = $order->where(['man_phone' => $_SESSION['su_phone'], 'status' => 'Processing']);
+        foreach ($processingOrders as &$processingOrder) {
+            $processingOrder['total'] = $orderItems->getOrderTotal($processingOrder['order_id']);
+            $dataTimeString = $processingOrder['date'].' '.$processingOrder['time'];
+            $orderDateTime = new DateTime($dataTimeString);
+            $processingOrder['timeAgo'] = $now->diff($orderDateTime)->format('%hh %im');
+        }
+        $this->data['processingOrders'] = $processingOrders;
 
         $this->data['tabs']['active'] = 'Orders';
-        $this->view('supplier/orders', $this->data);    
+        $this->view('supplier/orders', $this->data);
+        // header('Content-Type: application/json');
+        // echo json_encode($this->data);
+    }
+
+    public function orderDetails($order_id)
+    {
+        $order = new distributorOrders;
+        $orderItems = new distributorOrdersItems;
+        $orderDetails = $order->first(['order_id' => $order_id]);
+        $orderDetails['total'] = $orderItems->getOrderTotal($order_id);
+        $orderDetails['orderItems'] = $orderItems->where(['order_id' => $order_id]);
+        foreach ($orderDetails['orderItems'] as &$orderItem) {
+            $orderItem['total'] = $orderItem['bulk_price'] * $orderItem['quantity'];
+        }
+        header('Content-Type: application/json');
+        echo json_encode($orderDetails);
+    }
+
+    public function updateStatus($order_id, $status)
+    {
+        $order = new distributorOrders;
+        $order->update(['order_id' => $order_id], ['status' => $status]);
+        echo json_encode(['success' => 'success']);
     }
 
     public function agents()
@@ -228,6 +257,20 @@ class Supplier extends Controller
             $req->insert( $insertArray);
         }
         redirect('Supplier/products');
+    }
+
+    public function announcements(){
+        $announcement = new Announcements;
+        
+        $this->data['announcements'] = $announcement->where(['role' => 2]);
+        $this->data['tabs']['active'] = 'Home';
+        $this->view('Supplier/announcements', $this->data);
+    }
+
+    public function getAnnouncement($id){
+        $announcement = new Announcements;
+        $announcement = $announcement->first(['id' => $id]);
+        echo json_encode($announcement);
     }
 
 

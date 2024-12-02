@@ -11,7 +11,8 @@
         <!-- <h1><?=$_SESSION['name']?></h1> -->
         <h1>Business Name</h1>
         <div>
-            <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
+            <!-- <img src="<?=ROOT?>/images/icons/settings.svg" alt=""> -->
+            <a href="<?=LINKROOT?>/Supplier/announcements"><img src="<?=ROOT?>/images/icons/Announcement.svg" alt=""></a>
             <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
         </div>
     </div>

@@ -166,7 +166,7 @@
         <img id="More-details-bill-cus-img" class="profile-img" src="<?=ROOT?>/images/Profile/PhoneNumber.jpg" alt="">
     </div>
     <div class="billScroll">
-        <table class="bill min-w-1200 h-">
+        <table class="bill min-w-1200">
             <thead>
                 <tr class="BillHeadings">
                     <th class='center-al'>Barcode</th>

@@ -165,6 +165,8 @@
         </div>
 
         <div class="rightBody">
+            <h2>Edit Pending Request (Request No.<?=$OrderData['order']['order_id']?>)</h2>
+
             <div class="billScroll">
                 <table class="bill">
                     <thead>
@@ -184,7 +186,7 @@
 
             <hr>
             <div class="total">
-                <h1 id="bill-Total">0</h1>
+                <h1 id="bill-Total"><?=$OrderData['total']?></h1>
             </div>
             <hr>
 
@@ -250,15 +252,36 @@
 </div>
 
 <script>
-
+const dataFromBackend = <?=json_encode($OrderData)?>;
 let barcode;
 let billArray = [];
 const LINKROOT = "<?=LINKROOT?>";
+const billTBody = document.getElementById('bill');
+
+dataFromBackend.orderProducts.forEach(item => {
+    billArray.push({ barcode: item.barcode, quantity: item.quantity });
+    billTBody.innerHTML += `
+        <tr class="Item">
+            <td class="center-al">${billTBody.rows.length + 1}</td>
+            <td class="left-al">${item.product_name}</td>
+            <td>${item.bulk_price.toFixed(2)}</td>
+            <td class="quantity-cell">
+                <button class="minus-btn">-</button>
+                <span class="quantity-input">${item.quantity}</span>
+                <button class="plus-btn">+</button>
+            </td>
+            <td>${(item.bulk_price * item.quantity).toFixed(2)}</td>
+            <td>
+                <button class="delete-btn">x</button>
+            </td>
+        </tr>
+    `;    
+});
 
 // Empty rows in the table
 function emptyRows() {
     const billTable = document.getElementById('bill');
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 10-dataFromBackend.orderProducts.length; i++) {
         const newRow = billTable.insertRow();
         newRow.className = 'Item empty-row';
         newRow.innerHTML = `
@@ -574,7 +597,7 @@ function sendBillToBackEnd() {
     let billData = JSON.stringify(billArray);
 
     // Send to backend
-    fetch(LINKROOT + '/SalesAgent/placeOrder', {
+    fetch(LINKROOT + '/SalesAgent/updateRequest/' + dataFromBackend.order.order_id, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

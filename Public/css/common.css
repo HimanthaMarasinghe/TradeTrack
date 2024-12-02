@@ -140,6 +140,10 @@ a.card {
     align-items: center;
 }
 
+.jus-center {
+    justify-content: center;
+}
+
 .center-al {
     text-align: center;
 }

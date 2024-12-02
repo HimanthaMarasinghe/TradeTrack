@@ -48,6 +48,10 @@ class SalesAgent extends Controller
 
     public function accounts(){
 
+        // $otherExpense = new SaOtherExpenses;
+        
+        // $this->data['otherExpenses'] = $otherExpense->where(['sa_phone' => $_SESSION['sa_phone']]);
+
         $this->data['tabs']['active'] = 'Accounts';
         $this->view('SalesAgent/accounts', $this->data);
     }
@@ -117,11 +121,95 @@ class SalesAgent extends Controller
     }
 
     public function requestDetails(){
+        $orders = new distributorOrders;
+        $orderItems = new distributorOrdersItems;
+        $this->data['pendingOrders'] = $orders->getOrderDetails($_SESSION['sa_phone']);
+
+        foreach ($this->data['pendingOrders'] as &$order) {
+            $order['total'] = $orderItems->getOrderTotal($order['order_id']);
+        }
+
         $this->data['tabs']['active'] = 'Stocks';
         $this->view('SalesAgent/requestDetails', $this->data);
     }
 
-    
+    public function requestDetail($order_id){
+        $orderItems = new distributorOrdersItems;
+        $order = new distributorOrders;
+        $OrderData['orderProducts'] = $orderItems->where(['order_id' => $order_id]);
+        $OrderData['total'] = $orderItems->getOrderTotal($order_id);
+        $OrderData['order'] = $order->first(['order_id' => $order_id]);
+        header('Content-Type: application/json');
+        echo json_encode($OrderData);
+    }
+
+    public function deleteOrder($order_id){
+        if($_SERVER['REQUEST_METHOD'] !== 'DELETE'){
+            echo json_encode(['error' => 'Method not allowed']);
+            return;
+        }
+        $order = new distributorOrders;
+        if($order->first(['order_id' => $order_id])['status'] !== 'Pending'){
+            echo json_encode(['error' => 'Order cannot be deleted']);
+            return;
+        }
+        $orderItems = new distributorOrdersItems;
+        $orderItems->delete(['order_id' => $order_id]);
+        $order->delete(['order_id' => $order_id]);
+        echo json_encode(['success' => 'Order deleted']);
+    }
+
+    public function editInventoryRequest($request_id) {
+        $product = new Products;
+        $distributor = new SalesAgentM;
+        $orderItems = new distributorOrdersItems;
+        $order = new distributorOrders;
+        $distDetail = $distributor->first(['sa_phone'=> $_SESSION['sa_phone']]);
+        $this->data['OrderData']['orderProducts'] = $orderItems->where(['order_id' => $request_id]);
+        $this->data['OrderData']['total'] = $orderItems->getOrderTotal($request_id);
+        $this->data['OrderData']['order'] = $order->first(['order_id' => $request_id]);
+        $this->data['products'] = $product->where(['man_phone'=> $distDetail['su_phone']]);
+        // header('Content-Type: application/json');
+        // echo json_encode($this->data);
+        $this->data['tabs']['active'] = 'Stocks';
+        $this->view('SalesAgent/editInventryRequest', $this->data);
+    }
+
+    public function updateRequest($order_id){
+        $order = new distributorOrders;
+        if($order->first(['order_id' => $order_id])['status'] !== 'Pending'){
+            echo json_encode(['error' => 'Order cannot be edited']);
+            return;
+        }
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $input = file_get_contents('php://input');
+            $billItems = json_decode($input, true);
+            $orderItems = new distributorOrdersItems;
+            $con = $orderItems->startTransaction();
+            $order->update(['order_id' => $order_id], ['date' => date('Y-m-d'), 'time' => date('H:i:s')], $con);
+            $orderItems->delete(['order_id' => $order_id], $con);
+            foreach ($billItems as &$item) {
+                $item['order_id'] = $order_id;
+            }
+            $orderItems->bulkInsert($billItems, ['barcode', 'quantity', 'order_id'], $con);
+            $con->commit();
+        }
+        echo json_encode(['success' => 'success']);
+    }
+
+    public function announcements(){
+        $announcement = new Announcements;
+        
+        $this->data['announcements'] = $announcement->where(['role' => 3]);
+        $this->data['tabs']['active'] = 'Home';
+        $this->view('SalesAgent/announcements', $this->data);
+    }
+
+    public function getAnnouncement($id){
+        $announcement = new Announcements;
+        $announcement = $announcement->first(['id' => $id]);
+        echo json_encode($announcement);
+    }
 
 
 

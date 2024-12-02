@@ -293,6 +293,20 @@ class Admin extends Controller
             echo json_encode(['status' => 'success']);
         }
     }
+
+    public function newProductRequests(){
+        $pendingProducts = new pendingProductRequests;
+        $this->data['pendingProducts'] = $pendingProducts->readAll();
+        $this->data['tabs']['active'] = 'Products';
+        $this->view('Admin/productsRequests', $this->data);
+    }
+
+    public function pendingProductRequestDetails(){
+        if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['barcodeIn'])){
+            $req = new pendingProductRequests;
+            echo json_encode($req->first(['barcode' => $_POST['barcodeIn']]));
+        }
+    }
     
 
     public function new($viewName) {
