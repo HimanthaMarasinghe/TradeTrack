@@ -39,7 +39,7 @@
         <?php } ?>
     </div>
     
-    <h3>Sales agents that you can purchase this product from</h3>
+    <h3>Distributors that you can purchase this product from</h3>
     <div class="grid g-resp-200 scroll-box">
     <?php
         foreach ($agents as $agent)

@@ -8,6 +8,7 @@
 
     <div class="bar">
         <img src="<?=ROOT?>/images/icons/home.svg" alt="">
+        <h1>Distributors</h1>
         <div>
             <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
             <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
