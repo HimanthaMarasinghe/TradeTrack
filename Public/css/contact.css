@@ -12,7 +12,7 @@
   
   .container {
     width: 100%;
-    background:url(../images/Assets/on.jpeg);
+    background:url(../images/Assets/on.png);
     background-position: center;
     background-size: cover;
     height: 130vh;
@@ -214,7 +214,7 @@
 }
 
 .icon span{
-    color: yellowgreen;
+    color: darkgray;
 }
   
 .navbar{

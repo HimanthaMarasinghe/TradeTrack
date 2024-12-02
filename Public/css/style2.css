@@ -6,7 +6,7 @@
 
 .main{
     width: 100%;
-    background:url(../images/Assets/on.jpeg);
+    background:url(../images/Assets/on.png);
     background-position: center;
     background-size: cover;
     height: 115vh;
@@ -78,7 +78,7 @@
   }
   
   .hire:hover {
-    background:yellowgreen;
+    background:gray;
   }
 
 
@@ -96,7 +96,7 @@
 }
 
 .icon span{
-    color: yellowgreen;
+    color: gray;
 }
 
 .logo{
