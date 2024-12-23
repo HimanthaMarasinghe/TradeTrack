@@ -20,7 +20,7 @@
             <h2>New Requests</h2>
             <div class="scroll-box grid g-resp-300">
                 <?php for($x = 0; $x < 10; $x++) { ?>
-            <a href="<?=LINKROOT?>/Supplier/new/orderdetails" class="card btn-card center-al">
+            <a href="<?=LINKROOT?>/Manufacturer/new/orderdetails" class="card btn-card center-al">
                 <div class="profile-photo">
                     <img src="<?=ROOT?>/images/Profile/PhoneNumber.jpg" alt="J">
                 </div>
@@ -37,7 +37,7 @@
         <h2>Requests in process</h2>
             <div class="scroll-box grid g-resp-300">
             <?php for($x = 0; $x < 10; $x++) { ?>
-            <a href="<?=LINKROOT?>/Supplier/new/orderdetails" class="card btn-card center-al">
+            <a href="<?=LINKROOT?>/Manufacturer/new/orderdetails" class="card btn-card center-al">
                 <div class="profile-photo">
                     <img src="<?=ROOT?>/images/Profile/PhoneNumber.jpg" alt="J">
                 </div>
@@ -104,7 +104,7 @@
     document.querySelectorAll('.card').forEach(card => {
         card.addEventListener('click', function() {
             let order_id = this.id;
-            let url = LINKROOT + '/Supplier/orderDetails/' + order_id;
+            let url = LINKROOT + '/Manufacturer/orderDetails/' + order_id;
             fetch(url)
             .then(response => response.json())
             .then(data => {
@@ -145,7 +145,7 @@
     });
 
     function updateStatus(order_id, status) {
-        fetch(LINKROOT + '/Supplier/updateStatus/' + order_id + '/' + status)
+        fetch(LINKROOT + '/Manufacturer/updateStatus/' + order_id + '/' + status)
         .then(response => response.json())
         .then(data => {
             if(data.success) {

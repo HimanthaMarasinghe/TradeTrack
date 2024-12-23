@@ -7,7 +7,7 @@
 <div class="main-content">
     <h2>Add New Sales Agent</h2>
 
-    <form action="<?=LINKROOT?>/Supplier/addNewAgents" method="POST" enctype="multipart/form-data">
+    <form action="<?=LINKROOT?>/Manufacturer/addNewAgents" method="POST" enctype="multipart/form-data">
         
     <!-- Image uploading box -->
         <div class="imageUploadBox">

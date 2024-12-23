@@ -1,4 +1,4 @@
-<a href="<?php if($url) echo LINKROOT.'/Supplier/'.$url; else echo '#';?>" id="<?=$order_id?>" class="card btn-card center-al">
+<a href="<?php if($url) echo LINKROOT.'/Manufacturer/'.$url; else echo '#';?>" id="<?=$order_id?>" class="card btn-card center-al">
     <div class="profile-photo">
         <!-- <img src="<?=ROOT?>/images/Profile/<?=$dis_phone?>.jpg" alt="J"> -->
         <img src="<?=ROOT?>/images/Profile/PhoneNumber.jpg" alt="J">

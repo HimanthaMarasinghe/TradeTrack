@@ -7,7 +7,7 @@
 <div class="main-content">
     <h2>Update Sales Agent Details</h2>
 
-    <form action="<?=LINKROOT?>/Supplier/UpdateAgent/<?=$agent['sa_phone']?>" method="POST" enctype="multipart/form-data">
+    <form action="<?=LINKROOT?>/Manufacturer/UpdateAgent/<?=$agent['sa_phone']?>" method="POST" enctype="multipart/form-data">
         
     <!-- Image uploading box -->
     <div class="imageUploadBox">

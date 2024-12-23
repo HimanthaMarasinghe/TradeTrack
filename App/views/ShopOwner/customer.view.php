@@ -75,7 +75,7 @@
                 </tr>
             </thead>
             <tbody>
-                <?php
+                <!-- <?php
                 for($i = 1; $i<25; $i++){
                     echo "<tr class='Item'>
                             <td class='center-al'>$i</td>
@@ -85,7 +85,39 @@
                             <td class='center-al'><button class='btn btn-mini'>More</button></td>
                         </tr>";
                 }
+            ?> -->
+            <?php
+            // Predefined array of bills, sorted by date
+            $bills = [
+                ["id" => 1, "date" => "2024.03.18", "time" => "10.15 a.m.", "amount" => "Rs.450.00"],
+                ["id" => 2, "date" => "2024.03.19", "time" => "11.30 a.m.", "amount" => "Rs.300.00"],
+                ["id" => 3, "date" => "2024.03.20", "time" => "09.45 a.m.", "amount" => "Rs.600.00"],
+                ["id" => 4, "date" => "2024.03.21", "time" => "01.00 p.m.", "amount" => "Rs.250.00"],
+                ["id" => 5, "date" => "2024.03.22", "time" => "02.30 p.m.", "amount" => "Rs.500.00"],
+                ["id" => 6, "date" => "2024.03.23", "time" => "03.00 p.m.", "amount" => "Rs.350.00"],
+                ["id" => 7, "date" => "2024.03.24", "time" => "04.15 p.m.", "amount" => "Rs.400.00"],
+                ["id" => 8, "date" => "2024.03.25", "time" => "05.45 p.m.", "amount" => "Rs.550.00"],
+                ["id" => 9, "date" => "2024.03.26", "time" => "06.30 p.m.", "amount" => "Rs.200.00"],
+                ["id" => 10, "date" => "2024.03.27", "time" => "07.00 p.m.", "amount" => "Rs.650.00"]
+            ];
+
+            // Sort the bills array by date if it's not already sorted
+            usort($bills, function($a, $b) {
+                return strtotime($a['date']) - strtotime($b['date']);
+            });
+
+            // Generate the table rows
+            foreach ($bills as $bill) {
+                echo "<tr class='Item'>
+                        <td class='center-al'>{$bill['id']}</td>
+                        <td class='left-al'>{$bill['date']}</td>
+                        <td class='left-al'>{$bill['time']}</td>
+                        <td>{$bill['amount']}</td>
+                        <td class='center-al'><button class='btn btn-mini'>More</button></td>
+                    </tr>";
+            }
             ?>
+
                 <tr></tr>
             </tbody>
         </table>

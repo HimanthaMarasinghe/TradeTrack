@@ -9,7 +9,7 @@
   <div class="bar">
     <img src="<?=ROOT?>/images/icons/home.svg" alt="">
     <!-- <h1><?=$_SESSION['name']?></h1> -->
-    <h1>Customer Name</h1>
+    <h1>Saman Gunawardhana</h1>
     <div>
       <a href="<?=LINKROOT?>/Customer/announcements"><img src="<?=ROOT?>/images/icons/Announcement.svg" alt=""></a>
       <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">

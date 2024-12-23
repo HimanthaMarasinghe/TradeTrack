@@ -104,7 +104,7 @@
                                 </label>
                                 <label class="customRadio">
                                     <input type="radio" name="role" value="2" onchange="updateForm()">
-                                    <span>Supplier</span>
+                                    <span>Manufacturer</span>
                                 </label>
                             </td>
                         </tr>

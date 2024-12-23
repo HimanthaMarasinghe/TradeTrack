@@ -32,7 +32,7 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <a class="btn" href="<?=LINKROOT?>/Supplier/updateAgent/<?=$agent['sa_phone']?>">Update</a>
+                    <a class="btn" href="<?=LINKROOT?>/Manufacturer/updateAgent/<?=$agent['sa_phone']?>">Update</a>
                     <button onclick="deleteSalesAgent('<?=$agent['sa_phone']?>')" class="btn">Delete</button>
                 </td>
             </tr>
@@ -54,7 +54,7 @@
 <script>
     const LINKROOT = "<?=LINKROOT?>";
     function deleteSalesAgent(sa_phone){
-        fetch(LINKROOT+'/Supplier/deleteAgent', {
+        fetch(LINKROOT+'/Manufacturer/deleteAgent', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'

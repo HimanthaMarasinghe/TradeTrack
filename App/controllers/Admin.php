@@ -232,12 +232,12 @@ class Admin extends Controller
 
     public function Manufacturers(){
         $this->data['tabs']['active'] = 'Manufacturers';
-        $this->view('Admin/suppliers', $this->data);
+        $this->view('Admin/manufacturers', $this->data);
     }
 
-    public function supplier(){
+    public function manufacturer(){
         $this->data['tabs']['active'] = 'Manufacturers';
-        $this->view('Admin/supplier', $this->data);
+        $this->view('Admin/manufacturer', $this->data);
     }
 
     public function announcements(){

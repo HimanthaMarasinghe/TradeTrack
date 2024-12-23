@@ -28,7 +28,7 @@ class login extends Controller
                         
                         case '2':
                             $_SESSION['su_phone'] = $row['phone'];
-                            redirect('Supplier/home');
+                            redirect('Manufacturer/home');
                             break;
                         
                         case '3':

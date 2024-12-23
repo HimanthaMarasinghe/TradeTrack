@@ -1,10 +1,10 @@
 <?php
 
-class Supplier extends Controller 
+class Manufacturer extends Controller 
 {
     protected $data = [
-        'tabs' => ['tabs' => ['Home', 'Products', 'Orders', 'Agents'], 'userType' => 'Supplier'],
-        'styleSheet' => ['styleSheet'=>'supplier']
+        'tabs' => ['tabs' => ['Home', 'Products', 'Orders', 'Agents'], 'userType' => 'Manufacturer'],
+        'styleSheet' => ['styleSheet'=>'manufacturer']
     ];
 
     public function __construct() {
@@ -20,7 +20,7 @@ class Supplier extends Controller
         //$_SESSION['su_phone'] = '0112223333'; //ToDo : to be changed to the logged in user's phone number (tbc)
 
         $this->data['tabs']['active'] = 'Home';
-        $this->view('supplier/home', $this->data);
+        $this->view('manufacturer/home', $this->data);
     }
 
     public function products()
@@ -31,14 +31,14 @@ class Supplier extends Controller
         $pendingProducts = new pendingProductRequests;
         $this->data['pendingProducts'] = $pendingProducts->where(['man_phone' => $_SESSION['su_phone']]);
         $this->data['tabs']['active'] = 'Products';
-        $this->view('supplier/products', $this->data);    
+        $this->view('manufacturer/products', $this->data);    
     }
 
     public function product($barcode){
         $product = new manufacturerStock;
         $this->data['product'] = $product->first(['products.barcode' => $barcode]);
         $this->data['tabs']['active'] = 'Products';
-        $this->view('supplier/product', $this->data);
+        $this->view('manufacturer/product', $this->data);
     }
 
     public function pendingProductRequestDetails(){
@@ -61,7 +61,7 @@ class Supplier extends Controller
             $req = new pendingProductRequests;
             $req->update(['barcode' => $barcode], $_POST);
         }
-        redirect('Supplier/products');
+        redirect('Manufacturer/products');
     }
 
     public function orders()//Todo: Should be recoded for beter optimisation with less queries.
@@ -88,7 +88,7 @@ class Supplier extends Controller
         $this->data['processingOrders'] = $processingOrders;
 
         $this->data['tabs']['active'] = 'Orders';
-        $this->view('supplier/orders', $this->data);
+        $this->view('manufacturer/orders', $this->data);
         // header('Content-Type: application/json');
         // echo json_encode($this->data);
     }
@@ -120,7 +120,7 @@ class Supplier extends Controller
         $this->data['agents'] = $agent->where(['su_phone' => $_SESSION['su_phone']]);
 
         $this->data['tabs']['active'] = 'Agents';
-        $this->view('supplier/agents', $this->data);    
+        $this->view('manufacturer/agents', $this->data);    
     }
 
     
@@ -136,11 +136,11 @@ class Supplier extends Controller
             if(!empty($oldAgent))
             {
                 echo "Agent with this phone number already exist."; //Todo : change this to a proper error page.
-                // header('Location: ' . LINKROOT . '/Supplier/Agents');
+                // header('Location: ' . LINKROOT . '/Manufacturer/Agents');
                 return;
             }
 
-            unset($_POST['sa_password']);   //Supplier is not alowed to set a password for Sales agent. A default password will be set and sales agent should change it after login.
+            unset($_POST['sa_password']);   //Manufacturer is not alowed to set a password for Sales agent. A default password will be set and sales agent should change it after login.
 
             // $extension = (isset($_FILES['image']) && $_FILES['image']['error'] === 0) ? $this->saveImage($_FILES['image'], 'images/Profile/SA/', $_POST['sa_phone']) : false;
 
@@ -159,35 +159,35 @@ class Supplier extends Controller
             }
             $agent->insert($insertData, $con);
             $con->commit();
-            header('Location: ' . LINKROOT . '/Supplier/Agents');
+            header('Location: ' . LINKROOT . '/Manufacturer/Agents');
             return;
         }
         $this->data['tabs']['active'] = 'Agents';
-        $this->view('supplier/addNewAgents', $this->data);
+        $this->view('manufacturer/addNewAgents', $this->data);
     }
 
     public function Agent($sap = null) {
         if($sap == null)
         {
-            header('Location: ' . LINKROOT . '/Supplier/Agents');
+            header('Location: ' . LINKROOT . '/Manufacturer/Agents');
             return;
         }
 
         $agent = new SalesAgentM;
         $this->data['agent'] = $agent->first(['sa_phone' => $sap, 'su_phone' => $_SESSION['su_phone']]);
         if(!$this->data['agent']){
-            header('Location: ' . LINKROOT . '/Supplier/Agents');
+            header('Location: ' . LINKROOT . '/Manufacturer/Agents');
             return;
         }
 
         $this->data['tabs']['active'] = 'Agents';
-        $this->view('supplier/agent', $this->data);
+        $this->view('manufacturer/agent', $this->data);
     }
 
     public function UpdateAgent($sap = null) { //todo : after user table, this method did not get updated
         if($sap == null)
         {
-            header('Location: ' . LINKROOT . '/Supplier/Agents');
+            header('Location: ' . LINKROOT . '/Manufacturer/Agents');
             return;
         }
 
@@ -195,14 +195,14 @@ class Supplier extends Controller
         $agentData = $agent->first(['sa_phone' => $sap, 'su_phone' => $_SESSION['su_phone']]);
         if(empty($agentData))
         {
-            // echo $sap." : This agent phone number ether does not exist in the db or not belong to the logged in supplier."; //Todo : change this to a proper error page.
-            header('Location: ' . LINKROOT . '/Supplier/Agents');
+            // echo $sap." : This agent phone number ether does not exist in the db or not belong to the logged in manufacturer."; //Todo : change this to a proper error page.
+            header('Location: ' . LINKROOT . '/Manufacturer/Agents');
             return;
         }
 
         if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_SESSION['su_phone']) && !empty($_POST['sa_phone']) && !empty($_POST['sa_first_name']) && !empty($_POST['sa_last_name']) && !empty($_POST['sa_busines_name']) && !empty($_POST['sa_address']))
         {
-            unset($_POST['sa_password']);   //Supplier is not alowed to set a password for Sales agent. A default password will be set and sales agent should change it after login.
+            unset($_POST['sa_password']);   //Manufacturer is not alowed to set a password for Sales agent. A default password will be set and sales agent should change it after login.
 
             $updData = $_POST;
             if (isset($_FILES['image']) && $_FILES['image']['error'] === 0)
@@ -233,13 +233,13 @@ class Supplier extends Controller
             if(!empty($updData)){
                 $agent->update(['sa_phone' => $sap, 'su_phone' => $_SESSION['su_phone']], $updData);
             }
-            header('Location: ' . LINKROOT . '/Supplier/Agents');                                 
+            header('Location: ' . LINKROOT . '/Manufacturer/Agents');                                 
             return;
         }
 
         $this->data['agent'] = $agentData;
         $this->data['tabs']['active'] = 'Agents';
-        $this->view('supplier/updateAgent', $this->data);
+        $this->view('manufacturer/updateAgent', $this->data);
     }
 
     public function deleteAgent() { //todo : deleted agent should be in a anothe table, and baned agents may still log in to his distributor account but not be able to do anything in it.
@@ -256,7 +256,7 @@ class Supplier extends Controller
             $insertArray = array_merge($_POST, ['man_phone' => $_SESSION['su_phone']]);
             $req->insert( $insertArray);
         }
-        redirect('Supplier/products');
+        redirect('Manufacturer/products');
     }
 
     public function announcements(){
@@ -264,7 +264,7 @@ class Supplier extends Controller
         
         $this->data['announcements'] = $announcement->where(['role' => 2]);
         $this->data['tabs']['active'] = 'Home';
-        $this->view('Supplier/announcements', $this->data);
+        $this->view('Manufacturer/announcements', $this->data);
     }
 
     public function getAnnouncement($id){
@@ -288,7 +288,7 @@ class Supplier extends Controller
 
     
     public function new($viewName) {
-        $this->view('Supplier/'.$viewName, $this->data);
+        $this->view('Manufacturer/'.$viewName, $this->data);
     }
 
 }

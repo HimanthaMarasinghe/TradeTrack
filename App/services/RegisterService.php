@@ -17,9 +17,9 @@ class RegisterService extends Database
                 break;
 
             case '2':
-                $supplier = new Suppliers;
+                $manufacturer = new Manufacturers;
                 $newUser['su_phone'] = $newUser['phone'];
-                $supplier->insert($newUser, $con);
+                $manufacturer->insert($newUser, $con);
                 break;
 
             default:
