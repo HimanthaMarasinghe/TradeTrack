@@ -17,7 +17,7 @@
     <div class="row">
       <input type="text" class="search-bar fg1" placeholder="Search">
       <button class="btn">Search</button>
-      <!-- <a href="<?=LINKROOT?>/Supplier/addNewAgents" class="btn">Add new Agents</a> -->
+      <!-- <a href="<?=LINKROOT?>/Manufacturer/addNewAgents" class="btn">Add new Agents</a> -->
        <button class="btn" onclick="viewPopUp('addNewAgent')">Add new Distributor</button>
     </div>
 
@@ -38,7 +38,7 @@
 <div id="addNewAgent" class="popUpDiv hidden">
     <h2>Add a new Distributor</h2>
     <br>
-    <form action="<?=LINKROOT?>/Supplier/addNewAgents" method="POST">
+    <form action="<?=LINKROOT?>/Manufacturer/addNewAgents" method="POST">
 
     <div class="imageUploadBox" id="pop">
         <div id="imagePreview" class="imagePreviewBox">
@@ -57,8 +57,8 @@
 
         <table>
             <tr>
-                <td><label for="sa_phone">Distributor's Phone Number</label></td>
-                <td><input class="userInput" type="text" name="phone" id="sa_phone" required></td>
+                <td><label for="dis_phone">Distributor's Phone Number</label></td>
+                <td><input class="userInput" type="text" name="phone" id="dis_phone" required></td>
             </tr>
             <tr>
                 <td><label for="sa_busines_name">Business Name</label></td>

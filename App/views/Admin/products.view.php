@@ -23,6 +23,7 @@
                 <input type="text" class="search-bar fg1" placeholder="Search">
                 <button class="btn">Search</button>
                 <a class="btn"  href="<?=LINKROOT?>/Admin/addNewProducts">Add new product</a>
+                <a class="btn"  href="<?=LINKROOT?>/Admin/newProductRequests">New product add requests</a>
             </div>
             <div class="scroll-box grid g-resp-300">
 

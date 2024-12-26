@@ -1,4 +1,4 @@
-<a href="<?=LINKROOT?>/Supplier/Agent/<?=$sa_phone?>" class="card btn-card colomn asp-rtio">
+<a href="<?=LINKROOT?>/Manufacturer/Agent/<?=$sa_phone?>" class="card btn-card colomn asp-rtio">
     <?php if(file_exists("./images/Profile/SA/".$sa_phone.".".$sa_pic_format)){ ?>
         <img class="product-img" src="<?=ROOT?>/images/Profile/SA/<?=$sa_phone?>.<?=$sa_pic_format?>" alt="">
     <?php }else{ ?>

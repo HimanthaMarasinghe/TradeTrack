@@ -26,7 +26,7 @@
             <div class="scroll-box grid g-resp-300">
                 <?php
                     foreach ($staticStocks as $stock) { 
-                        $this->component('card/product', $stock, ['baseUrl' => 'Supplier/product']); 
+                        $this->component('card/product', $stock, ['baseUrl' => 'Manufacturer/product']); 
                     }
                     foreach ($pendingProducts as $stock) { 
                         $this->component('card/product', $stock, ['special' => "Request Pending"]); 
@@ -42,7 +42,7 @@
 <div id="addNewProducts" class="hidden popUpDiv">
     <h2>Make a request to add new product</h2>
     <br>
-    <form action="<?=LINKROOT?>/Supplier/newProductRequest" method="POST" id="addNewProductForm">
+    <form action="<?=LINKROOT?>/Manufacturer/newProductRequest" method="POST" id="addNewProductForm">
 
     <div class="imageUploadBox" id="pop">
         <div id="imagePreview" class="imagePreviewBox">
@@ -126,7 +126,7 @@
     function addNewProduct() {
         productDetailsPopUpHeader.textContent = 'Make a request to add new product';
         form.reset(); // Reset form fields
-        form.action = LINKROOT+'/Supplier/newProductRequest'; // Reset form action URL to its default value
+        form.action = LINKROOT+'/Manufacturer/newProductRequest'; // Reset form action URL to its default value
         formSubmitBtn.value = 'Make request'; // Reset any dynamic labels or changes (if needed)
         viewPopUp('addNewProducts');
     }
@@ -135,7 +135,7 @@
     document.querySelectorAll(".card-js").forEach((card) => {
         card.addEventListener("click", function(event) {
             console.log(encodeURIComponent(event.currentTarget.id));
-            fetch(LINKROOT+'/Supplier/pendingProductRequestDetails', {
+            fetch(LINKROOT+'/Manufacturer/pendingProductRequestDetails', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -165,13 +165,13 @@
     function updateRequest(barcode) {
         productDetailsPopUpHeader.textContent = 'Update product request';
         productDetailsPopUp.classList.add('hidden');
-        form.action = LINKROOT+'/Supplier/updateProductRequest/'+barcode;
+        form.action = LINKROOT+'/Manufacturer/updateProductRequest/'+barcode;
         formSubmitBtn.value = 'Update';
         viewPopUp('addNewProducts');
     }
 
     function deleteRequest(barcode) {
-        fetch(LINKROOT+'/Supplier/deleteProductRequest', {
+        fetch(LINKROOT+'/Manufacturer/deleteProductRequest', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'

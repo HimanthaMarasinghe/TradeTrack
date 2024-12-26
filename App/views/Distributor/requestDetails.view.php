@@ -96,7 +96,7 @@
 <script>
 function openModal(id) {
     console.log(id);
-    fetch("<?=ROOT?>/SalesAgent/requestDetail/" + id)
+    fetch("<?=ROOT?>/Distributor/requestDetail/" + id)
         .then(response => response.json())
         .then(data => {
             const modalBody = document.getElementById("order-modal-body");
@@ -164,12 +164,12 @@ document.querySelectorAll(".clickable").forEach(item => {
 
 function editOrder(id) {
     // alert("Edit order clicked!" + id);
-    location.href = "<?=ROOT?>/SalesAgent/editInventoryRequest/" + id;
+    location.href = "<?=ROOT?>/Distributor/editInventoryRequest/" + id;
 }
 
 function deleteOrder(id) {
     // alert("Delete order clicked!" + id);
-    fetch("<?=ROOT?>/SalesAgent/deleteOrder/" + id, {
+    fetch("<?=ROOT?>/Distributor/deleteOrder/" + id, {
         method: "DELETE"
     })
     .then(response => response.json())

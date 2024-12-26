@@ -21,14 +21,14 @@
             </tr>
             <tr>
                 <td>Quantity</td>
-                <td><input class="userInput" type="text" name="Quantity" id="" required></td>
+                <td>5000</td>
             </tr>
             <tr>
                 <td>Quantity Price</td>
                 <td>Rs.1260.00</td>
             </tr>
             <tr>
-                <td><a href="<?=LINKROOT?>/Supplier/new/stockproduct" class="btn">Done</a></td>
+            <td><a href="<?=LINKROOT?>/Manufacturer/new/updateQuantity" class="btn">Update Quantity</a></td>
             </tr>
         </table>
         <img class="profile-img big" src="<?=ROOT?>/images/Products/4790015950624.png" alt="">

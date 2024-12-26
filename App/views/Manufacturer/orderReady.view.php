@@ -24,8 +24,8 @@
             <h3>Order Status set to ready.</h3>
         </div>
 
-        <a href="<?=LINKROOT?>/Supplier/home" class="btn">Home</a>
-        <a href="<?=LINKROOT?>/Supplier/orders" class="btn">Orders</a>
+        <a href="<?=LINKROOT?>/Manufacturer/home" class="btn">Home</a>
+        <a href="<?=LINKROOT?>/Manufacturer/orders" class="btn">Orders</a>
         
     </div>
 </div>

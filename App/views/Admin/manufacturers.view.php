@@ -22,7 +22,7 @@
 
     <div class="grid g-resp-200 scroll-box">
     <?php for($x = 0; $x <20; $x++){ ?>
-        <a href="<?=LINKROOT?>/Admin/supplier" class="card btn-card colomn asp-rtio">
+        <a href="<?=LINKROOT?>/Admin/manufacturer" class="card btn-card colomn asp-rtio">
             <img class="product-img" src="<?=ROOT?>/images/Profile/SA/0123456789.jpg" alt="">
             <div class="details h-50">
                 <h4>Maliban</h4>

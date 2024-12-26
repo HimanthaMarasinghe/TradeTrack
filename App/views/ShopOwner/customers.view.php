@@ -8,7 +8,7 @@
     <div class="bar">
         <img src="<?=ROOT?>/images/icons/home.svg" alt="">
         <!-- <h1><?=$_SESSION['name']?></h1> -->
-        <h1>Shop Name</h1>
+        <h1>Gamunu Stores</h1>
         <div>
             <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
             <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">

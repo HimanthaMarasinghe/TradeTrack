@@ -18,7 +18,7 @@
 
         <div class="bar">
             <h1><?=$_SESSION['name']?></h1>
-            <a class="btn" href="<?=LINKROOT?>/SalesAgent/newInventryRequest">
+            <a class="btn" href="<?=LINKROOT?>/Distributor/newInventryRequest">
                 <h4>New Inventory Request</h4>
             </a>
         </div>
@@ -175,7 +175,7 @@
                 ?>
 
                 <?php foreach ($allOrders as $order): ?>
-                    <a href="<?=LINKROOT?>/SalesAgent/orderDetails" class="card btn-card center-al">
+                    <a href="<?=LINKROOT?>/Distributor/orderDetails" class="card btn-card center-al">
                         <div class="profile-photo">
                             <img src="<?=ROOT?>/images/Shops/default.jpeg" alt="<?= $order['name']; ?>">
                         </div>
@@ -289,7 +289,7 @@
 
                         //Request iventory
                         function requestInventory() {
-                        window.location.href = '<?=LINKROOT?>/SalesAgent/newInventryRequest';
+                        window.location.href = '<?=LINKROOT?>/Distributor/newInventryRequest';
                         }
 
 

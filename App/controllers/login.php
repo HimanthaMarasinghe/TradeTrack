@@ -27,13 +27,13 @@ class login extends Controller
                             break;
                         
                         case '2':
-                            $_SESSION['su_phone'] = $row['phone'];
-                            redirect('Supplier/home');
+                            $_SESSION['man_phone'] = $row['phone'];
+                            redirect('Manufacturer/home');
                             break;
                         
                         case '3':
-                            $_SESSION['sa_phone'] = $row['phone'];
-                            redirect('SalesAgent/home');
+                            $_SESSION['dis_phone'] = $row['phone'];
+                            redirect('Distributor/home');
                             break;
                         
                         case '4':

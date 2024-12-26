@@ -7,7 +7,7 @@
 <div class="main-content">
     <h2>Add New Sales Agent</h2>
 
-    <form action="<?=LINKROOT?>/Supplier/addNewAgents" method="POST" enctype="multipart/form-data">
+    <form action="<?=LINKROOT?>/Manufacturer/addNewAgents" method="POST" enctype="multipart/form-data">
         
     <!-- Image uploading box -->
         <div class="imageUploadBox">
@@ -30,7 +30,7 @@
         <table class="addNewAgentsTable">
             <tr>
                 <td>Sales Agent's Phone Number</td>
-                <td><input class="userInput" type="text" name="phone" id="sa_phone" required></td>
+                <td><input class="userInput" type="text" name="phone" id="dis_phone" required></td>
             </tr>
             <tr>
                 <td>Business Name</td>
@@ -91,7 +91,7 @@
                 document.getElementById('imageContainer').innerHTML = '';
             }
 
-            let phone = document.getElementById('sa_phone');
+            let phone = document.getElementById('dis_phone');
             let fname =document.getElementById('sa_first_name');
             let lname =document.getElementById('sa_last_name');
             let address =document.getElementById('sa_address');

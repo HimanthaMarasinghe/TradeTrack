@@ -15,7 +15,7 @@
               <img src="<?=ROOT?>/images/Assets/about.png" class="pic" />
               <div class="text">
                 <h2>About Us</h2>
-                <p>Welcome to our Inventory Management and Billing System, a solution designed to simplify the operations of small businesses. As passionate university students, we developed this platform to empower shop owners, customers, and suppliers with seamless inventory tracking, automated updates, and efficient bill generation. Combining our technical skills and innovative ideas, we aim to create a user-friendly solution that enhances productivity and makes managing daily business tasks hassle-free.</p>
+                <p>Welcome to our Inventory Management and Billing System, a solution designed to simplify the operations of small businesses. As passionate university students, we developed this platform to empower shop owners, customers, and manufacturers with seamless inventory tracking, automated updates, and efficient bill generation. Combining our technical skills and innovative ideas, we aim to create a user-friendly solution that enhances productivity and makes managing daily business tasks hassle-free.</p>
                 <div class="data">
                   <a href="#" class="hire">Learn More</a>
                 </div>
