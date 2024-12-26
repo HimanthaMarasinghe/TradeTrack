@@ -14,39 +14,29 @@
             <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
         </div>
     </div>
-    
+
     <div class="row fg1 ovf-hdn">
         <div class="panel mg-10 fg1">
             <h2>New Requests</h2>
             <div class="scroll-box grid g-resp-300">
-                <?php for($x = 0; $x < 10; $x++) { ?>
-            <a href="<?=LINKROOT?>/Manufacturer/new/orderdetails" class="card btn-card center-al">
-                <div class="profile-photo">
-                    <img src="<?=ROOT?>/images/Profile/PhoneNumber.jpg" alt="J">
-                </div>
-                <div class="details center-al">
-                    <h4>Name</h4>
-                    <h4>Rs.200</h4>
-                    <h4>1 hour ago</h4>
-                </div>
-            </a> <?php } ?>
-            </div>  
+                <?php 
+                    foreach ($newOrders as $nOrder)
+                    {
+                        $this->component('card/order', $nOrder); 
+                    }
+                ?>
+            </div>
         </div>
 
         <div class="panel mg-10 fg1">
         <h2>Requests in process</h2>
             <div class="scroll-box grid g-resp-300">
-            <?php for($x = 0; $x < 10; $x++) { ?>
-            <a href="<?=LINKROOT?>/Manufacturer/new/orderdetails" class="card btn-card center-al">
-                <div class="profile-photo">
-                    <img src="<?=ROOT?>/images/Profile/PhoneNumber.jpg" alt="J">
-                </div>
-                <div class="details center-al">
-                    <h4>Name</h4>
-                    <h4>Rs.200</h4>
-                    <h4>1 hour ago</h4>
-                </div>
-            </a> <?php } ?>
+                <?php
+                    foreach ($processingOrders as $pOrder)
+                    {
+                        $this->component('card/order', $pOrder); 
+                    }
+                ?>
             </div>
         </div>
     </div>
@@ -71,7 +61,7 @@
             <h3 id="order_id"></h3>
             <h3 id="sa_business_name"></h3>
             <h3 id="sa_name"></h3>
-            <h3 id="dis_phone"></h3>
+            <h3 id="sa_phone"></h3>
             <h3 id="date"></h3>
             <h3 id="time"></h3>
             <h3 id="total"></h3>
@@ -112,12 +102,11 @@
                 document.getElementById('order_id').innerText = data.order_id;
                 document.getElementById('sa_business_name').innerText = data.sa_busines_name;
                 document.getElementById('sa_name').innerText = data.first_name + ' ' + data.last_name;
-                document.getElementById('dis_phone').innerText = data.dis_phone;
+                document.getElementById('sa_phone').innerText = data.sa_phone;
                 document.getElementById('date').innerText = data.date;
                 document.getElementById('time').innerText = data.time;
                 document.getElementById('total').innerText = 'Rs.'+data.total.toFixed(2);
                 document.getElementById('status').innerText = data.status;
-
                 if(data.status === 'Pending') {
                     document.getElementById('Start-processing').classList.remove('hidden');
                     document.getElementById('Start-processing').onclick = () => updateStatus(order_id, 'Processing');
@@ -125,7 +114,6 @@
                     document.getElementById('Start-processing').classList.add('hidden');
                 }
                     
-
                 let orderItems = document.getElementById('orderItems');
                 orderItems.innerHTML = '';
                 data.orderItems.forEach(item => {
@@ -143,7 +131,6 @@
             });
         });
     });
-
     function updateStatus(order_id, status) {
         fetch(LINKROOT + '/Manufacturer/updateStatus/' + order_id + '/' + status)
         .then(response => response.json())
@@ -155,12 +142,10 @@
             }
         });
     }
-
     document.getElementById('popUpBackDrop').addEventListener('click', function() {
         if(refreshRequired) {
             location.reload();
         }
     });
 </script>
-
 <?php $this->component("footer") ?>

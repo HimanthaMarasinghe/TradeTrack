@@ -4,7 +4,7 @@
         <img src="<?=ROOT?>/images/Profile/PhoneNumber.jpg" alt="J">
     </div>
     <div class="details center-al">
-        <h4><?=$sa_busines_name?></h4>
+        <h4><?=$dis_busines_name?></h4>
         <h4>Rs. <?= number_format($total, 2) ?></h4>
         <h4><?=$timeAgo?> ago</h4>
     </div>
