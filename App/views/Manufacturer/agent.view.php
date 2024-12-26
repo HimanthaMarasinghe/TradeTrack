@@ -20,7 +20,7 @@
             </tr>
             <tr>
                 <td>Phone Number</td>
-                <td><?=$agent['sa_phone']?></td>
+                <td><?=$agent['dis_phone']?></td>
             </tr>
             <tr>
                 <td>Address</td>
@@ -32,13 +32,13 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <a class="btn" href="<?=LINKROOT?>/Manufacturer/updateAgent/<?=$agent['sa_phone']?>">Update</a>
-                    <button onclick="deleteSalesAgent('<?=$agent['sa_phone']?>')" class="btn">Delete</button>
+                    <a class="btn" href="<?=LINKROOT?>/Manufacturer/updateAgent/<?=$agent['dis_phone']?>">Update</a>
+                    <button onclick="deleteDistributor('<?=$agent['dis_phone']?>')" class="btn">Delete</button>
                 </td>
             </tr>
         </table>
-        <?php if(file_exists("./images/Profile/SA/".$agent['sa_phone'].".".$agent['sa_pic_format'])){ ?>
-            <img class="profile-img big" src="<?=ROOT?>/images/Profile/SA/<?=$agent['sa_phone']?>.<?=$agent['sa_pic_format']?>" alt="">
+        <?php if(file_exists("./images/Profile/SA/".$agent['dis_phone'].".".$agent['sa_pic_format'])){ ?>
+            <img class="profile-img big" src="<?=ROOT?>/images/Profile/SA/<?=$agent['dis_phone']?>.<?=$agent['sa_pic_format']?>" alt="">
         <?php } else { ?>
             <img class="profile-img big"  src="<?=ROOT?>/images/Profile/PhoneNumber.jpg" alt="">
         <?php } ?>
@@ -53,13 +53,13 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     const LINKROOT = "<?=LINKROOT?>";
-    function deleteSalesAgent(sa_phone){
+    function deleteDistributor(dis_phone){
         fetch(LINKROOT+'/Manufacturer/deleteAgent', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: 'sa_phone=' + encodeURIComponent(sa_phone)
+        body: 'dis_phone=' + encodeURIComponent(dis_phone)
         })
         .then(
             location.reload()

@@ -36,7 +36,7 @@
         ];
 
         for($x = 0; $x < 10; $x++) {
-            echo '<a href="' . LINKROOT . '/Admin/salesAgent" class="card btn-card colomn asp-rtio">
+            echo '<a href="' . LINKROOT . '/Admin/distributor" class="card btn-card colomn asp-rtio">
                     <img class="product-img" src="' . ROOT . '/images/Profile/' . $profiles[$x]['image'] . '" alt="">
                     <div class="details h-50">
                         <h4>' . $profiles[$x]['name'] . '</h4>

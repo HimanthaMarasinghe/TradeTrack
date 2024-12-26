@@ -57,13 +57,13 @@
             </div>
         </div>
         <div class="row max-w-900 m-i-auto">
-            <a href="<?=LINKROOT?>/SalesAgent/recordTransaction" class="btn fg1">Record Withdrawal</a>
-            <a href="<?=LINKROOT?>/SalesAgent/recordTransaction" class="btn fg1">Record Bank Deposits</a>
+            <a href="<?=LINKROOT?>/Distributor/recordTransaction" class="btn fg1">Record Withdrawal</a>
+            <a href="<?=LINKROOT?>/Distributor/recordTransaction" class="btn fg1">Record Bank Deposits</a>
         </div>
 
         <div class="row max-w-900 m-i-auto">
-            <a href="<?=LINKROOT?>/SalesAgent/recordTransaction" class="btn fg1">Putting Capital</a>
-            <a href="<?=LINKROOT?>/SalesAgent/recordTransaction" class="btn fg1">Add New Other  Expence</a>
+            <a href="<?=LINKROOT?>/Distributor/recordTransaction" class="btn fg1">Putting Capital</a>
+            <a href="<?=LINKROOT?>/Distributor/recordTransaction" class="btn fg1">Add New Other  Expence</a>
         </div>
     </div>
 </div>

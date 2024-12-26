@@ -21,10 +21,10 @@
             <div class="row">
                 <input type="text" class="search-bar fg1" placeholder="Search Product">
                 <button class="btn">Search</button>
-                <a class="btn" href="<?=LINKROOT?>/SalesAgent/newInventryRequest">
+                <a class="btn" href="<?=LINKROOT?>/Distributor/newInventryRequest">
                     <h4>New Inventory Request</h4>
                 </a>
-                <a class="btn" href="<?=LINKROOT?>/SalesAgent/requestDetails">
+                <a class="btn" href="<?=LINKROOT?>/Distributor/requestDetails">
                     <h4>Request Details</h4>
                 </a>
             </div>
@@ -190,7 +190,7 @@
 
     //Request iventory
     function requestInventory() {
-    window.location.href = '<?=LINKROOT?>/SalesAgent/newInventryRequest';
+    window.location.href = '<?=LINKROOT?>/Distributor/newInventryRequest';
     }
 
 

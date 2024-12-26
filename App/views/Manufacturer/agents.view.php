@@ -57,8 +57,8 @@
 
         <table>
             <tr>
-                <td><label for="sa_phone">Distributor's Phone Number</label></td>
-                <td><input class="userInput" type="text" name="phone" id="sa_phone" required></td>
+                <td><label for="dis_phone">Distributor's Phone Number</label></td>
+                <td><input class="userInput" type="text" name="phone" id="dis_phone" required></td>
             </tr>
             <tr>
                 <td><label for="sa_busines_name">Business Name</label></td>

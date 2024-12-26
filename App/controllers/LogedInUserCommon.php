@@ -5,7 +5,7 @@ class LogedInUserCommon extends Controller
 
     public function getUserDetails(){
         //Only admins and manufacturers can use this API
-        // if(!(isset($_SESSION['su_phone']) || isset($_SESSION['ad_phone']))){
+        // if(!(isset($_SESSION['man_phone']) || isset($_SESSION['ad_phone']))){
         //     redirect('login');
         //     exit;
         // }

@@ -71,7 +71,7 @@
             <h3 id="order_id"></h3>
             <h3 id="sa_business_name"></h3>
             <h3 id="sa_name"></h3>
-            <h3 id="sa_phone"></h3>
+            <h3 id="dis_phone"></h3>
             <h3 id="date"></h3>
             <h3 id="time"></h3>
             <h3 id="total"></h3>
@@ -112,7 +112,7 @@
                 document.getElementById('order_id').innerText = data.order_id;
                 document.getElementById('sa_business_name').innerText = data.sa_busines_name;
                 document.getElementById('sa_name').innerText = data.first_name + ' ' + data.last_name;
-                document.getElementById('sa_phone').innerText = data.sa_phone;
+                document.getElementById('dis_phone').innerText = data.dis_phone;
                 document.getElementById('date').innerText = data.date;
                 document.getElementById('time').innerText = data.time;
                 document.getElementById('total').innerText = 'Rs.'+data.total.toFixed(2);

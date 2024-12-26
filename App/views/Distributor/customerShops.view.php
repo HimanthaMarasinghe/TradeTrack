@@ -68,7 +68,7 @@
         ?>
         
             <?php foreach ($shops as $shop): ?>
-                <a href="<?=LINKROOT?>/SalesAgent/shopProfile" class="card btn-card colomn asp-rtio">
+                <a href="<?=LINKROOT?>/Distributor/shopProfile" class="card btn-card colomn asp-rtio">
                     <img class="product-img" src="<?=ROOT?>/images/shops/default.jpeg" alt="<?= $shop['name']; ?>">
                     <div class="details h-50">
                         <h4><?= $shop['name']; ?></h4>

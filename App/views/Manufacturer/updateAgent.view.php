@@ -7,14 +7,14 @@
 <div class="main-content">
     <h2>Update Sales Agent Details</h2>
 
-    <form action="<?=LINKROOT?>/Manufacturer/UpdateAgent/<?=$agent['sa_phone']?>" method="POST" enctype="multipart/form-data">
+    <form action="<?=LINKROOT?>/Manufacturer/UpdateAgent/<?=$agent['dis_phone']?>" method="POST" enctype="multipart/form-data">
         
     <!-- Image uploading box -->
     <div class="imageUploadBox">
         <div id="imagePreview" class="imagePreviewBox">
             <div id="imageContainer">
-                <?php if(file_exists("./images/Profile/SA/".$agent['sa_phone'].".".$agent['sa_pic_format'])){ ?>
-                <img src="<?=LINKROOT?>/images/Profile/SA/<?=$agent['sa_phone']?>.<?=$agent['sa_pic_format']?>" 
+                <?php if(file_exists("./images/Profile/SA/".$agent['dis_phone'].".".$agent['sa_pic_format'])){ ?>
+                <img src="<?=LINKROOT?>/images/Profile/SA/<?=$agent['dis_phone']?>.<?=$agent['sa_pic_format']?>" 
                     alt="Image Preview" 
                     style="width: 100%; height: 100%; object-fit: cover;">
                 <?php } ?>
@@ -77,7 +77,7 @@
         <table class="addNewAgentsTable">
             <tr>
                 <td>Sales Agent's Phone Number</td>
-                <td><input class="userInput" type="text" name="sa_phone" id="" value="<?=$agent['sa_phone']?>" required></td>
+                <td><input class="userInput" type="text" name="dis_phone" id="" value="<?=$agent['dis_phone']?>" required></td>
             </tr>
             <tr>
                 <td>Business Name</td>

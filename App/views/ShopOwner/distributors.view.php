@@ -26,28 +26,28 @@
             "first_name" => "Saman",
             "last_name" => "Kumara",
             "sa_busines_name" => "Maliban Galle Distributor",
-            "sa_phone" => "0372222690"
+            "dis_phone" => "0372222690"
 
         ],[
             "first_name" => "Nimal",
             "last_name" => "Perera",
             "sa_busines_name" => "Ceylon Tea Distributors",
-            "sa_phone" => "0112345678"
+            "dis_phone" => "0112345678"
         ],[
             "first_name" => "Ranjith",
             "last_name" => "Dias",
             "sa_busines_name" => "Ranjith Super Distributors",
-            "sa_phone" => "0112456789"
+            "dis_phone" => "0112456789"
         ],[
             "first_name" => "Lakshan",
             "last_name" => "Silva",
             "sa_busines_name" => "Silva Grocery Distributors",
-            "sa_phone" => "0412233456"
+            "dis_phone" => "0412233456"
         ],[
             "first_name" => "Harsha",
             "last_name" => "Bandara",
             "sa_busines_name" => "Bandara Retail and Wholesale",
-            "sa_phone" => "0712233444"
+            "dis_phone" => "0712233444"
         ]
         
         

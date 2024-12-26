@@ -20,7 +20,7 @@
             <div class="row">
                 <input type="text" class="search-bar fg1" placeholder="Search Order">
                 <button class="btn">Search</button>
-                <a class="btn" href="<?=LINKROOT?>/SalesAgent/orderHistory">
+                <a class="btn" href="<?=LINKROOT?>/Distributor/orderHistory">
                     <h4>Order History</h4>
                 </a>
             </div>
@@ -172,7 +172,7 @@
                 ?>
 
                 <?php foreach ($allOrders as $order): ?>
-                    <a href="<?=LINKROOT?>/SalesAgent/orderDetails" class="card btn-card center-al">
+                    <a href="<?=LINKROOT?>/Distributor/orderDetails" class="card btn-card center-al">
                         <div class="profile-photo">
                             <img src="<?=ROOT?>/images/Shops/default.jpeg" alt="<?= $order['name']; ?>">
                         </div>

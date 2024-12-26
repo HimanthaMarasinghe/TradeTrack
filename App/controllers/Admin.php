@@ -207,7 +207,7 @@ class Admin extends Controller
 
     public function Distributors(){
         $this->data['tabs']['active'] = 'Distributors';
-        $this->view('Admin/salesAgents', $this->data);
+        $this->view('Admin/distributors', $this->data);
     }
 
     public function customer(){
@@ -215,9 +215,9 @@ class Admin extends Controller
         $this->view('Admin/customer', $this->data);
     }
 
-    public function salesAgent(){
+    public function distributor(){
         $this->data['tabs']['active'] = 'Distributors';
-        $this->view('Admin/salesAgent', $this->data);
+        $this->view('Admin/distributor', $this->data);
     }
 
     public function ShopOwners(){

@@ -13,20 +13,26 @@ class Model extends Database
         }
 
         $query = "SELECT * FROM $this->readTable WHERE ";
-        foreach($keys as $key)
-        {
-            $query .= $key." = :".$key . " && ";
-        }
-        
-        foreach($keys_not as $key)
-        {
-            $query .= $key." != :".$key . " && ";
+
+        $placeholders = []; // Map original column names to placeholder-friendly keys
+
+        //When using join queries use "table column" notation instead of "table.column"
+
+        foreach ($keys as $key) {
+            $placeholder = str_replace(['.'], '', $key);
+            $placeholders[$placeholder] = $data[$key];
+            $query .= "$key = :$placeholder && ";
         }
 
-        $query = rtrim($query, " && "); 
+        foreach ($keys_not as $key) {
+            $placeholder = str_replace(['.'], '', $key);
+            $placeholders[$placeholder] = $data_not[$key];
+            $query .= "$key != :$placeholder && ";
+        }
 
-        $data = array_merge($data, $data_not);
-        return $this->query($query, $data);
+        $query = rtrim($query, " && ");
+
+        return $this->query($query, $placeholders);
     }
 
     // public function first($data, $data_not = [])
@@ -71,6 +77,8 @@ class Model extends Database
 
         $query = "SELECT * FROM $this->readTable WHERE ";
         $placeholders = []; // Map original column names to placeholder-friendly keys
+
+        //When using join queries use "table column" notation instead of "table.column"
 
         foreach ($keys as $key) {
             $placeholder = str_replace(['.'], '', $key);

@@ -18,7 +18,7 @@ class RegisterService extends Database
 
             case '2':
                 $manufacturer = new Manufacturers;
-                $newUser['su_phone'] = $newUser['phone'];
+                $newUser['man_phone'] = $newUser['phone'];
                 $manufacturer->insert($newUser, $con);
                 break;
 

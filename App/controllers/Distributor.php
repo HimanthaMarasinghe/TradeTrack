@@ -1,14 +1,14 @@
 <?php
 
-class SalesAgent extends Controller 
+class Distributor extends Controller 
 {
     protected $data = [
-        'tabs' => ['tabs' => ['Home', 'Shops','Loyalty Shops','Orders', 'Stocks', 'Accounts'], 'userType' => 'SalesAgent'],
-        'styleSheet' => ['styleSheet'=>'salesAgent']
+        'tabs' => ['tabs' => ['Home', 'Shops','Loyalty Shops','Orders', 'Stocks', 'Accounts'], 'userType' => 'Distributor'],
+        'styleSheet' => ['styleSheet'=>'distributor']
     ];
 
     public function __construct() {
-        if(!isset($_SESSION['sa_phone'])){
+        if(!isset($_SESSION['dis_phone'])){
             redirect('login');
             exit;
         }
@@ -18,67 +18,67 @@ class SalesAgent extends Controller
 
     public function index(){
         $this->data['tabs']['active'] = 'Home';
-        $this->view('SalesAgent/home', $this->data);
+        $this->view('Distributor/home', $this->data);
     }
 
     public function stocks(){
         $this->data['tabs']['active'] = 'Stocks';
-        $this->view('SalesAgent/stocks', $this->data);
+        $this->view('Distributor/stocks', $this->data);
     }
 
     public function shops(){
         $this->data['tabs']['active'] = 'Shops';
-        $this->view('SalesAgent/shops', $this->data);
+        $this->view('Distributor/shops', $this->data);
     }
 
     public function loyaltyShops(){
         $this->data['tabs']['active'] = 'Loyalty Shops';
-        $this->view('SalesAgent/customerShops', $this->data);
+        $this->view('Distributor/customerShops', $this->data);
     }
 
     public function shopProfile(){
         $this->data['tabs']['active'] = 'Shops';
-        $this->view('SalesAgent/shopProfile', $this->data);
+        $this->view('Distributor/shopProfile', $this->data);
     }
 
     public function orderDetails(){
         $this->data['tabs']['active'] = 'Orders';
-        $this->view('SalesAgent/orderDetails', $this->data);
+        $this->view('Distributor/orderDetails', $this->data);
     }
 
     public function accounts(){
 
         // $otherExpense = new SaOtherExpenses;
         
-        // $this->data['otherExpenses'] = $otherExpense->where(['sa_phone' => $_SESSION['sa_phone']]);
+        // $this->data['otherExpenses'] = $otherExpense->where(['dis_phone' => $_SESSION['dis_phone']]);
 
         $this->data['tabs']['active'] = 'Accounts';
-        $this->view('SalesAgent/accounts', $this->data);
+        $this->view('Distributor/accounts', $this->data);
     }
 
     public function recordTransaction(){
         $this->data['tabs']['active'] = 'Accounts';
-        $this->view('SalesAgent/recordTransaction', $this->data);
+        $this->view('Distributor/recordTransaction', $this->data);
     }
 
     public function newInventryRequest(){
         $product = new Products;
-        $distributor = new SalesAgentM;
-        $distDetail = $distributor->first(['sa_phone'=> $_SESSION['sa_phone']]);
-        $this->data['products'] = $product->where(['man_phone'=> $distDetail['su_phone']]);
+        $distributor = new DistributorM;
+        $distDetail = $distributor->first(['dis_phone'=> $_SESSION['dis_phone']]);
+        $this->data['products'] = $product->where(['man_phone'=> $distDetail['man_phone']]);
         $this->data['tabs']['active'] = 'Stocks';
-        $this->view('SalesAgent/newInventryRequest', $this->data);
+        $this->view('Distributor/newInventryRequest', $this->data);
     }
 
     public function orders(){
         $this->data['tabs']['active'] = 'Orders';
-        $this->view('SalesAgent/orders', $this->data);
+        $this->view('Distributor/orders', $this->data);
     }
 
 
     public function orderHistory(){
         $this->data['tabs']['active'] = 'Orders';
-        $this->view('SalesAgent/orderHistory', $this->data);
+        $this->view('Distributor/orderHistory', $this->data);
     }
 
     // public function addOrderItemToSession(){
@@ -104,12 +104,12 @@ class SalesAgent extends Controller
             // Decode the JSON data into a PHP array
             $billItems = json_decode($input, true);
 
-            $distributor = new SalesAgentM;
-            $man_phone = $distributor->first(['sa_phone'=> $_SESSION['sa_phone']])['su_phone'];
+            $distributor = new DistributorM;
+            $man_phone = $distributor->first(['dis_phone'=> $_SESSION['dis_phone']])['man_phone'];
             $orders = new distributorOrders;
             $orderItems = new distributorOrdersItems;
             $con = $orders->startTransaction();
-            $orders->insert(['dis_phone' => $_SESSION['sa_phone'], 'man_phone' => $man_phone], $con);
+            $orders->insert(['dis_phone' => $_SESSION['dis_phone'], 'man_phone' => $man_phone], $con);
             $lastId = $orders->lastId($con);
             foreach ($billItems as &$item) {
                 $item['order_id'] = $lastId;
@@ -123,14 +123,14 @@ class SalesAgent extends Controller
     public function requestDetails(){
         $orders = new distributorOrders;
         $orderItems = new distributorOrdersItems;
-        $this->data['pendingOrders'] = $orders->getOrderDetails($_SESSION['sa_phone']);
+        $this->data['pendingOrders'] = $orders->getOrderDetails($_SESSION['dis_phone']);
 
         foreach ($this->data['pendingOrders'] as &$order) {
             $order['total'] = $orderItems->getOrderTotal($order['order_id']);
         }
 
         $this->data['tabs']['active'] = 'Stocks';
-        $this->view('SalesAgent/requestDetails', $this->data);
+        $this->view('Distributor/requestDetails', $this->data);
     }
 
     public function requestDetail($order_id){
@@ -161,18 +161,18 @@ class SalesAgent extends Controller
 
     public function editInventoryRequest($request_id) {
         $product = new Products;
-        $distributor = new SalesAgentM;
+        $distributor = new DistributorM;
         $orderItems = new distributorOrdersItems;
         $order = new distributorOrders;
-        $distDetail = $distributor->first(['sa_phone'=> $_SESSION['sa_phone']]);
+        $distDetail = $distributor->first(['dis_phone'=> $_SESSION['dis_phone']]);
         $this->data['OrderData']['orderProducts'] = $orderItems->where(['order_id' => $request_id]);
         $this->data['OrderData']['total'] = $orderItems->getOrderTotal($request_id);
         $this->data['OrderData']['order'] = $order->first(['order_id' => $request_id]);
-        $this->data['products'] = $product->where(['man_phone'=> $distDetail['su_phone']]);
+        $this->data['products'] = $product->where(['man_phone'=> $distDetail['man_phone']]);
         // header('Content-Type: application/json');
         // echo json_encode($this->data);
         $this->data['tabs']['active'] = 'Stocks';
-        $this->view('SalesAgent/editInventryRequest', $this->data);
+        $this->view('Distributor/editInventryRequest', $this->data);
     }
 
     public function updateRequest($order_id){
@@ -202,7 +202,7 @@ class SalesAgent extends Controller
         
         $this->data['announcements'] = $announcement->where(['role' => 3]);
         $this->data['tabs']['active'] = 'Home';
-        $this->view('SalesAgent/announcements', $this->data);
+        $this->view('Distributor/announcements', $this->data);
     }
 
     public function getAnnouncement($id){
@@ -217,6 +217,6 @@ class SalesAgent extends Controller
 
     
     public function new($viewName) {
-        $this->view('SalesAgent/'.$viewName, $this->data);
+        $this->view('Distributor/'.$viewName, $this->data);
     }
 }

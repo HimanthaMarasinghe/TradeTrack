@@ -363,7 +363,7 @@ document.getElementById('addBtn').addEventListener('click', function () {
     }
 
 
-    // fetch(LINKROOT + '/SalesAgent/addOrderItemToSession', {
+    // fetch(LINKROOT + '/Distributor/addOrderItemToSession', {
     //     method: 'POST',
     //     headers: {
     //         'Content-Type': 'application/x-www-form-urlencoded'
@@ -553,12 +553,12 @@ document.getElementById('placeOrderBtn').addEventListener('click', function (eve
 // Close the modal
 document.querySelector('.close-btn').addEventListener('click', function () {
     document.getElementById('orderSuccessModal').style.display = 'none';
-    window.location.href = '<?=LINKROOT?>/SalesAgent';
+    window.location.href = '<?=LINKROOT?>/Distributor';
 });
 
 document.getElementById('closeOrderModal').addEventListener('click', function () {
     document.getElementById('orderSuccessModal').style.display = 'none';
-    window.location.href = '<?=LINKROOT?>/SalesAgent';
+    window.location.href = '<?=LINKROOT?>/Distributor';
 });
 
 // Close modal on clicking outside of the modal content
@@ -574,7 +574,7 @@ function sendBillToBackEnd() {
     let billData = JSON.stringify(billArray);
 
     // Send to backend
-    fetch(LINKROOT + '/SalesAgent/placeOrder', {
+    fetch(LINKROOT + '/Distributor/placeOrder', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
