@@ -64,37 +64,6 @@ class ShopOwner extends Controller
         $this->view('shopOwner/billSettle', $this->data);
     }
 
-    //Used in billSettle.js
-    public function checkCustomer(){
-        if (!isset($_POST['cus-phone']))
-        {
-            header('Location: ' . LINKROOT . '/ShopOwner/newPurchase');
-        }
-
-        $customer = new Customers;
-        $loyaltyCustomer = new LoyaltyCustomers;
-
-        $customerData = $customer->first(['cus_phone' => $_POST['cus-phone']]);
-        $loyaltyCustomerData = $loyaltyCustomer->first(['cus_phone' => $_POST['cus-phone'], 'so_phone' => $_SESSION['so_phone']]);
-
-        if ($customerData){
-            unset($customerData['cus_password']);
-            $dataArr = $customerData;
-
-            if($loyaltyCustomerData){
-                unset($loyaltyCustomerData['cus_phone']);
-                unset($loyaltyCustomerData['so_phone']);
-                $dataArr['loyalty'] = $loyaltyCustomerData;
-            }
-
-            echo json_encode($dataArr);
-        }
-        else{
-            echo json_encode(false);
-        }
-
-    }
-
     public function purchaseDone() {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST' || $_SESSION['bill'] == null)
         {
@@ -251,21 +220,6 @@ class ShopOwner extends Controller
         $this->view('shopOwner/accounts', $this->data);
     }
 
-    public function getBillDetails($billId){
-        $bill = new Bills;
-        $Billdata['billDetails'] = $bill->first(['bill_id' => $billId]);
-        $billItem = new BillItems;
-        $Billdata['billItems'] = $billItem->where(['bill_id' => $billId]);
-        $Billdata['total'] = 0;
-        foreach($Billdata['billItems'] as &$item){
-            $item['total'] += $item['unit_price'] * $item['quantity'];
-        }
-        foreach($Billdata['billItems'] as $item){
-            $Billdata['total'] += $item['total'];
-        }
-        echo json_encode($Billdata);
-    }
-
     public function recordTransaction() {
         $this->data['tabs']['active'] = 'Accounts';
         $this->view('shopOwner/recordTransaction', $this->data);
@@ -300,12 +254,6 @@ class ShopOwner extends Controller
         $this->view('ShopOwner/announcements', $this->data);
     }
 
-    public function getAnnouncement($id){
-        $announcement = new Announcements;
-        $announcement = $announcement->first(['id' => $id]);
-        echo json_encode($announcement);
-    }
-
     public function orderStocks() {
         
         $this->data['tabs']['active'] = 'Stocks';
@@ -317,5 +265,74 @@ class ShopOwner extends Controller
         $this->data['tabs']['active'] = 'Stocks';
         $this->view('shopOwner/distributors', $this->data);
 
+    }
+
+    public function addStock() {
+        $this->data['tabs']['active'] = 'Stocks';
+        // $prdct = new Products;
+        // $this ->data['products'] = $prdct->readAll();
+        $this->view('shopOwner/addStock', $this->data);
+    }
+
+    // API endpoints
+
+    public function getProducts($offset = 0, $search = null, $type = null){ 
+        $prdct = new Products;
+        if($search == null && $type == null)
+            $products = $prdct->readAll(10, $offset);
+
+        $products = $prdct->searchProducts($search, null,$offset);
+        echo json_encode($products);
+    }
+
+    //Used in billSettle.js
+    public function checkCustomer(){
+        if (!isset($_POST['cus-phone']))
+        {
+            header('Location: ' . LINKROOT . '/ShopOwner/newPurchase');
+        }
+
+        $customer = new Customers;
+        $loyaltyCustomer = new LoyaltyCustomers;
+
+        $customerData = $customer->first(['cus_phone' => $_POST['cus-phone']]);
+        $loyaltyCustomerData = $loyaltyCustomer->first(['cus_phone' => $_POST['cus-phone'], 'so_phone' => $_SESSION['so_phone']]);
+
+        if ($customerData){
+            unset($customerData['cus_password']);
+            $dataArr = $customerData;
+
+            if($loyaltyCustomerData){
+                unset($loyaltyCustomerData['cus_phone']);
+                unset($loyaltyCustomerData['so_phone']);
+                $dataArr['loyalty'] = $loyaltyCustomerData;
+            }
+
+            echo json_encode($dataArr);
+        }
+        else{
+            echo json_encode(false);
+        }
+    }
+    
+    public function getBillDetails($billId){
+        $bill = new Bills;
+        $Billdata['billDetails'] = $bill->first(['bill_id' => $billId]);
+        $billItem = new BillItems;
+        $Billdata['billItems'] = $billItem->where(['bill_id' => $billId]);
+        $Billdata['total'] = 0;
+        foreach($Billdata['billItems'] as &$item){
+            $item['total'] += $item['unit_price'] * $item['quantity'];
+        }
+        foreach($Billdata['billItems'] as $item){
+            $Billdata['total'] += $item['total'];
+        }
+        echo json_encode($Billdata);
+    }
+    
+    public function getAnnouncement($id){
+        $announcement = new Announcements;
+        $announcement = $announcement->first(['id' => $id]);
+        echo json_encode($announcement);
     }
 }
