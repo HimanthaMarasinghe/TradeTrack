@@ -282,6 +282,8 @@ class ShopOwner extends Controller
             $products = $prdct->readAll(10, $offset);
 
         $products = $prdct->searchProducts($search, null,$offset);
+        if(!$products)
+            $products = [];
         echo json_encode($products);
     }
 
