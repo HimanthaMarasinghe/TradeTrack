@@ -80,89 +80,108 @@
 
 <script src="<?=ROOT?>/js/popUp.js"></script>
 <script>
-
     let offset = 0;
-    const searchBar = document.getElementById('searchBar');
-    const productsList = document.getElementById('productsList');
     let allProductsLoaded = false;
     let isLoading = false;
-    
-    function initialLoadCheck() {
-        console.log("Checking if initial load is completed...");
-        // Check if the products list is sufficiently loaded
-        if (productsList.scrollHeight <= productsList.clientHeight) {
-            // If not enough products are loaded, load more
-            loadProducts(offset, "", "");
-            offset += 10;
-            
-            // Set a timeout to check again after 2 seconds
-            setTimeout(initialLoadCheck, 2000);
-        } else {
-            console.log("Initial load completed.");
-            // Do any other necessary actions after initial load is done.
+    const searchBar = document.getElementById('searchBar');
+    const productsList = document.getElementById('productsList');
+    let productsArray = [];
+
+    // Function to load products from the API
+    async function loadProducts(offset, search = "") {
+        console.log("Loading products", offset, search);
+
+        if (isLoading) return;
+
+        if (allProductsLoaded){
+            productsList.removeEventListener('scroll', loadProductsOnScroll);
+            return;
+        } 
+
+        isLoading = true;
+        try {
+            const response = await fetch(`<?=LINKROOT?>/ShopOwner/getProducts/${offset}/${search}/`);
+            if (!response.ok) throw new Error("Failed to fetch products");
+
+            const products = await response.json();
+            if (products.length < 10) {
+                allProductsLoaded = true; // No more products available
+            }
+
+            // Append products to the list and update the products array
+            productsArray.push(...products);
+            renderProducts(products);
+        } catch (error) {
+            console.error("Error loading products:", error);
+        } finally {
+            isLoading = false;
         }
     }
 
-    // Start the initial load check
-    initialLoadCheck();
+    // Function to render products as cards
+    function renderProducts(products) {
+        products.forEach(product => {
+            const productCard = `
+                <a href="#" class="card btn-card center-al" id="${product.barcode}" onclick="addStockPopUp(this)">
+                    <div class="details h-100">
+                        <h4>${product.product_name}</h4>
+                        <h4>${product.barcode}</h4>
+                        <h4>Rs.${product.unit_price.toFixed(2)}</h4>
+                    </div>
+                    <div class="product-img-container">
+                        <img class="product-img" 
+                            src="<?=ROOT?>/images/Products/${product.barcode}.${product.pic_format}" 
+                            alt="Product Image">
+                    </div>
+                </a>
+            `;
+            productsList.innerHTML += productCard;
+        });
+    }
 
+    // Function to ensure the initial load fills the viewport
+    async function initialLoad(search = "") {
+        while (productsList.scrollHeight <= productsList.clientHeight && !allProductsLoaded) {
+            await loadProducts(offset, search);
+            offset += 10;
+        }
+    }
+
+    // Handle search input changes
     searchBar.addEventListener('input', () => {
         allProductsLoaded = false;
-        productsList.innerHTML = "";
-        loadProducts(0, searchBar.value, "");
+        offset = 0;
+        productsList.innerHTML = ""; // Clear the product list
+        productsArray = []; // Reset the products array
+        initialLoad(searchBar.value); // Load products based on the search input
+        productsList.addEventListener('scroll', loadProductsOnScroll); // Re-add the scroll listener
     });
 
-    productsList.addEventListener('scroll', () => {
-        if(allProductsLoaded || isLoading){
-            return;
-        }
-        if(productsList.scrollTop + productsList.clientHeight >= productsList.scrollHeight - 1){
+    // Infinite scroll listener
+    productsList.addEventListener('scroll', loadProductsOnScroll);
+
+    function loadProductsOnScroll() {
+        if (productsList.scrollTop + productsList.clientHeight >= productsList.scrollHeight - 1) {
+            loadProducts(offset, searchBar.value); // Load more products
             offset += 10;
-            loadProducts(offset, searchBar.value, "");
         }
-    });
-
-    function loadProducts(offset, search, type){
-        isLoading = true;
-        fetch('<?=LINKROOT?>/ShopOwner/getProducts/' + offset + '/' + search + '/' + type)
-        .then(response => response.json())
-        .then(products => {
-            console.log(products);
-            console.log(products.length);
-            if(products.length < 10){
-                allProductsLoaded = true;
-                console.log("All products loaded");
-            }
-            products.forEach(product => {
-                productsList.innerHTML += `
-                    <a href="#" class="card btn-card center-al" id="${product.barcode}">
-                        <div class="details h-100">
-                            <h4>${product.product_name}</h4>
-                            <h4>${product.barcode}</h4>
-                            <h4>Rs.${product.unit_price.toFixed(2)}</h4>
-                        </div>
-                        <div class="product-img-container">
-                            <img class="product-img" src="<?=ROOT?>/images/Products/${product.barcode}.${product.pic_format}" alt="">
-                        </div>
-                    </a>
-                `;
-            });
-        });
-        isLoading = false;
     }
-        
 
-    // function addListners(){
-    //     document.querySelectorAll('.card').forEach(card => {
-    //         card.addEventListener('click', () => {
-    //             const product = products.find(product => product.barcode === card.id);
-    //             document.getElementById('popUp-prdct-image').src = `<?=ROOT?>/images/Products/${product.barcode}.${product.pic_format}` || `<?=ROOT?>/images/Products/default.jpeg`;
-    //             document.getElementById('popUp-prdct-name').innerText = product.product_name;
-    //             document.getElementById('popUp-prdct-price').innerText = `Rs.${product.unit_price.toFixed(2)}`;
-    //             viewPopUp('addStock');
-    //         });
-    //     });
-    // }
+    // Function to handle product pop-up
+    function addStockPopUp(card) {
+        const product = productsArray.find(p => p.barcode === card.id);
+        if (product) {
+            document.getElementById('popUp-prdct-image').src = 
+                `<?=ROOT?>/images/Products/${product.barcode}.${product.pic_format}` || 
+                `<?=ROOT?>/images/Products/default.jpeg`;
+            document.getElementById('popUp-prdct-name').innerText = product.product_name;
+            document.getElementById('popUp-prdct-price').innerText = `Rs.${product.unit_price.toFixed(2)}`;
+            viewPopUp('addStock');
+        }
+    }
+
+    // Initial load
+    initialLoad();
 </script>
 
 <?php $this->component("footer") ?>
