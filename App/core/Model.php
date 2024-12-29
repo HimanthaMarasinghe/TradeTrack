@@ -3,7 +3,7 @@
 class Model extends Database
 {
 
-    public function where($data, $data_not = [])
+    public function where($data, $data_not = [], $limit = null, $offset = null)
     {
         $keys = array_keys($data);
         $keys_not = array_keys($data_not);
@@ -31,6 +31,16 @@ class Model extends Database
         }
 
         $query = rtrim($query, " && ");
+
+        if($limit)
+        {
+            $query .= " LIMIT $limit";
+        }
+
+        if($offset)
+        {
+            $query .= " OFFSET $offset";
+        }
 
         return $this->query($query, $placeholders);
     }
@@ -104,13 +114,24 @@ class Model extends Database
     }
 
 
-    public function readAll()
+    public function readAll($limit = null, $offset = null)
     {
         if(!isset($this->readTable)){
             $this->readTable = $this->table;
         }
 
         $query = "SELECT * FROM $this->readTable";
+
+        if($limit)
+        {
+            $query .= " LIMIT $limit";
+        }
+
+        if($offset)
+        {
+            $query .= " OFFSET $offset";
+        }
+
         return $this->query($query);
     }
 

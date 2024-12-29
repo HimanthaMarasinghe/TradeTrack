@@ -20,7 +20,8 @@
         <div class="panel mg-10 fg1">
             <div class="row">
                 <input type="text" class="search-bar fg1" placeholder="Search">
-                <button class="btn">Search</button>
+                <!-- <button class="btn">Search</button> -->
+                 <a class="btn" href="<?=LINKROOT?>/ShopOwner/addStock">Add stocks</a>
                 <a class="btn" href="<?=LINKROOT?>/ShopOwner/distributors">Order Stocks</a>
             </div>
             <div class="scroll-box grid g-resp-300">
