@@ -48,7 +48,8 @@
             </tr>
         </table>
     </div>
-    <form class="colomn mg-10 gap-10">
+    <form class="colomn mg-10 gap-10" id="addStockForm" onsubmit="event.preventDefault();">
+        <input type="hidden" id="popUp-prdct-barcode" name="barcode">
         <table>
             <tr>
                 <td><label for="quantity">Quanitity</label></td>
@@ -83,7 +84,7 @@
                 </td>
             </tr>
         </table>
-        <button class="btn">Add</button>
+        <button id="addStockBtn" class="btn">Add</button>
     </form>
 </div>
 

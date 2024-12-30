@@ -109,6 +109,7 @@ function addStockPopUp(card) {
         document.getElementById('popUp-prdct-name').innerText = product.product_name;
         document.getElementById('popUp-prdct-unit-price').innerText = `Rs.${product.unit_price.toFixed(2)}`;
         document.getElementById('popUp-prdct-bulk-price').innerText = `Rs.${product.bulk_price.toFixed(2)}`;
+        document.getElementById('popUp-prdct-barcode').value = product.barcode;
         viewPopUp('addStock');
     }
 }
@@ -121,6 +122,28 @@ const costField = document.getElementById('cost');
 quantityField.addEventListener('input', function () {
     const quantity = this.value;
     costField.value = (quantity * product.bulk_price).toFixed(2);
+});
+
+document.getElementById('addStockBtn').addEventListener('click', () => {
+    const barcode = document.getElementById('popUp-prdct-barcode').value;
+    const form = document.getElementById('addStockForm');
+
+    if (quantity === "" || cost === "") {
+        alert("Please fill all fields");
+        return;
+    }
+
+    const formData = new FormData(form);
+    formData.append('barcode', barcode);
+
+    fetch(`${LINKROOT}/ShopOwner/addStock`, {
+        method: 'POST',
+        body: formData
+    })
+    .then(() => {
+        closePopUp();
+    })
+    .catch(err => console.error("Error adding stock:", err));
 });
 
 // Initial load

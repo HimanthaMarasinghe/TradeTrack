@@ -5,9 +5,11 @@ function viewPopUp(popupId){
     document.getElementById(popupId).classList.remove('hidden');
 }
 
-backDrop.addEventListener('click', () => {
+function closePopUp(){
+    backDrop.classList.add('hidden');
     document.querySelectorAll('.popUpDiv').forEach((pop) => {
         pop.classList.add('hidden');
-    })
-    backDrop.classList.add('hidden');
-});
+    });
+}
+
+backDrop.addEventListener('click', closePopUp);

@@ -23,4 +23,12 @@ class ShopStock extends Model
                   WHERE so.barcode = :barcode";
         return $this->query($query,['barcode' => $barcode]);
     }
+
+    public function addStock($barcode, $so_phone, $quantity, $con = null){
+        $query =   "INSERT INTO so_stocks (barcode, so_phone, quantity) 
+                    VALUES (:barcode, :so_phone, :quantity)
+                    ON DUPLICATE KEY UPDATE 
+                    quantity = quantity + VALUES(quantity);";
+        return $this->query($query, ['barcode' => $barcode, 'so_phone' => $so_phone, 'quantity' => $quantity], $con);
+    }
 }
