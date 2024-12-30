@@ -268,9 +268,18 @@ class ShopOwner extends Controller
     }
 
     public function addStock() {
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['barcode']) && !empty($_POST['quantity']) && !empty($_POST['cost']) && !empty($_POST['purchaseType'])){
+            $stck = new ShopStock;
+            $con = $stck->startTransaction();
+            $stck->addStock($_POST['barcode'], $_SESSION['so_phone'], $_POST['quantity'], $con);
+            if($_POST['purchaseType'] == 'onCash'){
+                $shop = new Shops;
+                $shop->updateCashDrawer($_SESSION['so_phone'], -1 * $_POST['cost'], $con);
+            }
+            $stck->commit($con);
+            return;
+        }
         $this->data['tabs']['active'] = 'Stocks';
-        // $prdct = new Products;
-        // $this ->data['products'] = $prdct->readAll();
         $this->view('shopOwner/addStock', $this->data);
     }
 
