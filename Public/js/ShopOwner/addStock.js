@@ -1,105 +1,45 @@
-let offset = 0;
-let allProductsLoaded = false;
-let isLoading = false;
-const searchBar = document.getElementById('searchBar');
-const productsList = document.getElementById('productsList');
-let productsArray = [];
-let product;
+const offsetIncrement = 10;
+const api = "ShopOwner/getProducts";
 
-// Function to load products from the API
-async function loadProducts(offset, search = "") {
-    console.log("Loading products", offset, search);
+const getVariables = {
+    search: ""
+};
 
-    if (isLoading) return;
-
-    if (allProductsLoaded){
-        productsList.removeEventListener('scroll', loadProductsOnScroll);
-        return;
-    } 
-
-    isLoading = true;
-    try {
-        const response = await fetch(`${LINKROOT}/ShopOwner/getProducts/${offset}/${search}/`);
-        if (!response.ok) throw new Error("Failed to fetch products");
-
-        const products = await response.json();
-        if (products.length < 10) {
-            allProductsLoaded = true; // No more products available
-        }
-
-        // Append products to the list and update the products array
-        productsArray.push(...products);
-        renderProducts(products);
-    } catch (error) {
-        console.error("Error loading products:", error);
-
-    } finally {
-        isLoading = false;
-    }
+function cardTemplate(product) {
+    return `
+        <a href="#" class="card btn-card center-al" id="${product.barcode}" onclick="addStockPopUp(this)">
+            <div class="details h-100">
+                <h4>${product.product_name}</h4>
+                <h4>${product.barcode}</h4>
+                <table>
+                    <tr>
+                        <td>Unit Price</td>
+                        <td><h4>Rs.${product.unit_price.toFixed(2)}</h4></td>
+                    </tr>
+                    <tr>
+                        <td>Bulk Price</td>
+                        <td><h4>Rs.${product.bulk_price.toFixed(2)}</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="product-img-container">
+                <img class="product-img" 
+                    src="${ROOT}/images/Products/${product.barcode}.${product.pic_format}" 
+                    alt="Product Image"
+                    onerror="this.src='${ROOT}/images/Products/default.jpeg'">
+            </div>
+        </a>
+    `;
 }
 
-// Function to render products as cards
-function renderProducts(products) {
-    products.forEach(product => {
-        const productCard = `
-            <a href="#" class="card btn-card center-al" id="${product.barcode}" onclick="addStockPopUp(this)">
-                <div class="details h-100">
-                    <h4>${product.product_name}</h4>
-                    <h4>${product.barcode}</h4>
-                    <table>
-                        <tr>
-                            <td>Unit Price</td>
-                            <td><h4>Rs.${product.unit_price.toFixed(2)}</h4></td>
-                        </tr>
-                        <tr>
-                            <td>Bulk Price</td>
-                            <td><h4>Rs.${product.bulk_price.toFixed(2)}</h4></td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="product-img-container">
-                    <img class="product-img" 
-                        src="${ROOT}/images/Products/${product.barcode}.${product.pic_format}" 
-                        alt="Product Image"
-                        onerror="this.src='${ROOT}/images/Products/default.jpeg'">
-                </div>
-            </a>
-        `;
-        productsList.innerHTML += productCard;
-    });
+function updateGetVariables(){
+    getVariables.search = searchBar.value;
 }
 
-// Function to ensure the initial load fills the viewport
-async function initialLoad(search = "") {
-    while (productsList.scrollHeight <= productsList.clientHeight && !allProductsLoaded) {
-        await loadProducts(offset, search);
-        offset += 10;
-    }
-}
-
-// Handle search input changes
-searchBar.addEventListener('input', () => {
-    allProductsLoaded = false;
-    offset = 0;
-    productsList.innerHTML = ""; // Clear the product list
-    productsArray = []; // Reset the products array
-    initialLoad(searchBar.value); // Load products based on the search input
-    productsList.addEventListener('scroll', loadProductsOnScroll); // Re-add the scroll listener
-});
-
-// Infinite scroll listener
-productsList.addEventListener('scroll', loadProductsOnScroll);
-
-function loadProductsOnScroll() {
-    if (productsList.scrollTop + productsList.clientHeight >= productsList.scrollHeight - 1) {
-        loadProducts(offset, searchBar.value); // Load more products
-        offset += 10;
-    }
-}
 
 // Function to handle product pop-up
 function addStockPopUp(card) {
-    product = productsArray.find(p => p.barcode === card.id);
+    product = dataArr.find(p => p.barcode === card.id);
     if (product) {
         const productImage = document.getElementById('popUp-prdct-image');
         productImage.src = `${ROOT}/images/Products/${product.barcode}.${product.pic_format}`;
@@ -113,8 +53,6 @@ function addStockPopUp(card) {
         viewPopUp('addStock');
     }
 }
-
-// popup
 
 const quantityField = document.getElementById('quantity');
 const costField = document.getElementById('cost');
@@ -145,6 +83,3 @@ document.getElementById('addStockBtn').addEventListener('click', () => {
     })
     .catch(err => console.error("Error adding stock:", err));
 });
-
-// Initial load
-initialLoad();

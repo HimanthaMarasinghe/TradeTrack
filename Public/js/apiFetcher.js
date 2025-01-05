@@ -9,6 +9,7 @@ let offset = 0;
 let loadComplete = false;
 let isLoading = false;
 let debounceTimeout;
+let dataArr = []; //Used to render popups.
 const searchBar = document.getElementById('searchBar');
 const elementsList = document.getElementById('elements-Scroll-Div');
 
@@ -39,6 +40,7 @@ async function loadData() {
             loadComplete = true; // No more products available
         }
 
+        dataArr.push(...data);
         renderData(data);
     } catch (error) {
         console.error("Error loading :", error);
@@ -51,7 +53,6 @@ async function loadData() {
 function renderData(data) {
     data.forEach(dataset => {
         const card = cardTemplate(dataset);
-        console.log(card);
         elementsList.innerHTML += card;
     });
 }
@@ -72,6 +73,7 @@ searchBar.addEventListener('input', () => {
     debounceTimeout = setTimeout(() => {
         loadComplete = false;
         offset = 0;
+        dataArr = [];
         elementsList.innerHTML = ""; // Clear the product list
         initialLoad(); // Load products based on the search input
         elementsList.addEventListener('scroll', loadDataOnScroll); // Re-add the scroll listener

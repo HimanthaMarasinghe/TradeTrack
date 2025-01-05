@@ -283,7 +283,8 @@ class ShopOwner extends Controller
 
     // API endpoints
 
-    public function getProducts($offset = 0, $search = null, $type = null){ 
+    public function getProducts($offset = 0, $type = null){ 
+        $search = $_GET['search'] ?? null;
         $prdct = new Products;
         if($search == null && $type == null)
             $products = $prdct->readAll(10, $offset);
