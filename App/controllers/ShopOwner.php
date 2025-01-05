@@ -188,8 +188,6 @@ class ShopOwner extends Controller
     }
     
     public function stocks() {
-        $stck = new ShopStock;
-        $this->data['stocks'] = $stck->readStock($_SESSION['so_phone'], 'ASC');
         $this->data['tabs']['active'] = 'Stocks';
         $this->view('shopOwner/stocks', $this->data);
     }
@@ -290,10 +288,30 @@ class ShopOwner extends Controller
         if($search == null && $type == null)
             $products = $prdct->readAll(10, $offset);
 
-        $products = $prdct->searchProducts($search, null,$offset);
+        else
+            $products = $prdct->searchProducts($search, null,$offset);
+
         if(!$products)
             $products = [];
         echo json_encode($products);
+    }
+
+    public function getStocks($offset = 0, $type = null){
+        if (!filter_var($offset, FILTER_VALIDATE_INT)) 
+            $offset = 0;  // Default to 0 if invalid
+        
+        $search = $_GET['search'] ?? null;
+        $stck = new ShopStock;
+        if($search == null && $type == null)
+            $stocks = $stck->readStock($_SESSION['so_phone'], 'ASC', $offset);
+
+        else
+            $stocks = $stck->searchStock($search, $offset, $_SESSION['so_phone']);
+
+        if(!$stocks)
+            $stocks = [];
+
+        echo json_encode($stocks);
     }
 
     //Used in billSettle.js
