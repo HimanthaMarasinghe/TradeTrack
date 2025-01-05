@@ -365,4 +365,23 @@ class ShopOwner extends Controller
         $announcement = $announcement->first(['id' => $id]);
         echo json_encode($announcement);
     }
+
+    public function getDistributors($offset = 0){
+        if (!filter_var($offset, FILTER_VALIDATE_INT)) 
+            $offset = 0;  // Default to 0 if invalid
+
+        $search = $_GET['search'] ?? null;
+        $distributor = new DistributorM;
+
+        if($search == null)
+            $distributors = $distributor->readAll(10, $offset);
+
+        else
+            $distributors = $distributor->searchDistributors($search, $offset);
+
+        if(!$distributors)
+            $distributors = [];
+        
+        echo json_encode($distributors);
+    }
 }

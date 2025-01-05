@@ -1,5 +1,6 @@
 const offsetIncrement = 10;
 const api = "ShopOwner/getProducts";
+const dataArr = [];
 
 const getVariables = {
     search: ""

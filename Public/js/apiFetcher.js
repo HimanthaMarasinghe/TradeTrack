@@ -4,12 +4,12 @@
 // 3. getVariables : An object containing the variables to send with the request
 // 4. cardTemplate : A function that returns the HTML template for a card
 // 5. updateGetVariables : A function that updates the getVariables object with the search input
+// 6. dataArr : A const array to store the fetched data. If this is not defined, the fetched data will not be stored
 
 let offset = 0;
 let loadComplete = false;
 let isLoading = false;
 let debounceTimeout;
-let dataArr = []; //Used to render popups.
 const searchBar = document.getElementById('searchBar');
 const elementsList = document.getElementById('elements-Scroll-Div');
 
@@ -40,11 +40,13 @@ async function loadData() {
             loadComplete = true; // No more products available
         }
 
-        dataArr.push(...data);
+        if (typeof dataArr !== 'undefined' && Array.isArray(dataArr))
+            dataArr.push(...data);
+        
         renderData(data);
     } catch (error) {
         console.error("Error loading :", error);
-
+        loadComplete = true;
     } finally {
         isLoading = false;
     }
@@ -73,7 +75,9 @@ searchBar.addEventListener('input', () => {
     debounceTimeout = setTimeout(() => {
         loadComplete = false;
         offset = 0;
-        dataArr = [];
+        if (typeof dataArr !== 'undefined' && Array.isArray(dataArr))
+            dataArr.length = 0;
+
         elementsList.innerHTML = ""; // Clear the product list
         initialLoad(); // Load products based on the search input
         elementsList.addEventListener('scroll', loadDataOnScroll); // Re-add the scroll listener
