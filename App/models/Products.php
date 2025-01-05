@@ -12,7 +12,7 @@ class Products extends Model
         $query = "SELECT * FROM $this->table ";
         
         if($search != null){
-            $query .= "WHERE product_name LIKE :search OR barcode LIKE :search ";
+            $query .= "WHERE (product_name LIKE :search OR barcode LIKE :search) ";
             $queryParam['search'] = "%$search%";
         }
 

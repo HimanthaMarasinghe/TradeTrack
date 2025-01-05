@@ -24,7 +24,7 @@
                 <input id="searchBar" type="text" class="search-bar fg1" placeholder="Search">
                 <!-- <button class="btn">Search</button> -->
             </div>
-            <div class="scroll-box grid g-resp-300" id="productsList">
+            <div class="scroll-box grid g-resp-300" id="elements-Scroll-Div">
             </div>
         </div>
     </div>
@@ -88,11 +88,12 @@
     </form>
 </div>
 
-<script src="<?=ROOT?>/js/popUp.js"></script>
 <script>
     const ROOT = "<?=ROOT?>";
     const LINKROOT = "<?=LINKROOT?>";
 </script>
 <script src="<?=ROOT?>/js/ShopOwner/addStock.js"></script>
+<script src="<?=ROOT?>/js/apiFetcher.js"></script>
+<script src="<?=ROOT?>/js/popUp.js"></script>
 
 <?php $this->component("footer") ?>
