@@ -36,6 +36,14 @@ async function loadData() {
 
         const data = await response.json();
         console.log(data);
+
+        if(!data){
+            loadComplete = true;
+            return;
+        }
+        
+        if(!Array.isArray(data)) throw new Error("Invalid data received from the server");
+
         if (data.length < offsetIncrement) {
             loadComplete = true; // No more products available
         }

@@ -8,7 +8,7 @@ const getVariables = {
 
 function cardTemplate(product) {
     return `
-        <a href="#" class="card btn-card center-al" id="${product.barcode}" onclick="addStockPopUp(this)">
+        <a href="#" class="card btn-card center-al" id="${product.barcode}" onclick="addStockPopUp('${product.barcode}')">
             <div class="details h-100">
                 <h4>${product.product_name}</h4>
                 <h4>${product.barcode}</h4>
@@ -39,8 +39,8 @@ function updateGetVariables(){
 
 
 // Function to handle product pop-up
-function addStockPopUp(card) {
-    product = dataArr.find(p => p.barcode === card.id);
+function addStockPopUp(barcode) {
+    product = dataArr.find(p => p.barcode === barcode);
     if (product) {
         const productImage = document.getElementById('popUp-prdct-image');
         productImage.src = `${ROOT}/images/Products/${product.barcode}.${product.pic_format}`;

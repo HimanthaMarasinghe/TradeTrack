@@ -3,7 +3,7 @@
 class ShopOwner extends Controller 
 {
     protected $data = [
-        'tabs' => ['tabs' => ['Home', 'Customers', 'Stocks', 'Accounts'], 'userType' => 'ShopOwner'],
+        'tabs' => ['tabs' => ['Home', 'Customers', 'Stocks', 'Distributors', 'Accounts'], 'userType' => 'ShopOwner'],
         'styleSheet' => ['styleSheet'=>'shopOwner']
     ];
 
@@ -260,7 +260,7 @@ class ShopOwner extends Controller
 
     public function Distributors() {
         
-        $this->data['tabs']['active'] = 'Stocks';
+        $this->data['tabs']['active'] = 'Distributors';
         $this->view('shopOwner/distributors', $this->data);
 
     }
@@ -379,9 +379,15 @@ class ShopOwner extends Controller
         else
             $distributors = $distributor->searchDistributors($search, $offset);
 
-        if(!$distributors)
-            $distributors = [];
+        // if(!$distributors)
+        //     $distributors = [];
         
         echo json_encode($distributors);
+    }
+
+    public function getDistributorProductsBarcodes($dis_phone){
+        $distributorStocks = new DistributorStocks;
+        $barcodes = $distributorStocks->getStockBarcodes($dis_phone);
+        echo json_encode($barcodes);
     }
 }
