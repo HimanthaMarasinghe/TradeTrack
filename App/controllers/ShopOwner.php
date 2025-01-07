@@ -14,6 +14,18 @@ class ShopOwner extends Controller
         }
     }
 
+    // Load pre-orders for the shop owner.Used in index and customers methods.
+    private function loadPreOrders() {
+        $preOrderM = new PreOrder;
+        $preOrderItemsM = new PreOrderItems;
+        $preOrders = $preOrderM->allPreOrdersForShopOwner($_SESSION['shop_owner']['phone']);
+        foreach ($preOrders as &$preOrder) {
+            $preOrderDate = new DateTime($preOrder['date_time']);
+            $preOrder['date_time'] = (new DateTime())->diff($preOrderDate)->format('%hh %im');
+            $preOrder['total'] = $preOrderItemsM->preOrderAmount($preOrder['pre_order_id'])[0]['total'];
+        }
+        return $preOrders;
+    }
 
     public function index () 
     {
@@ -21,19 +33,8 @@ class ShopOwner extends Controller
         //$_SESSION['shop_owner']['phone'] = '0112223333'; //ToDo : to be changed to the logged in user's phone number (tbc)
 
         $this->data['tabs']['active'] = 'Home';
-        
-        $this->data['preOrders'] = [
-            ['phone' => 'PhoneNumber', 'name' => 'John Doe', 'total' => 15000, 'time' => '5 min'],
-            ['phone' => 'PhoneNumber', 'name' => 'Jane Smith', 'total' => 24000, 'time' => '10 min'],
-            ['phone' => 'PhoneNumber', 'name' => 'Alice Johnson', 'total' => 32000, 'time' => '7 min'],
-            ['phone' => 'PhoneNumber', 'name' => 'Bob Brown', 'total' => 27000, 'time' => '8 min'],
-            ['phone' => 'PhoneNumber', 'name' => 'Carol Davis', 'total' => 16000, 'time' => '3 min'],
-            ['phone' => 'PhoneNumber', 'name' => 'David Wilson', 'total' => 20000, 'time' => '12 min'],
-            ['phone' => 'PhoneNumber', 'name' => 'Eve Miller', 'total' => 18000, 'time' => '6 min'],
-            ['phone' => 'PhoneNumber', 'name' => 'Frank Moore', 'total' => 21000, 'time' => '4 min'],
-            ['phone' => 'PhoneNumber', 'name' => 'Grace Taylor', 'total' => 30000, 'time' => '9 min'],
-            ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson', 'total' => 22000, 'time' => '11 min']
-        ];
+
+        $this->data['preOrders'] = $this->loadPreOrders();
 
         $stck = new ShopStock;
         $this->data['lowStocks'] = $stck->readStock($_SESSION['shop_owner']['phone'], 'low');
@@ -90,28 +91,19 @@ class ShopOwner extends Controller
         $this->view('ShopOwner/example', $this->data);
     }
 
-    public function preOrder() {
-        if($_SERVER['REQUEST_METHOD'] == 'POST')
-        {
-            $this->data['preOrder'] = $_POST;
-            $this->data['tabs']['active'] = 'Home';
-            $this->view('shopOwner/preOrder', $this->data);
-        }
+    public function preOrder($order_id) {
+        $preOrder = new PreOrder;
+        $preOrderItems = new PreOrderItems;
+        $this->data['preOrder'] = $preOrder->preOrderDetailsForShopOwner($order_id)[0];
+        $this->data['preOrder']['total'] = $preOrderItems->preOrderAmount($order_id)[0]['total'];
+        $this->data['preOrderItems'] = $preOrderItems->where(['pre_order_id' => $order_id]);
+        $this->data['tabs']['active'] = 'Home';
+        $this->view('shopOwner/preOrder', $this->data);
     }
 
     public function customers() {
-        $this->data['preOrders'] = [
-            ['phone' => 'PhoneNumber', 'name' => 'John Doe', 'total' => 15000, 'time' => '5 min', 'pic_format' => 'jpeg'],
-            ['phone' => 'PhoneNumber', 'name' => 'Jane Smith', 'total' => 24000, 'time' => '10 min', 'pic_format' => 'jpeg'],
-            ['phone' => 'PhoneNumber', 'name' => 'Alice Johnson', 'total' => 32000, 'time' => '7 min', 'pic_format' => 'jpeg'],
-            ['phone' => 'PhoneNumber', 'name' => 'Bob Brown', 'total' => 27000, 'time' => '8 min', 'pic_format' => 'jpeg'],
-            ['phone' => 'PhoneNumber', 'name' => 'Carol Davis', 'total' => 16000, 'time' => '3 min', 'pic_format' => 'jpeg'],
-            ['phone' => 'PhoneNumber', 'name' => 'David Wilson', 'total' => 20000, 'time' => '12 min', 'pic_format' => 'jpeg'],
-            ['phone' => 'PhoneNumber', 'name' => 'Eve Miller', 'total' => 18000, 'time' => '6 min', 'pic_format' => 'jpeg'],
-            ['phone' => 'PhoneNumber', 'name' => 'Frank Moore', 'total' => 21000, 'time' => '4 min', 'pic_format' => 'jpeg'],
-            ['phone' => 'PhoneNumber', 'name' => 'Grace Taylor', 'total' => 30000, 'time' => '9 min', 'pic_format' => 'jpeg'],
-            ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson', 'total' => 22000, 'time' => '11 min', 'pic_format' => 'jpeg']
-        ];
+
+        $this->data['preOrders'] = $this->loadPreOrders();
 
         $loyReq = new LoyaltyRequests;
 

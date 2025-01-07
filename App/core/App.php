@@ -35,7 +35,7 @@ class App
         $controller = new $this->controller;
 
         //Select method
-        if(!empty($URL[1]) && method_exists($controller, $URL[1]))
+        if (!empty($URL[1]) && method_exists($controller, $URL[1]) && (new ReflectionMethod($controller, $URL[1]))->isPublic())
         {
             $this->method = $URL[1];
             unset($URL[1]);
