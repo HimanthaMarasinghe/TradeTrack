@@ -7,7 +7,7 @@
 <div class="main-content">
 
 <!-- Your html code goes here -->
- <?php print_r($_SESSION) ?>
+ <?php show($_SESSION) ?>
 
 </div>
 

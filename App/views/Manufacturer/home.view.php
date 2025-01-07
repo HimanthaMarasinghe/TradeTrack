@@ -8,8 +8,7 @@
 
     <div class="bar">
         <img src="<?=ROOT?>/images/icons/home.svg" alt="">
-        <!-- <h1><?=$_SESSION['name']?></h1> -->
-        <h1>Business Name</h1>
+        <h1><?=$_SESSION['manufacturer']['company_name']?></h1>
         <div>
             <!-- <img src="<?=ROOT?>/images/icons/settings.svg" alt=""> -->
             <a href="<?=LINKROOT?>/Manufacturer/announcements"><img src="<?=ROOT?>/images/icons/Announcement.svg" alt=""></a>

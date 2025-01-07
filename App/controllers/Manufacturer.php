@@ -8,7 +8,7 @@ class Manufacturer extends Controller
     ];
 
     public function __construct() {
-        if(!isset($_SESSION['man_phone'])){
+        if(!isset($_SESSION['manufacturer'])){
             redirect('login');
             exit;
         }
@@ -17,7 +17,7 @@ class Manufacturer extends Controller
     public function index()
     {
 
-        //$_SESSION['man_phone'] = '0112223333'; //ToDo : to be changed to the logged in user's phone number (tbc)
+        //$_SESSION['manufacturer']['phone'] = '0112223333'; //ToDo : to be changed to the logged in user's phone number (tbc)
 
         $this->data['tabs']['active'] = 'Home';
         $this->view('manufacturer/home', $this->data);
@@ -26,10 +26,10 @@ class Manufacturer extends Controller
     public function products()
     {
         $manStock = new manufacturerStock;
-        $this->data['staticStocks'] = $manStock->where(['man_phone' => $_SESSION['man_phone']]);
+        $this->data['staticStocks'] = $manStock->where(['man_phone' => $_SESSION['manufacturer']['phone']]);
 
         $pendingProducts = new pendingProductRequests;
-        $this->data['pendingProducts'] = $pendingProducts->where(['man_phone' => $_SESSION['man_phone']]);
+        $this->data['pendingProducts'] = $pendingProducts->where(['man_phone' => $_SESSION['manufacturer']['phone']]);
         $this->data['tabs']['active'] = 'Products';
         $this->view('manufacturer/products', $this->data);    
     }
@@ -69,7 +69,7 @@ class Manufacturer extends Controller
         $now = new DateTime();
         $order = new distributorOrders;
         $orderItems = new distributorOrdersItems;
-        $newOrders = $order->where(['d.man_phone' => $_SESSION['man_phone'], 'status' => 'Pending']);
+        $newOrders = $order->where(['d.man_phone' => $_SESSION['manufacturer']['phone'], 'status' => 'Pending']);
         foreach ($newOrders as &$newOrder) {
             $newOrder['total'] = $orderItems->getOrderTotal($newOrder['order_id']);
             $dataTimeString = $newOrder['date'].' '.$newOrder['time'];
@@ -78,7 +78,7 @@ class Manufacturer extends Controller
         }
         $this->data['newOrders'] = $newOrders;
 
-        $processingOrders = $order->where(['d.man_phone' => $_SESSION['man_phone'], 'status' => 'Processing']);
+        $processingOrders = $order->where(['d.man_phone' => $_SESSION['manufacturer']['phone'], 'status' => 'Processing']);
         foreach ($processingOrders as &$processingOrder) {
             $processingOrder['total'] = $orderItems->getOrderTotal($processingOrder['order_id']);
             $dataTimeString = $processingOrder['date'].' '.$processingOrder['time'];
@@ -117,7 +117,7 @@ class Manufacturer extends Controller
     public function agents()
     {
         $agent = new DistributorM;
-        $this->data['agents'] = $agent->where(['man_phone' => $_SESSION['man_phone']]);
+        $this->data['agents'] = $agent->where(['man_phone' => $_SESSION['manufacturer']['phone']]);
 
         $this->data['tabs']['active'] = 'Agents';
         $this->view('manufacturer/agents', $this->data);    
@@ -127,11 +127,11 @@ class Manufacturer extends Controller
 
     
     public function AddNewAgents() {
-        if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_SESSION['man_phone']) && !empty($_POST['phone']) && !empty($_POST['first_name']) && !empty($_POST['last_name']) && !empty($_POST['sa_busines_name']) && !empty($_POST['address']))
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_SESSION['manufacturer']['phone']) && !empty($_POST['phone']) && !empty($_POST['first_name']) && !empty($_POST['last_name']) && !empty($_POST['sa_busines_name']) && !empty($_POST['address']))
         {
             $agent = new DistributorM;
             $user = new User;
-            $oldAgent = $agent->first(['dis_phone' => $_POST['phone'], 'man_phone' => $_SESSION['man_phone']]);
+            $oldAgent = $agent->first(['dis_phone' => $_POST['phone'], 'man_phone' => $_SESSION['manufacturer']['phone']]);
             $existingUser = $user->first(['phone' => $_POST['phone']]);
             if(!empty($oldAgent))
             {
@@ -144,7 +144,7 @@ class Manufacturer extends Controller
 
             // $extension = (isset($_FILES['image']) && $_FILES['image']['error'] === 0) ? $this->saveImage($_FILES['image'], 'images/Profile/SA/', $_POST['dis_phone']) : false;
 
-            $insertData = array_merge($_POST, ['man_phone' => $_SESSION['man_phone'], 'dis_phone' => $_POST['phone']]);
+            $insertData = array_merge($_POST, ['man_phone' => $_SESSION['manufacturer']['phone'], 'dis_phone' => $_POST['phone']]);
             // if ($extension !== false) {
             //     $insertData['sa_pic_format'] = $extension;
             // }
@@ -174,7 +174,7 @@ class Manufacturer extends Controller
         }
 
         $agent = new DistributorM;
-        $this->data['agent'] = $agent->first(['dis_phone' => $sap, 'man_phone' => $_SESSION['man_phone']]);
+        $this->data['agent'] = $agent->first(['dis_phone' => $sap, 'man_phone' => $_SESSION['manufacturer']['phone']]);
         if(!$this->data['agent']){
             header('Location: ' . LINKROOT . '/Manufacturer/Agents');
             return;
@@ -192,7 +192,7 @@ class Manufacturer extends Controller
         }
 
         $agent = new DistributorM;
-        $agentData = $agent->first(['dis_phone' => $sap, 'man_phone' => $_SESSION['man_phone']]);
+        $agentData = $agent->first(['dis_phone' => $sap, 'man_phone' => $_SESSION['manufacturer']['phone']]);
         if(empty($agentData))
         {
             // echo $sap." : This agent phone number ether does not exist in the db or not belong to the logged in manufacturer."; //Todo : change this to a proper error page.
@@ -200,7 +200,7 @@ class Manufacturer extends Controller
             return;
         }
 
-        if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_SESSION['man_phone']) && !empty($_POST['dis_phone']) && !empty($_POST['sa_first_name']) && !empty($_POST['sa_last_name']) && !empty($_POST['sa_busines_name']) && !empty($_POST['sa_address']))
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_SESSION['manufacturer']['phone']) && !empty($_POST['dis_phone']) && !empty($_POST['sa_first_name']) && !empty($_POST['sa_last_name']) && !empty($_POST['sa_busines_name']) && !empty($_POST['sa_address']))
         {
             unset($_POST['sa_password']);   //Manufacturer is not alowed to set a password for Sales agent. A default password will be set and sales agent should change it after login.
 
@@ -231,7 +231,7 @@ class Manufacturer extends Controller
             }
 
             if(!empty($updData)){
-                $agent->update(['dis_phone' => $sap, 'man_phone' => $_SESSION['man_phone']], $updData);
+                $agent->update(['dis_phone' => $sap, 'man_phone' => $_SESSION['manufacturer']['phone']], $updData);
             }
             header('Location: ' . LINKROOT . '/Manufacturer/Agents');                                 
             return;
@@ -245,7 +245,7 @@ class Manufacturer extends Controller
     public function deleteAgent() { //todo : deleted agent should be in a anothe table, and baned agents may still log in to his distributoraccount but not be able to do anything in it.
         if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['dis_phone'])){
             $agnt = new DistributorM;
-            $agnt->delete(['dis_phone' => $_POST['dis_phone'], 'man_phone' => $_SESSION['man_phone']]);
+            $agnt->delete(['dis_phone' => $_POST['dis_phone'], 'man_phone' => $_SESSION['manufacturer']['phone']]);
         }
         header('Location: ' . LINKROOT . '/admin/addNewProducts');       
     }
@@ -253,7 +253,7 @@ class Manufacturer extends Controller
     public function newProductRequest(){
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
             $req = new pendingProductRequests;
-            $insertArray = array_merge($_POST, ['man_phone' => $_SESSION['man_phone']]);
+            $insertArray = array_merge($_POST, ['man_phone' => $_SESSION['manufacturer']['phone']]);
             $req->insert( $insertArray);
         }
         redirect('Manufacturer/products');

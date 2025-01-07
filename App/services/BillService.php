@@ -13,7 +13,7 @@ class BillService extends Database
 
         $bill->insert([
             'cus_phone' => $cus_phone,
-            'so_phone' => $_SESSION['so_phone']
+            'so_phone' => $_SESSION['shop_owner']['phone']
         ], $con);
 
         $lastId = $this->lastId($con);
@@ -29,7 +29,7 @@ class BillService extends Database
         unset($item);
         
         $billItems->bulkInsert($itemArray, ['barcode', 'quantity', 'bill_id'], $con);
-        $shop->updateCashDrawer($_SESSION['so_phone'], $_SESSION['total']+$wallet_update, $con);
+        $shop->updateCashDrawer($_SESSION['shop_owner']['phone'], $_SESSION['total']+$wallet_update, $con);
         if($wallet_update && $cus_phone)
             $loyaltyCustomers->updateWallet($cus_phone, $wallet_update, $con);
 

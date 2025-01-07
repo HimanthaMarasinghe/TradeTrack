@@ -8,7 +8,7 @@ class Admin extends Controller
     ];
 
     public function __construct() {
-        if(!isset($_SESSION['ad_phone'])){
+        if(!isset($_SESSION['admin'])){
             redirect('login');
             exit;
         }

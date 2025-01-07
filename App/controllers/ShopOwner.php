@@ -8,7 +8,7 @@ class ShopOwner extends Controller
     ];
 
     public function __construct() {
-        if(!isset($_SESSION['so_phone']) || !isset($_SESSION['shop'])){
+        if(!isset($_SESSION['shop_owner'])){
             redirect('login');
             exit;
         }
@@ -18,7 +18,7 @@ class ShopOwner extends Controller
     public function index () 
     {
 
-        //$_SESSION['so_phone'] = '0112223333'; //ToDo : to be changed to the logged in user's phone number (tbc)
+        //$_SESSION['shop_owner']['phone'] = '0112223333'; //ToDo : to be changed to the logged in user's phone number (tbc)
 
         $this->data['tabs']['active'] = 'Home';
         
@@ -36,10 +36,10 @@ class ShopOwner extends Controller
         ];
 
         $stck = new ShopStock;
-        $this->data['lowStocks'] = $stck->readStock($_SESSION['so_phone'], 'low');
+        $this->data['lowStocks'] = $stck->readStock($_SESSION['shop_owner']['phone'], 'low');
 
         $shop = new Shops;
-        $this->data['cashDrawerBallance'] = $shop->first(['so_phone' => $_SESSION['so_phone']])['cash_drawer_balance'];
+        $this->data['cashDrawerBallance'] = $shop->first(['so_phone' => $_SESSION['shop_owner']['phone']])['cash_drawer_balance'];
         
 
         $this->view('ShopOwner/home', $this->data);
@@ -114,10 +114,6 @@ class ShopOwner extends Controller
         ];
 
         $loyReq = new LoyaltyRequests;
-        $this->data['newLoyalCusReq'] = $loyReq->allRequests($_SESSION['so_phone']);
-        
-        $loyaltyCustomer = new LoyaltyCustomers;
-        $this->data['loyalCus'] = $loyaltyCustomer->allLoyaltyCustomers($_SESSION['so_phone']);
 
         $this->data['tabs']['active'] = 'Customers';
         $this->view('shopOwner/customers', $this->data);
@@ -137,7 +133,7 @@ class ShopOwner extends Controller
         //     'phone' => '0112224690',
         //     'address' => 'No 123, Main Street, Colombo 07'
         // ];
-        $this->data['newLoyalCusReq'] = $loyReq->readNewLoyReq($_SESSION['so_phone'], $cusPhone);
+        $this->data['newLoyalCusReq'] = $loyReq->readNewLoyReq($_SESSION['shop_owner']['phone'], $cusPhone);
 
         if(!$this->data['newLoyalCusReq']){
             header('Location: ' . LINKROOT . '/ShopOwner/customers');
@@ -152,9 +148,9 @@ class ShopOwner extends Controller
         if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['cus_phone'])){
             $loyCus = new LoyaltyCustomers;
             $loyReq = new LoyaltyRequests;
-            if($loyReq->readNewLoyReq($_SESSION['so_phone'], $_POST['cus_phone'])){     //Only if there is a request, customer can become loyal.
-                $loyReq->delete(['cus_phone' => $_POST['cus_phone'], 'so_phone' => $_SESSION['so_phone']]);
-                $loyCus->insert(['cus_phone' => $_POST['cus_phone'], 'so_phone' => $_SESSION['so_phone']]);
+            if($loyReq->readNewLoyReq($_SESSION['shop_owner']['phone'], $_POST['cus_phone'])){     //Only if there is a request, customer can become loyal.
+                $loyReq->delete(['cus_phone' => $_POST['cus_phone'], 'so_phone' => $_SESSION['shop_owner']['phone']]);
+                $loyCus->insert(['cus_phone' => $_POST['cus_phone'], 'so_phone' => $_SESSION['shop_owner']['phone']]);
             }
         }
     }
@@ -168,7 +164,7 @@ class ShopOwner extends Controller
         $customer = new Customers;
         $loyaltyCustomer = new LoyaltyCustomers;
         $this->data['customer'] = $customer->first(['cus_phone' => $id]);
-        $this->data['loyalty'] = $loyaltyCustomer->first(['cus_phone' => $id, 'so_phone' => $_SESSION['so_phone']]);
+        $this->data['loyalty'] = $loyaltyCustomer->first(['cus_phone' => $id, 'so_phone' => $_SESSION['shop_owner']['phone']]);
         $this->data['tabs']['active'] = 'Customers';
         $this->view('shopOwner/customer', $this->data);
     }
@@ -177,7 +173,7 @@ class ShopOwner extends Controller
         if($_SERVER['REQUEST_METHOD'] == 'POST')
         {
             $loyaltyCustomer = new LoyaltyCustomers;
-            $loyaltyCustomer->delete(['cus_phone' => $_POST['loy_phone'], 'so_phone' => $_SESSION['so_phone']]);
+            $loyaltyCustomer->delete(['cus_phone' => $_POST['loy_phone'], 'so_phone' => $_SESSION['shop_owner']['phone']]);
         }
     }
 
@@ -208,12 +204,12 @@ class ShopOwner extends Controller
     public function accounts() {
         $bill = new Bills;
         $billItems = new BillItems;
-        $this->data['recentBills'] = $bill->getRecentBillDetails($_SESSION['so_phone']);
+        $this->data['recentBills'] = $bill->getRecentBillDetails($_SESSION['shop_owner']['phone']);
         foreach($this->data['recentBills'] as &$bill){
             $bill['total'] = $billItems->getBillTotal($bill['bill_id']);
         }
         $shop = new Shops;
-        $this->data['cashDrawerBallance'] = $shop->first(['so_phone' => $_SESSION['so_phone']])['cash_drawer_balance'];
+        // $this->data['cashDrawerBallance'] = $shop->first(['so_phone' => $_SESSION['shop_owner']['phone']])['cash_drawer_balance'];
         $this->data['tabs']['active'] = 'Accounts';
         $this->view('shopOwner/accounts', $this->data);
     }
@@ -235,10 +231,9 @@ class ShopOwner extends Controller
     public function profileUpdate() {
         $shop = new Shops;
         if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['so_phone']) && !empty($_POST['shop_name']) && !empty($_POST['so_first_name']) && !empty($_POST['so_last_name']) && !empty($_POST['shop_address']) && !empty($_POST['so_address'])){
-            $shop->update(['so_phone' => $_SESSION['so_phone']], $_POST);
-            $_SESSION['so_phone'] = $_POST['so_phone'];
+            $shop->update(['so_phone' => $_SESSION['shop_owner']['phone']], $_POST);
+            $_SESSION['shop_owner'] = $_POST;
         }
-        $this->data['shopOwner'] = $shop->first(['so_phone' => $_SESSION['so_phone']]);
         $this->data['tabs']['active'] = 'Home';
         $this->view('shopOwner/profileUpdate', $this->data);
     }
@@ -269,10 +264,10 @@ class ShopOwner extends Controller
         if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['barcode']) && !empty($_POST['quantity']) && !empty($_POST['cost']) && !empty($_POST['purchaseType'])){
             $stck = new ShopStock;
             $con = $stck->startTransaction();
-            $stck->addStock($_POST['barcode'], $_SESSION['so_phone'], $_POST['quantity'], $con);
+            $stck->addStock($_POST['barcode'], $_SESSION['shop_owner']['phone'], $_POST['quantity'], $con);
             if($_POST['purchaseType'] == 'onCash'){
                 $shop = new Shops;
-                $shop->updateCashDrawer($_SESSION['so_phone'], -1 * $_POST['cost'], $con);
+                $shop->updateCashDrawer($_SESSION['shop_owner']['phone'], -1 * $_POST['cost'], $con);
             }
             $stck->commit($con);
             return;
@@ -304,10 +299,10 @@ class ShopOwner extends Controller
         $search = $_GET['search'] ?? null;
         $stck = new ShopStock;
         if($search == null && $type == null)
-            $stocks = $stck->readStock($_SESSION['so_phone'], 'ASC', $offset);
+            $stocks = $stck->readStock($_SESSION['shop_owner']['phone'], 'ASC', $offset);
 
         else
-            $stocks = $stck->searchStock($search, $offset, $_SESSION['so_phone']);
+            $stocks = $stck->searchStock($search, $offset, $_SESSION['shop_owner']['phone']);
 
         if(!$stocks)
             $stocks = [];
@@ -326,7 +321,7 @@ class ShopOwner extends Controller
         $loyaltyCustomer = new LoyaltyCustomers;
 
         $customerData = $customer->first(['cus_phone' => $_POST['cus-phone']]);
-        $loyaltyCustomerData = $loyaltyCustomer->first(['cus_phone' => $_POST['cus-phone'], 'so_phone' => $_SESSION['so_phone']]);
+        $loyaltyCustomerData = $loyaltyCustomer->first(['cus_phone' => $_POST['cus-phone'], 'so_phone' => $_SESSION['shop_owner']['phone']]);
 
         if ($customerData){
             unset($customerData['cus_password']);
@@ -389,5 +384,17 @@ class ShopOwner extends Controller
         $distributorStocks = new DistributorStocks;
         $barcodes = $distributorStocks->getStockBarcodes($dis_phone);
         echo json_encode($barcodes);
+    }
+
+    public function getLoyaltyCustomers($offset = 0){
+        if (!filter_var($offset, FILTER_VALIDATE_INT)) 
+            $offset = 0;  // Default to 0 if invalid
+
+        $search = $_GET['search'] ?? null;
+
+        $loyaltyCustomer = new LoyaltyCustomers;
+        $loyaltyCustomers = $loyaltyCustomer->allLoyaltyCustomers($_SESSION['shop_owner']['phone'], $search, $offset);
+        
+        echo json_encode($loyaltyCustomers);
     }
 }
