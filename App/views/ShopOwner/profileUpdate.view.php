@@ -14,27 +14,27 @@
     <table class="ProfileUpd">
             <tr>
                 <td>Shop owner's Phone Number</td>
-                <td><input class="userInput" type="text" name="so_phone" id="" value="<?=$shopOwner['so_phone']?>"></td>
+                <td><input class="userInput" type="text" name="so_phone" id="" value="<?=$_SESSION['shop_owner']['phone']?>"></td>
             </tr>
             <tr>
                 <td>Shop Name</td>
-                <td><input class="userInput" type="text" name="shop_name" id="" value="<?=$shopOwner['shop_name']?>"></td>
+                <td><input class="userInput" type="text" name="shop_name" id="" value="<?=$_SESSION['shop_owner']['shop_name']?>"></td>
             </tr>
             <tr>
                 <td>Shop owner's  First Name</td>
-                <td><input class="userInput" type="text" name="so_first_name" id="" value="<?=$shopOwner['so_first_name']?>"></td>
+                <td><input class="userInput" type="text" name="so_first_name" id="" value="<?=$_SESSION['shop_owner']['first_name']?>"></td>
             </tr>
             <tr>
                 <td>Shop owner's  last name</td>
-                <td><input class="userInput" type="text" name="so_last_name" id="" value="<?=$shopOwner['so_last_name']?>"></td>
+                <td><input class="userInput" type="text" name="so_last_name" id="" value="<?=$_SESSION['shop_owner']['last_name']?>"></td>
             </tr>
             <tr>
                 <td>shop address </td>
-                <td><input class="userInput" type="text" name="shop_address" id="" value="<?=$shopOwner['shop_address']?>"></td>
+                <td><input class="userInput" type="text" name="shop_address" id="" value="<?=$_SESSION['shop_owner']['shop_address']?>"></td>
             </tr>
             <tr>
                 <td>shop owner address </td>
-                <td><input class="userInput" type="text" name="so_address" id="" value="<?=$shopOwner['so_address']?>"></td>
+                <td><input class="userInput" type="text" name="so_address" id="" value="<?=$_SESSION['shop_owner']['address']?>"></td>
             </tr>
             <tr>
                 <td colspan="2" style="text-align:right;">

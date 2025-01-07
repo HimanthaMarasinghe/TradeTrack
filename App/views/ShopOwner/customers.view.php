@@ -7,8 +7,7 @@
 
     <div class="bar">
         <img src="<?=ROOT?>/images/icons/home.svg" alt="">
-        <!-- <h1><?=$_SESSION['name']?></h1> -->
-        <h1>Gamunu Stores</h1>
+        <?=$_SESSION['shop_owner']['shop_name']?>
         <div>
             <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
             <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
@@ -35,28 +34,13 @@
         </div>
 
         <div class="panel loyalty-cus">
-            <?php if(!$loyalCus){ ?>
-                <h2>Loyalty Customers</h2>
-                <h1 class="center-al m-b-auto faded-text">No Loyalty Customers</h1>
-            <?php }else{ ?>
             <div class="mg-0 row col-max-1024">
                 <h2>Loyalty Customers</h2>
-                <input type="text" class="search-bar fg1" placeholder="Search">
-                <button class="btn">Search</button>
+                <input type="text" class="search-bar fg1" id="searchBar" placeholder="Search">
+                <!-- <button class="btn">Search</button> -->
             </div>
-            <div class="scroll-box grid g-resp-300">
-                <?php
-                    if(!$loyalCus){
-                        echo "<h3>No Loyalty Customers</h3>";
-                    }else{
-                        foreach ($loyalCus as $Cus)
-                        {
-                            $this->component('card/LoyCus', $Cus); 
-                        }
-                    }
-                ?>
+            <div class="scroll-box grid g-resp-300" id="elements-Scroll-Div">
             </div>
-            <?php } ?>
         </div>
 
         <div class="panel new-lc-req closed-grid" id="new-lc-req">
@@ -83,6 +67,11 @@
     </div>
 </div>
 
-<script src="<?=ROOT?>/js/customers.js"></script>
+<script>
+    const ROOT = '<?=ROOT?>';
+    const LINKROOT = '<?=LINKROOT?>';
+</script>
+<script src="<?=ROOT?>/js/ShopOwner/customers.js"></script>
+<script src="<?=ROOT?>/js/apiFetcher.js"></script>
 
 <?php $this->component("footer") ?>

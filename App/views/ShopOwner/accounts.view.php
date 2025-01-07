@@ -9,8 +9,7 @@
     <div class="scroll-box">
         <div class="bar">
             <img src="<?=ROOT?>/images/icons/home.svg" alt="">
-            <!-- <h1><?=$_SESSION['name']?></h1> -->
-            <h1>Gamunu Stores</h1>
+            <h1><?=$_SESSION['shop_owner']['shop_name']?></h1>
             <div>
                 <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
                 <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
@@ -20,11 +19,11 @@
         <div class="row mg-0">
             <div class="panel row w-50 spc-btwn">
                 <h2>Cash Drawer</h2>
-                <h2>Rs.<?=$cashDrawerBallance?>.00</h2>
+                <h2>Rs.<?=number_format($_SESSION['shop_owner']['cash_drawer_balance'], 2)?></h2>
             </div>
             <div class="panel row w-50 spc-btwn">
                 <h2>Bank Balance</h2>
-                <h2>Rs.7382.48</h2>
+                <h2>Rs.<?=number_format($_SESSION['shop_owner']['bank_balance'], 2)?></h2>
             </div>
         </div>
         <div class="row mg-0">

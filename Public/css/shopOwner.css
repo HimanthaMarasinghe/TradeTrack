@@ -259,3 +259,24 @@ svg#down {
     padding: 8px;
     text-align: center;
 }
+
+.product-image-slider{
+    max-width: 50vw;
+    overflow: hidden;
+    position: relative;
+
+    & .slider{
+        display: flex;
+        transition: transform 0.5s linear;
+    }
+}
+
+@keyframes slide {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}

@@ -8,7 +8,7 @@ class Customer extends Controller
     ];
 
     public function __construct() {
-        if(!isset($_SESSION['cus_phone'])){
+        if(!isset($_SESSION['customer'])){
             redirect('login');
             exit;
         }
@@ -16,7 +16,7 @@ class Customer extends Controller
 
     public function index(){
 
-        //$_SESSION['cus_phone'] = '0123456789'; //ToDo : to be changed to the logged in user's phone number (tbc)
+        //$_SESSION['customer']['phone'] = '0123456789'; //ToDo : to be changed to the logged in user's phone number (tbc)
 
         $this->data['tabs']['active'] = 'Home';
         $this->view('Customer/home',$this->data);
@@ -24,7 +24,7 @@ class Customer extends Controller
 
     public function placePreOrder(){
 
-        //$_SESSION['cus_phone'] = '0123456789'; //ToDo : to be changed to the logged in user's phone number (tbc)
+        //$_SESSION['customer']['phone'] = '0123456789'; //ToDo : to be changed to the logged in user's phone number (tbc)
 
         $this->data['tabs']['active'] = 'Home';
         $this->view('Customer/placePreOrder',$this->data);
@@ -49,7 +49,7 @@ class Customer extends Controller
     public function shops(){
         $this->data['tabs']['active'] = 'Shops';
         $shops = new LoyaltyCustomers;
-        $this->data['shops'] = $shops->notLoyaltyShops($_SESSION['cus_phone']);
+        $this->data['shops'] = $shops->notLoyaltyShops($_SESSION['customer']['phone']);
         $this->view('Customer/shops',$this->data);
     }
 
@@ -57,7 +57,7 @@ class Customer extends Controller
         $shops = new Shops;
         $loyShops = new LoyaltyCustomers;
         $this->data['shop'] = $shops->first(['so_phone' => $sop]);
-        $this->data['loyalty'] = $loyShops->first(['cus_phone' => $_SESSION['cus_phone'], 'so_phone' => $sop]);        
+        $this->data['loyalty'] = $loyShops->first(['cus_phone' => $_SESSION['customer']['phone'], 'so_phone' => $sop]);        
         $this->data['tabs']['active'] = $this->data['loyalty'] ? 'Loyalty Shops' : 'Shops';
         $this->view('Customer/shop',$this->data);
     }
@@ -65,7 +65,7 @@ class Customer extends Controller
     public function loyaltyShops(){
         $loyShops = new LoyaltyCustomers;
         $this->data['tabs']['active'] = 'Loyalty Shops';
-        $this->data['shops'] = $loyShops->allLoyaltyShops($_SESSION['cus_phone']);
+        $this->data['shops'] = $loyShops->allLoyaltyShops($_SESSION['customer']['phone']);
         $this->view('Customer/loyaltyShops',$this->data);
     }
 

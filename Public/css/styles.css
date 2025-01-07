@@ -384,6 +384,10 @@ input.userInput {
     &.big{
         height: 200px;
     }
+
+    &.small{
+        height: 100px;
+    }
 }
 
 /****************** Admin **********************/

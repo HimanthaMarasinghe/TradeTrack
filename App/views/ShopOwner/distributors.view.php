@@ -15,55 +15,51 @@
         </div>
     </div>
     <div class="row">
-      <input type="text" class="search-bar fg1" placeholder="Search Distributor">
-      <button class="btn">Search</button>
+      <input type="text" class="search-bar fg1" placeholder="Search Distributor" id="searchBar">
     </div>
 
-    <div class="grid g-resp-200 scroll-box">
-      <?php
-      $agents = [
-        [
-            "first_name" => "Saman",
-            "last_name" => "Kumara",
-            "sa_busines_name" => "Maliban Galle Distributor",
-            "dis_phone" => "0372222690"
-
-        ],[
-            "first_name" => "Nimal",
-            "last_name" => "Perera",
-            "sa_busines_name" => "Ceylon Tea Distributors",
-            "dis_phone" => "0112345678"
-        ],[
-            "first_name" => "Ranjith",
-            "last_name" => "Dias",
-            "sa_busines_name" => "Ranjith Super Distributors",
-            "dis_phone" => "0112456789"
-        ],[
-            "first_name" => "Lakshan",
-            "last_name" => "Silva",
-            "sa_busines_name" => "Silva Grocery Distributors",
-            "dis_phone" => "0412233456"
-        ],[
-            "first_name" => "Harsha",
-            "last_name" => "Bandara",
-            "sa_busines_name" => "Bandara Retail and Wholesale",
-            "dis_phone" => "0712233444"
-        ]
-        
-        
-        
-        ];
-        foreach ($agents as $agent)
-        {
-          $this->component('card/shopDistributor', $agent); 
-        }
-      ?>
+    <div class="grid g-resp-200 scroll-box" id="elements-Scroll-Div">
     </div>
-<!-- Your html code goes here -->
 
 </div>
 
+<div id="popUpBackDrop" class="hidden"></div>
+<div id="distributor" class="popUpDiv hidden">
+    <h2 id="popUp-distributor-name" class="center-al ">Distributor Name</h2>
+    <div class="row alitem-center">
+        <div class="colomn fg1">
+            <div class="row">
+                <div class="colomn">
+                    <p>Busines Name</p>
+                    <p>Address</p>
+                    <p>Phone</p>
+                </div>
+                <div class="colomn fg1">
+                    <p id="popUp-distributor-busines-name">Email</p>
+                    <p id="popUp-distributor-address">Address</p>
+                    <p id="popUp-distributor-phone">Phone</p>
+                </div>
+            </div>
+            <div class="row">
+                <a href="<?=LINKROOT?>/ShopOwner/orderStocks" class="btn">Order stock</a>
+                <a href="<?=LINKROOT?>/ShopOwner/stockHistory" class="btn">Stock history</a>
+            </div>
+        </div>
+        <img src="" alt="distibutor image" id="popUp-distributor-image" class="profile-img big" onerror="this.src='<?=ROOT?>/images/Profile/PhoneNumber.jpg'">
+    </div>
+    <h4>Distributing products</h4>
+    <div class="row product-image-slider" id="slider-container">
+        <div class="slider gap-10" id="popUp-distributor-products"></div>
+    </div>
+</div>
 
+<script>
+    const ROOT = "<?=ROOT?>";
+    const LINKROOT = "<?=LINKROOT?>";
+</script>
+<script src="<?=ROOT?>/js/ShopOwner/distributors.js"></script>
+<script src="<?=ROOT?>/js/apiFetcher.js"></script>
 <script src="<?=ROOT?>/js/popUp.js"></script>
+
 
 <?php $this->component("footer") ?>

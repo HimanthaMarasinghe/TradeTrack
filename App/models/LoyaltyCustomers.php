@@ -12,18 +12,21 @@ class LoyaltyCustomers extends Model
         $data = [
             'wallet_update' => $wallet_update,
             'cus_phone' => $cus_phone,
-            'so_phone' => $_SESSION['so_phone']
+            'so_phone' => $_SESSION['shop_owner']['phone']
         ];
         $this->query($query, $data, $con);
     }
 
-    public function allLoyaltyCustomers($so_phone)
+    public function allLoyaltyCustomers($so_phone, $search = null, $offset = 0)
     {
         $query = "SELECT * 
-                  FROM customers c 
-                  JOIN loyalty_customers lc ON c.cus_phone = lc.cus_phone
-                  WHERE lc.so_phone = :so_phone";
-        $data = ['so_phone' => $so_phone];
+                  FROM users u 
+                  JOIN loyalty_customers lc ON u.phone = lc.cus_phone
+                  WHERE lc.so_phone = :so_phone
+                  AND (CONCAT(u.first_name, ' ', u.last_name) LIKE :search OR u.phone LIKE :search)
+                  ORDER BY lc.wallet DESC
+                  LIMIT 10 OFFSET $offset";
+        $data = ['so_phone' => $so_phone, 'search' => "%$search%"];
         return $this->query($query, $data);
     }
 

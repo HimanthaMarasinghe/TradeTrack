@@ -8,7 +8,7 @@ class Distributor extends Controller
     ];
 
     public function __construct() {
-        if(!isset($_SESSION['dis_phone'])){
+        if(!isset($_SESSION['distributor']['phone'])){
             redirect('login');
             exit;
         }
@@ -50,7 +50,7 @@ class Distributor extends Controller
 
         // $otherExpense = new SaOtherExpenses;
         
-        // $this->data['otherExpenses'] = $otherExpense->where(['dis_phone' => $_SESSION['dis_phone']]);
+        // $this->data['otherExpenses'] = $otherExpense->where(['dis_phone' => $_SESSION['distributor']['phone']]);
 
         $this->data['tabs']['active'] = 'Accounts';
         $this->view('Distributor/accounts', $this->data);
@@ -63,9 +63,10 @@ class Distributor extends Controller
 
     public function newInventryRequest(){
         $product = new Products;
-        $distributor = new DistributorM;
-        $distDetail = $distributor->first(['dis_phone'=> $_SESSION['dis_phone']]);
-        $this->data['products'] = $product->where(['man_phone'=> $distDetail['man_phone']]);
+        // $distributor = new DistributorM;
+        // $distDetail = $distributor->first(['dis_phone'=> $_SESSION['distributor']['phone']]);
+        // $this->data['products'] = $product->where(['man_phone'=> $distDetail['man_phone']]);
+        $this->data['products'] = $product->where(['man_phone'=> $_SESSION['distributor']['man_phone']]);
         $this->data['tabs']['active'] = 'Stocks';
         $this->view('Distributor/newInventryRequest', $this->data);
     }
@@ -104,12 +105,12 @@ class Distributor extends Controller
             // Decode the JSON data into a PHP array
             $billItems = json_decode($input, true);
 
-            $distributor = new DistributorM;
-            $man_phone = $distributor->first(['dis_phone'=> $_SESSION['dis_phone']])['man_phone'];
+            // $distributor = new DistributorM;
+            // $man_phone = $distributor->first(['dis_phone'=> $_SESSION['distributor']['phone']])['man_phone'];
             $orders = new distributorOrders;
             $orderItems = new distributorOrdersItems;
             $con = $orders->startTransaction();
-            $orders->insert(['dis_phone' => $_SESSION['dis_phone'], 'man_phone' => $man_phone], $con);
+            $orders->insert(['dis_phone' => $_SESSION['distributor']['phone'], 'man_phone' => $_SESSION['distributor']['man_phone']], $con);
             $lastId = $orders->lastId($con);
             foreach ($billItems as &$item) {
                 $item['order_id'] = $lastId;
@@ -123,7 +124,7 @@ class Distributor extends Controller
     public function requestDetails(){
         $orders = new distributorOrders;
         $orderItems = new distributorOrdersItems;
-        $this->data['pendingOrders'] = $orders->getOrderDetails($_SESSION['dis_phone']);
+        $this->data['pendingOrders'] = $orders->getOrderDetails($_SESSION['distributor']['phone']);
 
         foreach ($this->data['pendingOrders'] as &$order) {
             $order['total'] = $orderItems->getOrderTotal($order['order_id']);
@@ -161,14 +162,14 @@ class Distributor extends Controller
 
     public function editInventoryRequest($request_id) {
         $product = new Products;
-        $distributor = new DistributorM;
+        // $distributor = new DistributorM;
         $orderItems = new distributorOrdersItems;
         $order = new distributorOrders;
-        $distDetail = $distributor->first(['dis_phone'=> $_SESSION['dis_phone']]);
+        // $distDetail = $distributor->first(['dis_phone'=> $_SESSION['distributor']['phone']]);
         $this->data['OrderData']['orderProducts'] = $orderItems->where(['order_id' => $request_id]);
         $this->data['OrderData']['total'] = $orderItems->getOrderTotal($request_id);
         $this->data['OrderData']['order'] = $order->first(['order_id' => $request_id]);
-        $this->data['products'] = $product->where(['man_phone'=> $distDetail['man_phone']]);
+        $this->data['products'] = $product->where(['man_phone'=> $_SESSION['distributor']['man_phone']]);
         // header('Content-Type: application/json');
         // echo json_encode($this->data);
         $this->data['tabs']['active'] = 'Stocks';
