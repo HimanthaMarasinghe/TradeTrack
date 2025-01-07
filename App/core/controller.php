@@ -8,8 +8,10 @@
     public function view($viewName, $data = []) 
     {
 
-        if(!empty($data))
-            extract($data);
+        if(!empty($data)){
+            $data = $this->escapeData($data);
+            extract($data);            
+        }
 
         $filename = "../app/views/".$viewName.".view.php";
 
@@ -34,6 +36,20 @@
         if(file_exists($filename)) {
             require $filename;
         }
+    }
+
+    private function escapeData($data) 
+    {
+        // Recursively escape strings in the data array
+        foreach ($data as $key => &$value) {
+            if (is_string($value)) {
+                $value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+            } elseif (is_array($value)) {
+                $value = $this->escapeData($value); // Recursively escape arrays
+            }
+            // Leave other types (e.g., objects, integers) unchanged
+        }
+        return $data;
     }
 
     public function saveImage($fileImage, $uploadDir, $newImageName)

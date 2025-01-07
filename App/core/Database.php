@@ -28,22 +28,24 @@ class Database
         return false;
     }
 
-    public function get_row($query, $data = [])
-    {
-        $con = $this->connect();
-        $stmt = $con->prepare($query);
+    // public function get_row($query, $data = [], $con = null)
+    // {
+    //     if($con == null)
+    //         $con = $this->connect();
 
-        $check = $stmt->execute($data);
-        if($check)
-        {
-            $result = $stmt->fetchAll(PDO::FETCH_OBJ);
-            if(is_array($result) && count($result))
-            {
-                return $result[0];
-            }
-        }
-        return false;
-    }
+    //     $stmt = $con->prepare($query);
+
+    //     $check = $stmt->execute($data);
+    //     if($check)
+    //     {
+    //         $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+    //         if(is_array($result) && count($result))
+    //         {
+    //             return $result[0];
+    //         }
+    //     }
+    //     return false;
+    // }
 
     public function startTransaction(){
         $con = $this->connect();

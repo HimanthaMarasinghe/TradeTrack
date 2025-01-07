@@ -8,7 +8,7 @@
 
     <div class="bar">
         <img src="<?=ROOT?>/images/icons/home.svg" alt="">
-        <?=$_SESSION['shop_owner']['shop_name']?>
+        <h1><?=$_SESSION['shop_owner']['shop_name']?></h1>
         <div>
             <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
             <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
