@@ -488,3 +488,46 @@ div.popUpDiv{
         }
     }
 }
+
+/***************** Pre-Orders - Used in customer's and shop owner's dashboards *************/
+
+.Pending-preOrder{
+    border-color: green !important;
+
+    & .status{
+        color: green;
+    }
+}
+
+.Processing-preOrder{
+    border-color: blue !important;
+
+    & .status{
+        color: blue;
+    }
+}
+
+.Ready-preOrder{
+    border-color: orange !important;
+
+    & .status{
+        color: orange;
+    }
+}
+
+.Picked-preOrder{
+    border-color: purple !important;
+
+    & .status{
+        color: purple;
+    }
+}
+
+a {
+    text-decoration: none;
+    color: #1900ff;
+
+    &:hover{
+        text-decoration: underline;
+    }
+}

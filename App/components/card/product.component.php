@@ -7,7 +7,7 @@
         <?php if($special) {?>
             <h4 class="orange-text"><?=$special?></h4>
         <?php } else { ?>
-            <h4 class="quanity"><?=$quantity?> Units in stock</h4>
+            <h4 class="quantity"><?=$quantity?> Units in stock</h4>
         <?php } ?>
 
 

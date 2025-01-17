@@ -4,7 +4,7 @@
 // 3. getVariables : An object containing the variables to send with the request
 // 4. cardTemplate : A function that returns the HTML template for a card
 // 5. updateGetVariables : A function that updates the getVariables object with the search input
-// 6. dataArr : A const array to store the fetched data. If this is not defined, the fetched data will not be stored
+// 6. dataArr : A const array to store the fetched data. If this is not defined, the fetched data will not be stored. This will be usefull when showing a popup.
 
 let offset = 0;
 let loadComplete = false;
