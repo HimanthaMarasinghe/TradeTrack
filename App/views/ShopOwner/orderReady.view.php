@@ -7,17 +7,14 @@
     <div class="center done">
 
         <div class="p-20">
-            <h1><?=$cusName?></h1>
+            <h1><?=$preOrderDetails['first_name']?> <?=$preOrderDetails['last_name']?></h1>
         </div>
 
         <h1>Total</h1>
-        <h1>10,000</h1>
+        <h1>Rs.<?=$preOrderDetails['total']?></h1>
 
         <h4>Customer's Phone number</h4>
-        <input class="userInput" type="text">
-
-        <h4>Customer's E-mail</h4>
-        <input class="userInput" type="text">
+        <h4><?=$preOrderDetails['cus_phone']?></h4>
 
         <div>
             <img src="<?=ROOT?>/images/icons/home.svg" alt="">
@@ -29,5 +26,9 @@
         
     </div>
 </div>
+
+<script>
+    localStorage.removeItem('processingPreOrder'+<?=$preOrderDetails['pre_order_id']?>);
+</script>
 
 <?php $this->component("footer") ?>

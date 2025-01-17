@@ -25,10 +25,10 @@
 
     &.low {
         border-color: #ff2f00;
-        box-shadow: inset 0 0 7px 1px #ff2f00;
+        /* box-shadow: inset 0 0 7px 1px #ff2f00; */
         /* background: linear-gradient(90deg, #FF8C0099, #ff370099); */
 
-        & .quanity{
+        & .quantity{
             color: #ff2f00;
         }
     }

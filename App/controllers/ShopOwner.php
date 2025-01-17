@@ -15,14 +15,15 @@ class ShopOwner extends Controller
     }
 
     // Load pre-orders for the shop owner.Used in index and customers methods.
-    private function loadPreOrders() {
+    private function loadPreOrders($status = null, $search = null, $offset = null) {
         $preOrderM = new PreOrder;
         $preOrderItemsM = new PreOrderItems;
-        $preOrders = $preOrderM->allPreOrdersForShopOwner($_SESSION['shop_owner']['phone']);
+        $preOrders = $preOrderM->allPreOrdersForShopOwner($_SESSION['shop_owner']['phone'], $status, $search, $offset);
         foreach ($preOrders as &$preOrder) {
             $preOrderDate = new DateTime($preOrder['date_time']);
-            $preOrder['date_time'] = (new DateTime())->diff($preOrderDate)->format('%hh %im');
-            $preOrder['total'] = $preOrderItemsM->preOrderAmount($preOrder['pre_order_id'])[0]['total'];
+            $diff = (new DateTime())->diff($preOrderDate);
+            $preOrder['date_time'] = $diff->days > 0 ? $diff->format('%dd %hh %im') : $diff->format('%hh %im');
+            $preOrder['total'] = $preOrderItemsM->preOrderAmount($preOrder['pre_order_id']);
         }
         return $preOrders;
     }
@@ -94,11 +95,16 @@ class ShopOwner extends Controller
     public function preOrder($order_id) {
         $preOrder = new PreOrder;
         $preOrderItems = new PreOrderItems;
-        $this->data['preOrder'] = $preOrder->preOrderDetailsForShopOwner($order_id)[0];
-        $this->data['preOrder']['total'] = $preOrderItems->preOrderAmount($order_id)[0]['total'];
+        $this->data['preOrder'] = $preOrder->preOrderDetailsForShopOwner($order_id);
+        $this->data['preOrder']['total'] = $preOrderItems->preOrderAmount($order_id);
         $this->data['preOrderItems'] = $preOrderItems->where(['pre_order_id' => $order_id]);
-        $this->data['tabs']['active'] = 'Home';
+        $this->data['tabs']['active'] = 'Customers';
         $this->view('shopOwner/preOrder', $this->data);
+    }
+
+    public function preOrderHistory() {
+        $this->data['tabs']['active'] = 'Customers';
+        $this->view('shopOwner/preOrderHistory', $this->data);
     }
 
     public function customers() {
@@ -169,7 +175,13 @@ class ShopOwner extends Controller
         }
     }
 
-    public function orderReady() {
+    public function orderReady($order_id) {
+        $preOrder = new PreOrder;
+        $preOrderItems = new PreOrderItems;
+        $preOrder->setStatus($order_id, 'Ready');
+        $this->data['preOrderDetails'] = $preOrder->preOrderDetailsForShopOwner($order_id);
+        $this->data['preOrderDetails']['total'] = $preOrderItems->preOrderAmount($order_id);
+
         $this->data['cusName'] = 'John Doe';
         $this->data['tabs']['active'] = 'Customers';
         $this->view('shopOwner/orderReady', $this->data);
@@ -214,7 +226,6 @@ class ShopOwner extends Controller
     public function profitAndLossStatement() {
         $this->view('shopOwner/profitAndLossStatement');
     }
-
     
     public function UpdateStock() {
         $this->view('shopOwner/updateStock', $this->data);
@@ -388,5 +399,27 @@ class ShopOwner extends Controller
         $loyaltyCustomers = $loyaltyCustomer->allLoyaltyCustomers($_SESSION['shop_owner']['phone'], $search, $offset);
         
         echo json_encode($loyaltyCustomers);
+    }
+
+    public function startProcessingPreOrder(){
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['pre_order_id'])){
+            $preOrder = new PreOrder;
+            $preOrder->setStatus($_POST['pre_order_id'], 'Processing');
+            echo json_encode(['success' => true]);
+        }
+        else{
+            echo json_encode(['success' => false, 'requestMethod' => $_SERVER['REQUEST_METHOD'], 'pre_order_id' => $_POST['pre_order_id'], 'post' => $_POST]);
+        }
+    }
+
+    public function getAllPreOrders($offset = 0){ 
+        if (!filter_var($offset, FILTER_VALIDATE_INT)) 
+            $offset = 0;  // Default to 0 if invalid
+
+        $search = $_GET['search'] ?? null;
+
+        $preOrder = new PreOrder;
+        $preOrders = $this->loadPreOrders('all', $search, $offset);
+        echo json_encode($preOrders);        
     }
 }

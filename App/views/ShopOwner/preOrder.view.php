@@ -24,7 +24,7 @@
             </tr>
             <tr>
                 <td>Status</td>
-                <td>- <?=$preOrder['status']?></td>
+                <td id="status">- <?=$preOrder['status']?></td>
             </tr>
         </table>
         <table class="profile">
@@ -65,7 +65,7 @@
                             <td> Rs." . number_format($item['po_unit_price'], 2) . "</td>
                             <td>" . $item['quantity'] . "</td>
                             <td> Rs." . $row_total . "</td>
-                            <td><input type='checkbox'></td>
+                            <td><input id=". $item['barcode'] ." class='hidden' type='checkbox'></td>
                         </tr>";
                 }
             ?>
@@ -76,10 +76,18 @@
     <div class="row">
         <div class="row fg1 mg-0">
             <h2>Total</h2>
-            <h2>Rs.<?=number_format($preOrder['total'], 2)?></h2>
+            <h2>Rs.<?=$preOrder['total']?></h2>
         </div>
-        <a href="<?=LINKROOT?>/ShopOwner/orderReady" class="btn">Set order status to ready</a>
+        <a id="changeStatusBtn" href="#" class="btn">Start Processing</a>
     </div>
 </div>
+
+<script>
+    const ROOT = '<?=ROOT?>';
+    const LINKROOT = '<?=LINKROOT?>';
+    const pre_order_id = '<?=$preOrder['pre_order_id']?>';
+    const status = '<?=$preOrder['status']?>';
+</script>
+<script src="<?=ROOT?>/js/ShopOwner/preOrder.js"></script>
 
 <?php $this->component("footer") ?>

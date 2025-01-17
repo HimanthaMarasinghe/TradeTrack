@@ -25,15 +25,19 @@
 
     <div class="grid-box fg1">
         <div class="panel pre-orders">
-            <h2>Pre-Orders</h2>
-            <div class="scroll-box">
-                <?php 
-                    foreach ($preOrders as $order)
-                    {
-                        $this->component('card/preOrder', $order); 
-                    }
-                ?>
-            </div>
+            <h2>New Pre-Orders</h2>
+            <?php if(!$preOrders){ ?>
+                <h1 class="center-al m-b-auto faded-text">No new Pre-Orders</h1>
+            <?php }else{ ?>
+                <div class="scroll-box">
+            <?php
+                foreach ($preOrders as $order)
+                {
+                    $this->component('card/preOrder', $order); 
+                }
+            ?>
+                </div>
+            <?php } ?>
         </div>
 
         <div class="panel cash-drawer">
