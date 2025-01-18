@@ -26,7 +26,11 @@ class PreOrder extends Model
                     p.so_phone = :so_phone ";
 
         if (!$status) 
-            $sql .= "AND p.status != 'Picked' ";
+            $sql .= "AND p.status NOT IN ('Picked', 'Rejected') ";
+        else if ($status !== 'all') {
+            $sql .= "AND p.status = :status ";
+            $queryParam[':status'] = $status;
+        }
 
         if ($search) {
             $sql .= "AND (CONCAT(u.first_name, ' ', u.last_name) LIKE :search OR p.pre_order_id LIKE :search) ";
@@ -37,8 +41,10 @@ class PreOrder extends Model
                 CASE p.status
                     WHEN 'Processing' THEN 1
                     WHEN 'Pending' THEN 2
-                    WHEN 'Ready' THEN 3
-                    ELSE 4
+                    WHEN 'Updated' THEN 3
+                    WHEN 'Ready' THEN 4
+                    WHEN 'Picked' THEN 5
+                    ELSE 6
                 END, 
                 p.date_time DESC ";
 
@@ -50,13 +56,21 @@ class PreOrder extends Model
 
     public function preOrderDetailsForShopOwner($pre_order_id)
     {
-        $sql = "SELECT p.cus_phone, p.pre_order_id, p.date_time, p.status, u.first_name, u.last_name, u.pic_format, u.address FROM pre_order p INNER JOIN users u ON p.cus_phone = u.phone WHERE p.pre_order_id = :pre_order_id";
-        return $this->query($sql, [':pre_order_id' => $pre_order_id])[0];
+        $sql = "SELECT 
+                    p.cus_phone, 
+                    p.pre_order_id, 
+                    p.date_time, 
+                    p.status, 
+                    u.first_name, 
+                    u.last_name, 
+                    u.pic_format, 
+                    u.address 
+                FROM 
+                    pre_order p INNER JOIN  users u 
+                ON 
+                    p.cus_phone = u.phone 
+                WHERE 
+                    p.pre_order_id = :pre_order_id AND p.so_phone = :so_phone";
+        return $this->query($sql, [':pre_order_id' => $pre_order_id, ':so_phone' => $_SESSION['shop_owner']['phone']])[0];
     }   
-
-    public function setStatus($pre_order_id, $status)
-    {
-        $sql = "UPDATE pre_order SET status = :status WHERE pre_order_id = :pre_order_id";
-        return $this->query($sql, [':status' => $status, ':pre_order_id' => $pre_order_id]);
-    }
 }

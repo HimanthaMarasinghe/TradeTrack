@@ -6,7 +6,7 @@
         <h3>Order Id <?=$pre_order_id?></h3>
         <h4><?=$first_name?> <?=$last_name?></h4>
         <h4>Rs.<?=$total?></h4>
-        <h4><?=$date_time?> ago</h4>
+        <h4><?=$date_time?></h4>
         <h4 class="status"><?=$status?></h4>
     </div>
 </a>

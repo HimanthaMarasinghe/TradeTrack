@@ -18,7 +18,7 @@
     <div class="grid-box fg1">
         <div class="panel pre-orders-f" id="pre-orders">
             <h2>New Pre-Orders</h2>
-            <a href="<?=LINKROOT?>/ShopOwner/preOrderHistory">Pre-order history</a>
+            <a class="link" href="<?=LINKROOT?>/ShopOwner/preOrderHistory">Pre-order history</a>
             <svg id="down" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path id="path-down" d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
                 <?php if(!$preOrders){ ?>
                     <h1 class="center-al m-b-auto faded-text">No new Pre-Orders</h1>

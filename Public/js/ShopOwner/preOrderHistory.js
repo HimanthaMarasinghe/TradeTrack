@@ -18,7 +18,7 @@ function cardTemplate(order) {
                 <h3>Order Id ${order.pre_order_id}</h3>
                 <h4>${order.first_name} ${order.last_name}</h4>
                 <h4>Rs.${order.total}</h4>
-                <h4>${order.date_time} ago</h4>
+                <h4>${order.date_time}</h4>
                 <h4 class="status">${order.status}</h4>
             </div>
         </a>

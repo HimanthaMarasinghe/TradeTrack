@@ -22,7 +22,8 @@ class ShopOwner extends Controller
         foreach ($preOrders as &$preOrder) {
             $preOrderDate = new DateTime($preOrder['date_time']);
             $diff = (new DateTime())->diff($preOrderDate);
-            $preOrder['date_time'] = $diff->days > 0 ? $diff->format('%dd %hh %im') : $diff->format('%hh %im');
+            if($diff->days < 1)
+               $preOrder['date_time'] = $diff->format('%hh %im') . ' ago';
             $preOrder['total'] = $preOrderItemsM->preOrderAmount($preOrder['pre_order_id']);
         }
         return $preOrders;
@@ -95,9 +96,27 @@ class ShopOwner extends Controller
     public function preOrder($order_id) {
         $preOrder = new PreOrder;
         $preOrderItems = new PreOrderItems;
+        $stock = new ShopStock;
         $this->data['preOrder'] = $preOrder->preOrderDetailsForShopOwner($order_id);
+        
+        if(!$this->data['preOrder'])
+            redirect('ShopOwner/customers');
+
         $this->data['preOrder']['total'] = $preOrderItems->preOrderAmount($order_id);
         $this->data['preOrderItems'] = $preOrderItems->where(['pre_order_id' => $order_id]);
+
+        $this->data['shouldCheckStock'] = !in_array($this->data['preOrder']['status'], ['Picked', 'Rejected']);
+
+        foreach ($this->data['preOrderItems'] as &$item) {
+            $item['row_total'] = number_format($item['po_unit_price'] * $item['quantity'], 2);
+            if ($this->data['shouldCheckStock']) {
+                $item['stock'] = $stock->getStockLevel($item['barcode'], $_SESSION['shop_owner']['phone']);
+                if ($item['stock']['quantity'] < $item['quantity']) {
+                    $this->data['shouldBeUpdated'] = true;
+                }
+            }
+        }
+
         $this->data['tabs']['active'] = 'Customers';
         $this->view('shopOwner/preOrder', $this->data);
     }
@@ -178,8 +197,10 @@ class ShopOwner extends Controller
     public function orderReady($order_id) {
         $preOrder = new PreOrder;
         $preOrderItems = new PreOrderItems;
-        $preOrder->setStatus($order_id, 'Ready');
+        $preOrder->update(['pre_order_id' => $order_id, 'so_phone' => $_SESSION['shop_owner']['phone']], ['status' => 'Ready']);
         $this->data['preOrderDetails'] = $preOrder->preOrderDetailsForShopOwner($order_id);
+        if(!$this->data['preOrderDetails'])
+            redirect('ShopOwner/customers');
         $this->data['preOrderDetails']['total'] = $preOrderItems->preOrderAmount($order_id);
 
         $this->data['cusName'] = 'John Doe';
@@ -401,14 +422,14 @@ class ShopOwner extends Controller
         echo json_encode($loyaltyCustomers);
     }
 
-    public function startProcessingPreOrder(){
-        if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['pre_order_id'])){
+    public function updateStatus(){
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['pre_order_id']) && !empty($_POST['status'])){
             $preOrder = new PreOrder;
-            $preOrder->setStatus($_POST['pre_order_id'], 'Processing');
+            $preOrder->update(['pre_order_id' => $_POST['pre_order_id'], 'so_phone' => $_SESSION['shop_owner']['phone']], ['status' => $_POST['status']]);
             echo json_encode(['success' => true]);
         }
         else{
-            echo json_encode(['success' => false, 'requestMethod' => $_SERVER['REQUEST_METHOD'], 'pre_order_id' => $_POST['pre_order_id'], 'post' => $_POST]);
+            echo json_encode(['success' => false]);
         }
     }
 
@@ -421,5 +442,32 @@ class ShopOwner extends Controller
         $preOrder = new PreOrder;
         $preOrders = $this->loadPreOrders('all', $search, $offset);
         echo json_encode($preOrders);        
+    }
+
+    public function updatePreOrder(){
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['pre_order_id']) && !empty($_POST['newPreOrderItems'])){
+            // Retrieve and decode the URL-encoded JSON string
+            $jsonString = urldecode($_POST['newPreOrderItems']);
+
+            // Decode JSON string into a PHP array
+            $newPreOrderItems = json_decode($jsonString, true);
+
+            $preOrder = new PreOrder;
+            $preOrderItems = new PreOrderItems;
+            $con = $preOrder->startTransaction();
+            $preOrder->update(['pre_order_id' => $_POST['pre_order_id']], ['status' => 'Updated'], $con);
+            foreach($newPreOrderItems as $item){
+                if($item['quantity'] == 0){
+                    $preOrderItems->delete(['pre_order_id' => $_POST['pre_order_id'], 'barcode' => $item['barcode']], $con);
+                }
+                else{
+                    $preOrderItems->update(['pre_order_id' => $_POST['pre_order_id'], 'barcode' => $item['barcode']], ['quantity' => $item['quantity']], $con);
+                }
+            }
+            echo json_encode(['success' => $con->commit()]);
+        }
+        else{
+            echo json_encode(['success' => false]);
+        }
     }
 }
