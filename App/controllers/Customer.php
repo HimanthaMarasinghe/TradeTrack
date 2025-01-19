@@ -48,8 +48,8 @@ class Customer extends Controller
 
     public function shops(){
         $this->data['tabs']['active'] = 'Shops';
-        $shops = new LoyaltyCustomers;
-        $this->data['shops'] = $shops->notLoyaltyShops($_SESSION['customer']['phone']);
+        // $shops = new LoyaltyCustomers;
+        // $this->data['shops'] = $shops->notLoyaltyShops($_SESSION['customer']['phone']);
         $this->view('Customer/shops',$this->data);
     }
 
@@ -84,10 +84,19 @@ class Customer extends Controller
         $this->view('Customer/announcements', $this->data);
     }
 
+    
+    // API endpoints
+
     public function getAnnouncement($id){
         $announcement = new Announcements;
         $announcement = $announcement->first(['id' => $id]);
         echo json_encode($announcement);
+    }
+
+    public function getShops($offset = 0){
+        $shopsM = new Shops;
+        $shops = $shopsM->readAll(10, $offset);
+        echo json_encode($shops);
     }
 
 
