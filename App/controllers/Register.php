@@ -10,9 +10,9 @@ class Register extends Controller
         
         if($_SERVER['REQUEST_METHOD'] == 'POST')
         {
-            $user = new User;
+            $row = new UserPasswords;
             
-            if($user->first(['phone' => $_POST['phone']])){
+            if($row->first(['phone' => $_POST['phone']])){
                 $this->data['error'] = 'User already exists';
             }
             else{

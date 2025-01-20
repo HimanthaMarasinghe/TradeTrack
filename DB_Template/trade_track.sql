@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 19, 2025 at 09:42 AM
+-- Generation Time: Jan 20, 2025 at 10:00 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -215,44 +215,6 @@ CREATE TABLE `chat_so_dis` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `customers`
---
-
-CREATE TABLE `customers` (
-  `cus_phone` varchar(10) NOT NULL,
-  `cus_first_name` varchar(20) NOT NULL,
-  `cus_last_name` varchar(20) NOT NULL,
-  `cus_address` varchar(100) NOT NULL,
-  `cus_password` varchar(256) NOT NULL,
-  `pic_format` varchar(10) NOT NULL DEFAULT 'jpg'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `customers`
---
-
-INSERT INTO `customers` (`cus_phone`, `cus_first_name`, `cus_last_name`, `cus_address`, `cus_password`, `pic_format`) VALUES
-('0123456789', 'Saman', 'Rathnayaka', 'No.120/1, Karadana, Gampaha', 'password', 'jpg'),
-('0701122334', 'Sarath', 'Gunasekara', 'No.12/3, Dutugemunu Mawatha, Maharagama', 'sarath12', ''),
-('0709876543', 'Mala', 'Jayawardena', 'No.20, Madampe Junction, Chilaw', 'mala@123', ''),
-('0712345678', 'Nimal', 'Perera', 'No.12, Kadawatha Road, Ragama', 'nimal123', ''),
-('0718976543', 'Kumari', 'Rathnayake', 'No.45/7, Malwatte Road, Matara', 'kumari@pw', ''),
-('0721112223', 'Shanika', 'Jayasinghe', 'No.25, Kandy Road, Mawanella', 'shanika98', ''),
-('0747654321', 'Ruwan', 'Wickramasinghe', 'No.3/1, Aluthgama Road, Bandaragama', 'ruwan654', ''),
-('0756789123', 'Gayan', 'Kumarasinghe', 'No.14, Temple Lane, Kurunegala', 'gayanpass', ''),
-('0763322110', 'Hemantha', 'Dias', 'No.9, Lake Road, Anuradhapura', 'hemanthapw', ''),
-('0765432198', 'Anura', 'Bandara', 'No.44, Rathnapura Road, Eheliyagoda', 'anura321', ''),
-('0772233445', 'Piumi', 'Senarath', 'No.7, Hospital Lane, Kalutara', 'piumi22', ''),
-('0776543210', 'Samantha', 'Fernando', 'No.66, Beach Road, Negombo', 'sampass01', ''),
-('0778765432', 'Sunil', 'Wijesinghe', 'No.55, Main Street, Piliyandala', 'sunilpw', ''),
-('0781234567', 'Chandani', 'Silva', 'No.30, Galle Road, Hikkaduwa', 'chandu89', ''),
-('0787766554', 'Janaka', 'Karunaratne', 'No.10/2, Rajagiriya Road, Nawala', 'janaka456', ''),
-('0789988776', 'Harsha', 'Abeysekara', 'No.5, Peradeniya Road, Kandy', 'harsha321', ''),
-('0987654321', 'Kamala', 'Gunawardana', 'No.111, Batuwaththa, Meerigama', 'Kamala', '');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `discount`
 --
 
@@ -383,15 +345,33 @@ CREATE TABLE `loyalty_customers` (
 INSERT INTO `loyalty_customers` (`so_phone`, `cus_phone`, `wallet`, `since`) VALUES
 ('0112223333', '0123456789', 28220, '2024-10-24'),
 ('0112223333', '0712345678', 1500, '2024-10-24'),
-('0112223333', '0721112223', 0, '2024-12-26'),
 ('0112223333', '0756789123', 2000, '2024-10-24'),
+('0112223333', '0770000000', 0, '2024-12-26'),
 ('0112223333', '0776543210', 0, '2024-10-24'),
 ('0112223333', '0789988776', 0, '2024-10-24'),
 ('0112223333', '0987654321', 560, '2024-10-24'),
 ('0701234567', '0123456789', 0, '2024-11-18'),
 ('0711234567', '0123456789', 0, '2024-11-18'),
 ('0714567890', '0123456789', 0, '2024-11-18'),
-('0759876543', '0123456789', 0, '2024-11-18');
+('0759876543', '0770000000', 0, '2024-11-18');
+
+--
+-- Triggers `loyalty_customers`
+--
+DELIMITER $$
+CREATE TRIGGER `check_user_role_on_insert` BEFORE INSERT ON `loyalty_customers` FOR EACH ROW IF (SELECT role FROM users WHERE phone = NEW.cus_phone) != 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'The user must have the role of customer to be added as a loyalty customer.';
+    END IF
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `check_user_role_on_update` BEFORE UPDATE ON `loyalty_customers` FOR EACH ROW IF (SELECT role FROM users WHERE phone = NEW.cus_phone) != 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'The user must have the role of customer to be added as a loyalty customer.';
+    END IF
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -410,7 +390,25 @@ CREATE TABLE `loyalty_requests` (
 --
 
 INSERT INTO `loyalty_requests` (`cus_phone`, `so_phone`, `created_time`) VALUES
-('0123456789', '0721234567', '2024-11-18 22:51:29');
+('0123456789', '0112223333', '2024-11-18 22:51:29');
+
+--
+-- Triggers `loyalty_requests`
+--
+DELIMITER $$
+CREATE TRIGGER `check_user_role_on_insert_lr` BEFORE INSERT ON `loyalty_requests` FOR EACH ROW IF (SELECT role FROM users WHERE phone = NEW.cus_phone) != 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'The user must have the role of customer to be added as a loyalty customer.';
+    END IF
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `check_user_role_on_update_lr` BEFORE UPDATE ON `loyalty_requests` FOR EACH ROW IF (SELECT role FROM users WHERE phone = NEW.cus_phone) != 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'The user must have the role of customer to be updated as a loyalty customer.';
+    END IF
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -709,57 +707,130 @@ CREATE TABLE `users` (
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
   `pic_format` varchar(10) NOT NULL,
-  `role` int(11) NOT NULL
+  `role` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`phone`, `first_name`, `last_name`, `address`, `password`, `pic_format`, `role`) VALUES
-('0112223333', 'Gamunu', 'Jayawardhana', 'No. 10, Negambo Road, Kurunegala', '$2y$10$LEyOQFzgjQNmezi9Yo0/E.8VQgfFPXcbRYB6P0mDQI.RDPMn88/ye', '', 1),
-('0123456789', 'Saman', 'Rathnayaka', 'No.120/1, Karadana, Gampaha', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', 'jpg', 0),
-('0372222690', 'Sumudu', 'Karunarathna', 'No.6, High level road, Nugegoda', '$2y$10$LEyOQFzgjQNmezi9Yo0/E.8VQgfFPXcbRYB6P0mDQI.RDPMn88/ye', 'jpeg', 3),
-('0701122334', 'Sarath', 'Gunasekara', 'No.12/3, Dutugemunu Mawatha, Maharagama', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
-('0701234567', 'Rajan', 'Nadarajah', 'No. 10, Main Street, Jaffna', '$2y$10$LEyOQFzgjQNmezi9Yo0/E.8VQgfFPXcbRYB6P0mDQI.RDPMn88/ye', '', 1),
-('0702345678', 'Suresh', 'Kanagarajah', 'No. 8, 2nd Cross Street, Vavuniya', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
-('0709876543', 'Mala', 'Jayawardena', 'No.20, Madampe Junction, Chilaw', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
-('0711234567', 'Nimal', 'Perera', 'No. 5, Temple Lane, Kandy', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
-('0712345678', 'Nimal', 'Perera', 'No.12, Kadawatha Road, Ragama', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
-('0713456789', 'Upul', 'Rajapaksha', 'No. 4, New Town, Polonnaruwa', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
-('0714567890', 'Tharindu', 'Gunasekara', 'No. 8, Mallawapitiya, Kurunegala', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
-('0718765432', 'Chaminda', 'Edirisinghe', 'No. 3, Yakkala Road, Gampaha', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
-('0718976543', 'Kumari', 'Rathnayake', 'No.45/7, Malwatte Road, Matara', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 3),
-('0719876543', 'Kasun', 'Bandara', 'No. 12, Muwagama, Ratnapura', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
-('0721112223', 'Shanika', 'Jayasinghe', 'No.25, Kandy Road, Mawanella', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
-('0721234567', 'Ruwan', 'Karunaratne', 'No. 10, Queen Elizabeth Drive, Nuwara Eliya', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
-('0723456789', 'Kumara', 'De Silva', 'No. 30, Lighthouse Street, Galle', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
-('0731234567', 'Roshan', 'Amarasinghe', 'No. 22, Orrs Hill, Trincomalee', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
-('0734567890', 'Indika', 'Weerasinghe', 'No. 6, Kottukuliya, Puttalam', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
-('0741234567', 'Chandana', 'Hettiarachchi', 'No. 12, Mihintale Road, Anuradhapura', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
-('0747654321', 'Ruwan', 'Wickramasinghe', 'No.3/1, Aluthgama Road, Bandaragama', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
-('0749876543', 'Nuwan', 'Dissanayake', 'No. 9, Kattankudy Road, Batticaloa', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
-('0751234567', 'Samantha', 'Wijesinghe', 'No. 15, Wewahamanduwa, Matara', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
-('0756789123', 'Gayan', 'Kumarasinghe', 'No.14, Temple Lane, Kurunegala', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
-('0759876543', 'Sanjeewa', 'Ranasinghe', 'No. 1, Panadura Road, Kalutara', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
-('0761234567', 'Anura', 'Jayasinghe', 'No. 7, Sea Street, Negombo', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
-('0762345678', 'Ranjith', 'Abeykoon', 'No. 11, Munneswaram Road, Chilaw', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
-('0763322110', 'Hemantha', 'Dias', 'No.9, Lake Road, Anuradhapura', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
-('0765432198', 'Anura', 'Bandara', 'No.44, Rathnapura Road, Eheliyagoda', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
-('0770000000', 'Piyal', 'Karunarathna', 'No.6, High level road, Nugegoda.', '$2y$10$LEyOQFzgjQNmezi9Yo0/E.8VQgfFPXcbRYB6P0mDQI.RDPMn88/ye', '', 0),
-('0771111111', 'Jagath', 'Madurapperuma', 'No.54/3, Negombo road, Kurunegala', '$2y$10$LEyOQFzgjQNmezi9Yo0/E.8VQgfFPXcbRYB6P0mDQI.RDPMn88/ye', '', 2),
-('0772233445', 'Piumi', 'Senarath', 'No.7, Hospital Lane, Kalutara', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
-('0772345678', 'Mahesh', 'Senanayake', 'No. 6, Welimada Road, Badulla', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
-('0774567890', 'Jagath', 'Mendis', 'No. 10, New Bazaar, Hambantota', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 1),
-('0776543210', 'Samantha', 'Fernando', 'No.66, Beach Road, Negombo', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
-('0778765432', 'Sunil', 'Wijesinghe', 'No.55, Main Street, Piliyandala', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
-('0781234567', 'Chandani', 'Silva', 'No.30, Galle Road, Hikkaduwa', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
-('0787766554', 'Janaka', 'Karunaratne', 'No.10/2, Rajagiriya Road, Nawala', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
-('0789988776', 'Harsha', 'Abeysekara', 'No.5, Peradeniya Road, Kandy', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', '', 0),
-('0987654321', 'Kamala', 'Gunawardana', 'No.111, Batuwaththa, Meerigama', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi', 'jpg', 0),
-('22020586', 'Admin', 'Admin', 'Admin', '$2y$10$LEyOQFzgjQNmezi9Yo0/E.8VQgfFPXcbRYB6P0mDQI.RDPMn88/ye', '', 4);
+INSERT INTO `users` (`phone`, `first_name`, `last_name`, `address`, `pic_format`, `role`) VALUES
+('0112223333', 'Gamunu', 'Jayawardhana', 'No. 10, Negambo Road, Kurunegala', '', 1),
+('0123456789', 'Saman', 'Rathnayaka', 'No.120/1, Karadana, Gampaha', 'jpg', 0),
+('0372222690', 'Sumudu', 'Karunarathna', 'No.6, High level road, Nugegoda', 'jpeg', 3),
+('0701122334', 'Sarath', 'Gunasekara', 'No.12/3, Dutugemunu Mawatha, Maharagama', '', 0),
+('0701234567', 'Rajan', 'Nadarajah', 'No. 10, Main Street, Jaffna', '', 1),
+('0702345678', 'Suresh', 'Kanagarajah', 'No. 8, 2nd Cross Street, Vavuniya', '', 1),
+('0709876543', 'Mala', 'Jayawardena', 'No.20, Madampe Junction, Chilaw', '', 0),
+('0711234567', 'Nimal', 'Perera', 'No. 5, Temple Lane, Kandy', '', 1),
+('0712345678', 'Nimal', 'Perera', 'No.12, Kadawatha Road, Ragama', '', 0),
+('0713456789', 'Upul', 'Rajapaksha', 'No. 4, New Town, Polonnaruwa', '', 1),
+('0714567890', 'Tharindu', 'Gunasekara', 'No. 8, Mallawapitiya, Kurunegala', '', 1),
+('0718765432', 'Chaminda', 'Edirisinghe', 'No. 3, Yakkala Road, Gampaha', '', 1),
+('0718976543', 'Kumari', 'Rathnayake', 'No.45/7, Malwatte Road, Matara', '', 3),
+('0719876543', 'Kasun', 'Bandara', 'No. 12, Muwagama, Ratnapura', '', 1),
+('0721112223', 'Shanika', 'Jayasinghe', 'No.25, Kandy Road, Mawanella', '', 0),
+('0721234567', 'Ruwan', 'Karunaratne', 'No. 10, Queen Elizabeth Drive, Nuwara Eliya', '', 1),
+('0723456789', 'Kumara', 'De Silva', 'No. 30, Lighthouse Street, Galle', '', 1),
+('0731234567', 'Roshan', 'Amarasinghe', 'No. 22, Orrs Hill, Trincomalee', '', 1),
+('0734567890', 'Indika', 'Weerasinghe', 'No. 6, Kottukuliya, Puttalam', '', 1),
+('0741234567', 'Chandana', 'Hettiarachchi', 'No. 12, Mihintale Road, Anuradhapura', '', 1),
+('0747654321', 'Ruwan', 'Wickramasinghe', 'No.3/1, Aluthgama Road, Bandaragama', '', 0),
+('0749876543', 'Nuwan', 'Dissanayake', 'No. 9, Kattankudy Road, Batticaloa', '', 1),
+('0751234567', 'Samantha', 'Wijesinghe', 'No. 15, Wewahamanduwa, Matara', '', 1),
+('0756789123', 'Gayan', 'Kumarasinghe', 'No.14, Temple Lane, Kurunegala', '', 0),
+('0759876543', 'Sanjeewa', 'Ranasinghe', 'No. 1, Panadura Road, Kalutara', '', 1),
+('0761234567', 'Anura', 'Jayasinghe', 'No. 7, Sea Street, Negombo', '', 1),
+('0762345678', 'Ranjith', 'Abeykoon', 'No. 11, Munneswaram Road, Chilaw', '', 1),
+('0763322110', 'Hemantha', 'Dias', 'No.9, Lake Road, Anuradhapura', '', 0),
+('0765432198', 'Anura', 'Bandara', 'No.44, Rathnapura Road, Eheliyagoda', '', 0),
+('0770000000', 'Piyal', 'Karunarathna', 'No.6, High level road, Nugegoda.', '', 0),
+('0771111111', 'Jagath', 'Madurapperuma', 'No.54/3, Negombo road, Kurunegala', '', 2),
+('0772233445', 'Piumi', 'Senarath', 'No.7, Hospital Lane, Kalutara', '', 0),
+('0772345678', 'Mahesh', 'Senanayake', 'No. 6, Welimada Road, Badulla', '', 1),
+('0774567890', 'Jagath', 'Mendis', 'No. 10, New Bazaar, Hambantota', '', 1),
+('0776543210', 'Samantha', 'Fernando', 'No.66, Beach Road, Negombo', '', 0),
+('0778765432', 'Sunil', 'Wijesinghe', 'No.55, Main Street, Piliyandala', '', 0),
+('0781234567', 'Chandani', 'Silva', 'No.30, Galle Road, Hikkaduwa', '', 0),
+('0787766554', 'Janaka', 'Karunaratne', 'No.10/2, Rajagiriya Road, Nawala', '', 0),
+('0789988776', 'Harsha', 'Abeysekara', 'No.5, Peradeniya Road, Kandy', '', 0),
+('0987654321', 'Kamala', 'Gunawardana', 'No.111, Batuwaththa, Meerigama', 'jpg', 0),
+('22020586', 'Admin', 'Admin', 'Admin', '', 4);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_passwords`
+--
+
+CREATE TABLE `user_passwords` (
+  `phone` varchar(10) NOT NULL,
+  `password` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user_passwords`
+--
+
+INSERT INTO `user_passwords` (`phone`, `password`) VALUES
+('0112223333', '$2y$10$LEyOQFzgjQNmezi9Yo0/E.8VQgfFPXcbRYB6P0mDQI.RDPMn88/ye'),
+('0123456789', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0372222690', '$2y$10$LEyOQFzgjQNmezi9Yo0/E.8VQgfFPXcbRYB6P0mDQI.RDPMn88/ye'),
+('0701122334', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0701234567', '$2y$10$LEyOQFzgjQNmezi9Yo0/E.8VQgfFPXcbRYB6P0mDQI.RDPMn88/ye'),
+('0702345678', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0709876543', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0711234567', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0712345678', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0713456789', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0714567890', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0718765432', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0718976543', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0719876543', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0721112223', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0721234567', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0723456789', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0731234567', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0734567890', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0741234567', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0747654321', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0749876543', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0751234567', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0756789123', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0759876543', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0761234567', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0762345678', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0763322110', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0765432198', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0770000000', '$2y$10$LEyOQFzgjQNmezi9Yo0/E.8VQgfFPXcbRYB6P0mDQI.RDPMn88/ye'),
+('0771111111', '$2y$10$LEyOQFzgjQNmezi9Yo0/E.8VQgfFPXcbRYB6P0mDQI.RDPMn88/ye'),
+('0772233445', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0772345678', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0774567890', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0776543210', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0778765432', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0781234567', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0787766554', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0789988776', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0987654321', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('22020586', '$2y$10$LEyOQFzgjQNmezi9Yo0/E.8VQgfFPXcbRYB6P0mDQI.RDPMn88/ye'),
+('759876543', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('761234567', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('762345678', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('763322110', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('765432198', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('770000000', '$2y$10$LEyOQFzgjQNmezi9Yo0/E.8VQgfFPXcbRYB6P0mDQI.RDPMn88/ye'),
+('771111111', '$2y$10$LEyOQFzgjQNmezi9Yo0/E.8VQgfFPXcbRYB6P0mDQI.RDPMn88/ye'),
+('772233445', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('772345678', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('774567890', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('776543210', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('778765432', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('781234567', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('787766554', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('789988776', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('987654321', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi');
 
 --
 -- Indexes for dumped tables
@@ -791,8 +862,8 @@ ALTER TABLE `bill_items`
 --
 ALTER TABLE `chat_cus_so`
   ADD PRIMARY KEY (`message_id`),
-  ADD KEY `cus_phone` (`cus_phone`),
-  ADD KEY `so_phone` (`so_phone`);
+  ADD KEY `so_phone` (`so_phone`),
+  ADD KEY `chat_cus_so_ibfk_1` (`cus_phone`);
 
 --
 -- Indexes for table `chat_dis_man`
@@ -809,12 +880,6 @@ ALTER TABLE `chat_so_dis`
   ADD PRIMARY KEY (`message_id`),
   ADD KEY `sa_phone` (`dis_phone`),
   ADD KEY `so_phone` (`so_phone`);
-
---
--- Indexes for table `customers`
---
-ALTER TABLE `customers`
-  ADD PRIMARY KEY (`cus_phone`);
 
 --
 -- Indexes for table `discount`
@@ -856,7 +921,7 @@ ALTER TABLE `distributor_stocks`
 --
 ALTER TABLE `loyalty_customers`
   ADD PRIMARY KEY (`so_phone`,`cus_phone`),
-  ADD KEY `cus_phone` (`cus_phone`);
+  ADD KEY `loyalty_customers_ibfk_1` (`cus_phone`);
 
 --
 -- Indexes for table `loyalty_requests`
@@ -961,6 +1026,12 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`phone`);
 
 --
+-- Indexes for table `user_passwords`
+--
+ALTER TABLE `user_passwords`
+  ADD PRIMARY KEY (`phone`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -1051,7 +1122,7 @@ ALTER TABLE `bill_items`
 -- Constraints for table `chat_cus_so`
 --
 ALTER TABLE `chat_cus_so`
-  ADD CONSTRAINT `chat_cus_so_ibfk_1` FOREIGN KEY (`cus_phone`) REFERENCES `customers` (`cus_phone`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `chat_cus_so_ibfk_1` FOREIGN KEY (`cus_phone`) REFERENCES `users` (`phone`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `chat_cus_so_ibfk_2` FOREIGN KEY (`so_phone`) REFERENCES `shops` (`so_phone`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
@@ -1067,12 +1138,6 @@ ALTER TABLE `chat_dis_man`
 ALTER TABLE `chat_so_dis`
   ADD CONSTRAINT `chat_so_dis_ibfk_1` FOREIGN KEY (`dis_phone`) REFERENCES `distributors` (`dis_phone`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `chat_so_dis_ibfk_2` FOREIGN KEY (`so_phone`) REFERENCES `shops` (`so_phone`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `customers`
---
-ALTER TABLE `customers`
-  ADD CONSTRAINT `customers_ibfk_1` FOREIGN KEY (`cus_phone`) REFERENCES `users` (`phone`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `discount`
@@ -1112,7 +1177,7 @@ ALTER TABLE `distributor_stocks`
 -- Constraints for table `loyalty_customers`
 --
 ALTER TABLE `loyalty_customers`
-  ADD CONSTRAINT `loyalty_customers_ibfk_1` FOREIGN KEY (`cus_phone`) REFERENCES `customers` (`cus_phone`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `loyalty_customers_ibfk_1` FOREIGN KEY (`cus_phone`) REFERENCES `users` (`phone`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `loyalty_customers_ibfk_2` FOREIGN KEY (`so_phone`) REFERENCES `shops` (`so_phone`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
@@ -1120,7 +1185,7 @@ ALTER TABLE `loyalty_customers`
 --
 ALTER TABLE `loyalty_requests`
   ADD CONSTRAINT `loyalty_requests_ibfk_1` FOREIGN KEY (`so_phone`) REFERENCES `shops` (`so_phone`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `loyalty_requests_ibfk_2` FOREIGN KEY (`cus_phone`) REFERENCES `customers` (`cus_phone`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `loyalty_requests_ibfk_2` FOREIGN KEY (`cus_phone`) REFERENCES `users` (`phone`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `manufacturers`
@@ -1198,6 +1263,12 @@ ALTER TABLE `transactions`
 --
 ALTER TABLE `transactions_description`
   ADD CONSTRAINT `transactions_description_ibfk_1` FOREIGN KEY (`transactions_id`) REFERENCES `transactions` (`transactions_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`phone`) REFERENCES `user_passwords` (`phone`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

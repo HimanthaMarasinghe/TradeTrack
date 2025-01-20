@@ -6,23 +6,23 @@ class login extends Controller
     {
         if($_SERVER['REQUEST_METHOD'] == 'POST')
         {
-            $user = new User;
-            $row = $user->first(['phone' => $_POST['phone']]);
+            $userPasswordM = new UserPasswords;
+            $row = $userPasswordM->first(['phone' => $_POST['phone']]);
+
+
             if($row){
                 if(password_verify($_POST['password'], $row['password'])){
-                    unset($row['password']);
-                    switch ($row['role']) {
+                    $userM = new User;
+                    $user = $userM->first(['phone' => $_POST['phone']]);
+                    switch ($user['role']) {
                         case '0':
-                            $_SESSION['customer'] = $row;
-                            // $_SESSION['cus_phone'] = $row['phone'];
+                            $_SESSION['customer'] = $user;
                             redirect('Customer/home');
                             break;
                         
                         case '1':
-                            // $_SESSION['so_phone'] = $row['phone'];
                             $shop = new Shops;
                             $shop_row = $shop->first(['phone' => $_POST['phone']]);
-                            unset($shop_row['password']);
                             unset($shop_row['so_phone']);
                             if(!$shop_row){
                                 echo 'Shop not found';
@@ -39,10 +39,9 @@ class login extends Controller
                                 echo 'Manufacturer not found';
                                 exit;
                             }
-                            unset($man_row['password']);
                             unset($man_row['man_phone']);
                             $_SESSION['manufacturer'] = $man_row;
-                            // $_SESSION['man_phone'] = $row['phone'];
+                            // $_SESSION['man_phone'] = $user['phone'];
                             redirect('Manufacturer/home');
                             break;
                         
@@ -53,16 +52,15 @@ class login extends Controller
                                 echo 'Distributor not found';
                                 exit;
                             }
-                            unset($dis_row['password']);
                             unset($dis_row['dis_phone']);
                             $_SESSION['distributor'] = $dis_row;
-                            // $_SESSION['dis_phone'] = $row['phone'];
+                            // $_SESSION['dis_phone'] = $user['phone'];
                             redirect('Distributor/home');
                             break;
                         
                         case '4':
-                            $_SESSION['admin'] = $row;
-                            // $_SESSION['ad_phone'] = $row['phone'];
+                            $_SESSION['admin'] = $user;
+                            // $_SESSION['ad_phone'] = $user['phone'];
                             redirect('admin/home');
                             break;
                     }
