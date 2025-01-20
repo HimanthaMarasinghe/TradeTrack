@@ -4,9 +4,11 @@ class RegisterService extends Database
 {
     function register($newUser){
         $user = new User;
+        $userPassword = new UserPasswords;
 
         $con = $this->startTransaction();
         //Transactions should be done using the same connection. Therefore, we pass the connection to the functions that need it.
+        $userPassword->insert($newUser, $con);
         $user->insert($newUser, $con);
 
         switch ($newUser['role']) {            
