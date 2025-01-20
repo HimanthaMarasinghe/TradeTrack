@@ -9,6 +9,7 @@ To use this script, you need to have another script that defines the following v
 Also, in the view file, folowing elements should be present:
     1. A div with id 'elements-Scroll-Div' to append the fetched data
     2. An input field with id 'searchBar' to search the data
+    3. If there are any filters, they should have a class 'filter-js'
 */
 
 let offset = 0;
@@ -18,6 +19,7 @@ let debounceTimeout;
 let cardHeight = 0;
 const searchBar = document.getElementById('searchBar');
 const elementsList = document.getElementById('elements-Scroll-Div');
+const filterElements = document.querySelectorAll('.filter-js');
 
 /** Function to load products from the API */
 async function loadData() {
@@ -91,24 +93,16 @@ async function initialLoad() {
     }
 }
 
-// Handle search input changes
-searchBar.addEventListener('input', () => {
-    clearTimeout(debounceTimeout);
+function loadDataWithSearchOrFilter() {
+    loadComplete = false;
+    offset = 0;
+    if (typeof dataArr !== 'undefined' && Array.isArray(dataArr))
+        dataArr.length = 0;
 
-    debounceTimeout = setTimeout(() => {
-        loadComplete = false;
-        offset = 0;
-        if (typeof dataArr !== 'undefined' && Array.isArray(dataArr))
-            dataArr.length = 0;
-
-        elementsList.innerHTML = ""; // Clear the product list
-        initialLoad(); // Load products based on the search input
-        elementsList.addEventListener('scroll', loadDataOnScroll); // Re-add the scroll listener
-    }, 500);
-});
-
-// Infinite scroll listener
-elementsList.addEventListener('scroll', loadDataOnScroll);
+    elementsList.innerHTML = ""; // Clear the product list
+    initialLoad(); // Load products based on the search input
+    elementsList.addEventListener('scroll', loadDataOnScroll); // Re-add the scroll listener
+}
 
 async function loadDataOnScroll() {
     if (elementsList.scrollTop + cardHeight + elementsList.clientHeight >= elementsList.scrollHeight - 1) {
@@ -116,5 +110,20 @@ async function loadDataOnScroll() {
     }
 }
 
+// Handle search input changes
+searchBar.addEventListener('input', () => {
+    clearTimeout(debounceTimeout);
+
+    debounceTimeout = setTimeout(loadDataWithSearchOrFilter, 500);
+});
+
+// Infinite scroll listener
+elementsList.addEventListener('scroll', loadDataOnScroll);
+
+filterElements.forEach(filter => {
+    filter.addEventListener('change', loadDataWithSearchOrFilter);
+});
+
 // Initial load
-initialLoad();
+//Using pageshow event to ensure the initial load is called when the page is loaded or when the page is NAVIGATED BACK to.
+window.addEventListener('pageshow', initialLoad);

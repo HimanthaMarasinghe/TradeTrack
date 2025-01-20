@@ -131,6 +131,7 @@ class ShopOwner extends Controller
         $this->data['preOrders'] = $this->loadPreOrders();
 
         $loyReq = new LoyaltyRequests;
+        $this->data['newLoyalCusReq'] = $loyReq->where(['so_phone' => $_SESSION['shop_owner']['phone']]);
 
         $this->data['tabs']['active'] = 'Customers';
         $this->view('shopOwner/customers', $this->data);
@@ -150,7 +151,8 @@ class ShopOwner extends Controller
         //     'phone' => '0112224690',
         //     'address' => 'No 123, Main Street, Colombo 07'
         // ];
-        $this->data['newLoyalCusReq'] = $loyReq->readNewLoyReq($_SESSION['shop_owner']['phone'], $cusPhone);
+        // $this->data['newLoyalCusReq'] = $loyReq->readNewLoyReq($_SESSION['shop_owner']['phone'], $cusPhone);
+        $this->data['newLoyalCusReq'] = $loyReq->where(['so_phone' => $_SESSION['shop_owner']['phone'], 'cus_phone' => $cusPhone])[0];
 
         if(!$this->data['newLoyalCusReq']){
             header('Location: ' . LINKROOT . '/ShopOwner/customers');
@@ -165,7 +167,8 @@ class ShopOwner extends Controller
         if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['cus_phone'])){
             $loyCus = new LoyaltyCustomers;
             $loyReq = new LoyaltyRequests;
-            if($loyReq->readNewLoyReq($_SESSION['shop_owner']['phone'], $_POST['cus_phone'])){     //Only if there is a request, customer can become loyal.
+            // if($loyReq->readNewLoyReq($_SESSION['shop_owner']['phone'], $_POST['cus_phone'])){     //Only if there is a request, customer can become loyal.
+            if($loyReq->where(['so_phone' => $_SESSION['shop_owner']['phone'], 'cus_phone' => $_POST['cus_phone']])[0]){     //Only if there is a request, customer can become loyal.
                 $loyReq->delete(['cus_phone' => $_POST['cus_phone'], 'so_phone' => $_SESSION['shop_owner']['phone']]);
                 $loyCus->insert(['cus_phone' => $_POST['cus_phone'], 'so_phone' => $_SESSION['shop_owner']['phone']]);
             }
