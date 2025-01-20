@@ -30,14 +30,20 @@ class LoyaltyCustomers extends Model
         return $this->query($query, $data);
     }
 
-    public function allLoyaltyShops($cus_phone)
+    public function allLoyaltyShops($cus_phone, $search = null, $offset = null)
     {
+        $data = ['cus_phone' => $cus_phone];
         $query = "SELECT s.so_phone, s.shop_name, s.shop_address, u.first_name, u.last_name, u.address, s.shop_pic_format, u.pic_format
                   FROM shops s 
                   JOIN loyalty_customers lc ON s.so_phone = lc.so_phone
                   JOIN users u ON u.phone = s.so_phone
                   WHERE lc.cus_phone = :cus_phone";
-        $data = ['cus_phone' => $cus_phone];
+        if($search !== null){
+            $query .= " AND (s.shop_name LIKE :search OR s.shop_address LIKE :search)";
+            $data['search'] = "%$search%";
+        }
+        if($offset !== null)
+            $query .= " LIMIT 10 OFFSET $offset";
         return $this->query($query, $data);
     }
 

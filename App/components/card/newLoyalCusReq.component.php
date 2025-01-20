@@ -1,6 +1,5 @@
-<a href="<?=LINKROOT?>/ShopOwner/loyaltyCustomerRequest/<?=$cus_phone?>" class="card center-al">
+<a href="<?=LINKROOT?>/ShopOwner/loyaltyCustomerRequest/<?=$cus_phone?>" class="card gap-10">
     <div class="profile-photo">
-
 
         <?php if(file_exists("./images/Profile/CUS/".$cus_phone.".".$pic_format)){ ?>
             <img src="<?=ROOT?>/images/Profile/CUS/<?=$cus_phone?>.<?=$pic_format?>" alt="">
@@ -8,14 +7,12 @@
             <img src="<?=ROOT?>/images/Profile/PhoneNumber.jpg" alt="">
         <?php } ?>
 
-
-        <!-- <img src="<?=ROOT?>/images/Profile/<?=$cus_phone?>.<?=$pic_format?>"> -->
     </div>
-    <div class="m-b-auto fg1 center-al">
-        <h4><?=$cus_first_name?> <?=$cus_last_name?></h4>
+    <div class="m-b-auto fg1">
+        <h3><?=$first_name?> <?=$last_name?></h3>
+        <h4><?=$cus_phone?></h4>
+        <br>
+        <h6>Request Created Time -</h6>
+        <h5><?=$created_time?></h5>
     </div>
-    <!-- <div class="row m-b-auto fg1"> -->
-        <!-- <a href="" class="btn fg1">Accept</a> -->
-        <!-- <a href="<?=LINKROOT?>/ShopOwner/addLoyalCus/<?=$cus_phone?>" class="btn fg1">More</a> -->
-    <!-- </div> -->
 </a>

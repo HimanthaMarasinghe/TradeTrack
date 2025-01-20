@@ -4,7 +4,7 @@ class ShopStock extends Model
 {
 
     protected $table = 'so_stocks';
-    protected $fillable = ['barcode', 'so_phone', 'quantity'];
+    protected $fillable = ['barcode', 'so_phone', 'quantity', 'pre_orderable_stock', 'non_preorderable_stock'];
 
     public function readStock($sop, $sort = 'DESC', $offset = null){
         $query = "SELECT * FROM products p JOIN so_stocks s ON p.barcode = s.barcode WHERE s.so_phone = :so_phone ";
@@ -40,5 +40,10 @@ class ShopStock extends Model
     public function searchStock($search, $offset, $so_phone){
         $query = "SELECT * FROM products p JOIN so_stocks s ON p.barcode = s.barcode WHERE s.so_phone = :so_phone AND (p.barcode LIKE :search OR p.product_name LIKE :search) LIMIT 10 OFFSET $offset";
         return $this->query($query, ['search' => "%$search%", 'so_phone' => $so_phone]);
+    }
+
+    public function getStockLevel($barcode, $so_phone){
+        $query = "SELECT quantity, non_preorderable_stock FROM so_stocks WHERE barcode = :barcode AND so_phone = :so_phone";
+        return $this->query($query, ['barcode' => $barcode, 'so_phone' => $so_phone])[0];
     }
 }

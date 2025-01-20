@@ -44,13 +44,17 @@
         <img class="profile-img" src="<?=ROOT?>/images/Profile/<?=$preOrder['cus_phone']?>.<?=$preOrder['pic_format']?>" alt="">
     </div>
     <div class="billScroll border-1">
-        <table class="bill">
+        <table class="bill" id="preOrderItemsTable">
             <thead>
                 <tr class="BillHeadings">
                     <th>No.</th>
                     <th class="left-al">Name</th>
                     <th class="right-al">Price</th>
                     <th class="right-al">Quntity</th>
+                    <?php
+                        if($shouldCheckStock)
+                            echo "<th class='right-al'>In Stock</th>"
+                    ?>
                     <th class="right-al">Total</th>
                     <th></th>
                 </tr>
@@ -58,13 +62,20 @@
             <tbody>
                 <?php
                 foreach ($preOrderItems as $i => $item) {
-                    $row_total = number_format($item['po_unit_price'] * $item['quantity'], 2);
-                    echo "<tr class='Item'>
+                    echo "<tr class='Item";
+                    if($shouldCheckStock && $item['stock']['quantity'] < $item['quantity'])
+                        echo " red-text";
+                    echo "'>
                             <td class='center-al'>" . ($i + 1) . "</td>
                             <td class='left-al'>" . $item['product_name'] . "</td>
                             <td> Rs." . number_format($item['po_unit_price'], 2) . "</td>
-                            <td>" . $item['quantity'] . "</td>
-                            <td> Rs." . $row_total . "</td>
+                            <td>" . $item['quantity'] . "</td>";
+
+                    if($shouldCheckStock)
+                        echo "<td>".$item['stock']['quantity']."</td>";
+
+                    echo "
+                            <td> Rs." . $item['row_total'] . "</td>
                             <td><input id=". $item['barcode'] ." class='hidden' type='checkbox'></td>
                         </tr>";
                 }
@@ -78,6 +89,9 @@
             <h2>Total</h2>
             <h2>Rs.<?=$preOrder['total']?></h2>
         </div>
+        <h5 id="tip" class=""></h5>
+        <a id="rejectBtn" href="#" class="btn">Reject the Order</a>
+        <a id="updateBtn" href="#" class="btn hidden">Update</a>
         <a id="changeStatusBtn" href="#" class="btn">Start Processing</a>
     </div>
 </div>
@@ -86,7 +100,10 @@
     const ROOT = '<?=ROOT?>';
     const LINKROOT = '<?=LINKROOT?>';
     const pre_order_id = '<?=$preOrder['pre_order_id']?>';
-    const status = '<?=$preOrder['status']?>';
+    let shouldBeUpdated = '<?=$shouldBeUpdated?>';
+    let status = '<?=$preOrder['status']?>';
+    if(shouldBeUpdated)
+        var preOrderItems = <?= json_encode($preOrderItems) ?>;
 </script>
 <script src="<?=ROOT?>/js/ShopOwner/preOrder.js"></script>
 

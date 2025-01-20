@@ -3,7 +3,7 @@
 class Customer extends Controller 
 {
     protected $data = [
-        'tabs' => ['tabs' => ['Home', 'Products', 'Shops', 'Loyalty Shops'], 'userType' => 'Customer'],
+        'tabs' => ['tabs' => ['Home', 'My Activity', 'Products', 'Shops'], 'userType' => 'Customer'],
         'styleSheet' => ['styleSheet'=>'customer']
     ];
 
@@ -48,8 +48,8 @@ class Customer extends Controller
 
     public function shops(){
         $this->data['tabs']['active'] = 'Shops';
-        $shops = new LoyaltyCustomers;
-        $this->data['shops'] = $shops->notLoyaltyShops($_SESSION['customer']['phone']);
+        // $shops = new LoyaltyCustomers;
+        // $this->data['shops'] = $shops->notLoyaltyShops($_SESSION['customer']['phone']);
         $this->view('Customer/shops',$this->data);
     }
 
@@ -58,15 +58,8 @@ class Customer extends Controller
         $loyShops = new LoyaltyCustomers;
         $this->data['shop'] = $shops->first(['so_phone' => $sop]);
         $this->data['loyalty'] = $loyShops->first(['cus_phone' => $_SESSION['customer']['phone'], 'so_phone' => $sop]);        
-        $this->data['tabs']['active'] = $this->data['loyalty'] ? 'Loyalty Shops' : 'Shops';
+        $this->data['tabs']['active'] = 'Shops';
         $this->view('Customer/shop',$this->data);
-    }
-
-    public function loyaltyShops(){
-        $loyShops = new LoyaltyCustomers;
-        $this->data['tabs']['active'] = 'Loyalty Shops';
-        $this->data['shops'] = $loyShops->allLoyaltyShops($_SESSION['customer']['phone']);
-        $this->view('Customer/loyaltyShops',$this->data);
     }
 
     public function preOrder($so_phone){
@@ -84,10 +77,29 @@ class Customer extends Controller
         $this->view('Customer/announcements', $this->data);
     }
 
+    
+    // API endpoints
+
     public function getAnnouncement($id){
         $announcement = new Announcements;
         $announcement = $announcement->first(['id' => $id]);
         echo json_encode($announcement);
+    }
+
+    public function getShops($offset = 0){
+        if (!filter_var($offset, FILTER_VALIDATE_INT)) 
+            $offset = 0; 
+
+        $search = $_GET['search'] ?? null;
+        $location = $_GET['location'] ?? null;
+        if($_GET['loyalty']){
+            $loyalty = new LoyaltyCustomers;
+            $shops = $loyalty->allLoyaltyShops($_SESSION['customer']['phone'], $search, $offset);
+        }else{
+            $shopsM = new Shops;
+            $shops = $shopsM->allShops($search, $location, $offset);
+        }
+        echo json_encode($shops);
     }
 
 

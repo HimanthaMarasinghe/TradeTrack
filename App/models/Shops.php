@@ -31,4 +31,26 @@ class Shops extends Model
         ];
         $this->query($query, $data, $con);
     }
+
+    public function allShops($search = null, $location = null, $offset = 0)
+    {
+        $query = "SELECT 
+                    s.so_phone, 
+                    s.shop_pic_format,
+                    s.shop_name, 
+                    s.shop_address, 
+                    u.first_name,
+                    u.last_name
+                FROM 
+                    $this->readTable 
+                WHERE 
+                        shop_name LIKE :search 
+                    OR 
+                        shop_address LIKE :search 
+                    OR
+                        CONCAT(u.first_name, ' ', u.last_name) LIKE :search
+                LIMIT 10 OFFSET $offset";
+        $data = ['search' => "%$search%"];
+        return $this->query($query, $data);
+    }
 }
