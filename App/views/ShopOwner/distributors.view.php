@@ -23,6 +23,7 @@
 
 </div>
 
+<!-- PopUp -->
 <div id="popUpBackDrop" class="hidden"></div>
 <div id="distributor" class="popUpDiv hidden">
     <h2 id="popUp-distributor-name" class="center-al ">Distributor Name</h2>
@@ -57,8 +58,7 @@
     const ROOT = "<?=ROOT?>";
     const LINKROOT = "<?=LINKROOT?>";
 </script>
-<script src="<?=ROOT?>/js/ShopOwner/distributors.js"></script>
-<script src="<?=ROOT?>/js/apiFetcher.js"></script>
+<script src="<?=ROOT?>/js/ShopOwner/distributors.js" type="module"></script>
 <script src="<?=ROOT?>/js/popUp.js"></script>
 
 

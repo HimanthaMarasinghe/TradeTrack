@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="row spc-btwn">
-        <table class="profile w-100">
+        <table class="profile">
             <tr>
                 <td>Shop owner's name</td>
                 <td><?=$shop['first_name']." ".$shop['last_name']?></td>
@@ -45,6 +45,11 @@
                     </div>
                 </td>
             </tr>
+        <?php }else if($loyaltyReq){ ?>
+
+            <tr>
+                <td colspan="2">Your request is pending. Request created on <?=$loyaltyReq['created_time']?></td>
+            </tr>
         <?php }else{ ?>
 
             <tr>
@@ -54,7 +59,7 @@
             <tr>
                 <td>
                     <div class="row max-w-900">
-                        <button class="btn fg1">Request to be a Loyalty Customer</button>
+                        <button id="reqLoyalty" class="btn fg1">Request to be a Loyalty Customer</button>
                     </div>
                 </td>
             </tr>
@@ -62,44 +67,45 @@
         <?php } ?>
 
         </table>
-        <?php if(file_exists("./images/shops/".$shop['so_phone'].$shop['shop_pic_format'])){ ?>
-            <img class="profile-img big" src="<?=ROOT?>/images/shops/<?=$shop['so_phone'].$shop['shop_pic_format']?>" alt="">
-        <?php }else{ ?>
-            <img class="profile-img big" src="<?=ROOT?>/images/shops/default.jpeg" alt="">
-        <?php } ?>
+        <img
+            class="profile-img big"
+            src="<?=ROOT?>/images/shops/<?=$shop['so_phone'].$shop['shop_pic_format']?>"
+            alt=""
+            onerror="this.src='<?=ROOT?>/images/shops/default.jpeg'"
+        >
     </div>
-    <h2 class="center-al">History</h2>
-    <div class="billScroll">
-        <table class="bill">
-            <thead>
-                <tr class="BillHeadings">
-                    <th>Bill Id</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Amount</th>
-                    <th>More Details</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                for($i = 1; $i<25; $i++){
-                    echo "<tr class='Item'>
-                            <td class='center-al'>$i</td>
-                            <td class='left-al'>2024.03.20</td>
-                            <td class='left-al'>09.45 a.m.</td>
-                            <td>Rs.300.00</td>
-                            <td class='center-al'><button class='btn btn-mini'>More</button></td>
-                        </tr>";
-                }
-            ?>
-                <tr></tr>
-            </tbody>
-        </table>
+    <div class="row gap-10 ovf-hdn fg1">
+        <div class="colomn fg1 panel">
+            <h2 class="center-al">Available Products</h2>
+            <input id="stockSearchBar" type="text" class="search-bar" placeholder="Search">
+            <div class="scroll-box grid g-resp-300" id="stockScroll">
+            </div>
+        </div>
+        <div class="colomn fg1 panel">
+            <h2 class="center-al">History</h2>
+            <div class="billScroll" id="billScroll">
+                <table class="bill">
+                    <thead>
+                        <tr class="BillHeadings">
+                            <th>Bill Id</th>
+                            <th class='left-al'">Date</th>
+                            <th class='left-al'>Time</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody id="billTable">
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 
 <script>
     const LINKROOT = "<?=LINKROOT?>";
+    const ROOT = "<?=ROOT?>";
+    const shopPhone = "<?=$shop['so_phone']?>";
 </script>
+<script src="<?=ROOT?>/js/Customer/shop.js" type="module"></script>
 
 <?php $this->component("footer") ?>

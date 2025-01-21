@@ -7,7 +7,7 @@ function addLoyCustmer(cus_phone){
         body: 'cus_phone=' + encodeURIComponent(cus_phone)
     })
     .then(
-        () => location.reload()
+        () => window.location.href = LINKROOT + '/ShopOwner/customer/' + cus_phone
     )
     .catch(error => console.error('Error:', error));
 }

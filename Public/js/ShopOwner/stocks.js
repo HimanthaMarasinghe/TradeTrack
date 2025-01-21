@@ -1,11 +1,4 @@
-const offsetIncrement = 10;
-const api = "ShopOwner/getStocks";
-
-const getVariables = {
-    search: ""
-};
-
-const baseUrl = "ShopOwner/product";
+import ApiFetcherMod from "../ApiFetcherMod.js";
 
 function cardTemplate(product) {
     const {
@@ -18,7 +11,7 @@ function cardTemplate(product) {
     } = product;
 
     // Determine the link
-    const link = baseUrl ? `${ROOT}/${baseUrl}/${barcode}` : "#";
+    const link =`${ROOT}/ShopOwner/product/${barcode}`;
 
     // Determine the image path
     const imageSrc = `${ROOT}/images/Products/${barcode}.${pic_format}`;
@@ -40,6 +33,9 @@ function cardTemplate(product) {
     `;
 }
 
-function updateGetVariables(){
-    getVariables.search = searchBar.value;
+const apiFetcherConfig = {
+    api: "ShopOwner/getStocks",
+    cardTemplate: cardTemplate
 }
+
+new ApiFetcherMod(apiFetcherConfig);

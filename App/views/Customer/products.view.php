@@ -16,17 +16,15 @@
         </div>
     </div>
     <div class="row">
-      <input type="text" class="search-bar fg1" placeholder="Search">
-      <button class="btn">Search</button>
+      <input id="searchBar" type="text" class="search-bar fg1" placeholder="Search">
     </div>
 
-    <div class="grid g-resp-200 scroll-box">
-      <?php
-        foreach ($products as $product)
-        {
-          $this->component('card/Customer/productVert', $product); 
-        }
-      ?>
+    <div class="grid g-resp-200 scroll-box" id="elements-Scroll-Div">
     </div>
 
+  <script>
+    const LINKROOT = "<?=LINKROOT?>";
+    const ROOT = "<?=ROOT?>";
+  </script>
+  <script src="<?=ROOT?>/js/Customer/products.js" type="module"></script>
 <?php $this->component("footer") ?>

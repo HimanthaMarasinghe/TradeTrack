@@ -146,13 +146,7 @@ class ShopOwner extends Controller
 
 
         $loyReq = new LoyaltyRequests;
-        // $this->data['newLoyalCusReq'] = [
-        //     'name' => 'John Doe',
-        //     'phone' => '0112224690',
-        //     'address' => 'No 123, Main Street, Colombo 07'
-        // ];
-        // $this->data['newLoyalCusReq'] = $loyReq->readNewLoyReq($_SESSION['shop_owner']['phone'], $cusPhone);
-        $this->data['newLoyalCusReq'] = $loyReq->where(['so_phone' => $_SESSION['shop_owner']['phone'], 'cus_phone' => $cusPhone])[0];
+        $this->data['newLoyalCusReq'] = $loyReq->first(['so_phone' => $_SESSION['shop_owner']['phone'], 'cus_phone' => $cusPhone]);
 
         if(!$this->data['newLoyalCusReq']){
             header('Location: ' . LINKROOT . '/ShopOwner/customers');
@@ -163,27 +157,15 @@ class ShopOwner extends Controller
         $this->view('shopOwner/addLoyalCus', $this->data);
     }
 
-    public function addLoyCus(){
-        if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['cus_phone'])){
-            $loyCus = new LoyaltyCustomers;
-            $loyReq = new LoyaltyRequests;
-            // if($loyReq->readNewLoyReq($_SESSION['shop_owner']['phone'], $_POST['cus_phone'])){     //Only if there is a request, customer can become loyal.
-            if($loyReq->where(['so_phone' => $_SESSION['shop_owner']['phone'], 'cus_phone' => $_POST['cus_phone']])[0]){     //Only if there is a request, customer can become loyal.
-                $loyReq->delete(['cus_phone' => $_POST['cus_phone'], 'so_phone' => $_SESSION['shop_owner']['phone']]);
-                $loyCus->insert(['cus_phone' => $_POST['cus_phone'], 'so_phone' => $_SESSION['shop_owner']['phone']]);
-            }
-        }
-    }
-
     public function customer($id = null) {
         if($id == null)
         {
             header('Location: ' . LINKROOT . '/ShopOwner/customers');
             return;
         }
-        $customer = new Customers;
+        $customer = new User;
         $loyaltyCustomer = new LoyaltyCustomers;
-        $this->data['customer'] = $customer->first(['cus_phone' => $id]);
+        $this->data['customer'] = $customer->first(['phone' => $id]);
         $this->data['loyalty'] = $loyaltyCustomer->first(['cus_phone' => $id, 'so_phone' => $_SESSION['shop_owner']['phone']]);
         $this->data['tabs']['active'] = 'Customers';
         $this->view('shopOwner/customer', $this->data);
@@ -305,6 +287,18 @@ class ShopOwner extends Controller
 
     // API endpoints
 
+    public function addLoyCus(){
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['cus_phone'])){
+            $loyCus = new LoyaltyCustomers;
+            $loyReq = new LoyaltyRequests;
+            // if($loyReq->readNewLoyReq($_SESSION['shop_owner']['phone'], $_POST['cus_phone'])){     //Only if there is a request, customer can become loyal.
+            if($loyReq->first(['so_phone' => $_SESSION['shop_owner']['phone'], 'cus_phone' => $_POST['cus_phone']])){     //Only if there is a request, customer can become loyal.
+                $loyReq->delete(['cus_phone' => $_POST['cus_phone'], 'so_phone' => $_SESSION['shop_owner']['phone']]);
+                $loyCus->insert(['cus_phone' => $_POST['cus_phone'], 'so_phone' => $_SESSION['shop_owner']['phone']]);
+            }
+        }
+    }
+
     public function getProducts($offset = 0, $type = null){ 
         $search = $_GET['search'] ?? null;
         $prdct = new Products;
@@ -319,20 +313,13 @@ class ShopOwner extends Controller
         echo json_encode($products);
     }
 
-    public function getStocks($offset = 0, $type = null){
+    public function getStocks($offset = 0){
         if (!filter_var($offset, FILTER_VALIDATE_INT)) 
             $offset = 0;  // Default to 0 if invalid
         
         $search = $_GET['search'] ?? null;
         $stck = new ShopStock;
-        if($search == null && $type == null)
-            $stocks = $stck->readStock($_SESSION['shop_owner']['phone'], 'ASC', $offset);
-
-        else
-            $stocks = $stck->searchStock($search, $offset, $_SESSION['shop_owner']['phone']);
-
-        if(!$stocks)
-            $stocks = [];
+        $stocks = $stck->readStock($_SESSION['shop_owner']['phone'], 'ASC', $offset, $search);
 
         echo json_encode($stocks);
     }

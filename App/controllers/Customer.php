@@ -32,8 +32,6 @@ class Customer extends Controller
 
     public function products(){
         $this->data['tabs']['active'] = 'Products';
-        $prdct = new Products;
-        $this->data['products'] = $prdct->readAll();
         $this->view('Customer/Products',$this->data);
     }
 
@@ -56,8 +54,11 @@ class Customer extends Controller
     public function shop($sop){
         $shops = new Shops;
         $loyShops = new LoyaltyCustomers;
+        $loyReq = new LoyaltyRequests;
         $this->data['shop'] = $shops->first(['so_phone' => $sop]);
         $this->data['loyalty'] = $loyShops->first(['cus_phone' => $_SESSION['customer']['phone'], 'so_phone' => $sop]);        
+        if(!$this->data['loyalty'])
+            $this->data['loyaltyReq'] = $loyReq->first(['cus_phone' => $_SESSION['customer']['phone'], 'so_phone' => $sop]);
         $this->data['tabs']['active'] = 'Shops';
         $this->view('Customer/shop',$this->data);
     }
@@ -102,7 +103,59 @@ class Customer extends Controller
         echo json_encode($shops);
     }
 
+    public function reqLoyalty(){
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['so_phone'])){
+            $loyReq = new LoyaltyRequests;
+            $loyReq->insert(['cus_phone' => $_SESSION['customer']['phone'], 'so_phone' => $_POST['so_phone']]);
+            echo json_encode(['success' => true]);
+        }
+        else
+            redirect('Customer/shops');
+    }
 
+    public function getProducts($offset = 0){
+        if (!filter_var($offset, FILTER_VALIDATE_INT)) 
+            $offset = 0;
+        if(isset($_GET['search'])){
+            $prdct = new Products;
+            $products = $prdct->searchProducts($_GET['search'], null, $offset);
+        }else{
+            $prdct = new Products;
+            $products = $prdct->readAll(10, $offset);
+        }
+        echo json_encode($products);
+    }
+
+    public function getBills($offset = 0){
+        if (!isset($_GET['shop_phone'])) {
+            echo json_encode(['error' => 'Error: Missing shop phone number']);
+            return;
+        }
+        if (!filter_var($offset, FILTER_VALIDATE_INT)) 
+            $offset = 0;
+        $bill = new Bills;
+        $billItems = new BillItems;
+        $bills = $bill->where(['cus_phone' => $_SESSION['customer']['phone'], 'b.so_phone' => $_GET['shop_phone']], [], 10, $offset);
+        foreach($bills as &$bill){
+            $bill['total'] = $billItems->getBillTotal($bill['bill_id']);
+        }
+        echo json_encode($bills);
+    }
+
+    public function getStocks($offset = 0){
+        if (!isset($_GET['shop_phone'])) {
+            echo json_encode(['error' => 'Error: Missing shop phone number']);
+            return;
+        }
+        if (!filter_var($offset, FILTER_VALIDATE_INT)) 
+            $offset = 0;  // Default to 0 if invalid
+        
+        $search = $_GET['search'] ?? null;
+        $stck = new ShopStock;
+        $stocks = $stck->readStock($_GET['shop_phone'], 'DESC', $offset, $search);
+
+        echo json_encode($stocks);
+    }
 
 
 

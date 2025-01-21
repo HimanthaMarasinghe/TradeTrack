@@ -7,7 +7,7 @@
 <div class="main-content colomn">
     <div class="bar">
         <img src="<?=ROOT?>/images/icons/home.svg" alt="">
-        <h2><?=$customer['cus_first_name']." ".$customer['cus_last_name']?></h2>
+        <h2><?=$customer['first_name']." ".$customer['last_name']?></h2>
         <div>
             <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
             <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
@@ -17,11 +17,11 @@
         <table class="profile w-100">
             <tr>
                 <td>Phone number</td>
-                <td><?=$customer['cus_phone']?></td>
+                <td><?=$customer['phone']?></td>
             </tr>
             <tr>
                 <td>Address</td>
-                <td><?=$customer['cus_address']?></td>
+                <td><?=$customer['address']?></td>
             </tr>
 
         <?php if($loyalty){ ?>
@@ -56,11 +56,12 @@
         <?php } ?>
 
         </table>
-        <?php if(file_exists("./images/Profile/".$customer['cus_phone'].".jpg")){ ?>
-            <img class="profile-img big" src="<?=ROOT?>/images/Profile/<?=$customer['cus_phone']?>.jpg" alt="">
-        <?php }else{ ?>
-        <img class="profile-img big" src="<?=ROOT?>/images/Profile/PhoneNumber.jpg" alt="">
-        <?php } ?>
+        <img 
+            src="<?=ROOT?>/images/Profile/<?=$customer['phone']?>.<?=$customer['pic_format']?>" 
+            class="profile-img big" 
+            alt="Customers Profile Photo"
+            <!-- onerror="this.src='<?=ROOT?>/images/Profile/PhoneNumber.jpg'" -->
+        >
     </div>
     <h2 class="center-al">History</h2>
     <div class="billScroll">
