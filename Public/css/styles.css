@@ -371,7 +371,7 @@ input.userInput {
 }
 
 .profile td {
-    height: 35px;
+    /* height: 35px; */
     padding-right: 35px;
 }
 

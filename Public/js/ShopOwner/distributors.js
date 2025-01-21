@@ -1,5 +1,5 @@
-const offsetIncrement = 10;
-const api = "ShopOwner/getDistributors";
+import ApiFetcherMod from "../ApiFetcherMod.js";
+
 const dataArr = [];
 
 const popUpName = document.getElementById('popUp-distributor-name');
@@ -10,35 +10,42 @@ const popUpImage = document.getElementById('popUp-distributor-image');
 const dis_products = document.getElementById('popUp-distributor-products');
 const slider_container = document.getElementById('slider-container');
 
-
-const getVariables = {
-    search: ""
-};
-
 function cardTemplate(distributor) {
+    const {
+        dis_phone,
+        first_name,
+        last_name,
+        dis_busines_name,
+        pic_format
+    } = distributor;
     return `
-        <div class="card btn-card colomn asp-rtio" onclick=distributorPopUp('${distributor.dis_phone}')>
+        <div class="card btn-card colomn asp-rtio") id="${dis_phone}">
             <img 
             class="product-img" 
-            src="${ROOT}/images/Profile/${distributor.dis_phone}.${distributor.pic_format}" 
+            src="${ROOT}/images/Profile/${dis_phone}.${pic_format}" 
             alt="distibutor Image"
             onerror="this.src='${ROOT}/images/Profile/PhoneNumber.jpg'">
             <div class="details h-50 ovf-hdn">
-                <h4>${distributor.first_name}</h4>
-                <h4>${distributor.last_name}</h4>
-                <h4>${distributor.dis_busines_name}</h4>
-                <h4>${distributor.dis_phone}</h4>
+                <h4>${first_name}</h4>
+                <h4>${last_name}</h4>
+                <h4>${dis_busines_name}</h4>
+                <h4>${dis_phone}</h4>
             </div>
         </div>
     `;
 }
 
-function updateGetVariables(){
-    getVariables.search = searchBar.value;
+
+const apiFetcherConfig ={
+    api: "ShopOwner/getDistributors",
+    cardTemplate: cardTemplate,
+    dataArr: dataArr
 }
 
+new ApiFetcherMod(apiFetcherConfig);
+
 function distributorPopUp(phone){
-    let distributor = dataArr.find(d => d.dis_phone === phone);
+    const distributor = dataArr.find(d => d.dis_phone === phone);
     if(distributor){
         dis_products.innerHTML = '';
         popUpName.innerText = `${distributor.first_name} ${distributor.last_name}`;
@@ -50,6 +57,16 @@ function distributorPopUp(phone){
         viewPopUp('distributor');
     }
 }
+
+// Attach a single listener to the parent container
+document.getElementById('elements-Scroll-Div').addEventListener('click', (event) => {
+    const target = event.target.closest('.card');
+    if (target) {
+        const phone = target.id;
+        distributorPopUp(phone);
+    }
+});
+
 
 function getDistributorProducts(phone){
     fetch(`${ROOT}/ShopOwner/getDistributorProductsBarcodes/${phone}`, {

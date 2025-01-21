@@ -1,25 +1,24 @@
-const offsetIncrement = 10;
-const api = "ShopOwner/getProducts";
-const dataArr = [];
+import ApiFetcherMod from "../ApiFetcherMod.js";
 
-const getVariables = {
-    search: ""
-};
+const dataArr = [];
 
 function cardTemplate(product) {
     return `
-        <a href="#" class="card btn-card center-al" id="${product.barcode}" onclick="addStockPopUp('${product.barcode}')">
+        <a href="#" class="card btn-card center-al" id="${product.barcode}">
             <div class="details h-100">
                 <h4>${product.product_name}</h4>
-                <h4>${product.barcode}</h4>
-                <table>
+                <table class='left-al'>
                     <tr>
-                        <td>Unit Price</td>
-                        <td><h4>Rs.${product.unit_price.toFixed(2)}</h4></td>
+                        <td><h5>Barcode</h5></td>
+                        <td><h5>${product.barcode}</h5></td>
                     </tr>
                     <tr>
-                        <td>Bulk Price</td>
-                        <td><h4>Rs.${product.bulk_price.toFixed(2)}</h4></td>
+                        <td><h5>Unit Price</h5></td>
+                        <td><h5>Rs.${product.unit_price.toFixed(2)}</h5></td>
+                    </tr>
+                    <tr>
+                        <td><h5>Bulk Price</h5></td>
+                        <td><h5>Rs.${product.bulk_price.toFixed(2)}</h5></td>
                     </tr>
                 </table>
             </div>
@@ -33,14 +32,17 @@ function cardTemplate(product) {
     `;
 }
 
-function updateGetVariables(){
-    getVariables.search = searchBar.value;
+const apiFetcherConfig = {
+    api: "ShopOwner/getProducts",
+    cardTemplate: cardTemplate,
+    dataArr: dataArr
 }
 
+new ApiFetcherMod(apiFetcherConfig);
 
 // Function to handle product pop-up
 function addStockPopUp(barcode) {
-    product = dataArr.find(p => p.barcode === barcode);
+    const product = dataArr.find(p => p.barcode === barcode);
     if (product) {
         const productImage = document.getElementById('popUp-prdct-image');
         productImage.src = `${ROOT}/images/Products/${product.barcode}.${product.pic_format}`;
@@ -54,6 +56,16 @@ function addStockPopUp(barcode) {
         viewPopUp('addStock');
     }
 }
+
+// Attach a single listener to the parent container
+document.getElementById('elements-Scroll-Div').addEventListener('click', (event) => {
+    const target = event.target.closest('.card');
+    if (target) {
+        const barcode = target.id;
+        addStockPopUp(barcode);
+    }
+});
+
 
 const quantityField = document.getElementById('quantity');
 const costField = document.getElementById('cost');

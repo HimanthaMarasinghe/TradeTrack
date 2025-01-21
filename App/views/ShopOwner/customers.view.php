@@ -73,7 +73,6 @@
     const LINKROOT = '<?=LINKROOT?>';
     const newLoyalCusReq = <?=json_encode($newLoyalCusReq)?>;
 </script>
-<script src="<?=ROOT?>/js/ShopOwner/customers.js"></script>
-<script src="<?=ROOT?>/js/apiFetcher.js"></script>
+<script src="<?=ROOT?>/js/ShopOwner/customers.js" type="module"></script>
 
 <?php $this->component("footer") ?>

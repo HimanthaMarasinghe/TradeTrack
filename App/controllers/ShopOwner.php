@@ -313,20 +313,13 @@ class ShopOwner extends Controller
         echo json_encode($products);
     }
 
-    public function getStocks($offset = 0, $type = null){
+    public function getStocks($offset = 0){
         if (!filter_var($offset, FILTER_VALIDATE_INT)) 
             $offset = 0;  // Default to 0 if invalid
         
         $search = $_GET['search'] ?? null;
         $stck = new ShopStock;
-        if($search == null && $type == null)
-            $stocks = $stck->readStock($_SESSION['shop_owner']['phone'], 'ASC', $offset);
-
-        else
-            $stocks = $stck->searchStock($search, $offset, $_SESSION['shop_owner']['phone']);
-
-        if(!$stocks)
-            $stocks = [];
+        $stocks = $stck->readStock($_SESSION['shop_owner']['phone'], 'ASC', $offset, $search);
 
         echo json_encode($stocks);
     }

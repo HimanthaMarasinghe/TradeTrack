@@ -31,7 +31,6 @@
     const ROOT = "<?=ROOT?>";
     const LINKROOT = "<?=LINKROOT?>";
 </script>
-<script src="<?=ROOT?>/js/ShopOwner/stocks.js"></script>
-<script src="<?=ROOT?>/js/apiFetcher.js"></script>
+<script src="<?=ROOT?>/js/ShopOwner/stocks.js" type="module"></script>
 
 <?php $this->component("footer") ?>

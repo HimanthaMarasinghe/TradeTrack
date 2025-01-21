@@ -22,7 +22,6 @@
             <p>Do you have a unique product that's not on this list? Add it to your <a href="">unique products</a>.</p>
             <div class="row">
                 <input id="searchBar" type="text" class="search-bar fg1" placeholder="Search">
-                <!-- <button class="btn">Search</button> -->
             </div>
             <div class="scroll-box grid g-resp-300" id="elements-Scroll-Div">
             </div>
@@ -92,8 +91,7 @@
     const ROOT = "<?=ROOT?>";
     const LINKROOT = "<?=LINKROOT?>";
 </script>
-<script src="<?=ROOT?>/js/ShopOwner/addStock.js"></script>
-<script src="<?=ROOT?>/js/apiFetcher.js"></script>
+<script src="<?=ROOT?>/js/ShopOwner/addStock.js" type="module"></script>
 <script src="<?=ROOT?>/js/popUp.js"></script>
 
 <?php $this->component("footer") ?>

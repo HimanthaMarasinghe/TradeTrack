@@ -1,13 +1,4 @@
-const offsetIncrement = 10;
-const api = "ShopOwner/getLoyaltyCustomers";
-
-const getVariables = {
-    search: ""
-};
-
-function updateGetVariables(){
-    getVariables.search = searchBar.value;
-}
+import ApiFetcherMod from "../ApiFetcherMod.js";
 
 function cardTemplate(customer) {
     return `
@@ -25,6 +16,13 @@ function cardTemplate(customer) {
         </a>
     `;
 }
+
+const apiFetcherConfig = {
+    api: "ShopOwner/getLoyaltyCustomers",
+    cardTemplate: cardTemplate
+}
+
+new ApiFetcherMod(apiFetcherConfig);
 
 
 function swap(e){

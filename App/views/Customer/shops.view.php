@@ -29,7 +29,7 @@
   const LINKROOT = '<?=LINKROOT?>';
   const ROOT = '<?=ROOT?>';
 </script>
-<script src="<?=ROOT?>/js/Customer/shops.js"></script>
-<script src="<?=ROOT?>/js/apiFetcher.js"></script>
+<script src="<?=ROOT?>/js/Customer/shops.js" type="module"></script>
+<!-- <script src="<?=ROOT?>/js/apiFetcher.js"></script> -->
 
 <?php $this->component("footer") ?>

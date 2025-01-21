@@ -1,8 +1,6 @@
-const loyaltyCheckBox = document.getElementById("loyalty");
+import ApiFetcherMod from "../ApiFetcherMod.js";
 
-const offsetIncrement = 10;
-const api = "Customer/getShops";
-// const dataArr = [];
+const loyaltyCheckBox = document.getElementById("loyalty");
 
 const getVariables = {
     search: "",
@@ -28,6 +26,15 @@ function cardTemplate(shop) {
 }
 
 function updateGetVariables(){
-    getVariables.search = searchBar.value;
-    getVariables.loyalty = loyaltyCheckBox.checked ? 1 : 0;
+    this.getVariables.search = searchBar.value;
+    this.getVariables.loyalty = loyaltyCheckBox.checked ? 1 : 0;
 }
+
+const apiFetcherConfig = {
+    api: "Customer/getShops",
+    getVariables: getVariables,
+    cardTemplate: cardTemplate,
+    updateGetVariables: updateGetVariables,
+};
+
+new ApiFetcherMod(apiFetcherConfig);

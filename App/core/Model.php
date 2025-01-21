@@ -16,7 +16,7 @@ class Model extends Database
 
         $placeholders = []; // Map original column names to placeholder-friendly keys
 
-        //When using join queries use "table column" notation instead of "table.column"
+        //When using join queries use "table.column" notation. This notation does not support for query parameter placeholders, therefore we remove the "." from the column names in next few lines of code.
 
         foreach ($keys as $key) {
             $placeholder = str_replace(['.'], '', $key);
