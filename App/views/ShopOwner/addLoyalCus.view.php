@@ -15,24 +15,24 @@
     <div class="row spc-btwn">
         <table class="profile">
             <tr>
-                <td>Name</td>
-                <td><?=$newLoyalCusReq['cus_first_name']?> <?=$newLoyalCusReq['cus_last_name']?></td>
+                <td>Name </td>
+                <td>- <?=$newLoyalCusReq['first_name']?> <?=$newLoyalCusReq['last_name']?></td>
             </tr>
             <tr>
                 <td>Phone Number</td>
-                <td><?=$newLoyalCusReq['cus_phone']?></td>
+                <td>- <?=$newLoyalCusReq['phone']?></td>
             </tr>
             <tr>
                 <td>Address</td>
-                <td><?=$newLoyalCusReq['cus_address']?></td>
+                <td>- <?=$newLoyalCusReq['address']?></td>
             </tr>
             <tr>
                 <td colspan="2">
-                    <button onclick="addLoyCustmer('<?=$newLoyalCusReq['cus_phone']?>')" class="btn">Accept Loyalty Customer Request</button>
+                    <button onclick="addLoyCustmer('<?=$newLoyalCusReq['phone']?>')" class="btn">Accept Loyalty Customer Request</button>
                 </td>
             </tr>
         </table>
-        <?php if(file_exists("./images/Profile/CUS/".$newLoyalCusReq['cus_phone'].".".$newLoyalCusReq['pic_format'])){ ?>
+        <?php if(file_exists("./images/Profile/CUS/".$newLoyalCusReq['phone'].".".$newLoyalCusReq['pic_format'])){ ?>
             <img class="profile-img big" src="<?=ROOT?>/images/Profile/CUS/<?=$newLoyalCusReq['cus_phone']?>.<?=$newLoyalCusReq['pic_format']?>" alt="">
         <?php } else { ?>
             <img class="profile-img big"  src="<?=ROOT?>/images/Profile/PhoneNumber.jpg" alt="">

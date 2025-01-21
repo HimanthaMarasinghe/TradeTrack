@@ -45,6 +45,11 @@
                     </div>
                 </td>
             </tr>
+        <?php }else if($loyaltyReq){ ?>
+
+            <tr>
+                <td colspan="2">Your request is pending. Request created on <?=$loyaltyReq['created_time']?></td>
+            </tr>
         <?php }else{ ?>
 
             <tr>
@@ -54,7 +59,7 @@
             <tr>
                 <td>
                     <div class="row max-w-900">
-                        <button class="btn fg1">Request to be a Loyalty Customer</button>
+                        <button onclick="reqLoyalty()" class="btn fg1">Request to be a Loyalty Customer</button>
                     </div>
                 </td>
             </tr>
@@ -62,11 +67,12 @@
         <?php } ?>
 
         </table>
-        <?php if(file_exists("./images/shops/".$shop['so_phone'].$shop['shop_pic_format'])){ ?>
-            <img class="profile-img big" src="<?=ROOT?>/images/shops/<?=$shop['so_phone'].$shop['shop_pic_format']?>" alt="">
-        <?php }else{ ?>
-            <img class="profile-img big" src="<?=ROOT?>/images/shops/default.jpeg" alt="">
-        <?php } ?>
+        <img
+            class="profile-img big"
+            src="<?=ROOT?>/images/shops/<?=$shop['so_phone'].$shop['shop_pic_format']?>"
+            alt=""
+            onerror="this.src='<?=ROOT?>/images/shops/default.jpeg'"
+        >
     </div>
     <h2 class="center-al">History</h2>
     <div class="billScroll">
@@ -100,6 +106,8 @@
 
 <script>
     const LINKROOT = "<?=LINKROOT?>";
+    const shopPhone = "<?=$shop['so_phone']?>";
 </script>
+<script src="<?=ROOT?>/js/Customer/shop.js"></script>
 
 <?php $this->component("footer") ?>

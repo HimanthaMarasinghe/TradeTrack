@@ -56,8 +56,11 @@ class Customer extends Controller
     public function shop($sop){
         $shops = new Shops;
         $loyShops = new LoyaltyCustomers;
+        $loyReq = new LoyaltyRequests;
         $this->data['shop'] = $shops->first(['so_phone' => $sop]);
         $this->data['loyalty'] = $loyShops->first(['cus_phone' => $_SESSION['customer']['phone'], 'so_phone' => $sop]);        
+        if(!$this->data['loyalty'])
+            $this->data['loyaltyReq'] = $loyReq->first(['cus_phone' => $_SESSION['customer']['phone'], 'so_phone' => $sop]);
         $this->data['tabs']['active'] = 'Shops';
         $this->view('Customer/shop',$this->data);
     }
@@ -100,6 +103,16 @@ class Customer extends Controller
             $shops = $shopsM->allShops($search, $location, $offset);
         }
         echo json_encode($shops);
+    }
+
+    public function reqLoyalty(){
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['so_phone'])){
+            $loyReq = new LoyaltyRequests;
+            $loyReq->insert(['cus_phone' => $_SESSION['customer']['phone'], 'so_phone' => $_POST['so_phone']]);
+            echo json_encode(['success' => true]);
+        }
+        else
+            redirect('Customer/shops');
     }
 
 
