@@ -88,7 +88,7 @@
                                         <td class='left-al'>".$bill['date']."</td>
                                         <td class='left-al'>".$bill['time']."</td>
                                         <td class='left-al'>".$bill['first_name']." ".$bill['last_name']."</td>
-                                        <td class='left-al'>Rs.".$bill['total']."</td>
+                                        <td class='left-al'>Rs.".number_format($bill['total'],2)."</td>
                                     </tr>";
                             }
                         ?>
@@ -149,18 +149,18 @@
     <h1>Bill details</h1>
     <div class="row spc-btwn w-100">
         <div class="colomn">
-            <h3>Bill Id</h3>
-            <h3>Date</h3>
-            <h3>Time</h3>
-            <h3>Customer</h3>
-            <h3>Bill Total</h3>
+            <p>Bill Id</p>
+            <p>Date</p>
+            <p>Time</p>
+            <p>Customer</p>
+            <p>Customer Phone</p>
         </div>
         <div class="colomn fg1">
-            <h3 id="More-details-bill-id"></h3>
-            <h3 id="More-details-bill-date"></h3>
-            <h3 id="More-details-bill-time"></h3>
-            <h3 id="More-details-bill-name"></h3>
-            <h3 id="More-details-bill-total"></h3>
+            <p id="More-details-bill-id"></p>
+            <p id="More-details-bill-date"></p>
+            <p id="More-details-bill-time"></p>
+            <p href="home" class="link" id="More-details-bill-name"></p>
+            <p id="More-details-bill-phone"></p>
         </div>
         <img id="More-details-bill-cus-img" class="profile-img" src="<?=ROOT?>/images/Profile/PhoneNumber.jpg" alt="">
     </div>
@@ -178,6 +178,7 @@
             <tbody id="billDetailsItems">
             </tbody>
         </table>
+        <h1 class="right-al" id="More-details-bill-total"></h1>
     </div>
 </div>
 
@@ -197,11 +198,12 @@ bills.querySelectorAll('tr.Item').forEach((billItem) => {
         fetch(LINKROOT+'/ShopOwner/getBillDetails/'+id)
         .then(res => res.json())
         .then(data => {
-            document.getElementById('More-details-bill-id').innerText = data.billDetails.bill_id;
-            document.getElementById('More-details-bill-date').innerText = data.billDetails.date;
-            document.getElementById('More-details-bill-time').innerText = data.billDetails.time;
-            document.getElementById('More-details-bill-name').innerText = (data.billDetails.first_name ?? "Unregister") + ' ' + (data.billDetails.last_name ?? "");
-            document.getElementById('More-details-bill-total').innerText = "Rs."+data.total;
+            document.getElementById('More-details-bill-id').innerText = " - " + data.billDetails.bill_id;
+            document.getElementById('More-details-bill-date').innerText = " - " + data.billDetails.date;
+            document.getElementById('More-details-bill-time').innerText = " - " + data.billDetails.time;
+            document.getElementById('More-details-bill-name').innerHTML = " - <a class='link' href='" + (LINKROOT + "/ShopOwner/customer/" + data.billDetails.cus_phone ?? "#") + "'>" + (data.billDetails.first_name ?? "Unregister") + ' ' + (data.billDetails.last_name ?? "") + "</a>";
+            document.getElementById('More-details-bill-phone').innerText = " - " + (data.billDetails.cus_phone ?? "Unregister");
+            document.getElementById('More-details-bill-total').innerText = "Total : Rs."+data.total.toFixed(2);
             document.getElementById('More-details-bill-cus-img').src = data.billDetails.cus_phone ? `<?=ROOT?>/images/Profile/${data.billDetails.cus_phone}.${data.billDetails.pic_format}` : `<?=ROOT?>/images/Profile/PhoneNumber.jpg`;
             document.getElementById('More-details-bill-cus-img').onerror = function() {this.src = `<?=ROOT?>/images/Profile/PhoneNumber.jpg`;};
             billDetailsItems.innerHTML = '';
@@ -210,8 +212,8 @@ bills.querySelectorAll('tr.Item').forEach((billItem) => {
                     <td class='center-al'>${item.barcode}</td>
                     <td class='left-al'>${item.product_name}</td>
                     <td class='left-al'>${item.quantity}</td>
-                    <td class='left-al'>Rs.${item.unit_price}</td>
-                    <td class='left-al'>Rs.${item.total}</td>
+                    <td class='left-al'>Rs.${item.unit_price.toFixed(2)}</td>
+                    <td class='left-al'>Rs.${item.total.toFixed(2)}</td>
                 </tr>`;
             });
             viewPopUp('BillDetails');

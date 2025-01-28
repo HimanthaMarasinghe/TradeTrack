@@ -13,6 +13,7 @@ export default class ApiFetcherMod {
         this.elementsList = document.getElementById(config.elementsListId || 'elements-Scroll-Div');
         this.scrollDiv = document.getElementById(config.scrollDivId || config.elementsListId || `elements-Scroll-Div`);
         this.filterElements = document.querySelectorAll(config.filterClass || '.filter-js');
+        this.clickEvent = config.clickEvent || null;
 
         //Non-configurable fields
         this.offset = 0;
@@ -82,7 +83,11 @@ export default class ApiFetcherMod {
     renderData(data) {
         data.forEach((dataset) => {
             const card = this.cardTemplate(dataset);
-            this.elementsList.innerHTML += card;
+            this.elementsList.insertAdjacentHTML("beforeend", card);
+            if (this.clickEvent) {
+                const cardElement = this.elementsList.lastElementChild;
+                cardElement.addEventListener('click', () => this.clickEvent(dataset));
+            }
         });
     }
 

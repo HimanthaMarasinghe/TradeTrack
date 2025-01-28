@@ -157,6 +157,19 @@ class Customer extends Controller
         echo json_encode($stocks);
     }
 
+    public function getBillDetails($billId){
+        $billItem = new BillItems;
+        $Billdata['billItems'] = $billItem->where(['bill_id' => $billId]);
+        $Billdata['total'] = 0;
+        foreach($Billdata['billItems'] as &$item){
+            $item['total'] += $item['unit_price'] * $item['quantity'];
+        }
+        foreach($Billdata['billItems'] as $item){
+            $Billdata['total'] += $item['total'];
+        }
+        echo json_encode($Billdata);
+    }
+
 
 
 
