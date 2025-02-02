@@ -163,6 +163,10 @@
     padding: 2px 20px;
 }
 
+img.icon-btn{
+    height: 20px;
+}
+
 .panel {
     border: solid 1px #ddd;
     border-radius: 10px;

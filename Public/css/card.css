@@ -2,8 +2,12 @@
     /* background-color: var(--btn-secondary); */
     color: var(--btn-secondary-text);
     box-shadow: 0 0 10px 0 var(--accent-color);
-    border: solid 2px var(--highlight-color);
+    border: solid 1px var(--highlight-color);
     cursor: pointer;
+
+    &.low {
+        box-shadow: 0 0 10px 0 #ff2f00;
+    }
 }
 
 .card {

@@ -41,7 +41,7 @@
                 <td colspan="2">
                     <div class="row max-w-900">
                         <button class="btn fg1">Reject Loyalty Privilege</button>
-                        <a class="btn fg1" href="<?=LINKROOT?>/Customer/placePreOrder">Make A Pre-Order</a>
+                        <a class="btn fg1" href="<?=LINKROOT?>/Customer/placePreOrder/<?=$shop['so_phone']?>">Make A Pre-Order</a>
                     </div>
                 </td>
             </tr>

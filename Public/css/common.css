@@ -336,56 +336,19 @@ img.default{
             color: #333;
         }
     }
-    /* .bill-content {
-        width: 100%;
-        font-size: 16px;
-        padding: 0;
-        margin: 0;
-        height: auto;
-        overflow: visible;
-        page-break-inside: avoid;
-
-        & table {
-            width: 100%;
-            border-collapse: collapse;
-            gap: 2mm;
-        }
-
-        & tr{
-            text-align: right;
-        }
-
-        & tr :first-child{
-            width: 50%;
-            text-align: left;
-        }
-
-        & tbody tr:last-child{
-            border-top: 1px solid black;
-            border-collapse: collapse;
-        }
-
-        & hr{
-            border-color: black;
-        }
-    } */
-    /* #bill-content, #bill-content * {
-        visibility: visible;
-    } */
-    /* #bill-content {
-        position: absolute;
-        left: 0;
-        top: 0;
-    } */
-
-
-
-    /* General Styles */
-    
-
 }
 
 .border-1 {
     border: 1px solid var(--border-color);
     border-radius: 5px;
+}
+
+
+#bill {
+    counter-reset: billItem;
+    
+    & tr .row_Number::before {
+        counter-increment: billItem;
+        content: counter(billItem);
+    }
 }

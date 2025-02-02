@@ -126,18 +126,6 @@ svg#down {
     }
 }
 
-
-/* new purchase */
-
-#bill {
-    counter-reset: billItem;
-    
-    & tr :first-child::before {
-        counter-increment: billItem;
-        content: counter(billItem);
-    }
-}
-
 /* ==================Order Stocks================== */
 .newReqBody {
     display: flex;
