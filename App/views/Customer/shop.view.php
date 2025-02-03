@@ -41,7 +41,7 @@
                 <td colspan="2">
                     <div class="row max-w-900">
                         <button class="btn fg1">Reject Loyalty Privilege</button>
-                        <a class="btn fg1" href="<?=LINKROOT?>/Customer/placePreOrder">Make A Pre-Order</a>
+                        <a class="btn fg1" href="<?=LINKROOT?>/Customer/placePreOrder/<?=$shop['so_phone']?>">Make A Pre-Order</a>
                     </div>
                 </td>
             </tr>
@@ -101,11 +101,55 @@
     </div>
 </div>
 
+<!-- popup -->
+
+<div id="popUpBackDrop" class="hidden"></div>
+<div id="BillDetails" class="popUpDiv hidden">
+<h1>Bill details</h1>
+    <div class="row spc-btwn w-100">
+        <div class="colomn">
+            <p>Bill Id</p>
+            <p>Date</p>
+            <p>Time</p>
+            <p>Shop Name</p>
+        </div>
+        <div class="colomn fg1">
+            <p id="More-details-bill-id"></p>
+            <p id="More-details-bill-date"></p>
+            <p id="More-details-bill-time"></p>
+            <p> - <?=$shop['shop_name']?></p>
+        </div>
+        <img
+            class="profile-img"
+            src="<?=ROOT?>/images/shops/<?=$shop['so_phone'].$shop['shop_pic_format']?>"
+            alt=""
+            onerror="this.src='<?=ROOT?>/images/shops/default.jpeg'"
+        >
+    </div>
+    <div class="billScroll">
+        <table class="bill min-w-1200">
+            <thead>
+                <tr class="BillHeadings">
+                    <th class='center-al'>Barcode</th>
+                    <th class='left-al'>Product Name</th>
+                    <th class='left-al'>Quantity</th>
+                    <th class='left-al'>Unit Price</th>
+                    <th class="left-al">Total</th>
+                </tr>
+            </thead>
+            <tbody id="billDetailsItems">
+            </tbody>
+        </table>
+        <h1 class="right-al" id="More-details-bill-total"></h1>
+    </div>
+</div>
+
 <script>
     const LINKROOT = "<?=LINKROOT?>";
     const ROOT = "<?=ROOT?>";
     const shopPhone = "<?=$shop['so_phone']?>";
 </script>
+<script src="<?=ROOT?>/js/popUp.js"></script>
 <script src="<?=ROOT?>/js/Customer/shop.js" type="module"></script>
 
 <?php $this->component("footer") ?>

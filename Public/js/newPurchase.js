@@ -77,7 +77,7 @@ document.getElementById("addBtn").addEventListener('click', function (e) {
                 document.getElementById('bill').innerHTML = '';
                 data.bill.forEach(element => {
                     document.getElementById('bill').innerHTML += `<tr class='Item'>
-                                                                <td class='center-al'></td>
+                                                                <td class='center-al row_Number'></td>
                                                                 <td class='left-al'>${element['name']}</td>
                                                                 <td>${element['price']}</td>
                                                                 <td>${element['qty']}</td>

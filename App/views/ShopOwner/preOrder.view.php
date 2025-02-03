@@ -41,7 +41,12 @@
                 <td>- <?=$preOrder['address']?></td>
             </tr>
         </table>
-        <img class="profile-img" src="<?=ROOT?>/images/Profile/<?=$preOrder['cus_phone']?>.<?=$preOrder['pic_format']?>" alt="">
+        <img 
+            class="profile-img" 
+            src="<?=ROOT?>/images/Profile/<?=$preOrder['cus_phone']?>.<?=$preOrder['pic_format']?>" 
+            onerror="this.src='<?=ROOT?>/images/Profile/PhoneNumber.jpg'"
+            alt=""
+        >
     </div>
     <div class="billScroll border-1">
         <table class="bill" id="preOrderItemsTable">

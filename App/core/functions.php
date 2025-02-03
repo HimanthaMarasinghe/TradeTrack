@@ -18,3 +18,8 @@ function redirect($path)
     header("Location: ".LINKROOT."/". $path);
     die;
 }
+
+function jsonPostDecode()
+{
+    return json_decode(file_get_contents('php://input'), true);
+}

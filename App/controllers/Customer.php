@@ -14,6 +14,11 @@ class Customer extends Controller
         }
     }
 
+    private function LoyalToShop($so_phone){
+        $loyalty = new LoyaltyCustomers;
+        return $loyalty->first(['cus_phone' => $_SESSION['customer']['phone'], 'so_phone' => $so_phone]);
+    }
+
     public function index(){
 
         //$_SESSION['customer']['phone'] = '0123456789'; //ToDo : to be changed to the logged in user's phone number (tbc)
@@ -22,10 +27,10 @@ class Customer extends Controller
         $this->view('Customer/home',$this->data);
     }
 
-    public function placePreOrder(){
-
-        //$_SESSION['customer']['phone'] = '0123456789'; //ToDo : to be changed to the logged in user's phone number (tbc)
-
+    public function placePreOrder($so_phone){
+        if(!$this->LoyalToShop($so_phone))
+            redirect('Customer/shops');
+        $this->data['so_phone'] = $so_phone;
         $this->data['tabs']['active'] = 'Home';
         $this->view('Customer/placePreOrder',$this->data);
     }
@@ -62,13 +67,6 @@ class Customer extends Controller
         $this->data['tabs']['active'] = 'Shops';
         $this->view('Customer/shop',$this->data);
     }
-
-    public function preOrder($so_phone){
-        $ss = new ShopStock;
-        $this->data['stock'] = $ss->readStock($so_phone);
-        //Todo: finish after creating a proper preOrder page.
-    }
-    //create new methods after this line.
 
     public function announcements(){
         $announcement = new Announcements;
@@ -152,11 +150,56 @@ class Customer extends Controller
         
         $search = $_GET['search'] ?? null;
         $stck = new ShopStock;
-        $stocks = $stck->readStock($_GET['shop_phone'], 'DESC', $offset, $search);
+        $stocks = $stck->readStock($_GET['shop_phone'], 'DESC', $offset, $search, $_GET['preOrderable']);
+
+        foreach($stocks as &$s){
+            if ($s['pre_orderable_stock'] > $s['amount_alowed_per_pre_Order'])
+                $s['pre_orderable_stock'] = $s['amount_alowed_per_pre_Order'];
+        }
 
         echo json_encode($stocks);
     }
 
+    public function getBillDetails($billId){
+        $billItem = new BillItems;
+        $Billdata['billItems'] = $billItem->where(['bill_id' => $billId]);
+        $Billdata['total'] = 0;
+        foreach($Billdata['billItems'] as &$item){
+            $item['total'] += $item['unit_price'] * $item['quantity'];
+        }
+        foreach($Billdata['billItems'] as $item){
+            $Billdata['total'] += $item['total'];
+        }
+        echo json_encode($Billdata);
+    }
+
+    public function placePreOrderP($so_phone) {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') 
+            redirect('Customer/shops');
+
+        $preOrderItems = jsonPostDecode()['preOrderItems'];
+
+        $preOrderP = new PreOrder;
+        $preOrderItemsP = new PreOrderItems;
+        $products = new Products;
+
+        $con = $preOrderP->startTransaction();
+
+        $preOrderP->insert(['cus_phone' => $_SESSION['customer']['phone'], 'so_phone' => $so_phone], $con);
+        $preOrderId = $con->lastInsertId();
+
+        foreach ($preOrderItems as &$item) {
+            $item['po_unit_price'] = $products->first(['barcode' => $item['barcode']], [],['unit_price'])['unit_price'];
+            $item['pre_order_id'] = $preOrderId;
+        }
+
+        $preOrderItemsP->bulkInsert($preOrderItems, ['barcode', 'quantity', 'po_unit_price', 'pre_order_id'], $con);
+        
+        $returnData = $con->commit() ? ['status' => 'success'] : ['status' => 'fail'];
+    
+        echo json_encode($returnData);
+        // echo json_encode($preOrderItems);
+}
 
 
 
