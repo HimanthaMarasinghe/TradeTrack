@@ -12,6 +12,7 @@ const pQTY = document.getElementById('qty');
 const pTotal = document.getElementById('total');
 const bTotal = document.getElementById('bill-Total');
 const addButton = document.getElementById('addBtn');
+const placeOrderBtn = document.getElementById('placeOrderBtn');
 
 pQTY.addEventListener('input', () => {
     if (pQTY.value > selectedProduct.pre_orderable_stock) {
@@ -31,7 +32,7 @@ addButton.addEventListener('click', () => {
 
     const index = preOrderItems.findIndex(item => item.barcode === selectedProduct.barcode);
     if (index !== -1) {
-        preOrderItems[index].qty = pQTY.value;
+        preOrderItems[index].quantity = pQTY.value;
         const tr = document.getElementById('bill-row-'+selectedProduct.barcode);
         bTotal.innerText = (parseFloat(bTotal.innerText) - parseFloat(tr.children[4].innerText) + parseFloat(pTotal.value)).toFixed(2);
         tr.children[3].innerText = pQTY.value;
@@ -40,7 +41,7 @@ addButton.addEventListener('click', () => {
     else{
         preOrderItems.push({
             barcode: selectedProduct.barcode,
-            qty: pQTY.value
+            quantity: pQTY.value
         });
         
         const tr = document.createElement('tr');
@@ -67,6 +68,7 @@ addButton.addEventListener('click', () => {
     pQTY.value = '';
     pTotal.value = '';
     addButton.classList.add('disabled-link');
+    placeOrderBtn.classList.remove('disabled-link');
 });
 
 function editItem(product){
@@ -83,6 +85,9 @@ function deleteItem(barcode){
     deleteRow.remove();
 
     updateRowNumbers();
+
+    if (preOrderItems.length === 0)
+        placeOrderBtn.classList.add('disabled-link');
 }
 
 function updateRowNumbers() {
@@ -106,7 +111,7 @@ function updateForm(){
 
     const index = preOrderItems.findIndex(item => item.barcode === selectedProduct.barcode);
     if (index !== -1) {
-        pQTY.value = preOrderItems[index].qty;
+        pQTY.value = preOrderItems[index].quantity;
         pTotal.value = (pQTY.value * pPrice.value).toFixed(2);
     }
     else{
@@ -114,6 +119,29 @@ function updateForm(){
         pTotal.value = '';
     }
 }
+
+placeOrderBtn.addEventListener('click', () => {
+    // console.log(preOrderItems);
+    fetch(`${ROOT}/Customer/placePreOrderP/${shopPhone}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            preOrderItems: preOrderItems
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        if (data.status === 'success'){
+            alert('Pre-Order Placed Successfully');
+            location.href = `${LINKROOT}/Customer/`;
+        }
+        else 
+            alert('Failed to place Pre-Order');
+    })
+});
 
 //********** ApiFetcherMod Configurations **********//
 

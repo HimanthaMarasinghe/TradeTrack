@@ -67,7 +67,7 @@
             <hr>
 
             <div class="row">
-                <a href="<?=LINKROOT?>/Customer/home" class="btn placeOrderbtn" id="placeOrderBtn">Place Order</a>
+                <button class="btn disabled-link" id="placeOrderBtn">Place Order</button>
             </div>
         </div>
     </div>

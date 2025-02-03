@@ -173,6 +173,33 @@ class Customer extends Controller
         echo json_encode($Billdata);
     }
 
+    public function placePreOrderP($so_phone) {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') 
+            redirect('Customer/shops');
+
+        $preOrderItems = jsonPostDecode()['preOrderItems'];
+
+        $preOrderP = new PreOrder;
+        $preOrderItemsP = new PreOrderItems;
+        $products = new Products;
+
+        $con = $preOrderP->startTransaction();
+
+        $preOrderP->insert(['cus_phone' => $_SESSION['customer']['phone'], 'so_phone' => $so_phone], $con);
+        $preOrderId = $con->lastInsertId();
+
+        foreach ($preOrderItems as &$item) {
+            $item['po_unit_price'] = $products->first(['barcode' => $item['barcode']], [],['unit_price'])['unit_price'];
+            $item['pre_order_id'] = $preOrderId;
+        }
+
+        $preOrderItemsP->bulkInsert($preOrderItems, ['barcode', 'quantity', 'po_unit_price', 'pre_order_id'], $con);
+        
+        $returnData = $con->commit() ? ['status' => 'success'] : ['status' => 'fail'];
+    
+        echo json_encode($returnData);
+        // echo json_encode($preOrderItems);
+}
 
 
 

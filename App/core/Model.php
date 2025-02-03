@@ -3,7 +3,7 @@
 class Model extends Database
 {
 
-    public function where($data, $data_not = [], $limit = null, $offset = null)
+    public function where($data, $data_not = [], $limit = null, $offset = null, $readFields = [])
     {
         $keys = array_keys($data);
         $keys_not = array_keys($data_not);
@@ -12,7 +12,9 @@ class Model extends Database
             $this->readTable = $this->table;
         }
 
-        $query = "SELECT * FROM $this->readTable WHERE ";
+        $query = "SELECT ";
+        $query .= $readFields ? implode(", ", $readFields) : "*";
+        $query .= " FROM $this->readTable WHERE ";
 
         $placeholders = []; // Map original column names to placeholder-friendly keys
 
@@ -45,38 +47,7 @@ class Model extends Database
         return $this->query($query, $placeholders);
     }
 
-    // public function first($data, $data_not = [])
-    // {
-    //     $keys = array_keys($data);
-    //     $keys_not = array_keys($data_not);
-
-    //     if(!isset($this->readTable)){
-    //         $this->readTable = $this->table;
-    //     }
-
-    //     $query = "SELECT * FROM $this->readTable WHERE ";
-    //     foreach($keys as $key)
-    //     {
-    //         $query .= $key." = :".$key . " && ";
-    //     }
-        
-    //     foreach($keys_not as $key)
-    //     {
-    //         $query .= $key." != :".$key . " && ";
-    //     }
-
-    //     $query = rtrim($query, " && "); 
-    //     $query .= " LIMIT 1";
-
-    //     $data = array_merge($data, $data_not);
-    //     $result = $this->query($query, $data);
-    //     if($result)
-    //         return $result[0];
-
-    //     return false;
-    // }
-
-    public function first($data, $data_not = [])
+    public function first($data, $data_not = [], $readFields = [])
     {
         $keys = array_keys($data);
         $keys_not = array_keys($data_not);
@@ -85,7 +56,10 @@ class Model extends Database
             $this->readTable = $this->table;
         }
 
-        $query = "SELECT * FROM $this->readTable WHERE ";
+        $query = "SELECT ";
+        $query .= $readFields ? implode(", ", $readFields) : "*";
+        $query .= " FROM $this->readTable WHERE ";
+
         $placeholders = []; // Map original column names to placeholder-friendly keys
 
         //When using join queries use "table column" notation instead of "table.column"
@@ -105,7 +79,7 @@ class Model extends Database
         $query = rtrim($query, " && ");
         $query .= " LIMIT 1";
 
-        $result = $this->query($query, $placeholders);
+       $result = $this->query($query, $placeholders);
         if ($result) {
             return $result[0];
         }
@@ -114,13 +88,15 @@ class Model extends Database
     }
 
 
-    public function readAll($limit = null, $offset = null)
+    public function readAll($limit = null, $offset = null, $readFields = [])
     {
         if(!isset($this->readTable)){
             $this->readTable = $this->table;
         }
 
-        $query = "SELECT * FROM $this->readTable";
+        $query = "SELECT ";
+        $query .= $readFields ? implode(", ", $readFields) : "*";
+        $query .= " FROM $this->readTable ";
 
         if($limit)
         {
