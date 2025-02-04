@@ -16,20 +16,16 @@
         </div>
     </div>
     <div class="row">
-      <input type="text" class="search-bar fg1" placeholder="Search">
-      <button class="btn">Search</button>
+      <input type="text" class="search-bar fg1" placeholder="Search" id="searchBar">
     </div>
 
-    <div class="grid g-resp-200 scroll-box">
-    <?php for($x = 0; $x <20; $x++){ ?>
-        <a href="<?=LINKROOT?>/Admin/manufacturer" class="card btn-card colomn asp-rtio">
-            <img class="product-img" src="<?=ROOT?>/images/Profile/SA/0123456789.jpg" alt="">
-            <div class="details h-50">
-                <h4>Maliban</h4>
-                <h4>111, colombo, srilanka</h4>
-            </div>
-        </a>
-    <?php }?>
+    <div class="grid g-resp-200 scroll-box" id="elements-Scroll-Div">
     </div>
+
+    <script>
+        const LINKROOT = "<?=LINKROOT?>";
+        const ROOT = "<?=ROOT?>";
+    </script>
+    <script src="<?=ROOT?>/js/Admin/manufacturers.js" type="module"></script>
 
 <?php $this->component("footer") ?>

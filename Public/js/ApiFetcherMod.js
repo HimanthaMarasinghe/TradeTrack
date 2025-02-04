@@ -14,6 +14,7 @@ export default class ApiFetcherMod {
         this.scrollDiv = document.getElementById(config.scrollDivId || config.elementsListId || `elements-Scroll-Div`);
         this.filterElements = document.querySelectorAll(config.filterClass || '.filter-js');
         this.clickEvent = config.clickEvent || null;
+        this.noDataText = config.noDataText || "No data available";
 
         //Non-configurable fields
         this.offset = 0;
@@ -57,6 +58,12 @@ export default class ApiFetcherMod {
             console.log(data);
 
             if (!data) {
+                if (this.offset === 0) {
+                    if (this.elementsList.tagName === 'TBODY')
+                        this.elementsList.innerHTML = `<tr class="Item"><td colspan="100%" class="faded-text center-al">${this.noDataText}</td></tr>`;
+                    else
+                        this.elementsList.innerHTML = `<h2 class="grid-center center-al faded-text m-t-20">${this.noDataText}</h2>`;
+                };
                 this.loadComplete = true;
                 return;
             }

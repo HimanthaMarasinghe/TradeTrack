@@ -131,6 +131,11 @@
     height: calc(100vh - 230px);
 }
 
+.grid-center {
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
+}
+
 .top {
     display: flex;
     flex-direction: column;

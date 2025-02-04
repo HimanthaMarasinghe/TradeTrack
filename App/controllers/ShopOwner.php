@@ -428,9 +428,9 @@ class ShopOwner extends Controller
             $offset = 0;  // Default to 0 if invalid
 
         $search = $_GET['search'] ?? null;
+        $status = $_GET['status'] ?? 'all';
 
-        $preOrder = new PreOrder;
-        $preOrders = $this->loadPreOrders('all', $search, $offset);
+        $preOrders = $this->loadPreOrders($status, $search, $offset);
         echo json_encode($preOrders);        
     }
 

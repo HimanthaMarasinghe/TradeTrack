@@ -22,6 +22,14 @@
         <div class="panel mg-10 fg1">
         <div class="row">
             <input id="searchBar" type="text" class="search-bar fg1" placeholder="Search">
+            <select id="Filter" class="filter-js">
+                <option value="all">All</option>
+                <option value="Pending">Pending</option>
+                <option value="Processing">Processing</option>
+                <option value="Ready">Ready</option>
+                <option value="Picked">Picked</option>
+                <option value="Rejected">Rejected</option>
+            </select>
         </div>
         <div class="scroll-box grid g-resp-300" id="elements-Scroll-Div">
         </div>
@@ -33,7 +41,6 @@
     const ROOT = "<?=ROOT?>";
     const LINKROOT = "<?=LINKROOT?>";
 </script>
-<script src="<?=ROOT?>/js/ShopOwner/preOrderHistory.js"></script>
-<script src="<?=ROOT?>/js/apiFetcher.js"></script>
+<script src="<?=ROOT?>/js/ShopOwner/preOrderHistory.js" type="module"></script>
 
 <?php $this->component("footer") ?>

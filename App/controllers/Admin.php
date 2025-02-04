@@ -3,7 +3,7 @@
 class Admin extends Controller 
 {
     protected $data = [
-        'tabs' => ['tabs' => ['Home', 'Customers', 'ShopOwners', 'Distributors', 'Manufacturers', 'Products'], 'userType' => 'Admin'],
+        'tabs' => ['tabs' => ['Home', 'Customers', 'Shops', 'Distributors', 'Manufacturers', 'Products'], 'userType' => 'Admin'],
         'styleSheet' => ['styleSheet'=>'admin']
     ];
 
@@ -194,8 +194,6 @@ class Admin extends Controller
 
     public function products(){
         $this->data['tabs']['active'] = 'Products';
-        $prdct = new Products;
-        $this->data['products'] = $prdct->readAll();
         $this->view('Admin/products', $this->data);
     }
 
@@ -203,6 +201,16 @@ class Admin extends Controller
     public function Customers(){
         $this->data['tabs']['active'] = 'Customers';
         $this->view('Admin/customers', $this->data);
+    }
+
+    public function getCustomers($offset = 0){
+        if (!filter_var($offset, FILTER_VALIDATE_INT)) 
+            $offset = 0; 
+
+        $search = $_GET['search'];
+        $userM = new User;
+        $customers = $userM->searchCustomers($search, $offset);
+        echo json_encode($customers);
     }
 
     public function Distributors(){
@@ -220,19 +228,49 @@ class Admin extends Controller
         $this->view('Admin/distributor', $this->data);
     }
 
-    public function ShopOwners(){
-        $this->data['tabs']['active'] = 'ShopOwners';
-        $this->view('Admin/shopOwners', $this->data);
+    public function getDistributors($offset){
+        if (!filter_var($offset, FILTER_VALIDATE_INT)) 
+            $offset = 0; 
+
+        $search = $_GET['search'];
+        $distributorsM = new DistributorM;
+        $distributors = $distributorsM->searchDistributors($search, $offset);
+        echo json_encode($distributors);
     }
 
-    public function shopOwner(){
-        $this->data['tabs']['active'] = 'ShopOwners';
-        $this->view('Admin/shopOwner', $this->data);
+    public function Shops(){
+        $this->data['tabs']['active'] = 'Shops';
+        $this->view('Admin/shops', $this->data);
+    }
+
+    public function getShops($offset = 0){
+        if (!filter_var($offset, FILTER_VALIDATE_INT)) 
+            $offset = 0; 
+
+        $search = $_GET['search'];
+        $shopsM = new Shops;
+        $shops = $shopsM->allShops($search, null, $offset);
+        echo json_encode($shops);
+    }
+
+    public function shop(){
+        $this->data['tabs']['active'] = 'Shops';
+        $this->view('Admin/shop', $this->data);
     }
 
     public function Manufacturers(){
         $this->data['tabs']['active'] = 'Manufacturers';
         $this->view('Admin/manufacturers', $this->data);
+    }
+
+    public function getManufacturers($offset){
+        if (!filter_var($offset, FILTER_VALIDATE_INT)) 
+            $offset = 0; 
+
+        $search = $_GET['search'];
+        $manufacturerM = new Manufacturers;
+        $manufacturers = $manufacturerM->search($search, $offset);
+        echo json_encode($manufacturers);
     }
 
     public function manufacturer(){
@@ -295,17 +333,18 @@ class Admin extends Controller
     }
 
     public function newProductRequests(){
-        $pendingProducts = new pendingProductRequests;
-        $this->data['pendingProducts'] = $pendingProducts->readAll();
         $this->data['tabs']['active'] = 'Products';
         $this->view('Admin/productsRequests', $this->data);
     }
 
-    public function pendingProductRequestDetails(){
-        if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['barcodeIn'])){
-            $req = new pendingProductRequests;
-            echo json_encode($req->first(['barcode' => $_POST['barcodeIn']]));
-        }
+    public function getProductsRequests($offset){
+        if (!filter_var($offset, FILTER_VALIDATE_INT)) 
+            $offset = 0; 
+
+        $search = $_GET['search'];
+        $req = new pendingProductRequests;
+        $requests = $req->search($search, $offset);
+        echo json_encode($requests);
     }
     
 

@@ -8,8 +8,7 @@
 
     <div class="bar">
         <img src="<?=ROOT?>/images/icons/home.svg" alt="">
-        <!-- <h1><?=$_SESSION['name']?></h1> -->
-        <h1>All distributors</h1>
+        <h1>All Shops</h1>
         <div>
             <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
             <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
@@ -23,9 +22,9 @@
     </div>
 
     <script>
-        const LINKROOT = "<?=LINKROOT?>";
-        const ROOT = "<?=ROOT?>";
-    </script>
-    <script src="<?=ROOT?>/js/Admin/distributors.js" type="module"></script>
+    const LINKROOT = "<?=LINKROOT?>";
+    const ROOT = "<?=ROOT?>";
+  </script>
+  <script src="<?=ROOT?>/js/Admin/shops.js" type="module"></script>
 
 <?php $this->component("footer") ?>
