@@ -30,6 +30,5 @@
   const ROOT = '<?=ROOT?>';
 </script>
 <script src="<?=ROOT?>/js/Customer/shops.js" type="module"></script>
-<!-- <script src="<?=ROOT?>/js/apiFetcher.js"></script> -->
 
 <?php $this->component("footer") ?>

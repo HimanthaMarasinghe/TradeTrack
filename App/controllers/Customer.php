@@ -111,18 +111,19 @@ class Customer extends Controller
             redirect('Customer/shops');
     }
 
-    public function getProducts($offset = 0){
-        if (!filter_var($offset, FILTER_VALIDATE_INT)) 
-            $offset = 0;
-        if(isset($_GET['search'])){
-            $prdct = new Products;
-            $products = $prdct->searchProducts($_GET['search'], null, $offset);
-        }else{
-            $prdct = new Products;
-            $products = $prdct->readAll(10, $offset);
-        }
-        echo json_encode($products);
-    }
+    // Moved to LogedInUserCommon
+    // public function getProducts($offset = 0){
+    //     if (!filter_var($offset, FILTER_VALIDATE_INT)) 
+    //         $offset = 0;
+    //     if(isset($_GET['search'])){
+    //         $prdct = new Products;
+    //         $products = $prdct->searchProducts($_GET['search'], null, $offset);
+    //     }else{
+    //         $prdct = new Products;
+    //         $products = $prdct->readAll(10, $offset);
+    //     }
+    //     echo json_encode($products);
+    // }
 
     public function getBills($offset = 0){
         if (!isset($_GET['shop_phone'])) {

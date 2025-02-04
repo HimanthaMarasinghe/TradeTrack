@@ -1,9 +1,6 @@
-const offsetIncrement = 10;
-const api = "ShopOwner/getAllPreOrders";
+import ApiFetcherMod from "../ApiFetcherMod.js";
 
-const getVariables = {
-    search: ""
-};
+const filter = document.getElementById('Filter');
 
 function cardTemplate(order) {
     return `
@@ -25,6 +22,21 @@ function cardTemplate(order) {
     `;
 }
 
-function updateGetVariables(){
-    getVariables.search = searchBar.value;
+const getVariables = {
+    search: "",
+    status: ""
+};
+
+function updateGetVariables() {
+    this.getVariables.search = searchBar.value;
+    this.getVariables.status = filter.value;
 }
+
+const cofig = {
+    api : "ShopOwner/getAllPreOrders",
+    cardTemplate : cardTemplate,
+    getVariables : getVariables,
+    updateGetVariables : updateGetVariables
+}
+
+new ApiFetcherMod(cofig);

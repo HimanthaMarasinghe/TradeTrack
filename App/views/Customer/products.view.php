@@ -25,6 +25,7 @@
   <script>
     const LINKROOT = "<?=LINKROOT?>";
     const ROOT = "<?=ROOT?>";
+    const clickLink = "Customer/product";
   </script>
-  <script src="<?=ROOT?>/js/Customer/products.js" type="module"></script>
+  <script src="<?=ROOT?>/js/loadAllProducts.js" type="module"></script>
 <?php $this->component("footer") ?>

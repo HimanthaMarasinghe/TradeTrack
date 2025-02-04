@@ -8,8 +8,7 @@
 
     <div class="bar">
         <img src="<?=ROOT?>/images/icons/home.svg" alt="">
-        <!-- <h1><?=$_SESSION['name']?></h1> -->
-        <h1>Business Name</h1>
+        <h1>New Product Requests</h1>
         <div>
             <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
             <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
@@ -19,14 +18,9 @@
     <div class="row fg1 ovf-hdn">
         <div class="panel mg-10 fg1">
             <div class="row">
-                <input type="text" class="search-bar fg1" placeholder="Search">
-                <button class="btn">Search</button>
+                <input type="text" class="search-bar fg1" placeholder="Search" id="searchBar">
             </div>
-            <div class="scroll-box grid g-resp-300">
-                <?php
-                    foreach ($pendingProducts as $stock) { 
-                        $this->component('card/product', $stock, ['special' => "Request Pending"]); 
-                     } ?>
+            <div class="scroll-box grid g-resp-300" id="elements-Scroll-Div">
             </div>
         </div>
     </div>
@@ -60,32 +54,11 @@
     </div>
 </div>
 
-<script src="<?=ROOT?>/js/popUp.js"></script>
 <script>
-    const LINKROOT = '<?=LINKROOT?>';
-    const productDetailsPopUp = document.getElementById('productDetails');
-
-    document.querySelectorAll(".card-js").forEach((card) => {
-        card.addEventListener("click", function(event) {
-            console.log(encodeURIComponent(event.currentTarget.id));
-            fetch(LINKROOT+'/Admin/pendingProductRequestDetails', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: 'barcodeIn=' + encodeURIComponent(event.currentTarget.id)
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('req-prd-barcode').textContent = data.barcode;
-                document.getElementById('req-prd-name').textContent = data.product_name;
-                document.getElementById('req-prd-price').textContent = 'Rs.' + data.unit_price.toFixed(2);
-                document.getElementById('req-prd-bulk').textContent = 'Rs.' + data.bulk_price.toFixed(2);
-            })
-            .catch(error => console.error('Error:', error));
-            viewPopUp('productDetails');
-        })
-    });
+    const LINKROOT = "<?=LINKROOT?>";
+    const ROOT = "<?=ROOT?>";
 </script>
+<script src="<?=ROOT?>/js/popUp.js"></script>
+<script src="<?=ROOT?>/js/Admin/productsRequests.js" type="module"></script>
 
 <?php $this->component("footer") ?>
