@@ -85,4 +85,18 @@
             unlink($imagePath);
         }
     }
+
+    public function sendNotification($phone, $type, $tite, $body, $link = null, $image = null)
+    {
+        $socket = stream_socket_client("tcp://localhost:9000", $errno, $errstr, 2);
+        if (!$socket) return;
+
+        $data = ['type' => $type, 'title' => $tite, 'body' => $body, 'link' => $link, 'image' => $image];
+
+        $notification = json_encode(["type" => "notification", "id" => $phone, "data" => json_encode($data)]);
+        if (!fwrite($socket, $notification)) return;
+        
+        fread($socket, 1024);
+        fclose($socket);
+    }
  }

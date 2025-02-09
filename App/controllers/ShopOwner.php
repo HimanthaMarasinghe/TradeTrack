@@ -36,8 +36,6 @@ class ShopOwner extends Controller
 
         $this->data['tabs']['active'] = 'Home';
 
-        $this->data['preOrders'] = $this->loadPreOrders();
-
         $stck = new ShopStock;
         $this->data['lowStocks'] = $stck->readStock($_SESSION['shop_owner']['phone'], 'low');
 
@@ -428,7 +426,7 @@ class ShopOwner extends Controller
             $offset = 0;  // Default to 0 if invalid
 
         $search = $_GET['search'] ?? null;
-        $status = $_GET['status'] ?? 'all';
+        $status = $_GET['status'] ?? null;
 
         $preOrders = $this->loadPreOrders($status, $search, $offset);
         echo json_encode($preOrders);        

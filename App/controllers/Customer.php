@@ -196,10 +196,15 @@ class Customer extends Controller
 
         $preOrderItemsP->bulkInsert($preOrderItems, ['barcode', 'quantity', 'po_unit_price', 'pre_order_id'], $con);
         
-        $returnData = $con->commit() ? ['status' => 'success'] : ['status' => 'fail'];
-    
+        if ($con->commit()){
+            $returnData = ['status' => 'success'];
+            $this->sendNotification($so_phone, 'preOrder', 'New Pre Order', "{$_SESSION['customer']['first_name']} {$_SESSION['customer']['last_name']} placed a pre-order", "ShopOwner/preOrder/{$preOrderId}", $_SESSION['customer']['phone'].".".$_SESSION['customer']['pic_format']);
+
+        }
+        else{
+            $returnData = ['status' => 'fail'];
+        }
         echo json_encode($returnData);
-        // echo json_encode($preOrderItems);
 }
 
 

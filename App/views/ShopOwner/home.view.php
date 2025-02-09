@@ -26,18 +26,7 @@
     <div class="grid-box fg1">
         <div class="panel pre-orders">
             <h2>New Pre-Orders</h2>
-            <?php if(!$preOrders){ ?>
-                <h1 class="center-al m-b-auto faded-text">No new Pre-Orders</h1>
-            <?php }else{ ?>
-                <div class="scroll-box">
-            <?php
-                foreach ($preOrders as $order)
-                {
-                    $this->component('card/preOrder', $order); 
-                }
-            ?>
-                </div>
-            <?php } ?>
+                <div class="scroll-box" id="elements-Scroll-Div"></div>
         </div>
 
         <div class="panel cash-drawer">
@@ -65,5 +54,17 @@
         </div>
     </div>
 </div>
+
+<div id="notification-container"></div>
+
+<script>
+    const ROOT = "<?=ROOT?>";
+    const LINKROOT = "<?=LINKROOT?>"
+    const ws_id = "<?=$_SESSION['shop_owner']['phone']?>";
+    const ws_token = "<?=$_SESSION['web_socket_token']?>";
+</script>
+
+<script src="<?=ROOT?>/js/ShopOwner/home.js" type="module"></script>
+
 
 <?php $this->component("footer") ?>

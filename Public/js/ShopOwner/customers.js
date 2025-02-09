@@ -1,4 +1,6 @@
+import Notification from "../notification.js";
 import ApiFetcherMod from "../ApiFetcherMod.js";
+import { preOrderCard } from "../UI_Elements_templates.js";
 
 function cardTemplate(customer) {
     return `
@@ -17,12 +19,28 @@ function cardTemplate(customer) {
     `;
 }
 
-const apiFetcherConfig = {
+const lcApiFetcherConfig = {
     api: "ShopOwner/getLoyaltyCustomers",
-    cardTemplate: cardTemplate
+    cardTemplate: cardTemplate,
+    searchBarId: "lc-searchBar",
+    elementsListId: "lc-Scroll-Div"
 }
 
-new ApiFetcherMod(apiFetcherConfig);
+new ApiFetcherMod(lcApiFetcherConfig);
+
+// Configurations for loading pre orders
+const poApiFetcherConfig = {
+    api : "ShopOwner/getAllPreOrders",
+    cardTemplate : preOrderCard
+}
+
+const poApiFetcherMod = new ApiFetcherMod(poApiFetcherConfig);
+
+const loadDataOnNotification = (type) => {
+    if(type == 'preOrder') poApiFetcherMod.loadDataWithSearchOrFilter();
+}
+
+new Notification(loadDataOnNotification);
 
 
 function swap(e){
