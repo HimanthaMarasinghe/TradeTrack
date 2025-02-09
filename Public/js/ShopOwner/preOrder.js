@@ -1,3 +1,6 @@
+import Notification from "../notification.js";
+new Notification();
+
 const statusElement = document.getElementById('status');
 const changeStatusBtn = document.getElementById('changeStatusBtn');
 const itemTickBoxes = document.querySelectorAll('.Item input');
@@ -34,6 +37,7 @@ function updateUI(){
         itemTickBoxes.forEach(input => {
             input.classList.add('hidden');
         });
+        localStorage.removeItem('processingPreOrder'+pre_order_id);
     }
     if(shouldBeUpdated){
         updateBtn.classList.remove('hidden');
@@ -113,11 +117,11 @@ function hideInStockColoumn(){
 
 function startProcessingPreOrder(){
     changeStatusBtn.classList.add('disabled-link');
-    // changeStatusBtn.href = `${LINKROOT}/ShopOwner/orderReady/${pre_order_id}`;
     itemTickBoxes.forEach(input => {
         input.classList.remove('hidden');
-        input.addEventListener('change', checkAllItemsTickBoxes);
+        // input.addEventListener('change', checkAllItemsTickBoxes);
     });
+    checkItemCheckBox();
 }
 
 function checkAllItemsTickBoxes(){
@@ -144,6 +148,8 @@ function checkItemCheckBox(){
             checkAllItemsTickBoxes();
         });
     });
+
+    checkAllItemsTickBoxes();
 }
 
 rejectBtn.addEventListener('click', async () => {

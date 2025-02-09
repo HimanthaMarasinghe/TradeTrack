@@ -1,3 +1,6 @@
+import Notification from "./notification.js";
+new Notification(false, true);
+
 let qtyElement = document.getElementById('qty');
 let barCodeElement = document.getElementById('barCode');
 let validBill = false; //set to true when at least one item is in the bill.

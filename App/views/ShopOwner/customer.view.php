@@ -36,7 +36,7 @@
             <tr>
                 <td colspan="2">
                     <div class="row max-w-900">
-                        <button class="btn fg1" onclick="revokeLoyalty('<?=$customer['cus_phone']?>', '<?=$loyalty['wallet']?>')">Revoke Loyalty Privilege</button>
+                        <button class="btn fg1" id="revoke_btn">Revoke Loyalty Privilege</button>
                         <button class="btn fg1">Update wallet</button>
                     </div>
                 </td>
@@ -124,10 +124,15 @@
         </table>
     </div>
 </div>
-
+<div id="notification-container"></div>
 <script>
-    const LINKROOT = "<?=LINKROOT?>";
+    const ROOT = "<?=ROOT?>";
+    const LINKROOT = "<?=LINKROOT?>"
+    const loy_phone = "<?=$customer['phone']?>";
+    const wallet_amount = "<?=$loyalty['wallet']?>";
+    const ws_id = "<?=$_SESSION['shop_owner']['phone']?>";
+    const ws_token = "<?=$_SESSION['web_socket_token']?>";
 </script>
-<script src="<?=ROOT?>/js/customer.js"></script>
+<script src="<?=ROOT?>/js/customer.js" type="module"></script>
 
 <?php $this->component("footer") ?>

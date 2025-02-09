@@ -100,16 +100,19 @@
         <a id="changeStatusBtn" href="#" class="btn">Start Processing</a>
     </div>
 </div>
+<div id="notification-container"></div>
 
 <script>
     const ROOT = '<?=ROOT?>';
     const LINKROOT = '<?=LINKROOT?>';
+    const ws_id = "<?=$_SESSION['shop_owner']['phone']?>";
+    const ws_token = "<?=$_SESSION['web_socket_token']?>";
     const pre_order_id = '<?=$preOrder['pre_order_id']?>';
     let shouldBeUpdated = '<?=$shouldBeUpdated?>';
     let status = '<?=$preOrder['status']?>';
     if(shouldBeUpdated)
         var preOrderItems = <?= json_encode($preOrderItems) ?>;
 </script>
-<script src="<?=ROOT?>/js/ShopOwner/preOrder.js"></script>
+<script src="<?=ROOT?>/js/ShopOwner/preOrder.js" type="module"></script>
 
 <?php $this->component("footer") ?>

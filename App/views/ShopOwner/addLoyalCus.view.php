@@ -28,7 +28,7 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <button onclick="addLoyCustmer('<?=$newLoyalCusReq['phone']?>')" class="btn">Accept Loyalty Customer Request</button>
+                    <button id="accept_lcr_btn" class="btn">Accept Loyalty Customer Request</button>
                 </td>
             </tr>
         </table>
@@ -39,10 +39,14 @@
         <?php } ?>
     </div>
 </div>
-
+<div id="notification-container"></div>
 <script>
-    const LINKROOT = "<?=LINKROOT?>";
+    const ROOT = "<?=ROOT?>";
+    const LINKROOT = "<?=LINKROOT?>"
+    const cus_phone = "<?=$newLoyalCusReq['phone']?>";
+    const ws_id = "<?=$_SESSION['shop_owner']['phone']?>";
+    const ws_token = "<?=$_SESSION['web_socket_token']?>";
 </script>
-<script src="<?=ROOT?>/js/addLoyCustomer.js"></script>
+<script src="<?=ROOT?>/js/addLoyCustomer.js" type="module"></script>
 
 <?php $this->component("footer") ?>

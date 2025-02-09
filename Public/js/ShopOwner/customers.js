@@ -1,4 +1,6 @@
+import Notification from "../notification.js";
 import ApiFetcherMod from "../ApiFetcherMod.js";
+import { preOrderCard } from "../UI_Elements_templates.js";
 
 function cardTemplate(customer) {
     return `
@@ -17,12 +19,68 @@ function cardTemplate(customer) {
     `;
 }
 
-const apiFetcherConfig = {
+// Configerations for loading loyalty customers
+const lcApiFetcherConfig = {
     api: "ShopOwner/getLoyaltyCustomers",
-    cardTemplate: cardTemplate
+    cardTemplate: cardTemplate,
+    searchBarId: "lc-searchBar",
+    elementsListId: "lc-Scroll-Div"
 }
 
-new ApiFetcherMod(apiFetcherConfig);
+new ApiFetcherMod(lcApiFetcherConfig);
+
+// Configurations for loading pre orders
+const poApiFetcherConfig = {
+    api : "ShopOwner/getAllPreOrders",
+    cardTemplate : preOrderCard
+}
+
+const poApiFetcherMod = new ApiFetcherMod(poApiFetcherConfig);
+
+
+function loyaltyCustomerReqCard(customer) {
+    const {
+        cus_phone,
+        first_name,
+        last_name,
+        pic_format,
+        created_time
+    } = customer;
+
+    const profileImage = `${ROOT}/images/Profile/CUS/${cus_phone}.${pic_format}`;
+    const defaultImage = `${ROOT}/images/Profile/PhoneNumber.jpg`;
+
+    return `
+        <a href="${LINKROOT}/ShopOwner/loyaltyCustomerRequest/${cus_phone}" class="card gap-10">
+            <div class="profile-photo">
+                <img src="${profileImage}" alt="" onerror="this.src='${defaultImage}'">
+            </div>
+            <div class="m-b-auto fg1">
+                <h3>${first_name} ${last_name}</h3>
+                <h4>${cus_phone}</h4>
+                <br>
+                <h6>Request Created Time -</h6>
+                <h5>${created_time}</h5>
+            </div>
+        </a>
+    `;
+}
+
+// Configurations for loading new loyalty customer requests
+const lcrApiFetcherConfig = {
+    api: "ShopOwner/getLoyaltyReqs",
+    cardTemplate: loyaltyCustomerReqCard,
+    elementsListId: "lcr-Scroll-Div"
+}
+
+const lcrApiFetcherMod = new ApiFetcherMod(lcrApiFetcherConfig);
+
+const loadDataOnNotification = (type) => {
+    if(type == 'preOrder') poApiFetcherMod.loadDataWithSearchOrFilter();
+    if(type == 'loyaltyReq') lcrApiFetcherMod.loadDataWithSearchOrFilter();
+}
+
+new Notification(loadDataOnNotification);
 
 
 function swap(e){

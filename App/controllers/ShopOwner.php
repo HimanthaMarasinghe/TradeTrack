@@ -36,8 +36,6 @@ class ShopOwner extends Controller
 
         $this->data['tabs']['active'] = 'Home';
 
-        $this->data['preOrders'] = $this->loadPreOrders();
-
         $stck = new ShopStock;
         $this->data['lowStocks'] = $stck->readStock($_SESSION['shop_owner']['phone'], 'low');
 
@@ -130,9 +128,6 @@ class ShopOwner extends Controller
 
         $this->data['preOrders'] = $this->loadPreOrders();
 
-        $loyReq = new LoyaltyRequests;
-        $this->data['newLoyalCusReq'] = $loyReq->where(['so_phone' => $_SESSION['shop_owner']['phone']]);
-
         $this->data['tabs']['active'] = 'Customers';
         $this->view('shopOwner/customers', $this->data);
     }
@@ -177,20 +172,6 @@ class ShopOwner extends Controller
             $loyaltyCustomer = new LoyaltyCustomers;
             $loyaltyCustomer->delete(['cus_phone' => $_POST['loy_phone'], 'so_phone' => $_SESSION['shop_owner']['phone']]);
         }
-    }
-
-    public function orderReady($order_id) {
-        $preOrder = new PreOrder;
-        $preOrderItems = new PreOrderItems;
-        $preOrder->update(['pre_order_id' => $order_id, 'so_phone' => $_SESSION['shop_owner']['phone']], ['status' => 'Ready']);
-        $this->data['preOrderDetails'] = $preOrder->preOrderDetailsForShopOwner($order_id);
-        if(!$this->data['preOrderDetails'])
-            redirect('ShopOwner/customers');
-        $this->data['preOrderDetails']['total'] = $preOrderItems->preOrderAmount($order_id);
-
-        $this->data['cusName'] = 'John Doe';
-        $this->data['tabs']['active'] = 'Customers';
-        $this->view('shopOwner/orderReady', $this->data);
     }
     
     public function stocks() {
@@ -428,7 +409,7 @@ class ShopOwner extends Controller
             $offset = 0;  // Default to 0 if invalid
 
         $search = $_GET['search'] ?? null;
-        $status = $_GET['status'] ?? 'all';
+        $status = $_GET['status'] ?? null;
 
         $preOrders = $this->loadPreOrders($status, $search, $offset);
         echo json_encode($preOrders);        
@@ -459,5 +440,10 @@ class ShopOwner extends Controller
         else{
             echo json_encode(['success' => false]);
         }
+    }
+
+    public function getLoyaltyReqs() {
+        $loyReq = new LoyaltyRequests;
+        echo json_encode($loyReq->where(['so_phone' => $_SESSION['shop_owner']['phone']]));
     }
 }

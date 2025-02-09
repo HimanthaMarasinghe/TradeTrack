@@ -1,0 +1,38 @@
+#notification-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    max-height: 50vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1000;
+}
+
+.notification {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    animation: slide-in 0.5s ease-out;
+    transition: opacity 2s ease;
+    width: 400px;
+    height: 120px;
+    overflow: hidden;
+    display: flex;
+    gap: 20px;
+    text-decoration: none;
+}
+
+@keyframes slide-in {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

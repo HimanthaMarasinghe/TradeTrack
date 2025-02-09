@@ -83,6 +83,10 @@
     slides[slideIndex - 1].style.display = "block";
     dots[slideIndex - 1].className += " active";
   }
+
+  let phone = "<?=$_SESSION['customer']['phone']?>";
+
 </script>
+<!-- <script src="<?=ROOT?>/js/notification.js"></script> -->
 
 <?php $this->component("footer") ?>

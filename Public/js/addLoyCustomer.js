@@ -1,4 +1,7 @@
-function addLoyCustmer(cus_phone){
+import Notification from "./Notification.js";
+new Notification();
+
+document.getElementById('accept_lcr_btn').addEventListener('click', () => {
     fetch(LINKROOT+'/ShopOwner/addLoyCus', {
         method: 'POST',
         headers: {
@@ -10,4 +13,4 @@ function addLoyCustmer(cus_phone){
         () => window.location.href = LINKROOT + '/ShopOwner/customer/' + cus_phone
     )
     .catch(error => console.error('Error:', error));
-}
+});

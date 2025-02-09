@@ -27,9 +27,13 @@
 
 </div>
 
+<div id="notification-container"></div>
+
 <script>
     const ROOT = "<?=ROOT?>";
-    const LINKROOT = "<?=LINKROOT?>";
+    const LINKROOT = "<?=LINKROOT?>"
+    const ws_id = "<?=$_SESSION['shop_owner']['phone']?>";
+    const ws_token = "<?=$_SESSION['web_socket_token']?>";
 </script>
 <script src="<?=ROOT?>/js/ShopOwner/stocks.js" type="module"></script>
 

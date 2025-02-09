@@ -48,7 +48,7 @@ class PreOrder extends Model
                 END, 
                 p.date_time DESC ";
 
-        if ($offset)
+        if ($offset !== null)
             $sql .= "LIMIT 10 OFFSET $offset";
 
         return $this->query($sql, $queryParam);

@@ -105,6 +105,7 @@ class Customer extends Controller
         if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['so_phone'])){
             $loyReq = new LoyaltyRequests;
             $loyReq->insert(['cus_phone' => $_SESSION['customer']['phone'], 'so_phone' => $_POST['so_phone']]);
+            $this->sendNotification($_POST['so_phone'], 'loyaltyReq', 'New Loyalty Request', "{$_SESSION['customer']['first_name']} {$_SESSION['customer']['last_name']} requested to be a loyalty customer", "ShopOwner/customer/{$_POST['so_phone']}", $_SESSION['customer']['phone'].".".$_SESSION['customer']['pic_format']);
             echo json_encode(['success' => true]);
         }
         else
@@ -196,10 +197,15 @@ class Customer extends Controller
 
         $preOrderItemsP->bulkInsert($preOrderItems, ['barcode', 'quantity', 'po_unit_price', 'pre_order_id'], $con);
         
-        $returnData = $con->commit() ? ['status' => 'success'] : ['status' => 'fail'];
-    
+        if ($con->commit()){
+            $returnData = ['status' => 'success'];
+            $this->sendNotification($so_phone, 'preOrder', 'New Pre Order', "{$_SESSION['customer']['first_name']} {$_SESSION['customer']['last_name']} placed a pre-order", "ShopOwner/preOrder/{$preOrderId}", $_SESSION['customer']['phone'].".".$_SESSION['customer']['pic_format']);
+
+        }
+        else{
+            $returnData = ['status' => 'fail'];
+        }
         echo json_encode($returnData);
-        // echo json_encode($preOrderItems);
 }
 
 

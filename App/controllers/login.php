@@ -2,18 +2,38 @@
 
 class login extends Controller
 {
+    private function web_socket_auth($phone, $userRole) {
+        $socket = stream_socket_client("tcp://localhost:9000", $errno, $errstr, 2);
+        if (!$socket) return;
+
+        $token = bin2hex(openssl_random_pseudo_bytes(32));
+        $data = json_encode(["token" => $token, "userType" => $userRole]);
+
+        $notification = json_encode(["type" => "auth", "id" => $phone, "data" => $data]);
+        if (!fwrite($socket, $notification)) return;
+        
+        $response = fread($socket, 1024);
+        fclose($socket);
+        
+        if (trim($response) === "failed") return;
+
+        return $token;
+    }
+
     public function index()
     {
         if($_SERVER['REQUEST_METHOD'] == 'POST')
         {
+            $phone = $_POST['phone'];
             $userPasswordM = new UserPasswords;
-            $row = $userPasswordM->first(['phone' => $_POST['phone']]);
-
-
+            $row = $userPasswordM->first(['phone' => $phone]);
+            
+            
             if($row){
                 if(password_verify($_POST['password'], $row['password'])){
                     $userM = new User;
-                    $user = $userM->first(['phone' => $_POST['phone']]);
+                    $user = $userM->first(['phone' => $phone]);
+                    $_SESSION['web_socket_token'] = $this->web_socket_auth($phone, $user['role']) ?? null;
                     switch ($user['role']) {
                         case '0':
                             $_SESSION['customer'] = $user;
@@ -22,7 +42,7 @@ class login extends Controller
                         
                         case '1':
                             $shop = new Shops;
-                            $shop_row = $shop->first(['phone' => $_POST['phone']]);
+                            $shop_row = $shop->first(['phone' => $phone]);
                             unset($shop_row['so_phone']);
                             if(!$shop_row){
                                 echo 'Shop not found';
@@ -34,7 +54,7 @@ class login extends Controller
                         
                         case '2':
                             $manufacturer = new Manufacturers;
-                            $man_row = $manufacturer->first(['phone' => $_POST['phone']]);
+                            $man_row = $manufacturer->first(['phone' => $phone]);
                             if(!$man_row){
                                 echo 'Manufacturer not found';
                                 exit;
@@ -47,7 +67,7 @@ class login extends Controller
                         
                         case '3':
                             $distributor = new DistributorM;
-                            $dis_row = $distributor->first(['phone' => $_POST['phone']]);
+                            $dis_row = $distributor->first(['phone' => $phone]);
                             if(!$dis_row){
                                 echo 'Distributor not found';
                                 exit;
