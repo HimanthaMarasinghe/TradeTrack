@@ -105,6 +105,7 @@ class Customer extends Controller
         if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['so_phone'])){
             $loyReq = new LoyaltyRequests;
             $loyReq->insert(['cus_phone' => $_SESSION['customer']['phone'], 'so_phone' => $_POST['so_phone']]);
+            $this->sendNotification($_POST['so_phone'], 'loyaltyReq', 'New Loyalty Request', "{$_SESSION['customer']['first_name']} {$_SESSION['customer']['last_name']} requested to be a loyalty customer", "ShopOwner/customer/{$_POST['so_phone']}", $_SESSION['customer']['phone'].".".$_SESSION['customer']['pic_format']);
             echo json_encode(['success' => true]);
         }
         else

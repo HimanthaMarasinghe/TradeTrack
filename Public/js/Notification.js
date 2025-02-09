@@ -1,7 +1,9 @@
 export default class Notification {
 
-    constructor(reload_data_func) {
+    constructor(reload_data_func, hideNotification, notClickable) {
         this.reload_data_func = reload_data_func || null;
+        this.hideNotification = hideNotification || false;
+        this.notClickable = notClickable || false;
 
         if (ws_id && ws_token) this.init();
     }
@@ -14,7 +16,7 @@ export default class Notification {
         customeWebSocket.onmessage = (event) => {
             console.log("Message from server:", event.data);
             const message = JSON.parse(event.data);
-            this.showNotification(message);
+            if(!this.hideNotification) this.showNotification(message);
         };
     }
 
@@ -23,7 +25,7 @@ export default class Notification {
         const container = document.getElementById('notification-container');
         const notification = document.createElement('a');
         notification.classList.add('notification');
-        notification.href = `${LINKROOT}/${link}`;
+        if(!this.notClickable) notification.href = `${LINKROOT}/${link}`;
     
         notification.innerHTML = `
                                     <div class="profile-photo asp-rtio">
@@ -42,9 +44,9 @@ export default class Notification {
     
         setTimeout(() => {
             notification.style.opacity = '0';
-            setTimeout(() => notification.remove(), 300);
+            setTimeout(() => notification.remove(), 3000);
         }, 5000);
 
-        this.reload_data_func(type);
+        if(this.reload_data_func) this.reload_data_func(type);
     }
 }

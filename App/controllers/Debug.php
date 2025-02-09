@@ -20,4 +20,8 @@ class Debug extends Controller
         echo "<a href='" . LINKROOT . "/debug'>Back</a><br>";
         show($_SESSION);
     }
+
+    public function checkNotification()  {
+        $this->sendNotification('0112223333', 'preOrder', 'New Pre Order', "Check message", "debug", null);
+    }
 }

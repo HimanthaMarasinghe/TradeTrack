@@ -1,4 +1,5 @@
 import ApiFetcherMod from "../ApiFetcherMod.js";
+import Notification from "../Notification.js";
 
 const dataArr = [];
 
@@ -96,3 +97,5 @@ document.getElementById('addStockBtn').addEventListener('click', () => {
     })
     .catch(err => console.error("Error adding stock:", err));
 });
+
+new Notification();

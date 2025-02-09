@@ -1,3 +1,4 @@
+import Notification from "../notification.js";
 import ApiFetcherMod from "../ApiFetcherMod.js";
 
 function cardTemplate(product) {
@@ -39,3 +40,4 @@ const apiFetcherConfig = {
 }
 
 new ApiFetcherMod(apiFetcherConfig);
+new Notification();

@@ -35,22 +35,7 @@
         <div class="panel new-lc-req closed-grid" id="new-lc-req">
             <h2>New Loyalty Customer Requests</h2>
             <svg id="up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path id="path-up" d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z"/></svg>
-            <?php if(!$newLoyalCusReq){ ?>
-                <h1 class="center-al m-b-auto faded-text">No New Loyalty Customer Requests</h1>
-            <?php }else{ ?>
-            <div class="scroll-box">
-                <?php 
-                    if(!$newLoyalCusReq){
-                        echo "<h3>No New Loyalty Customer Requests</h3>";
-                    }else{
-                        foreach ($newLoyalCusReq as $req)
-                        {
-                            $this->component('card/newLoyalCusReq', $req); 
-                        }
-                    }
-                ?>
-            </div>
-            <?php } ?>
+            <div class="scroll-box" id="lcr-Scroll-Div"></div>
         </div>
 
     </div>

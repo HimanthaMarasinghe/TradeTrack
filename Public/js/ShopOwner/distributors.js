@@ -1,4 +1,5 @@
 import ApiFetcherMod from "../ApiFetcherMod.js";
+import Notification from "../notification.js";
 
 const dataArr = [];
 
@@ -96,3 +97,5 @@ function getDistributorProducts(phone){
         console.error(err);
     });
 }
+
+new Notification();

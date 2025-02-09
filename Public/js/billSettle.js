@@ -1,3 +1,6 @@
+import Notification from "./notification.js";
+new Notification(false, false, true);
+
 let change = -document.getElementById('total').value;
 let changeElement = document.getElementById('change');
 let walletUpdate = document.getElementById('wallet-update');

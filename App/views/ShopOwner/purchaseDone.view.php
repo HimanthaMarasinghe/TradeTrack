@@ -28,6 +28,17 @@
     </div>
 </div>
 
+<div id="notification-container"></div>
+
+<script>
+    const ROOT = "<?=ROOT?>";
+    const LINKROOT = "<?=LINKROOT?>"
+    const ws_id = "<?=$_SESSION['shop_owner']['phone']?>";
+    const ws_token = "<?=$_SESSION['web_socket_token']?>";
+</script>
+
+<script src="<?=ROOT?>/js/notificationConfig.js" type="module"></script>
+
 <script>
     document.addEventListener('keydown', function(event) {
             if (event.key === 'Home') {
