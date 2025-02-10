@@ -9,8 +9,9 @@
   <div class="bar">
     <img src="<?=ROOT?>/images/icons/home.svg" alt="">
     <h1><?=$_SESSION['customer']['first_name']?> <?=$_SESSION['customer']['last_name']?></h1>
-    <div>
+    <div class="row gap-10">
       <a href="<?=LINKROOT?>/Customer/announcements"><img src="<?=ROOT?>/images/icons/Announcement.svg" alt=""></a>
+      <?php $this->component("notification") ?>
       <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
     </div>
   </div>
@@ -48,45 +49,14 @@
 
 </div>
 
+<div id="notification-container"></div>
+
 <script>
-  let slideIndex = 1;
-  showSlides(slideIndex);
-
-  function plusSlides(n) {
-    showSlides(slideIndex += n);
-  }
-
-  function currentSlide(n) {
-    showSlides(slideIndex = n);
-  }
-
-  setInterval(() => {
-    plusSlides(1);
-  }, 5000);
-
-  function showSlides(n) {
-    let i;
-    let slides = document.getElementsByClassName("mySlides");
-    let dots = document.getElementsByClassName("dot");
-    if (n > slides.length) {
-      slideIndex = 1
-    }
-    if (n < 1) {
-      slideIndex = slides.length
-    }
-    for (i = 0; i < slides.length; i++) {
-      slides[i].style.display = "none";
-    }
-    for (i = 0; i < dots.length; i++) {
-      dots[i].className = dots[i].className.replace(" active", "");
-    }
-    slides[slideIndex - 1].style.display = "block";
-    dots[slideIndex - 1].className += " active";
-  }
-
-  let phone = "<?=$_SESSION['customer']['phone']?>";
-
+    const ROOT = "<?=ROOT?>";
+    const LINKROOT = "<?=LINKROOT?>"
+    const ws_id = "<?=$_SESSION['customer']['phone']?>";
+    const ws_token = "<?=$_SESSION['web_socket_token']?>";
 </script>
-<!-- <script src="<?=ROOT?>/js/notification.js"></script> -->
+<script src="<?=ROOT?>/js/Customer/home.js" type="module"></script>
 
 <?php $this->component("footer") ?>

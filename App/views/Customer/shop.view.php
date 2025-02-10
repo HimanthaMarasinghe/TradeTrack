@@ -8,8 +8,9 @@
     <div class="bar">
         <img src="<?=ROOT?>/images/icons/home.svg" alt="">
         <h2><?=$shop['shop_name']?></h2>
-        <div>
-            <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
+        <div class="row gap-10">
+            <a href="<?=LINKROOT?>/Customer/announcements"><img src="<?=ROOT?>/images/icons/Announcement.svg" alt=""></a>
+            <?php $this->component("notification") ?>
             <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
         </div>
     </div>
@@ -143,11 +144,14 @@
         <h1 class="right-al" id="More-details-bill-total"></h1>
     </div>
 </div>
+<div id="notification-container"></div>
 
 <script>
     const LINKROOT = "<?=LINKROOT?>";
     const ROOT = "<?=ROOT?>";
     const shopPhone = "<?=$shop['so_phone']?>";
+    const ws_id = "<?=$_SESSION['customer']['phone']?>";
+    const ws_token = "<?=$_SESSION['web_socket_token']?>";
 </script>
 <script src="<?=ROOT?>/js/popUp.js"></script>
 <script src="<?=ROOT?>/js/Customer/shop.js" type="module"></script>

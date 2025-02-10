@@ -69,9 +69,6 @@ class Customer extends Controller
     }
 
     public function announcements(){
-        $announcement = new Announcements;
-        
-        $this->data['announcements'] = $announcement->where(['role' => 0]);
         $this->data['tabs']['active'] = 'Home';
         $this->view('Customer/announcements', $this->data);
     }
@@ -79,10 +76,12 @@ class Customer extends Controller
     
     // API endpoints
 
-    public function getAnnouncement($id){
+    public function getAnnouncements($offset){
+        if (!filter_var($offset, FILTER_VALIDATE_INT)) 
+            $offset = 0; 
         $announcement = new Announcements;
-        $announcement = $announcement->first(['id' => $id]);
-        echo json_encode($announcement);
+        $announcements = $announcement->where(['role' => 0], [], 10, $offset);
+        echo json_encode($announcements);
     }
 
     public function getShops($offset = 0){
@@ -105,7 +104,9 @@ class Customer extends Controller
         if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['so_phone'])){
             $loyReq = new LoyaltyRequests;
             $loyReq->insert(['cus_phone' => $_SESSION['customer']['phone'], 'so_phone' => $_POST['so_phone']]);
-            $this->sendNotification($_POST['so_phone'], 'loyaltyReq', 'New Loyalty Request', "{$_SESSION['customer']['first_name']} {$_SESSION['customer']['last_name']} requested to be a loyalty customer", "ShopOwner/customer/{$_POST['so_phone']}", $_SESSION['customer']['phone'].".".$_SESSION['customer']['pic_format']);
+
+            $notification = new NotificationService;
+            $notification->sendNotification($_POST['so_phone'], 'loyaltyReq',  $_SESSION['customer']['phone'],'New Loyalty Request', "{$_SESSION['customer']['first_name']} {$_SESSION['customer']['last_name']} requested to be a loyalty customer", "ShopOwner/customer/{$_POST['so_phone']}", $_SESSION['customer']['phone'].".".$_SESSION['customer']['pic_format']);
             echo json_encode(['success' => true]);
         }
         else
@@ -199,7 +200,8 @@ class Customer extends Controller
         
         if ($con->commit()){
             $returnData = ['status' => 'success'];
-            $this->sendNotification($so_phone, 'preOrder', 'New Pre Order', "{$_SESSION['customer']['first_name']} {$_SESSION['customer']['last_name']} placed a pre-order", "ShopOwner/preOrder/{$preOrderId}", $_SESSION['customer']['phone'].".".$_SESSION['customer']['pic_format']);
+            $notification = new NotificationService;
+            $notification->sendNotification($so_phone, 'preOrder',  $preOrderId,'New Pre Order', "{$_SESSION['customer']['first_name']} {$_SESSION['customer']['last_name']} placed a pre-order", "ShopOwner/preOrder/{$preOrderId}", $_SESSION['customer']['phone'].".".$_SESSION['customer']['pic_format']);
 
         }
         else{

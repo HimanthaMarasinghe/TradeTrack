@@ -2,16 +2,20 @@
 
 class LogedInUserCommon extends Controller 
 {
-
     private function forbidIfNotLogedIn($userTypes = ['admin', 'manufacturer', 'distributor', 'shop_owner', 'customer']){
         $alowed = false;
         foreach($userTypes as $type){
             if(isset($_SESSION[$type])){
                 $alowed = true;
+                $phone = $_SESSION[$type]['phone'];
                 break;
             }
         }
-        if(!$alowed) redirect('login');
+        if(!$alowed) {
+            echo json_encode(['error' => 'You are not loged in']);
+            die;
+        }
+        else return $phone;
     }
 
     public function getUserDetails(){
@@ -37,5 +41,21 @@ class LogedInUserCommon extends Controller
             $products = $prdct->readAll(10, $offset);
         }
         echo json_encode($products);
+    }
+
+    public function getNotifications() {
+        $phone = $this->forbidIfNotLogedIn();
+        if (!$phone) return;
+        $notificationM = new UserNotification;
+        $notifications = $notificationM->where(['phone' => $phone], [], null, null, ['title', 'link', 'body']);
+        echo json_encode($notifications);
+    }
+
+    public function getNotificationsCount() {
+        $phone = $this->forbidIfNotLogedIn();
+        if (!$phone) return;
+        $notificationM = new UserNotification;
+        $count = $notificationM->getCount($phone);
+        echo json_encode($count);
     }
 }

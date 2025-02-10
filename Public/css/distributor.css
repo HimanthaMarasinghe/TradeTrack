@@ -4,6 +4,7 @@
 @import url(styles.css);
 @import url(common.css);
 @import url(card.css);
+@import url(notification.css);
 
 .newReqBody {
     display: flex;

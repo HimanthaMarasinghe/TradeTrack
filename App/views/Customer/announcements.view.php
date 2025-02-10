@@ -8,24 +8,12 @@
             <div class="bar">
                 <img src="<?=ROOT?>/images/icons/home.svg" alt="">
                 <h1>Announcements</h1>
-                <div>
-                    <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
+                <div class="row gap-10">
+                    <?php $this->component("notification") ?>
                     <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
                 </div>
             </div>
-            <div class="panel fg1 scroll-box grid g-resp-300">
-                <?php foreach($announcements as $a) { ?>
-                    <div class="announcement" id="<?=$a['id']?>">
-                        <div class="row">
-                            <div class="colomn">
-                                <h5><?=$a['date']?></h5>
-                                <h6><?=$a['time']?></h6>
-                            </div>
-                        </div>
-                        <h3><?=$a['title']?></h3>                        
-                        <p><?=$a['message']?></p>
-                    </div>
-                    <?php } ?>
+            <div class="panel fg1 scroll-box grid g-resp-300" id="elements-Scroll-Div">
             </div>
 
 
@@ -46,59 +34,17 @@
             </div>
         </div>
 
-    <script src="announcement.js"></script>
-    <script src="<?=ROOT?>/js/popUp.js"></script>
+        <div id="notification-container"></div>
     <script>
-        const LINKROOT = '<?=LINKROOT?>';
-        const form = document.getElementById('makeAnnoncement');
-        const formSubmitBtn = document.getElementById('submit-btn');
-        const fullAnnouncement = document.getElementById('fullAnnouncement');
-        const makeAnnouncementPopUpTitle = document.getElementById('makeAnnouncementPopUpTitle');
-
-        function newAnnouncement(){
-            //Change the form to make a new announcement
-            makeAnnouncementPopUpTitle.textContent = 'Make new Announcement';
-            formSubmitBtn.value = 'Submit';
-            fullAnnouncement.classList.add('hidden');
-            form.reset();
-            form.action = LINKROOT+'/Admin/newAnnouncement';
-            viewPopUp('newAnouncement');
-        }
-
-        document.querySelectorAll('.announcement').forEach(a => {
-            a.addEventListener('click', () => {
-                fetch('<?=LINKROOT?>/Customer/getAnnouncement/'+a.id, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                }).then(response => response.json())
-                .then(data => {
-                    let role = '';
-                    switch(data.role){
-                        case '0':
-                            role = 'Customers';
-                            break;
-                        case '1':
-                            role = 'Shop Owners';
-                            break;
-                        case '2':
-                            role = 'Manufacturers';
-                            break;
-                        case '3':
-                            role = 'Distributors';
-                            break;
-                    }
-                    fullAnnouncement.querySelector('h5').textContent = data.date;
-                    fullAnnouncement.querySelector('h6').textContent = data.time;
-                    fullAnnouncement.querySelector('h3').textContent = data.title;
-                    fullAnnouncement.querySelector('p').textContent = data.message;
-                })
-                .catch(error => console.error('Error:', error));
-                viewPopUp('fullAnnouncement');
-            });
-        });
+        const ROOT = "<?=ROOT?>";
+        const LINKROOT = "<?=LINKROOT?>"
+        const ws_id = "<?=$_SESSION['customer']['phone']?>";
+        const ws_token = "<?=$_SESSION['web_socket_token']?>";
+        const Announcements = <?=json_encode($announcements, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT)?>;
     </script>
+    <script src="<?=ROOT?>/js/receiveAnnouncement.js" type="module"></script>
+    <script src="<?=ROOT?>/js/popUp.js"></script>
+
 
 </div>
 

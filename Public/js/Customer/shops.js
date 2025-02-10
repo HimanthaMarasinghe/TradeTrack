@@ -1,4 +1,6 @@
 import ApiFetcherMod from "../ApiFetcherMod.js";
+import Notification from "../notification.js";
+new Notification();
 
 const loyaltyCheckBox = document.getElementById("loyalty");
 

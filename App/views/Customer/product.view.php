@@ -7,8 +7,9 @@
     <div class="bar">
         <img src="<?=ROOT?>/images/icons/home.svg" alt="">
         <h1>Product Details</h1>
-        <div>
-            <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
+        <div class="row gap-10">
+            <a href="<?=LINKROOT?>/Customer/announcements"><img src="<?=ROOT?>/images/icons/Announcement.svg" alt=""></a>
+            <?php $this->component("notification") ?>
             <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
         </div>
     </div>
@@ -43,5 +44,15 @@
       ?>
     </div>
 </div>
+
+<div id="notification-container"></div>
+
+<script>
+    const ROOT = "<?=ROOT?>";
+    const LINKROOT = "<?=LINKROOT?>"
+    const ws_id = "<?=$_SESSION['customer']['phone']?>";
+    const ws_token = "<?=$_SESSION['web_socket_token']?>";
+</script>
+<script src="<?=ROOT?>/js/notificationConfig.js" type="module"></script>
 
 <?php $this->component("footer") ?>
