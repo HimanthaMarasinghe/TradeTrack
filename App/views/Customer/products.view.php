@@ -21,11 +21,16 @@
 
     <div class="grid g-resp-200 scroll-box" id="elements-Scroll-Div">
     </div>
+    <div id="notification-container"></div>
 
   <script>
     const LINKROOT = "<?=LINKROOT?>";
     const ROOT = "<?=ROOT?>";
     const clickLink = "Customer/product";
+    const ws_id = "<?=$_SESSION['customer']['phone']?>";
+    const ws_token = "<?=$_SESSION['web_socket_token']?>";
   </script>
   <script src="<?=ROOT?>/js/loadAllProducts.js" type="module"></script>
+  <script src="<?=ROOT?>/js/notificationConfig.js" type="module"></script>
+
 <?php $this->component("footer") ?>

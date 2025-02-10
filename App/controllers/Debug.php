@@ -22,6 +22,6 @@ class Debug extends Controller
     }
 
     public function checkNotification()  {
-        $this->sendNotification('0112223333', 'preOrder', 'New Pre Order', "Check message", "debug", null);
+        $this->sendNotification('0770000000', 'ann', 'New Pre Order', "Check message", "debug", null);
     }
 }

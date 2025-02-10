@@ -69,9 +69,6 @@ class Customer extends Controller
     }
 
     public function announcements(){
-        $announcement = new Announcements;
-        
-        $this->data['announcements'] = $announcement->where(['role' => 0]);
         $this->data['tabs']['active'] = 'Home';
         $this->view('Customer/announcements', $this->data);
     }
@@ -79,10 +76,12 @@ class Customer extends Controller
     
     // API endpoints
 
-    public function getAnnouncement($id){
+    public function getAnnouncements($offset){
+        if (!filter_var($offset, FILTER_VALIDATE_INT)) 
+            $offset = 0; 
         $announcement = new Announcements;
-        $announcement = $announcement->first(['id' => $id]);
-        echo json_encode($announcement);
+        $announcements = $announcement->where(['role' => 0], [], 10, $offset);
+        echo json_encode($announcements);
     }
 
     public function getShops($offset = 0){

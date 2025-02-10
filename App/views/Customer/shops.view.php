@@ -24,10 +24,13 @@
 
   <div class="grid g-resp-200 scroll-box" id="elements-Scroll-Div">
   </div>
+  <div id="notification-container"></div>
 
 <script>
-  const LINKROOT = '<?=LINKROOT?>';
-  const ROOT = '<?=ROOT?>';
+    const LINKROOT = '<?=LINKROOT?>';
+    const ROOT = '<?=ROOT?>';
+    const ws_id = "<?=$_SESSION['customer']['phone']?>";
+    const ws_token = "<?=$_SESSION['web_socket_token']?>";
 </script>
 <script src="<?=ROOT?>/js/Customer/shops.js" type="module"></script>
 

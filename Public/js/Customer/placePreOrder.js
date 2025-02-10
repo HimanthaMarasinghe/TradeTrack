@@ -1,5 +1,6 @@
 import ApiFetcherMod from "../ApiFetcherMod.js";
 import { stockCardTemplate } from '../UI_Elements_templates.js';
+import Notification from "../notification.js";
 
 const preOrderItems = [];
 let selectedProduct = null;
@@ -164,4 +165,4 @@ const stockApiConfig = {
 }
 
 new ApiFetcherMod(stockApiConfig);
-
+new Notification(false, true);
