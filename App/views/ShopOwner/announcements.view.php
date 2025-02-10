@@ -8,9 +8,10 @@
             <div class="bar">
                 <img src="<?=ROOT?>/images/icons/home.svg" alt="">
                 <h1>Announcements</h1>
-                <div>
-                    <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
-                    <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
+                <div class="row gap-10">
+                    <a href="<?=LINKROOT?>/ShopOwner/announcements"><img src="<?=ROOT?>/images/icons/Announcement.svg" alt=""></a>
+                    <?php $this->component("notification") ?>
+                    <a href="<?=LINKROOT?>/ShopOwner/profileUpdate"><img src="<?=ROOT?>/images/icons/Profile.svg" alt=""></a>
                 </div>
             </div>
             <div class="panel fg1 scroll-box grid g-resp-300">

@@ -8,8 +8,8 @@
             <div class="bar">
                 <img src="<?=ROOT?>/images/icons/home.svg" alt="">
                 <h1>Announcements</h1>
-                <div>
-                    <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
+                <div class="row gap-10">
+                    <?php $this->component("notification") ?>
                     <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
                 </div>
             </div>

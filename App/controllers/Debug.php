@@ -21,7 +21,8 @@ class Debug extends Controller
         show($_SESSION);
     }
 
-    public function checkNotification()  {
-        $this->sendNotification('0770000000', 'ann', 'New Pre Order', "Check message", "debug", null);
+    public function checkNotification($phone = '0770000000')  {
+        $notification = new NotificationService;
+        $notification->sendNotification($phone, 'ann', "check ref id",'New Pre Order', "Check message", "debug", null);
     }
 }

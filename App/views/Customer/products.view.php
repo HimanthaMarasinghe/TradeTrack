@@ -10,10 +10,11 @@
         <img src="<?=ROOT?>/images/icons/home.svg" alt="">
         <!-- <h1><?=$_SESSION['name']?></h1> -->
         <h1>Products</h1>
-        <div>
-            <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
-            <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
-        </div>
+        <div class="row gap-10">
+          <a href="<?=LINKROOT?>/Customer/announcements"><img src="<?=ROOT?>/images/icons/Announcement.svg" alt=""></a>
+          <?php $this->component("notification") ?>
+          <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
+      </div>
     </div>
     <div class="row">
       <input id="searchBar" type="text" class="search-bar fg1" placeholder="Search">

@@ -9,8 +9,9 @@
   <div class="bar">
     <img src="<?=ROOT?>/images/icons/home.svg" alt="">
     <h1><?=$_SESSION['customer']['first_name']?> <?=$_SESSION['customer']['last_name']?></h1>
-    <div>
+    <div class="row gap-10">
       <a href="<?=LINKROOT?>/Customer/announcements"><img src="<?=ROOT?>/images/icons/Announcement.svg" alt=""></a>
+      <?php $this->component("notification") ?>
       <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
     </div>
   </div>

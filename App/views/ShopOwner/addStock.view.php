@@ -8,11 +8,11 @@
 
     <div class="bar">
         <img src="<?=ROOT?>/images/icons/home.svg" alt="">
-        <!-- <h1><?=$_SESSION['name']?></h1> -->
-        <h1>Gamunu Stores</h1>
-        <div>
-            <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
-            <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
+        <h1><?=$_SESSION['shop_owner']['shop_name']?></h1>
+        <div class="row gap-10">
+            <a href="<?=LINKROOT?>/ShopOwner/announcements"><img src="<?=ROOT?>/images/icons/Announcement.svg" alt=""></a>
+            <?php $this->component("notification") ?>
+            <a href="<?=LINKROOT?>/ShopOwner/profileUpdate"><img src="<?=ROOT?>/images/icons/Profile.svg" alt=""></a>
         </div>
     </div>
     

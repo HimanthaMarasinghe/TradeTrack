@@ -10,12 +10,12 @@ class login extends Controller
         $data = json_encode(["token" => $token, "userType" => $userRole]);
 
         $notification = json_encode(["type" => "auth", "id" => $phone, "data" => $data]);
-        if (!fwrite($socket, $notification)) return;
-        
+        fwrite($socket, $notification);
+
         $response = fread($socket, 1024);
         fclose($socket);
         
-        if (trim($response) === "failed") return;
+        if (trim($response) !== "auth_success") return;
 
         return $token;
     }

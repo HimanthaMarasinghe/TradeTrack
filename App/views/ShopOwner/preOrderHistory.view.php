@@ -12,9 +12,10 @@
             <h1><?=$_SESSION['shop_owner']['shop_name']?></h1>
             <h2>Pre-Order History</h2>
         </div>
-        <div>
-            <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
-            <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
+        <div class="row gap-10">
+            <a href="<?=LINKROOT?>/ShopOwner/announcements"><img src="<?=ROOT?>/images/icons/Announcement.svg" alt=""></a>
+            <?php $this->component("notification") ?>
+            <a href="<?=LINKROOT?>/ShopOwner/profileUpdate"><img src="<?=ROOT?>/images/icons/Profile.svg" alt=""></a>
         </div>
     </div>
     
