@@ -1,6 +1,6 @@
 export default class Notification {
 
-    constructor(reload_data_func, hideNotification, notClickable) {
+    constructor(reload_data_func, hideNotification, notClickable, del_notification) {
         this.reload_data_func = reload_data_func || null;
         this.hideNotification = hideNotification || false;
         this.notClickable = notClickable || false;
@@ -9,6 +9,7 @@ export default class Notification {
 
         if (ws_id && ws_token) this.initPushNotifications();
         if (this.notificationIcon) this.innitNotificationDropDown();
+        if (del_notification) this.deleteNotification(del_notification);
     }
 
     initPushNotifications() {
@@ -31,33 +32,49 @@ export default class Notification {
         this.notificationBackDrop = document.getElementById("notification-backDrop");
         this.notifications = JSON.parse(sessionStorage.getItem("notifications" + ws_id)) || [];
 
-        if (!sessionStorage.getItem("notifi-count" + ws_id)) {
+        if (this.notifications.length === 0) {
             try {
-                const response = await fetch(`${LINKROOT}/LogedInUserCommon/getNotificationsCount`);
-                const count = await response.json();
-                sessionStorage.setItem("notifi-count" + ws_id, count);
+                const response = await fetch(`${LINKROOT}/LogedInUserCommon/getNotifications`);
+                const data = await response.json();
+                if (data) {
+                    this.notifications = data;
+                    sessionStorage.setItem("notifications" + ws_id, JSON.stringify(this.notifications));
+                }
             } catch (error) {
-                console.error("Error fetching notifications count:", error);
+                console.error("Error fetching notifications:", error);
                 return; // Stop execution if fetching fails
             }
         }
-        this.notificationCount.innerHTML = sessionStorage.getItem("notifi-count" + ws_id);
+
+        this.notificationCount.innerHTML = this.notifications.length;
+
+        // if (!sessionStorage.getItem("notifi-count" + ws_id)) {
+        //     try {
+        //         const response = await fetch(`${LINKROOT}/LogedInUserCommon/getNotificationsCount`);
+        //         const count = await response.json();
+        //         sessionStorage.setItem("notifi-count" + ws_id, count);
+        //     } catch (error) {
+        //         console.error("Error fetching notifications count:", error);
+        //         return; // Stop execution if fetching fails
+        //     }
+        // }
+        // this.notificationCount.innerHTML = sessionStorage.getItem("notifi-count" + ws_id);
 
         // Toggle dropdown visibility
         notificationIcon.addEventListener("click", async () => {
             this.notificationList.innerHTML = ""; // Clear the list before fetching
     
-            if (this.notifications.length === 0) {
-                try {
-                    const response = await fetch(`${LINKROOT}/LogedInUserCommon/getNotifications`);
-                    this.notifications = await response.json();
-                    sessionStorage.setItem("notifications" + ws_id, JSON.stringify(this.notifications));
-                    this.notificationCount.innerHTML = this.notifications.length;
-                } catch (error) {
-                    console.error("Error fetching notifications:", error);
-                    return; // Stop execution if fetching fails
-                }
-            }
+            // if (this.notifications.length === 0) {
+            //     try {
+            //         const response = await fetch(`${LINKROOT}/LogedInUserCommon/getNotifications`);
+            //         this.notifications = await response.json();
+            //         sessionStorage.setItem("notifications" + ws_id, JSON.stringify(this.notifications));
+            //         this.notificationCount.innerHTML = this.notifications.length;
+            //     } catch (error) {
+            //         console.error("Error fetching notifications:", error);
+            //         return; // Stop execution if fetching fails
+            //     }
+            // }
     
             console.log(this.notifications);
     
@@ -77,7 +94,7 @@ export default class Notification {
     }
 
     showNotification(message) {
-        const {type, link, image, title, body} = message;
+        const {type, ref_id, link, image, title, body} = message;
         const container = document.getElementById('notification-container');
         const notification = document.createElement('a');
         notification.classList.add('notification');
@@ -107,16 +124,20 @@ export default class Notification {
 
         if (this.notificationIcon) {
             const messageToSave = {
+                type: type,
+                ref_id: ref_id,
                 link: link,
                 title: title,
                 body: body
             }
 
             let notificationsTemp = JSON.parse(sessionStorage.getItem("notifications" + ws_id)) || [];
-            let notificationCount = notificationsTemp.unshift(messageToSave);
 
+            notificationsTemp = notificationsTemp.filter(element => !(element.type === type && element.ref_id === ref_id && element.link === link && element.title === title && element.body === body));
+            
+            let notificationCount = notificationsTemp.unshift(messageToSave);
+            
             sessionStorage.setItem("notifications" + ws_id, JSON.stringify(notificationsTemp));
-            sessionStorage.setItem("notifi-count" + ws_id, notificationCount);
 
             this.notifications = notificationsTemp;
             this.notificationCount.innerHTML = notificationCount;
@@ -138,5 +159,18 @@ export default class Notification {
                 <p>${body}</p>
               </a>
             `
+    }
+
+    deleteNotification(notification) {
+        this.notifications = this.notifications.filter(element => !(element.type === notification.type && element.ref_id === notification.ref_id));
+        sessionStorage.setItem("notifications" + ws_id, JSON.stringify(this.notifications));
+        this.notificationCount.innerHTML = this.notifications.length;
+        fetch(`${LINKROOT}/LogedInUserCommon/deleteNotification`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(notification)
+        });
     }
 }

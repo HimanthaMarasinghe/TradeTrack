@@ -1,5 +1,7 @@
 import Notification from "./Notification.js";
-new Notification();
+
+const del_notification = {type: 'loyaltyReq', ref_id: cus_phone};
+new Notification(false, false, false, del_notification);
 
 document.getElementById('accept_lcr_btn').addEventListener('click', () => {
     fetch(LINKROOT+'/ShopOwner/addLoyCus', {

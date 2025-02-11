@@ -23,6 +23,6 @@ class Debug extends Controller
 
     public function checkNotification($phone = '0770000000')  {
         $notification = new NotificationService;
-        $notification->sendNotification($phone, 'ann', "check ref id",'New Pre Order', "Check message", "debug", null);
+        $notification->sendNotification($phone, 'ann', "check ref ",'New Pre Order', "Check message", "debug", null);
     }
 }
