@@ -1,5 +1,5 @@
 import Notification from "../notification.js";
-new Notification();
+new Notification(false, false, false, false, true);
 
 let slideIndex = 1;
   showSlides(slideIndex);

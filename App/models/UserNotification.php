@@ -6,9 +6,13 @@ class UserNotification extends Model
     protected $table = 'user_notificatoin';
     protected $fillable = ['phone', 'type', 'ref_id', 'title', 'body', 'link'];
 
-    public function getCount($phone)
+    public function insertNotification($data)
     {
-        $query = "SELECT COUNT(*) as count FROM $this->table WHERE phone = :phone";
-        return $this->query($query, ['phone' => $phone])[0]["count"];
+        $query = "INSERT INTO $this->table 
+                  (phone, type, ref_id, title, body, link) 
+                  VALUES (:phone, :type, :ref_id, :title, :body, :link)
+                  ON DUPLICATE KEY UPDATE 
+                  title = :title, body = :body, link = :link";
+        return $this->query($query, $data);
     }
 }

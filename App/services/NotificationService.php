@@ -6,7 +6,7 @@ class NotificationService
     {
         if ($type !== 'chat') {
             $notification = new UserNotification;
-            $notification->insert(['phone' => $phone, 'type' => $type, 'ref_id' => $ref_id, 'title' => $tite, 'body' => $body, 'link' => $link]);
+            $notification->insertNotification(['phone' => $phone, 'type' => $type, 'ref_id' => $ref_id, 'title' => $tite, 'body' => $body, 'link' => $link]);
         }
         
         $socket = stream_socket_client("tcp://localhost:9000", $errno, $errstr, 2);
