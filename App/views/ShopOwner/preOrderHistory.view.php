@@ -41,6 +41,7 @@
 <script>
     const ROOT = "<?=ROOT?>";
     const LINKROOT = "<?=LINKROOT?>";
+    const ws_id = "<?=$_SESSION['shop_owner']['phone']?>";
 </script>
 <script src="<?=ROOT?>/js/ShopOwner/preOrderHistory.js" type="module"></script>
 

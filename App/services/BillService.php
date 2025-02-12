@@ -21,14 +21,12 @@ class BillService extends Database
         $itemArray = $_SESSION['bill'];
 
         foreach ($itemArray as &$item) {
-            unset($item['name']);
-            unset($item['price']);
             $item['bill_id'] = $lastId;
         }
 
         unset($item);
         
-        $billItems->bulkInsert($itemArray, ['barcode', 'quantity', 'bill_id'], $con);
+        $billItems->bulkInsert($itemArray, ['barcode', 'sold_price', 'quantity', 'bill_id'], $con);
         $shop->updateCashDrawer($_SESSION['shop_owner']['phone'], $_SESSION['total']+$wallet_update, $con);
         if($wallet_update && $cus_phone)
             $loyaltyCustomers->updateWallet($cus_phone, $wallet_update, $con);

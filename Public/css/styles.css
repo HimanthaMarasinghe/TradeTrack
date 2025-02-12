@@ -172,6 +172,10 @@ img.icon-btn{
     height: 20px;
 }
 
+td.left-al img.icon-btn {
+    margin-left: 5px;
+}
+
 .panel {
     border: solid 1px #ddd;
     border-radius: 10px;

@@ -59,4 +59,7 @@
 </script>
 <script src="<?=ROOT?>/js/Customer/home.js" type="module"></script>
 
-<?php $this->component("footer") ?>
+<?php 
+    unset($_SESSION['web_socket_token']);
+    $this->component("footer") 
+?>

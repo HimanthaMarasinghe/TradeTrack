@@ -106,7 +106,7 @@ class Customer extends Controller
             $loyReq->insert(['cus_phone' => $_SESSION['customer']['phone'], 'so_phone' => $_POST['so_phone']]);
 
             $notification = new NotificationService;
-            $notification->sendNotification($_POST['so_phone'], 'loyaltyReq',  $_SESSION['customer']['phone'],'New Loyalty Request', "{$_SESSION['customer']['first_name']} {$_SESSION['customer']['last_name']} requested to be a loyalty customer", "ShopOwner/customer/{$_POST['so_phone']}", $_SESSION['customer']['phone'].".".$_SESSION['customer']['pic_format']);
+            $notification->sendNotification($_POST['so_phone'], 'loyaltyReq',  $_SESSION['customer']['phone'],'New Loyalty Request', "{$_SESSION['customer']['first_name']} {$_SESSION['customer']['last_name']} requested to be a loyalty customer", "ShopOwner/loyaltyCustomerRequest/{$_SESSION['customer']['phone']}", $_SESSION['customer']['phone'].".".$_SESSION['customer']['pic_format']);
             echo json_encode(['success' => true]);
         }
         else
@@ -168,7 +168,7 @@ class Customer extends Controller
         $Billdata['billItems'] = $billItem->where(['bill_id' => $billId]);
         $Billdata['total'] = 0;
         foreach($Billdata['billItems'] as &$item){
-            $item['total'] += $item['unit_price'] * $item['quantity'];
+            $item['total'] += $item['sold_price'] * $item['quantity'];
         }
         foreach($Billdata['billItems'] as $item){
             $Billdata['total'] += $item['total'];

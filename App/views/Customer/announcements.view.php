@@ -39,7 +39,6 @@
         const ROOT = "<?=ROOT?>";
         const LINKROOT = "<?=LINKROOT?>"
         const ws_id = "<?=$_SESSION['customer']['phone']?>";
-        const ws_token = "<?=$_SESSION['web_socket_token']?>";
         const Announcements = <?=json_encode($announcements, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT)?>;
     </script>
     <script src="<?=ROOT?>/js/receiveAnnouncement.js" type="module"></script>

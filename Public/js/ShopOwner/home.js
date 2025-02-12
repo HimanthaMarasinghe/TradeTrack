@@ -13,4 +13,4 @@ const loadDataOnNotification = (type) => {
     if(type == 'preOrder') apiFetcherMod.loadDataWithSearchOrFilter();
 }
 
-new Notification(loadDataOnNotification);
+new Notification(loadDataOnNotification, false, false, false, true);

@@ -79,7 +79,6 @@
     const LINKROOT = "<?=LINKROOT?>";
     const shopPhone = "<?=$so_phone?>";
     const ws_id = "<?=$_SESSION['customer']['phone']?>";
-    const ws_token = "<?=$_SESSION['web_socket_token']?>";
 </script>
 <script src="<?=ROOT?>/js/Customer/placePreOrder.js" type="module"></script>
 

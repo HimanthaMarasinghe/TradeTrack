@@ -1,7 +1,9 @@
 import ApiFetcherMod from '../ApiFetcherMod.js';
 import { stockCardTemplate } from '../UI_Elements_templates.js';
 import Notification from "../notification.js";
-new Notification();
+
+const del_notificatoin = {type: 'loyaltyReq', ref_id: shopPhone};
+new Notification(false, false, false, del_notificatoin);
 
 const itemsList = document.getElementById('billDetailsItems');
 const preOrderableCheckbox = document.getElementById('preOrderable');

@@ -49,7 +49,6 @@
     const LINKROOT = '<?=LINKROOT?>';
     const newLoyalCusReq = <?=json_encode($newLoyalCusReq)?>;
     const ws_id = "<?=$_SESSION['shop_owner']['phone']?>";
-    const ws_token = "<?=$_SESSION['web_socket_token']?>";
 </script>
 <script src="<?=ROOT?>/js/ShopOwner/customers.js" type="module"></script>
 

@@ -199,24 +199,33 @@ bills.querySelectorAll('tr.Item').forEach((billItem) => {
         fetch(LINKROOT+'/ShopOwner/getBillDetails/'+id)
         .then(res => res.json())
         .then(data => {
+            let billTotal = 0;
             document.getElementById('More-details-bill-id').innerText = " - " + data.billDetails.bill_id;
             document.getElementById('More-details-bill-date').innerText = " - " + data.billDetails.date;
             document.getElementById('More-details-bill-time').innerText = " - " + data.billDetails.time;
-            document.getElementById('More-details-bill-name').innerHTML = " - <a class='link' href='" + (LINKROOT + "/ShopOwner/customer/" + data.billDetails.cus_phone ?? "#") + "'>" + (data.billDetails.first_name ?? "Unregister") + ' ' + (data.billDetails.last_name ?? "") + "</a>";
-            document.getElementById('More-details-bill-phone').innerText = " - " + (data.billDetails.cus_phone ?? "Unregister");
-            document.getElementById('More-details-bill-total').innerText = "Total : Rs."+data.total.toFixed(2);
-            document.getElementById('More-details-bill-cus-img').src = data.billDetails.cus_phone ? `<?=ROOT?>/images/Profile/${data.billDetails.cus_phone}.${data.billDetails.pic_format}` : `<?=ROOT?>/images/Profile/PhoneNumber.jpg`;
-            document.getElementById('More-details-bill-cus-img').onerror = function() {this.src = `<?=ROOT?>/images/Profile/PhoneNumber.jpg`;};
+            if (data.billDetails.cus_phone) {
+                document.getElementById('More-details-bill-name').innerHTML = " - <a class='link' href='" + (LINKROOT + "/ShopOwner/customer/" + data.billDetails.cus_phone) + "'>" + data.billDetails.first_name + ' ' + data.billDetails.last_name + "</a>";
+                document.getElementById('More-details-bill-phone').innerText = " - " + data.billDetails.cus_phone;
+                document.getElementById('More-details-bill-cus-img').src = `<?=ROOT?>/images/Profile/${data.billDetails.cus_phone}.${data.billDetails.pic_format}`;
+                document.getElementById('More-details-bill-cus-img').onerror = function() {this.src = `<?=ROOT?>/images/Profile/PhoneNumber.jpg`;};
+            } else {
+                document.getElementById('More-details-bill-name').innerText = " - Unregisterd";
+                document.getElementById('More-details-bill-phone').innerText = " - Unregisterd";
+                document.getElementById('More-details-bill-cus-img').src = `<?=ROOT?>/images/Profile/PhoneNumber.jpg`;
+            }
             billDetailsItems.innerHTML = '';
             data.billItems.forEach(item => {
+                const itemTotal = (item.sold_price*item.quantity).toFixed(2);
                 billDetailsItems.innerHTML += `<tr class='Item'>
                     <td class='center-al'>${item.barcode}</td>
                     <td class='left-al'>${item.product_name}</td>
                     <td class='left-al'>${item.quantity}</td>
-                    <td class='left-al'>Rs.${item.unit_price.toFixed(2)}</td>
-                    <td class='left-al'>Rs.${item.total.toFixed(2)}</td>
+                    <td class='left-al'>Rs.${item.sold_price.toFixed(2)}</td>
+                    <td class='left-al'>Rs.${itemTotal}</td>
                 </tr>`;
+                billTotal += parseFloat(itemTotal);
             });
+            document.getElementById('More-details-bill-total').innerText = "Total : Rs."+billTotal.toFixed(2);
             viewPopUp('BillDetails');
         });
     });

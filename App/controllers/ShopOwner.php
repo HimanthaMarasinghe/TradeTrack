@@ -59,8 +59,13 @@ class ShopOwner extends Controller
     }
 
     public function billSettle() {
-        $this->data['total'] = $_SESSION['total'];
+        if (!isset($_SESSION['bill'])) redirect('ShopOwner/newPurchase');
         $this->data['bill'] = $_SESSION['bill'];
+        $_SESSION['total'] = 0;
+        foreach($this->data['bill'] as $item){
+            $_SESSION['total'] += $item['price'] * $item['qty'];
+        }
+        $this->data['total'] = $_SESSION['total'];
         $this->data['tabs']['active'] = 'Home';
         $this->view('shopOwner/billSettle', $this->data);
     }
@@ -79,9 +84,6 @@ class ShopOwner extends Controller
 
         unset($_SESSION['total']);
         unset($_SESSION['bill']);
-        unset($_SESSION['LastBillItemBarcode']);
-        unset($_SESSION['LastBillItemName']);
-        unset($_SESSION['lastBillItemPrice']);
         
         $this->view('shopOwner/purchaseDone', $this->data);
     }
@@ -277,6 +279,9 @@ class ShopOwner extends Controller
                 $loyReq->delete(['cus_phone' => $_POST['cus_phone'], 'so_phone' => $_SESSION['shop_owner']['phone']]);
                 $loyCus->insert(['cus_phone' => $_POST['cus_phone'], 'so_phone' => $_SESSION['shop_owner']['phone']]);
             }
+
+            $notificationsS = new NotificationService;
+            $notificationsS->sendNotification($_POST['cus_phone'], 'loyaltyReq', $_SESSION['shop_owner']['phone'], 'Loyalty Request Accepted', "{$_SESSION['shop_owner']['shop_name']} accepted your request to be a loyal customer", "Customer/shop/{$_SESSION['shop_owner']['phone']}", $_SESSION['shop_owner']['phone'].".".$_SESSION['shop_owner']['pic_format']);
         }
     }
 
@@ -312,10 +317,10 @@ class ShopOwner extends Controller
             header('Location: ' . LINKROOT . '/ShopOwner/newPurchase');
         }
 
-        $customer = new Customers;
+        $customer = new User;
         $loyaltyCustomer = new LoyaltyCustomers;
 
-        $customerData = $customer->first(['cus_phone' => $_POST['cus-phone']]);
+        $customerData = $customer->first(['phone' => $_POST['cus-phone'], 'role' => 0]);
         $loyaltyCustomerData = $loyaltyCustomer->first(['cus_phone' => $_POST['cus-phone'], 'so_phone' => $_SESSION['shop_owner']['phone']]);
 
         if ($customerData){
@@ -341,12 +346,12 @@ class ShopOwner extends Controller
         $billItem = new BillItems;
         $Billdata['billItems'] = $billItem->where(['bill_id' => $billId]);
         $Billdata['total'] = 0;
-        foreach($Billdata['billItems'] as &$item){
-            $item['total'] += $item['unit_price'] * $item['quantity'];
-        }
-        foreach($Billdata['billItems'] as $item){
-            $Billdata['total'] += $item['total'];
-        }
+        // foreach($Billdata['billItems'] as &$item){
+        //     $item['total'] += $item['sold_price'] * $item['quantity'];
+        // }
+        // foreach($Billdata['billItems'] as $item){
+        //     $Billdata['total'] += $item['total'];
+        // }
         echo json_encode($Billdata);
     }
     
@@ -397,6 +402,29 @@ class ShopOwner extends Controller
         if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['pre_order_id']) && !empty($_POST['status'])){
             $preOrder = new PreOrder;
             $preOrder->update(['pre_order_id' => $_POST['pre_order_id'], 'so_phone' => $_SESSION['shop_owner']['phone']], ['status' => $_POST['status']]);
+            
+            $cus_phone = $preOrder->first(['pre_order_id' => $_POST['pre_order_id']], [], ['cus_phone'])['cus_phone'];
+
+            switch ($_POST['status']) {
+                case 'Processing':
+                    $title = 'Pre-Order Processing';
+                    $body = "Your pre-order at {$_SESSION['shop_owner']['shop_name']} is now being processed.";
+                    break;
+                case 'Ready':
+                    $title = 'Pre-Order Ready';
+                    $body = "Your pre-order at {$_SESSION['shop_owner']['shop_name']} is ready for pickup.";
+                    break;
+                case 'Picked':
+                    $title = 'Pre-Order Picked';
+                    $body = "Your pre-order at {$_SESSION['shop_owner']['shop_name']} has been picked.";
+                    break;
+                case 'Rejected':
+                    $title = 'Pre-Order Rejected';
+                    $body = "Your pre-order at {$_SESSION['shop_owner']['shop_name']} has been rejected.";
+                    break;
+            };
+            $notif = new NotificationService;
+            $notif->sendNotification($cus_phone, 'preOrder', $_SESSION['shop_owner']['phone'], $title, $body);
             echo json_encode(['success' => true]);
         }
         else{
@@ -435,7 +463,14 @@ class ShopOwner extends Controller
                     $preOrderItems->update(['pre_order_id' => $_POST['pre_order_id'], 'barcode' => $item['barcode']], ['quantity' => $item['quantity']], $con);
                 }
             }
-            echo json_encode(['success' => $con->commit()]);
+
+            if ($con->commit()) {
+                $cus_phone = $preOrder->first(['pre_order_id' => $_POST['pre_order_id']], [], ['cus_phone'])['cus_phone'];
+                $notif = new NotificationService;
+                $notif->sendNotification($cus_phone, 'preOrder', $_SESSION['shop_owner']['phone'], 'Pre-Order Updated', "Your pre-order at {$_SESSION['shop_owner']['shop_name']} has been updated. Please check it and accept.");
+                echo json_encode(['success' => true]);
+            }
+            else echo json_encode(['success' => false]);
         }
         else{
             echo json_encode(['success' => false]);
@@ -445,5 +480,20 @@ class ShopOwner extends Controller
     public function getLoyaltyReqs() {
         $loyReq = new LoyaltyRequests;
         echo json_encode($loyReq->where(['so_phone' => $_SESSION['shop_owner']['phone']]));
+    }
+
+    public function getProduct()
+    {
+        if(isset($_POST['barcodeIn']))
+        {
+            $product = new Products;
+            $item = $product->first(['barcode' => $_POST['barcodeIn']]);
+            if($item) echo json_encode($item);
+        }
+    }
+
+    public function addBillItemsToSession() {
+        $_SESSION['bill'] = jsonPostDecode();
+        echo json_encode(['status' => 'success']);
     }
 }

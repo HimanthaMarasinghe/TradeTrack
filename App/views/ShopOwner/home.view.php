@@ -67,5 +67,7 @@
 
 <script src="<?=ROOT?>/js/ShopOwner/home.js" type="module"></script>
 
-
-<?php $this->component("footer") ?>
+<?php 
+    unset($_SESSION['web_socket_token']);
+    $this->component("footer") 
+?>

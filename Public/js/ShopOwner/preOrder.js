@@ -1,5 +1,10 @@
 import Notification from "../notification.js";
-new Notification();
+
+const del_notification = {
+    type: 'preOrder',
+    ref_id: pre_order_id
+}
+new Notification(false, false, false, del_notification);
 
 const statusElement = document.getElementById('status');
 const changeStatusBtn = document.getElementById('changeStatusBtn');
