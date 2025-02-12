@@ -7,7 +7,7 @@ export default class Notification {
         this.syncWithDb = sync || false;
         this.loadedFromDbFlag = false;
 
-        if (ws_token){
+        if (typeof ws_token !== 'undefined' && ws_token) {
             this.ws_token = ws_token;
             sessionStorage.setItem('ws_token'+ws_id, ws_token);
         }

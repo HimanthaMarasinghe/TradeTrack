@@ -1,4 +1,5 @@
 import ApiFetcherMod from "../ApiFetcherMod.js";
+import Notification from "../notification.js";
 
 const filter = document.getElementById('Filter');
 
@@ -39,4 +40,10 @@ const cofig = {
     updateGetVariables : updateGetVariables
 }
 
-new ApiFetcherMod(cofig);
+const apiFetcherMod = new ApiFetcherMod(cofig);
+
+const loadDataOnNotification = (type) => {
+    if(type == 'preOrder') apiFetcherMod.loadDataWithSearchOrFilter();
+}
+
+new Notification(loadDataOnNotification);

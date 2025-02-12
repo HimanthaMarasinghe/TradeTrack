@@ -59,8 +59,13 @@ class ShopOwner extends Controller
     }
 
     public function billSettle() {
-        $this->data['total'] = $_SESSION['total'];
+        if (!isset($_SESSION['bill'])) redirect('ShopOwner/newPurchase');
         $this->data['bill'] = $_SESSION['bill'];
+        $_SESSION['total'] = 0;
+        foreach($this->data['bill'] as $item){
+            $_SESSION['total'] += $item['price'] * $item['qty'];
+        }
+        $this->data['total'] = $_SESSION['total'];
         $this->data['tabs']['active'] = 'Home';
         $this->view('shopOwner/billSettle', $this->data);
     }
@@ -79,9 +84,6 @@ class ShopOwner extends Controller
 
         unset($_SESSION['total']);
         unset($_SESSION['bill']);
-        unset($_SESSION['LastBillItemBarcode']);
-        unset($_SESSION['LastBillItemName']);
-        unset($_SESSION['lastBillItemPrice']);
         
         $this->view('shopOwner/purchaseDone', $this->data);
     }
@@ -344,12 +346,12 @@ class ShopOwner extends Controller
         $billItem = new BillItems;
         $Billdata['billItems'] = $billItem->where(['bill_id' => $billId]);
         $Billdata['total'] = 0;
-        foreach($Billdata['billItems'] as &$item){
-            $item['total'] += $item['unit_price'] * $item['quantity'];
-        }
-        foreach($Billdata['billItems'] as $item){
-            $Billdata['total'] += $item['total'];
-        }
+        // foreach($Billdata['billItems'] as &$item){
+        //     $item['total'] += $item['sold_price'] * $item['quantity'];
+        // }
+        // foreach($Billdata['billItems'] as $item){
+        //     $Billdata['total'] += $item['total'];
+        // }
         echo json_encode($Billdata);
     }
     
@@ -478,5 +480,20 @@ class ShopOwner extends Controller
     public function getLoyaltyReqs() {
         $loyReq = new LoyaltyRequests;
         echo json_encode($loyReq->where(['so_phone' => $_SESSION['shop_owner']['phone']]));
+    }
+
+    public function getProduct()
+    {
+        if(isset($_POST['barcodeIn']))
+        {
+            $product = new Products;
+            $item = $product->first(['barcode' => $_POST['barcodeIn']]);
+            if($item) echo json_encode($item);
+        }
+    }
+
+    public function addBillItemsToSession() {
+        $_SESSION['bill'] = jsonPostDecode();
+        echo json_encode(['status' => 'success']);
     }
 }

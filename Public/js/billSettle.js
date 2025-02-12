@@ -89,8 +89,11 @@ document.getElementById('cus-phone').addEventListener('input', function(e) {
                 isRegistered = true;
                 console.log(data);
                 document.getElementById('cus-img').src = ROOT+'/images/Profile/' + e.target.value + '.jpg';
-                document.getElementById('cus-name').innerText = data.cus_first_name + ' ' + data.cus_last_name;
-                document.getElementById('cus-address').innerText = data.cus_address;
+                document.getElementById('cus-img').onerror = function() {
+                    this.src = ROOT + '/images/Profile/PhoneNumber.jpg';
+                };
+                document.getElementById('cus-name').innerText = data.first_name + ' ' + data.last_name;
+                document.getElementById('cus-address').innerText = data.address;
                 document.getElementById('loayalty').innerText = data.loyalty ? 'Is a loyalty customer' : 'Not a loyalty customer';
                 if(data.loyalty){
                     isLoyalty = true;

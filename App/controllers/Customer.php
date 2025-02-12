@@ -168,7 +168,7 @@ class Customer extends Controller
         $Billdata['billItems'] = $billItem->where(['bill_id' => $billId]);
         $Billdata['total'] = 0;
         foreach($Billdata['billItems'] as &$item){
-            $item['total'] += $item['unit_price'] * $item['quantity'];
+            $item['total'] += $item['sold_price'] * $item['quantity'];
         }
         foreach($Billdata['billItems'] as $item){
             $Billdata['total'] += $item['total'];

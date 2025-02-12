@@ -46,7 +46,6 @@
     const LINKROOT = "<?=LINKROOT?>"
     const cus_phone = "<?=$newLoyalCusReq['phone']?>";
     const ws_id = "<?=$_SESSION['shop_owner']['phone']?>";
-    const ws_token = "<?=$_SESSION['web_socket_token']?>";
 </script>
 <script src="<?=ROOT?>/js/addLoyCustomer.js" type="module"></script>
 
