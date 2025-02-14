@@ -70,7 +70,75 @@ class PreOrder extends Model
                 ON 
                     p.cus_phone = u.phone 
                 WHERE 
-                    p.pre_order_id = :pre_order_id AND p.so_phone = :so_phone";
+                    p.pre_order_id = :pre_order_id AND p.so_phone = :so_phone
+                LIMIT 1";
         return $this->query($sql, [':pre_order_id' => $pre_order_id, ':so_phone' => $_SESSION['shop_owner']['phone']])[0];
-    }   
+    }
+
+    public function allPreOrdersForCusotmers($cus_phone, $status = null, $search = null, $offset = null)
+    {
+        $queryParam = [':cus_phone' => $cus_phone];
+        $sql = "SELECT 
+                    p.so_phone, 
+                    p.pre_order_id, 
+                    p.date_time, 
+                    p.status,
+                    s.shop_name,
+                    s.shop_pic_format
+                FROM 
+                    pre_order p
+                INNER JOIN 
+                    shops s
+                ON 
+                    p.so_phone = s.so_phone
+                WHERE 
+                    p.cus_phone = :cus_phone ";
+
+        if (!$status) 
+            $sql .= "AND p.status NOT IN ('Picked', 'Rejected') ";
+        else if ($status !== 'all') {
+            $sql .= "AND p.status = :status ";
+            $queryParam[':status'] = $status;
+        }
+
+        if ($search) {
+            $sql .= "AND (s.shop_name LIKE :search OR p.pre_order_id LIKE :search) ";
+            $queryParam[':search'] = "%$search%";
+        }
+
+        $sql.= "ORDER BY 
+                CASE p.status
+                    WHEN 'Updated' THEN 1
+                    WHEN 'Ready' THEN 2
+                    WHEN 'Processing' THEN 3
+                    WHEN 'Pending' THEN 4
+                    WHEN 'Picked' THEN 5
+                    ELSE 6
+                END, 
+                p.date_time DESC ";
+
+        if ($offset !== null)
+            $sql .= "LIMIT 10 OFFSET $offset";
+
+        return $this->query($sql, $queryParam);
+    }
+
+    public function preOrderDetailsForCustomer($pre_order_id)
+    {
+        $sql = "SELECT 
+                    p.so_phone, 
+                    p.pre_order_id, 
+                    p.date_time, 
+                    p.status, 
+                    s.shop_name,
+                    s.shop_pic_format
+                FROM 
+                    pre_order p INNER JOIN  shops s 
+                ON 
+                    p.so_phone = s.so_phone 
+                WHERE 
+                    p.pre_order_id = :pre_order_id AND p.so_phone = :so_phone
+                LIMIT 1";
+        return $this->query($sql, [':pre_order_id' => $pre_order_id, ':so_phone' => $_SESSION['shop_owner']['phone']])[0];
+    }
 }

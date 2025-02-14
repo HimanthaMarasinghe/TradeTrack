@@ -1,4 +1,4 @@
-import Notification from "../notification.js";
+import Notification from "../Notification.js";
 import ApiFetcherMod from "../ApiFetcherMod.js";
 import { preOrderCard } from "../UI_Elements_templates.js";
 

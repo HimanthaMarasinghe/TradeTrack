@@ -75,10 +75,16 @@
             onerror="this.src='<?=ROOT?>/images/shops/default.jpeg'"
         >
     </div>
-    <div class="row gap-10 ovf-hdn fg1">
+    <div class="row gap-10 ovf-hdn fg1 mg-0">
         <div class="colomn fg1 panel">
             <h2 class="center-al">Available Products</h2>
-            <input id="stockSearchBar" type="text" class="search-bar" placeholder="Search">
+            <div class="row mg-0">
+                <input id="stockSearchBar" type="text" class="fg1 search-bar" placeholder="Search">
+                <label class="row alitem-center mg-0">
+                    <input type="checkbox" id="preOrderable" class="stock-filter">
+                    <span>Pre-orderable Products</span>
+                </label>
+            </div>
             <div class="scroll-box grid g-resp-300" id="stockScroll">
             </div>
         </div>
@@ -105,45 +111,7 @@
 <!-- popup -->
 
 <div id="popUpBackDrop" class="hidden"></div>
-<div id="BillDetails" class="popUpDiv hidden">
-<h1>Bill details</h1>
-    <div class="row spc-btwn w-100">
-        <div class="colomn">
-            <p>Bill Id</p>
-            <p>Date</p>
-            <p>Time</p>
-            <p>Shop Name</p>
-        </div>
-        <div class="colomn fg1">
-            <p id="More-details-bill-id"></p>
-            <p id="More-details-bill-date"></p>
-            <p id="More-details-bill-time"></p>
-            <p> - <?=$shop['shop_name']?></p>
-        </div>
-        <img
-            class="profile-img"
-            src="<?=ROOT?>/images/shops/<?=$shop['so_phone'].$shop['shop_pic_format']?>"
-            alt=""
-            onerror="this.src='<?=ROOT?>/images/shops/default.jpeg'"
-        >
-    </div>
-    <div class="billScroll">
-        <table class="bill min-w-1200">
-            <thead>
-                <tr class="BillHeadings">
-                    <th class='center-al'>Barcode</th>
-                    <th class='left-al'>Product Name</th>
-                    <th class='left-al'>Quantity</th>
-                    <th class='left-al'>Unit Price</th>
-                    <th class="left-al">Total</th>
-                </tr>
-            </thead>
-            <tbody id="billDetailsItems">
-            </tbody>
-        </table>
-        <h1 class="right-al" id="More-details-bill-total"></h1>
-    </div>
-</div>
+<?php $this->component("billDetails", [$role = 'Customer']) ?>
 <div id="notification-container"></div>
 
 <script>

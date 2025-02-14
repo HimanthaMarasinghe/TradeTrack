@@ -26,4 +26,29 @@ class Bills extends Model
         return $this->query($sql, ['phone' => $phone]);
     }
 
+    public function search($offset = 0, $search = null, $date = null) {
+        $sql = "SELECT *
+                FROM $this->readTable";
+
+        $queryPara = ['search' => "%$search%"];
+
+        if (isset($_SESSION['customer'])) {
+            $sql .= " WHERE b.cus_phone = :cus_phone AND (s.shop_name LIKE :search OR b.bill_id LIKE :search)";
+            $queryPara['cus_phone'] = $_SESSION['customer']['phone'];
+        }
+        else if (isset($_SESSION['shop_owner'])) {
+            $sql .= " WHERE b.so_phone = :so_phone AND (CONCAT(u.first_name,' ',u.last_name) LIKE :search OR b.bill_id LIKE :search)";
+            $queryPara['so_phone'] = $_SESSION['shop_owner']['phone'];
+        }
+
+        if($date) {
+            $sql .= " AND b.date = :date";
+            $queryPara['date'] = $date;
+        }
+
+        $sql .= " LIMIT 10 OFFSET $offset";
+
+        return $this->query($sql, $queryPara);
+    }
+
 }

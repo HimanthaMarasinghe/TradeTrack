@@ -33,4 +33,18 @@ class BillService extends Database
 
         $this->commit( $con);
     }
+
+    public function readBill($billId){
+        $billItem = new BillItems;
+        $Billdata['billItems'] = $billItem->where(['bill_id' => $billId]);
+        $Billdata['total'] = 0;
+        foreach($Billdata['billItems'] as &$item){
+            $item['total'] += $item['sold_price'] * $item['quantity'];
+        }
+        unset($item);
+        foreach($Billdata['billItems'] as $item){
+            $Billdata['total'] += $item['total'];
+        }
+        return $Billdata;
+    }
 }

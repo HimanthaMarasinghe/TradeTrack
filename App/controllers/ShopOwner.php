@@ -195,14 +195,6 @@ class ShopOwner extends Controller
     }
     
     public function accounts() {
-        $bill = new Bills;
-        $billItems = new BillItems;
-        $this->data['recentBills'] = $bill->getRecentBillDetails($_SESSION['shop_owner']['phone']);
-        foreach($this->data['recentBills'] as &$bill){
-            $bill['total'] = $billItems->getBillTotal($bill['bill_id']);
-        }
-        $shop = new Shops;
-        // $this->data['cashDrawerBallance'] = $shop->first(['so_phone' => $_SESSION['shop_owner']['phone']])['cash_drawer_balance'];
         $this->data['tabs']['active'] = 'Accounts';
         $this->view('shopOwner/accounts', $this->data);
     }
@@ -341,17 +333,12 @@ class ShopOwner extends Controller
     }
     
     public function getBillDetails($billId){
-        $bill = new Bills;
-        $Billdata['billDetails'] = $bill->first(['bill_id' => $billId]);
-        $billItem = new BillItems;
-        $Billdata['billItems'] = $billItem->where(['bill_id' => $billId]);
-        $Billdata['total'] = 0;
-        // foreach($Billdata['billItems'] as &$item){
-        //     $item['total'] += $item['sold_price'] * $item['quantity'];
-        // }
-        // foreach($Billdata['billItems'] as $item){
-        //     $Billdata['total'] += $item['total'];
-        // }
+        $bills = new Bills;
+        if ($bills->first(['bill_id' => $billId, 'b.so_phone' => $_SESSION['shop_owner']['phone']]) == null) {
+            echo json_encode(['error' => 'Error: Bill is not alowed for this customer.']);
+            return;
+        }
+        $Billdata = (new BillService)->readBill($billId);
         echo json_encode($Billdata);
     }
     

@@ -76,6 +76,10 @@ body {
     margin-top: 20px;
 }
 
+.p-10{
+    padding: 10px;
+}
+
 .p-20{
     padding: 20px;
 }
@@ -160,6 +164,7 @@ a.card {
     text-align: right;
 }
 
+[class^="filter-js"],
 input[type='text'].search-bar {
     border: solid 1px var(--navbar-background);
     border-radius: 10px;
@@ -355,4 +360,9 @@ img.default{
         counter-increment: billItem;
         content: counter(billItem);
     }
+}
+
+svg#up,
+svg#down {
+    height: 2em;
 }

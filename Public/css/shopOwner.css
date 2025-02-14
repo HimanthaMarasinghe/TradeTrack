@@ -88,11 +88,6 @@
     flex-grow: 1;
 }
 
-svg#up,
-svg#down {
-    height: 2em;
-}
-
 #path-up{
     animation: goUp 1s infinite;
 }
