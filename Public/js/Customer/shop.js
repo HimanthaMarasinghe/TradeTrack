@@ -1,57 +1,12 @@
 import ApiFetcherMod from '../ApiFetcherMod.js';
 import { stockCardTemplate } from '../UI_Elements_templates.js';
 import Notification from "../notification.js";
+import billMoreDetails from "./Common.js";
 
 const del_notificatoin = {type: 'loyaltyReq', ref_id: shopPhone};
 new Notification(false, false, false, del_notificatoin);
 
-const itemsList = document.getElementById('billDetailsItems');
 const preOrderableCheckbox = document.getElementById('preOrderable');
-
-function billMoreDetails(dataset){
-    const {
-        bill_id,
-        date,
-        time
-    } = dataset;
-    console.log(LINKROOT + '/Customer/getBillDetails/' + bill_id);
-    fetch(LINKROOT + '/Customer/getBillDetails/' + bill_id)
-    .then(res => res.json())
-    .then(data => {
-        if(data){
-            const {
-                total,
-                billItems
-            } = data;
-            document.getElementById('More-details-bill-id').innerText = " - " + bill_id;
-            document.getElementById('More-details-bill-date').innerText = " - " + date;
-            document.getElementById('More-details-bill-time').innerText = " - " + time;
-            document.getElementById('More-details-bill-total').innerText = 'Rs.' + total.toFixed(2);
-            itemsList.innerHTML = '';
-            billItems.forEach(item => {
-                const {
-                    barcode,
-                    product_name,
-                    quantity,
-                    unit_price
-                } = item;
-                let rowTotal = quantity * unit_price;
-                itemsList.innerHTML += `
-                    <tr calss='Item'>
-                        <td class='center-al'>${barcode}</td>
-                        <td class='left-al'>${product_name}</td>
-                        <td class='center-al'>${quantity}</td>
-                        <td>Rs.${unit_price.toFixed(2)}</td>
-                        <td>Rs.${rowTotal.toFixed(2)}</td>
-                    </tr>
-                `;
-            });
-            viewPopUp('BillDetails');
-        } else {
-            alert('Failed to get bill details');
-        }
-    }); 
-}
 
 document.getElementById('reqLoyalty')?.addEventListener('click', () => {
     fetch(LINKROOT + '/Customer/reqLoyalty', {
@@ -111,12 +66,19 @@ const getVariables = {
     shop_phone: shopPhone
 }
 
+function updateGetVariables() {
+    getVariables.search = document.getElementById('stockSearchBar').value;
+    getVariables.preOrderable = preOrderableCheckbox.checked ? 1 : 0;
+}
+
 const stockApiConfig = {
     api: 'Customer/getStocks',
     cardTemplate: stockCardTemplate,
     elementsListId: 'stockScroll',
     getVariables: getVariables,
-    searchBarId: 'stockSearchBar'
+    updateGetVariables: updateGetVariables,
+    searchBarId: 'stockSearchBar',
+    filterClass: '.stock-filter',
 }
 
 new ApiFetcherMod(stockApiConfig);

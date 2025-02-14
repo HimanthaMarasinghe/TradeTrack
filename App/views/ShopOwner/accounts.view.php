@@ -160,7 +160,7 @@
             <p id="More-details-bill-id"></p>
             <p id="More-details-bill-date"></p>
             <p id="More-details-bill-time"></p>
-            <p href="home" class="link" id="More-details-bill-name"></p>
+            <p id="More-details-bill-name"></p>
             <p id="More-details-bill-phone"></p>
         </div>
         <img id="More-details-bill-cus-img" class="profile-img" src="<?=ROOT?>/images/Profile/PhoneNumber.jpg" alt="">

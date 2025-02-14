@@ -3,7 +3,7 @@
 class Customer extends Controller 
 {
     protected $data = [
-        'tabs' => ['tabs' => ['Home', 'My Activity', 'Products', 'Shops'], 'userType' => 'Customer'],
+        'tabs' => ['tabs' => ['Home', 'Products', 'Shops'], 'userType' => 'Customer'],
         'styleSheet' => ['styleSheet'=>'customer']
     ];
 
@@ -12,6 +12,20 @@ class Customer extends Controller
             redirect('login');
             exit;
         }
+    }
+
+    private function loadPreOrders($status = null, $search = null, $offset = null) {
+        $preOrderM = new PreOrder;
+        $preOrderItemsM = new PreOrderItems;
+        $preOrders = $preOrderM->allPreOrdersForCusotmers($_SESSION['customer']['phone'], $status, $search, $offset);
+        foreach ($preOrders as &$preOrder) {
+            $preOrderDate = new DateTime($preOrder['date_time']);
+            $diff = (new DateTime())->diff($preOrderDate);
+            if($diff->days < 1)
+               $preOrder['date_time'] = $diff->format('%hh %im') . ' ago';
+            $preOrder['total'] = $preOrderItemsM->preOrderAmount($preOrder['pre_order_id']);
+        }
+        return $preOrders;
     }
 
     private function LoyalToShop($so_phone){
@@ -143,6 +157,17 @@ class Customer extends Controller
         echo json_encode($bills);
     }
 
+    public function searchBills($offset = 0) {
+        if (!filter_var($offset, FILTER_VALIDATE_INT)) $offset = 0;
+        $bill = new Bills;
+        $billItems = new BillItems;
+        $bills = $bill->search($offset, $_GET['search'], $_GET['date']);
+        foreach($bills as &$bill){
+            $bill['total'] = $billItems->getBillTotal($bill['bill_id']);
+        }
+        echo json_encode($bills);
+    }
+
     public function getStocks($offset = 0){
         if (!isset($_GET['shop_phone'])) {
             echo json_encode(['error' => 'Error: Missing shop phone number']);
@@ -164,12 +189,18 @@ class Customer extends Controller
     }
 
     public function getBillDetails($billId){
+        $bills = new Bills;
+        if ($bills->where(['bill_id' => $billId, 'cus_phone' => $_SESSION['customer']['phone']]) == null) {
+            echo json_encode(['error' => 'Error: Bill is not alowed for this customer.']);
+            return;
+        }
         $billItem = new BillItems;
         $Billdata['billItems'] = $billItem->where(['bill_id' => $billId]);
         $Billdata['total'] = 0;
         foreach($Billdata['billItems'] as &$item){
             $item['total'] += $item['sold_price'] * $item['quantity'];
         }
+        unset($item);
         foreach($Billdata['billItems'] as $item){
             $Billdata['total'] += $item['total'];
         }
@@ -208,7 +239,28 @@ class Customer extends Controller
             $returnData = ['status' => 'fail'];
         }
         echo json_encode($returnData);
-}
+    }
+
+    public function getAllPreOrders($offset = 0){ 
+        if (!filter_var($offset, FILTER_VALIDATE_INT)) 
+            $offset = 0;  // Default to 0 if invalid
+
+        $search = $_GET['search'] ?? null;
+        $status = $_GET['status'] ?? null;
+
+        $preOrders = $this->loadPreOrders($status, $search, $offset);
+        echo json_encode($preOrders);        
+    }
+
+    public function getLoyaltyReqs($offset = 0){
+        if (!filter_var($offset, FILTER_VALIDATE_INT)) 
+            $offset = 0;  // Default to 0 if invalid
+
+        $loyaltyReq = new LoyaltyRequests;
+        $loyaltyReqs = $loyaltyReq->newLoyReqFromCustomer($offset);
+        echo json_encode($loyaltyReqs);
+    }
+
 
 
 
