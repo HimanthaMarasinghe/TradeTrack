@@ -1,8 +1,6 @@
-import Notification from "../notification.js";
+import Notification from "../Notification.js";
 import ApiFetcherMod from "../ApiFetcherMod.js";
 import billMoreDetails from "./Common.js";
-
-new Notification(false, false, false, false, true);
 
 function swap(e){
     if(e.target.classList.contains('closed-grid') || e.target.parentElement.classList.contains('closed-grid') || e.target.parentElement.parentElement.classList.contains('closed-grid')){
@@ -41,7 +39,7 @@ const poApiFetcherConfig = {
     cardTemplate : preOrderCard,
 }
 
-new ApiFetcherMod(poApiFetcherConfig);
+const poApiFetcherMod = new ApiFetcherMod(poApiFetcherConfig);
 
 // Bills
 function billRow(bill) {
@@ -68,7 +66,7 @@ function updateGetVariables(){
 }
 
 const billApiConfig = {
-    api: 'Customer/searchBills',
+    api: 'LogedInUserCommon/searchBills',
     cardTemplate: billRow,
     getVariables: getVariables,
     updateGetVariables: updateGetVariables,
@@ -79,7 +77,7 @@ const billApiConfig = {
     clickEvent: billMoreDetails
 }
 
-new ApiFetcherMod(billApiConfig);
+const billApiFetcheMod = new ApiFetcherMod(billApiConfig);
 
 // Loyalty Requests
 function loyaltyCustomerReqCard(request) {
@@ -117,3 +115,10 @@ const lcrApiFetcherConfig = {
 
 const lcrApiFetcherMod = new ApiFetcherMod(lcrApiFetcherConfig);
 
+const loadDataOnNotification = (type) => {
+    if(type == 'preOrder') poApiFetcherMod.loadDataWithSearchOrFilter();
+    if(type == 'loyaltyReq') lcrApiFetcherMod.loadDataWithSearchOrFilter();
+    if(type == 'bill') billApiFetcheMod.loadDataWithSearchOrFilter();
+}
+
+new Notification(loadDataOnNotification, false, false, false, true);

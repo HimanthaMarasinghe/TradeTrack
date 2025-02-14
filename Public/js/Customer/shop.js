@@ -1,6 +1,6 @@
 import ApiFetcherMod from '../ApiFetcherMod.js';
 import { stockCardTemplate } from '../UI_Elements_templates.js';
-import Notification from "../notification.js";
+import Notification from "../Notification.js";
 import billMoreDetails from "./Common.js";
 
 const del_notificatoin = {type: 'loyaltyReq', ref_id: shopPhone};
@@ -45,11 +45,11 @@ function rowTemplate(bill){
 
 
 const billGetVariables = {
-    shop_phone: shopPhone
+    so_phone: shopPhone
 }
 
 const billApiConfig = {
-    api: 'Customer/getBills',
+    api: 'LogedInUserCommon/searchBills',
     cardTemplate: rowTemplate,
     elementsListId: 'billTable',
     scrollDivId: 'billScroll',

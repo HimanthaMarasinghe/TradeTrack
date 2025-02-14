@@ -68,9 +68,13 @@
         <br>
         <div class="row mg-10 gap-10">
             <div class="colomn fg1">
-                <h2>Recent Bills</h2>
+            <div class="mg-0 row col-max-1024">
+                <h2>Bills</h2>
+                <input type="text" class="search-bar fg1" id="bill-searchBar" placeholder="Search">
+                <input type="date" id="bill_Date" class="filter-js-bill">
+            </div>
                 <h5>Click on any row to see more details</h5>
-                <div class="billScroll">
+                <div class="billScroll" id="billScroll">
                     <table class="bill">
                         <thead>
                             <tr class="BillHeadings">
@@ -81,19 +85,7 @@
                                 <th class="left-al">Amount</th>
                             </tr>
                         </thead>
-                        <tbody id="bills">
-                            <?php
-                            foreach($recentBills as $bill){
-                                echo "<tr class='Item clickable' id='".$bill['bill_id']."'>
-                                        <td class='center-al'>".$bill['bill_id']."</td>
-                                        <td class='left-al'>".$bill['date']."</td>
-                                        <td class='left-al'>".$bill['time']."</td>
-                                        <td class='left-al'>".$bill['first_name']." ".$bill['last_name']."</td>
-                                        <td class='left-al'>Rs.".number_format($bill['total'],2)."</td>
-                                    </tr>";
-                            }
-                        ?>
-                            <tr></tr>
+                        <tbody id="billTbody">
                         </tbody>
                     </table>
                 </div>
@@ -146,135 +138,17 @@
 
 <!-- PopUp -->
 <div id="popUpBackDrop" class="hidden"></div>
-<div id="BillDetails" class="popUpDiv hidden">
-    <h1>Bill details</h1>
-    <div class="row spc-btwn w-100">
-        <div class="colomn">
-            <p>Bill Id</p>
-            <p>Date</p>
-            <p>Time</p>
-            <p>Customer</p>
-            <p>Customer Phone</p>
-        </div>
-        <div class="colomn fg1">
-            <p id="More-details-bill-id"></p>
-            <p id="More-details-bill-date"></p>
-            <p id="More-details-bill-time"></p>
-            <p id="More-details-bill-name"></p>
-            <p id="More-details-bill-phone"></p>
-        </div>
-        <img id="More-details-bill-cus-img" class="profile-img" src="<?=ROOT?>/images/Profile/PhoneNumber.jpg" alt="">
-    </div>
-    <div class="billScroll">
-        <table class="bill min-w-1200">
-            <thead>
-                <tr class="BillHeadings">
-                    <th class='center-al'>Barcode</th>
-                    <th class='left-al'>Product Name</th>
-                    <th class='left-al'>Quantity</th>
-                    <th class='left-al'>Unit Price</th>
-                    <th class="left-al">Total</th>
-                </tr>
-            </thead>
-            <tbody id="billDetailsItems">
-            </tbody>
-        </table>
-        <h1 class="right-al" id="More-details-bill-total"></h1>
-    </div>
-</div>
+<?php $this->component("billDetails", [$role = 'Shop_Owner']) ?>
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="<?=ROOT?>/js/popUp.js"></script>
 
 <script type="text/javascript">
-
-const LINKROOT = "<?=LINKROOT?>";
-const billDetailsItems = document.getElementById('billDetailsItems');
-const bills = document.getElementById('bills');
-
-bills.querySelectorAll('tr.Item').forEach((billItem) => {
-    billItem.addEventListener('click', (e) => {
-        const id = billItem.id;
-        // console.log(id);
-        fetch(LINKROOT+'/ShopOwner/getBillDetails/'+id)
-        .then(res => res.json())
-        .then(data => {
-            let billTotal = 0;
-            document.getElementById('More-details-bill-id').innerText = " - " + data.billDetails.bill_id;
-            document.getElementById('More-details-bill-date').innerText = " - " + data.billDetails.date;
-            document.getElementById('More-details-bill-time').innerText = " - " + data.billDetails.time;
-            if (data.billDetails.cus_phone) {
-                document.getElementById('More-details-bill-name').innerHTML = " - <a class='link' href='" + (LINKROOT + "/ShopOwner/customer/" + data.billDetails.cus_phone) + "'>" + data.billDetails.first_name + ' ' + data.billDetails.last_name + "</a>";
-                document.getElementById('More-details-bill-phone').innerText = " - " + data.billDetails.cus_phone;
-                document.getElementById('More-details-bill-cus-img').src = `<?=ROOT?>/images/Profile/${data.billDetails.cus_phone}.${data.billDetails.pic_format}`;
-                document.getElementById('More-details-bill-cus-img').onerror = function() {this.src = `<?=ROOT?>/images/Profile/PhoneNumber.jpg`;};
-            } else {
-                document.getElementById('More-details-bill-name').innerText = " - Unregisterd";
-                document.getElementById('More-details-bill-phone').innerText = " - Unregisterd";
-                document.getElementById('More-details-bill-cus-img').src = `<?=ROOT?>/images/Profile/PhoneNumber.jpg`;
-            }
-            billDetailsItems.innerHTML = '';
-            data.billItems.forEach(item => {
-                const itemTotal = (item.sold_price*item.quantity).toFixed(2);
-                billDetailsItems.innerHTML += `<tr class='Item'>
-                    <td class='center-al'>${item.barcode}</td>
-                    <td class='left-al'>${item.product_name}</td>
-                    <td class='left-al'>${item.quantity}</td>
-                    <td class='left-al'>Rs.${item.sold_price.toFixed(2)}</td>
-                    <td class='left-al'>Rs.${itemTotal}</td>
-                </tr>`;
-                billTotal += parseFloat(itemTotal);
-            });
-            document.getElementById('More-details-bill-total').innerText = "Total : Rs."+billTotal.toFixed(2);
-            viewPopUp('BillDetails');
-        });
-    });
-});
-
-
-    google.charts.load("current", {packages:["corechart"]});
-    google.charts.setOnLoadCallback(drawChart);
-    function drawChart() {
-    var Assests = google.visualization.arrayToDataTable([
-        ['Type', 'Amount'],
-        ['Cash', 4392],
-        ['Bank', 7382.48],
-        ['Stock', 12000],
-        ['Creditors', 5433]
-    ]);
-
-    var AssestsOptions = {
-        // title: 'Assests',
-        backgroundColor: { fill:'transparent' },
-        pieHole: 0.4,
-    };
-
-    var profit = google.visualization.arrayToDataTable([
-        ['Month', 'Expense', 'Income', 'Gross Profit'],
-        ['January', 30000, 40000, 10000],
-        ['February', 35000, 45000, 10000],
-        ['March', 40000, 50000, 10000],
-        ['April', 45000, 55000, 10000],
-        ['May', 50000, 60000, 10000],
-        ['June', 55000, 65000, 10000],
-        ['July', 60000, 70000, 10000],
-        ['August', 40324, 71359, 31035],
-        ['September', 50000, 85000, 35000],
-        ['October', 45000, 70000, 25000],
-        ['November', 60000, 95000, 35000],
-        ['December', 55000, 80000, 25000]
-    ])
-
-    var profitOp = {
-        // title: 'Monthly Income, Expences, and Profit',
-        backgroundColor: { fill:'transparent' },
-        width: '70%',
-    }
-
-    var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-    var curve_chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-    chart.draw(Assests, AssestsOptions);
-    curve_chart.draw(profit, profitOp);
-    }
+    const LINKROOT = "<?=LINKROOT?>";
+    const ROOT = "<?=ROOT?>";
+    const ws_id = "<?=$_SESSION['shop_owner']['phone']?>";
 </script>
+<script src="<?=ROOT?>/js/ShopOwner/accounts.js" type="module"></script>
+<script src="<?=ROOT?>/js/ShopOwner/accountsCharts.js"></script>
+
 <?php $this->component("footer") ?>

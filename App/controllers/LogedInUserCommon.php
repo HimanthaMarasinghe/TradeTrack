@@ -61,4 +61,27 @@ class LogedInUserCommon extends Controller
             $notificationM->delete(['phone' => $phone, 'type' => $notification['type'], 'ref_id' => $notification['ref_id']]);
         }
     }
+
+    public function searchBills($offset = 0) {
+        $this->forbidIfNotLogedIn(['shop_owner', 'customer']);
+        if (!filter_var($offset, FILTER_VALIDATE_INT)) $offset = 0;
+        $bill = new Bills;
+        $billItems = new BillItems;
+        if(isset($_GET['search'])) $bills = $bill->search($offset, $_GET['search'], $_GET['date']);
+        else if(isset($_GET['cus_phone'])) {
+            $data = ['s.so_phone' => $_SESSION['shop_owner']['phone'], 'u.phone' => $_GET['cus_phone']];
+            if($_GET['date']) $data['date'] = $_GET['date'];
+            $bills = $bill->where($data, [], 10,$offset, ['bill_id', 'date', 'time', 'first_name', 'last_name', 'cus_phone', 'pic_format']);
+        }
+        else if($_GET['so_phone']) {
+            $data = ['u.phone' => $_SESSION['customer']['phone'], 's.so_phone' => $_GET['so_phone']];
+            if(isset($_GET['date'])) $data['date'] = $_GET['date'];
+            $bills = $bill->where($data, [], 10, $offset, ['bill_id', 'date', 'time', 'shop_name', 's.so_phone', 'shop_pic_format']);
+        }
+        foreach($bills as &$bill){
+            $bill['total'] = $billItems->getBillTotal($bill['bill_id']);
+        }
+        unset($bill);
+        echo json_encode($bills);
+    }
 }

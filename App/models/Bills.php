@@ -36,9 +36,9 @@ class Bills extends Model
             $sql .= " WHERE b.cus_phone = :cus_phone AND (s.shop_name LIKE :search OR b.bill_id LIKE :search)";
             $queryPara['cus_phone'] = $_SESSION['customer']['phone'];
         }
-        else {
+        else if (isset($_SESSION['shop_owner'])) {
             $sql .= " WHERE b.so_phone = :so_phone AND (CONCAT(u.first_name,' ',u.last_name) LIKE :search OR b.bill_id LIKE :search)";
-            $queryPara['so_phone'] = $_SESSION['shop']['so_phone'];
+            $queryPara['so_phone'] = $_SESSION['shop_owner']['phone'];
         }
 
         if($date) {

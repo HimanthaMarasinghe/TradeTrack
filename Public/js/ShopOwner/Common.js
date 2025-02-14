@@ -1,15 +1,18 @@
 export default function billMoreDetails(dataset){
     const itemsList = document.getElementById('billDetailsItems');
+    const nameElem = document.getElementById('More-details-bill-name');
+    const phoneElem = document.getElementById('More-details-bill-phone');
     const {
         bill_id,
         date,
         time,
-        shop_name,
-        so_phone,
-        shop_pic_format
+        first_name,
+        last_name,
+        cus_phone,
+        pic_format
     } = dataset;
-    console.log(LINKROOT + '/Customer/getBillDetails/' + bill_id);
-    fetch(LINKROOT + '/Customer/getBillDetails/' + bill_id)
+    console.log(LINKROOT + '/ShopOwner/getBillDetails/' + bill_id);
+    fetch(LINKROOT + '/ShopOwner/getBillDetails/' + bill_id)
     .then(res => res.json())
     .then(data => {
         if(data){
@@ -20,13 +23,19 @@ export default function billMoreDetails(dataset){
             document.getElementById('More-details-bill-id').innerText = " - " + bill_id;
             document.getElementById('More-details-bill-date').innerText = " - " + date;
             document.getElementById('More-details-bill-time').innerText = " - " + time;
-            document.getElementById('More-details-bill-name').innerHTML = ` - <a class="link" href="${LINKROOT}/Customer/shop/${so_phone}">${shop_name}</a>`;
-            document.getElementById('More-details-bill-phone').innerText = " - " + so_phone;
             document.getElementById('More-details-bill-total').innerText = 'Rs.' + total.toFixed(2);
+
+            if (cus_phone) {
+                nameElem.innerHTML = ` - <a class="link" href="${LINKROOT}/ShopOwner/Customer/${cus_phone}">${first_name} ${last_name}</a>`;
+                phoneElem.innerText = " - " + cus_phone;
+            } else {
+                nameElem.innerText = " - Unregisterd";
+                phoneElem.innerText = " - Unregisterd";
+            }
             const billImage = document.getElementById('More-details-bill-img');
-            billImage.src = `${ROOT}/images/Shops/${so_phone+shop_pic_format}`;
+            billImage.src = `${ROOT}/images/Profile/${cus_phone}.${pic_format}`;
             billImage.onerror = function () {
-                this.src = `${ROOT}/images/Shops/default.jpeg`;
+                this.src = `${ROOT}/images/Profile/PhoneNumber.jpg`;
             };
             itemsList.innerHTML = '';
             billItems.forEach(item => {
