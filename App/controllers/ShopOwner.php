@@ -272,8 +272,14 @@ class ShopOwner extends Controller
                 $loyCus->insert(['cus_phone' => $_POST['cus_phone'], 'so_phone' => $_SESSION['shop_owner']['phone']]);
             }
 
-            $notificationsS = new NotificationService;
-            $notificationsS->sendNotification($_POST['cus_phone'], 'loyaltyReq', $_SESSION['shop_owner']['phone'], 'Loyalty Request Accepted', "{$_SESSION['shop_owner']['shop_name']} accepted your request to be a loyal customer", "Customer/shop/{$_SESSION['shop_owner']['phone']}", $_SESSION['shop_owner']['phone'].".".$_SESSION['shop_owner']['pic_format']);
+            (new NotificationService)->sendNotification(
+                $_POST['cus_phone'], 
+                'loyaltyReq', 
+                $_SESSION['shop_owner']['phone'], 
+                'Loyalty Request Accepted', 
+                "{$_SESSION['shop_owner']['shop_name']} accepted your request to be a loyal customer", 
+                "Customer/shop/{$_SESSION['shop_owner']['phone']}", 
+                "Profile/{$_SESSION['shop_owner']['phone']}.{$_SESSION['shop_owner']['pic_format']}");
         }
     }
 
@@ -410,8 +416,14 @@ class ShopOwner extends Controller
                     $body = "Your pre-order at {$_SESSION['shop_owner']['shop_name']} has been rejected.";
                     break;
             };
-            $notif = new NotificationService;
-            $notif->sendNotification($cus_phone, 'preOrder', $_SESSION['shop_owner']['phone'], $title, $body);
+            (new NotificationService)->sendNotification(
+                $cus_phone, 
+                'preOrder', 
+                $_POST['pre_order_id'], 
+                $title, 
+                $body, 
+                "Customer/preOrder/{$_POST['pre_order_id']}", 
+                "Shops/{$_SESSION['shop_owner']['phone']}{$_SESSION['shop_owner']['shop_pic_foramt']}");
             echo json_encode(['success' => true]);
         }
         else{
@@ -453,8 +465,14 @@ class ShopOwner extends Controller
 
             if ($con->commit()) {
                 $cus_phone = $preOrder->first(['pre_order_id' => $_POST['pre_order_id']], [], ['cus_phone'])['cus_phone'];
-                $notif = new NotificationService;
-                $notif->sendNotification($cus_phone, 'preOrder', $_SESSION['shop_owner']['phone'], 'Pre-Order Updated', "Your pre-order at {$_SESSION['shop_owner']['shop_name']} has been updated. Please check it and accept.");
+                (new NotificationService)->sendNotification(
+                    $cus_phone,
+                    'preOrder', 
+                    $_POST['pre_order_id'], 
+                    'Pre-Order Updated', 
+                    "Your pre-order at {$_SESSION['shop_owner']['shop_name']} has been updated. Please check it and accept.", 
+                    "Customer/preOrder/{$_POST['pre_order_id']}", 
+                    "Shops/{$_SESSION['shop_owner']['phone']}{$_SESSION['shop_owner']['shop_pic_foramt']}");
                 echo json_encode(['success' => true]);
             }
             else echo json_encode(['success' => false]);

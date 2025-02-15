@@ -26,7 +26,7 @@ class PreOrder extends Model
                     p.so_phone = :so_phone ";
 
         if (!$status) 
-            $sql .= "AND p.status NOT IN ('Picked', 'Rejected') ";
+            $sql .= "AND p.status NOT IN ('Picked', 'Rejected', 'Canceled') ";
         else if ($status !== 'all') {
             $sql .= "AND p.status = :status ";
             $queryParam[':status'] = $status;
@@ -95,7 +95,7 @@ class PreOrder extends Model
                     p.cus_phone = :cus_phone ";
 
         if (!$status) 
-            $sql .= "AND p.status NOT IN ('Picked', 'Rejected') ";
+            $sql .= "AND p.status NOT IN ('Picked', 'Rejected', 'Canceled') ";
         else if ($status !== 'all') {
             $sql .= "AND p.status = :status ";
             $queryParam[':status'] = $status;
@@ -131,14 +131,16 @@ class PreOrder extends Model
                     p.date_time, 
                     p.status, 
                     s.shop_name,
-                    s.shop_pic_format
+                    s.shop_address,
+                    s.shop_pic_format,
+                    u.first_name,
+                    u.last_name
                 FROM 
-                    pre_order p INNER JOIN  shops s 
-                ON 
-                    p.so_phone = s.so_phone 
+                    pre_order p INNER JOIN  shops s ON p.so_phone = s.so_phone 
+                    INNER JOIN users u ON p.so_phone = u.phone
                 WHERE 
-                    p.pre_order_id = :pre_order_id AND p.so_phone = :so_phone
+                    p.pre_order_id = :pre_order_id AND p.cus_phone = :cus_phone
                 LIMIT 1";
-        return $this->query($sql, [':pre_order_id' => $pre_order_id, ':so_phone' => $_SESSION['shop_owner']['phone']])[0];
+        return $this->query($sql, [':pre_order_id' => $pre_order_id, ':cus_phone' => $_SESSION['customer']['phone']])[0];
     }
 }

@@ -4,7 +4,12 @@ const del_notification = {
     type: 'preOrder',
     ref_id: pre_order_id
 }
-new Notification(false, false, false, del_notification);
+
+const reload_data_func = (type, ref_id) => {
+    if(type === 'preOrder' && ref_id === pre_order_id) location.reload();
+};
+
+new Notification(reload_data_func, false, false, del_notification);
 
 const statusElement = document.getElementById('status');
 const changeStatusBtn = document.getElementById('changeStatusBtn');
@@ -76,6 +81,7 @@ function updateUI(){
             break;
         case 'Picked':
         case 'Rejected':
+        case 'Canceled':
             updateBtn.classList.add('hidden');
             nextStatus = '';
             hideInStockColoumn();

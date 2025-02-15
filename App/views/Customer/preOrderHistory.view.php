@@ -9,14 +9,13 @@
     <div class="bar">
         <img src="<?=ROOT?>/images/icons/home.svg" alt="">
         <div class="coloum center-al">
-            <h1><?=$_SESSION['shop_owner']['shop_name']?></h1>
             <h2>Pre-Order History</h2>
         </div>
         <div class="row gap-10">
-            <a href="<?=LINKROOT?>/ShopOwner/announcements"><img src="<?=ROOT?>/images/icons/Announcement.svg" alt=""></a>
+            <a href="<?=LINKROOT?>/Customer/announcements"><img src="<?=ROOT?>/images/icons/Announcement.svg" alt=""></a>
             <?php $this->component("notification") ?>
-            <a href="<?=LINKROOT?>/ShopOwner/profileUpdate"><img src="<?=ROOT?>/images/icons/Profile.svg" alt=""></a>
-        </div>
+            <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
+      </div>
     </div>
     
     <div class="row fg1 ovf-hdn">
@@ -42,8 +41,8 @@
 <script>
     const ROOT = "<?=ROOT?>";
     const LINKROOT = "<?=LINKROOT?>";
-    const ws_id = "<?=$_SESSION['shop_owner']['phone']?>";
+    const ws_id = "<?=$_SESSION['customer']['phone']?>";
 </script>
-<script src="<?=ROOT?>/js/ShopOwner/preOrderHistory.js" type="module"></script>
+<script src="<?=ROOT?>/js/Customer/preOrderHistory.js" type="module"></script>
 
 <?php $this->component("footer") ?>
