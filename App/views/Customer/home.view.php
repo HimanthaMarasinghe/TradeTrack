@@ -72,5 +72,5 @@
 
 <?php 
     unset($_SESSION['web_socket_token']);
-    $this->component("footer") 
+    $this->component("footer");
 ?>

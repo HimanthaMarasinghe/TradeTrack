@@ -8,10 +8,10 @@
         <img src="<?=ROOT?>/images/icons/home.svg" alt="">
         <h2>Pre-Order</h2>
         <div class="row gap-10">
-            <a href="<?=LINKROOT?>/ShopOwner/announcements"><img src="<?=ROOT?>/images/icons/Announcement.svg" alt=""></a>
+            <a href="<?=LINKROOT?>/Customer/announcements"><img src="<?=ROOT?>/images/icons/Announcement.svg" alt=""></a>
             <?php $this->component("notification") ?>
-            <a href="<?=LINKROOT?>/ShopOwner/profileUpdate"><img src="<?=ROOT?>/images/icons/Profile.svg" alt=""></a>
-        </div>
+            <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
+      </div>
     </div>
     <div class="row spc-btwn">
         <table class="profile">
@@ -34,22 +34,26 @@
         </table>
         <table class="profile">
             <tr>
-                <td>Customer Name</td>
-                <td>- <a href="<?=LINKROOT?>/ShopOwner/Customer/<?=$preOrder['cus_phone']?>" class="link"><?=$preOrder['first_name']?> <?=$preOrder['last_name']?></a></td>
+                <td>Shop Name</td>
+                <td>- <a href="<?=LINKROOT?>/Customer/shop/<?=$preOrder['so_phone']?>" class="link"><?=$preOrder['shop_name']?></a></td>
+            </tr>
+            <tr>
+                <td>Shop Owner's Name</td>
+                <td>- <?=$preOrder['first_name']?> <?=$preOrder['last_name']?></td>
             </tr>
             <tr>
                 <td>Phone number</td>
-                <td>- <?=$preOrder['cus_phone']?></td>
+                <td>- <?=$preOrder['so_phone']?></td>
             </tr>
             <tr>
                 <td>Address</td>
-                <td>- <?=$preOrder['address']?></td>
+                <td>- <?=$preOrder['shop_address']?></td>
             </tr>
         </table>
         <img 
             class="profile-img" 
-            src="<?=ROOT?>/images/Profile/<?=$preOrder['cus_phone']?>.<?=$preOrder['pic_format']?>" 
-            onerror="this.src='<?=ROOT?>/images/Profile/PhoneNumber.jpg'"
+            src="<?=ROOT?>/images/Shops/<?=$preOrder['so_phone'].$preOrder['shop_pic_format']?>" 
+            onerror="this.src='<?=ROOT?>/images/Shops/Default.jpeg'"
             alt=""
         >
     </div>
@@ -61,10 +65,6 @@
                     <th class="left-al">Name</th>
                     <th class="right-al">Price</th>
                     <th class="right-al">Quntity</th>
-                    <?php
-                        if($shouldCheckStock)
-                            echo "<th class='right-al'>In Stock</th>"
-                    ?>
                     <th class="right-al">Total</th>
                     <th></th>
                 </tr>
@@ -79,18 +79,10 @@
                             <td class='center-al'>" . ($i + 1) . "</td>
                             <td class='left-al'>" . $item['product_name'] . "</td>
                             <td> Rs." . number_format($item['po_unit_price'], 2) . "</td>
-                            <td>" . $item['quantity'] . "</td>";
-
-                    if($shouldCheckStock)
-                        echo "<td>".$item['stock']['quantity']."</td>";
-
-                    echo "
+                            <td>" . $item['quantity'] . "</td>
                             <td> Rs." . $item['row_total'] . "</td>
-                            <td><input id=". $item['barcode'] ." class='hidden' type='checkbox'></td>
                         </tr>";
-                }
-            ?>
-                <tr></tr>
+                }?>
             </tbody>
         </table>
     </div>
@@ -99,10 +91,13 @@
             <h2>Total</h2>
             <h2>Rs.<?=$preOrder['total']?></h2>
         </div>
-        <h5 id="tip" class=""></h5>
-        <a id="rejectBtn" href="#" class="btn">Reject the Order</a>
-        <a id="updateBtn" href="#" class="btn hidden">Update</a>
-        <a id="changeStatusBtn" href="#" class="btn">Start Processing</a>
+        <?php if ($preOrder['status'] === 'Updated') {?>
+            <h5 id="tip">Unfortunately, the store has run out of some products you pre-ordered after you placed the order. The above is the updated pre-order that the shop can fulfill. Please review it, and if you accept the changes, press the accept button.</h5>
+            <button id="acceptBtn" class="btn">Accept the changes</button>
+        <?php }
+        if (in_array($preOrder['status'], ['Pending', 'Updated'])) {?>
+            <button id="cancelBtn" class="btn">Cancel</button>
+        <?php } ?>
     </div>
 </div>
 <div id="notification-container"></div>
@@ -110,13 +105,10 @@
 <script>
     const ROOT = '<?=ROOT?>';
     const LINKROOT = '<?=LINKROOT?>';
-    const ws_id = "<?=$_SESSION['shop_owner']['phone']?>";
+    const ws_id = "<?=$_SESSION['customer']['phone']?>";
     const pre_order_id = '<?=$preOrder['pre_order_id']?>';
-    let shouldBeUpdated = '<?=$shouldBeUpdated?>';
     let status = '<?=$preOrder['status']?>';
-    if(shouldBeUpdated)
-        var preOrderItems = <?= json_encode($preOrderItems) ?>;
 </script>
-<script src="<?=ROOT?>/js/ShopOwner/preOrder.js" type="module"></script>
+<script src="<?=ROOT?>/js/Customer/preOrder.js" type="module"></script>
 
 <?php $this->component("footer") ?>

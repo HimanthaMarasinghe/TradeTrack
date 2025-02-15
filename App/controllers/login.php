@@ -24,6 +24,7 @@ class login extends Controller
     {
         if($_SERVER['REQUEST_METHOD'] == 'POST')
         {
+            session_unset();
             $phone = $_POST['phone'];
             $userPasswordM = new UserPasswords;
             $row = $userPasswordM->first(['phone' => $phone]);

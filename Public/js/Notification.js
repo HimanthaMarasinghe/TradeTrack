@@ -56,9 +56,7 @@ export default class Notification {
         this.notificationBackDrop = document.getElementById("notification-backDrop");
         this.notifications = JSON.parse(sessionStorage.getItem("notifications" + ws_id)) || [];
 
-        if (this.notifications.length === 0 || this.syncWithDb) {
-            await this.loadNotificationsFromDB();
-        }
+        if (this.syncWithDb) await this.loadNotificationsFromDB();
 
         this.notificationCount.innerHTML = this.notifications.length;
 
@@ -89,10 +87,8 @@ export default class Notification {
         try {
             const response = await fetch(`${LINKROOT}/LogedInUserCommon/getNotifications`);
             const data = await response.json();
-            if (data) {
-                this.notifications = data;
-                sessionStorage.setItem("notifications" + ws_id, JSON.stringify(this.notifications));
-            }
+            this.notifications = data;
+            sessionStorage.setItem("notifications" + ws_id, JSON.stringify(this.notifications));
         } catch (error) {
             console.error("Error fetching notifications:", error);
             return; // Stop execution if fetching fails
@@ -109,9 +105,9 @@ export default class Notification {
         notification.innerHTML = `
                                     <div class="profile-photo asp-rtio">
                                         <img 
-                                            src="${ROOT}/images/Profile/${image}" 
+                                            src="${ROOT}/images/${image}" 
                                             alt="Customer Image" 
-                                            onerror="this.src='${ROOT}/images/Profile/PhoneNumber.jpg'">
+                                            onerror="this.src='${ROOT}/images/Default/Notification.png'">
                                     </div>
                                     <div class="colomn">
                                         <h3>${title}</h3>
@@ -126,7 +122,7 @@ export default class Notification {
             setTimeout(() => notification.remove(), 3000);
         }, 5000);
 
-        if(this.reload_data_func) this.reload_data_func(type);
+        if(this.reload_data_func) this.reload_data_func(type, ref_id);
 
         if (this.notificationIcon) {
             const messageToSave = {
@@ -168,6 +164,7 @@ export default class Notification {
     }
 
     deleteNotification(notification) {
+        if (!this.notifications.some(element => element.type === notification.type && element.ref_id === notification.ref_id)) return;
         this.notifications = this.notifications.filter(element => !(element.type === notification.type && element.ref_id === notification.ref_id));
         sessionStorage.setItem("notifications" + ws_id, JSON.stringify(this.notifications));
         this.notificationCount.innerHTML = this.notifications.length;

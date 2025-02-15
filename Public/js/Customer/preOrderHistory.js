@@ -6,15 +6,15 @@ const filter = document.getElementById('Filter');
 function cardTemplate(order) {
     return `
         <a class="card btn-card center-al alitem-center ${order.status}-preOrder" 
-           href="${LINKROOT}/ShopOwner/preOrder/${order.pre_order_id}">
+           href="${LINKROOT}/Customer/preOrder/${order.pre_order_id}">
             <div class="profile-photo">
-                <img src="${ROOT}/images/Profile/${order.cus_phone}.${order.pic_format}" 
+                <img src="${ROOT}/images/Shops/${order.so_phone+order.shop_pic_format}" 
                      alt="Profile Photo" 
-                     onerror="this.src='${ROOT}/images/Profile/PhoneNumber.jpg'">
+                     onerror="this.src='${ROOT}/images/Shops/Default.jpeg'">
             </div>
             <div class="details center-al">
                 <h3>Order Id ${order.pre_order_id}</h3>
-                <h4>${order.first_name} ${order.last_name}</h4>
+                <h4>${order.shop_name}</h4>
                 <h4>Rs.${order.total}</h4>
                 <h4>${order.date_time}</h4>
                 <h4 class="status">${order.status}</h4>
@@ -34,7 +34,7 @@ function updateGetVariables() {
 }
 
 const cofig = {
-    api : "ShopOwner/getAllPreOrders",
+    api : "Customer/getAllPreOrders",
     cardTemplate : cardTemplate,
     getVariables : getVariables,
     updateGetVariables : updateGetVariables

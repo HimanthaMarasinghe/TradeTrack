@@ -87,12 +87,6 @@
     border-top-right-radius: 5px;
 }
 
-.dropdown ul {
-    list-style: none;
-    padding: 10px;
-    margin: 0;
-}
-
 .dropdown a.notifi-card {
     text-decoration: none;
     color: black;
@@ -109,15 +103,6 @@
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
     }
-}
-
-.dropdown ul li .close {
-    cursor: pointer;
-    color: red;
-}
-
-.dropdown ul li:hover {
-    background: #f1f1f1;
 }
 
 #notification-backDrop {

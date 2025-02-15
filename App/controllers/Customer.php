@@ -87,6 +87,30 @@ class Customer extends Controller
         $this->view('Customer/announcements', $this->data);
     }
 
+    public function preOrderHistory() {
+        $this->data['tabs']['active'] = 'Home';
+        $this->view('Customer/preOrderHistory', $this->data);
+    }
+
+    public function preOrder($order_id) {
+        $preOrder = new PreOrder;
+        $preOrderItems = new PreOrderItems;
+        $this->data['preOrder'] = $preOrder->preOrderDetailsForCustomer($order_id);
+        
+        if(!$this->data['preOrder'])
+            redirect('Customer/preOrderHistory');
+
+        $this->data['preOrder']['total'] = $preOrderItems->preOrderAmount($order_id);
+        $this->data['preOrderItems'] = $preOrderItems->where(['pre_order_id' => $order_id]);
+
+        foreach ($this->data['preOrderItems'] as &$item) {
+            $item['row_total'] = number_format($item['po_unit_price'] * $item['quantity'], 2);
+        }
+
+        $this->data['tabs']['active'] = 'Home';
+        $this->view('customer/preOrder', $this->data);
+    }
+
     
     // API endpoints
 
@@ -119,8 +143,14 @@ class Customer extends Controller
             $loyReq = new LoyaltyRequests;
             $loyReq->insert(['cus_phone' => $_SESSION['customer']['phone'], 'so_phone' => $_POST['so_phone']]);
 
-            $notification = new NotificationService;
-            $notification->sendNotification($_POST['so_phone'], 'loyaltyReq',  $_SESSION['customer']['phone'],'New Loyalty Request', "{$_SESSION['customer']['first_name']} {$_SESSION['customer']['last_name']} requested to be a loyalty customer", "ShopOwner/loyaltyCustomerRequest/{$_SESSION['customer']['phone']}", $_SESSION['customer']['phone'].".".$_SESSION['customer']['pic_format']);
+            (new NotificationService)->sendNotification(
+                $_POST['so_phone'], 
+                'loyaltyReq',  
+                $_SESSION['customer']['phone'],
+                'New Loyalty Request', 
+                "{$_SESSION['customer']['first_name']} {$_SESSION['customer']['last_name']} requested to be a loyalty customer", 
+                "ShopOwner/loyaltyCustomerRequest/{$_SESSION['customer']['phone']}", 
+                "Profile/{$_SESSION['customer']['phone']}.{$_SESSION['customer']['pic_format']}");
             echo json_encode(['success' => true]);
         }
         else
@@ -181,9 +211,14 @@ class Customer extends Controller
         
         if ($con->commit()){
             $returnData = ['status' => 'success'];
-            $notification = new NotificationService;
-            $notification->sendNotification($so_phone, 'preOrder',  $preOrderId,'New Pre Order', "{$_SESSION['customer']['first_name']} {$_SESSION['customer']['last_name']} placed a pre-order", "ShopOwner/preOrder/{$preOrderId}", $_SESSION['customer']['phone'].".".$_SESSION['customer']['pic_format']);
-
+            (new NotificationService)->sendNotification(
+                $so_phone, 
+                'preOrder',  
+                $preOrderId,
+                'New Pre Order', 
+                "{$_SESSION['customer']['first_name']} {$_SESSION['customer']['last_name']} placed a pre-order", 
+                "ShopOwner/preOrder/{$preOrderId}", 
+                "Profile/{$_SESSION['customer']['phone']}.{$_SESSION['customer']['pic_format']}");
         }
         else{
             $returnData = ['status' => 'fail'];
@@ -211,7 +246,30 @@ class Customer extends Controller
         echo json_encode($loyaltyReqs);
     }
 
-
+    public function changePreOrderStatus($preOrderId){ 
+        $s = jsonPostDecode();
+        if ($s === 1){
+            $status = 'Pending';
+            $title = "Updated Pre-Order Accepted";
+            $body = "{$_SESSION['customer']['first_name']} {$_SESSION['customer']['last_name']} accepted the changes in the pre-order";
+        } else if ($s === 2){
+            $status = 'Canceled';
+            $title = "Pre-Order got Canceled";
+            $body = "{$_SESSION['customer']['first_name']} {$_SESSION['customer']['last_name']} canceled the pre-order";
+        }
+        $preOrderM = new PreOrder;
+        $preOrderM->update(['cus_phone' => $_SESSION['customer']['phone'], 'pre_order_id' => $preOrderId], ['status' => $status]);
+        $so_phone = $preOrderM->first(['cus_phone' => $_SESSION['customer']['phone'], 'pre_order_id' => $preOrderId], [], ['so_phone'])['so_phone'];
+        (new NotificationService)->sendNotification(
+            $so_phone,
+            'preOrder',
+            $preOrderId,
+            $title,
+            $body,
+            "ShopOwner/preOrder/{$preOrderId}", 
+            "Profile/{$_SESSION['customer']['phone']}.{$_SESSION['customer']['pic_format']}");
+        echo json_encode(true);
+    }
 
 
     public function new($viewName) {

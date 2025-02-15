@@ -47,7 +47,7 @@ class LogedInUserCommon extends Controller
         $phone = $this->forbidIfNotLogedIn();
         if (!$phone) return;
         $notificationM = new UserNotification;
-        $notifications = $notificationM->where(['phone' => $phone], [], null, null, ['type', 'ref_id', 'title', 'link', 'body']);
+        $notifications = $notificationM->where(['phone' => $phone], [], null, null, ['type', 'ref_id', 'title', 'link', 'body']) ?: [];
         // Todo : when chat feature is build, read messages that have false for the read status and genareate notifications for each chat (Not the message) and apend them to the $notifications variable.
         echo json_encode($notifications);
     }
