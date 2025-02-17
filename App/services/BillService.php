@@ -32,6 +32,7 @@ class BillService extends Database
             $loyaltyCustomers->updateWallet($cus_phone, $wallet_update, $con);
 
         $this->commit( $con);
+        return $lastId;
     }
 
     public function readBill($billId){

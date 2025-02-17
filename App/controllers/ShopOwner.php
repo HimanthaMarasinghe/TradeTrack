@@ -76,7 +76,7 @@ class ShopOwner extends Controller
             header('Location: ' . LINKROOT . '/ShopOwner/newPurchase');
         }
         $billService = new BillService;
-        $billService-> addBill($_POST['cus-phone'] ?? null, $_POST['wallet'] ?? 0);
+        $lastId = $billService-> addBill($_POST['cus-phone'] ?? null, $_POST['wallet'] ?? 0);
         $this->data['cus_phone'] = $_POST['cus-phone'] ?? null;
         $this->data['cus_email'] = $_POST['cus-email'] ?? null;
         $this->data['total'] = $_SESSION['total'];
@@ -84,6 +84,16 @@ class ShopOwner extends Controller
 
         unset($_SESSION['total']);
         unset($_SESSION['bill']);
+
+        if ($_POST['cus_phone'])
+        (new NotificationService)->sendNotification(
+            $_POST['cus_phone'], 
+            'bill', 
+            $lastId,
+            "Bill Settled", 
+            "Your bill at {$_SESSION['shop_owner']['shop_name']} has been settled.", 
+            "Customer/shop/{$_SESSION['shop_owner']['phone']}", 
+            "Profile/{$_SESSION['shop_owner']['phone']}.{$_SESSION['shop_owner']['pic_format']}");
         
         $this->view('shopOwner/purchaseDone', $this->data);
     }
