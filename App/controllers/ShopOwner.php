@@ -77,6 +77,7 @@ class ShopOwner extends Controller
         }
         $billService = new BillService;
         $lastId = $billService-> addBill($_POST['cus-phone'] ?? null, $_POST['wallet'] ?? 0);
+        (new StockService)->updateStockItems($_SESSION['bill']);
         $this->data['cus_phone'] = $_POST['cus-phone'] ?? null;
         $this->data['cus_email'] = $_POST['cus-email'] ?? null;
         $this->data['total'] = $_SESSION['total'];
@@ -85,9 +86,9 @@ class ShopOwner extends Controller
         unset($_SESSION['total']);
         unset($_SESSION['bill']);
 
-        if ($_POST['cus_phone'])
+        if ($_POST['cus-phone'])
         (new NotificationService)->sendNotification(
-            $_POST['cus_phone'], 
+            $_POST['cus-phone'], 
             'bill', 
             $lastId,
             "Bill Settled", 
@@ -218,7 +219,7 @@ class ShopOwner extends Controller
         $this->view('shopOwner/profitAndLossStatement');
     }
     
-    public function UpdateStock() {
+    public function updateStockView() {
         $this->view('shopOwner/updateStock', $this->data);
     }
 
@@ -258,7 +259,7 @@ class ShopOwner extends Controller
         if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['barcode']) && !empty($_POST['quantity']) && !empty($_POST['cost']) && !empty($_POST['purchaseType'])){
             $stck = new ShopStock;
             $con = $stck->startTransaction();
-            $stck->addStock($_POST['barcode'], $_SESSION['shop_owner']['phone'], $_POST['quantity'], $con);
+            $stck->updateStock($_POST['barcode'], $_SESSION['shop_owner']['phone'], $_POST['quantity'], $con);
             if($_POST['purchaseType'] == 'onCash'){
                 $shop = new Shops;
                 $shop->updateCashDrawer($_SESSION['shop_owner']['phone'], -1 * $_POST['cost'], $con);

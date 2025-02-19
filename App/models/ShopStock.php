@@ -37,7 +37,7 @@ class ShopStock extends Model
         return $this->query($query,['barcode' => $barcode]);
     }
 
-    public function addStock($barcode, $so_phone, $quantity, $con = null){
+    public function updateStock($barcode, $so_phone, $quantity, $con = null){
         $query =   "INSERT INTO so_stocks (barcode, so_phone, quantity) 
                     VALUES (:barcode, :so_phone, :quantity)
                     ON DUPLICATE KEY UPDATE 
