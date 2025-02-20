@@ -28,6 +28,14 @@ class Distributor extends Controller
 
     public function shops(){
         $this->data['tabs']['active'] = 'Shops';
+
+        // Call the getShopsData method to retrieve shops data
+    $shopModel = new Shops;
+    $search = ''; // You can customize the search term or retrieve it from a form or query parameters
+    $location = ''; // You can also use location if needed
+    $offset = 0; // Adjust the offset for pagination if required
+    $this->data['shops'] = $shopModel->getShopsData($search, $location, $offset);
+    
         $this->view('Distributor/shops', $this->data);
     }
 

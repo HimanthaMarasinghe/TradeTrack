@@ -53,4 +53,13 @@ class Shops extends Model
         $data = ['search' => "%$search%"];
         return $this->query($query, $data);
     }
+
+    public function getShopsData($search = null, $location = null, $offset = 0)
+{
+    // Use the allShops method to fetch the data from the Shops table
+    return $this->allShops($search, $location, $offset);
+}
+
+
+
 }
