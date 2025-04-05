@@ -30,33 +30,46 @@
         <div class="row mg-0">
             <div class="panel row w-50 spc-btwn">
                 <h2>Debtors</h2>
-                <h2>Rs.48372.00</h2>
+                <h2>Rs.<?=number_format($debtors,2)?></h2>
             </div>
             <div class="panel row w-50 spc-btwn">
                 <h2>Creditors</h2>
-                <h2>Rs.5432243.00</h2>
+                <h2>Rs.<?=number_format($creditors,2)?></h2>
             </div>
+        </div>
+        <br>
+        <br>
+        <div class="row spc-btwn w-50 m-i-auto">
+            <svg id="pre_Mo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path d="M9.4 278.6c-12.5-12.5-12.5-32.8 0-45.3l128-128c9.2-9.2 22.9-11.9 34.9-6.9s19.8 16.6 19.8 29.6l0 256c0 12.9-7.8 24.6-19.8 29.6s-25.7 2.2-34.9-6.9l-128-128z"/></svg>
+            <div  class="row">
+                <h2 id="monthYear"><?=date('F Y')?></h2>
+                <input type="month" id="monthInput" max="<?php echo date('Y-m'); ?>" value="<?php echo date('Y-m'); ?>">
+                <svg id="down" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
+            </div>
+            <svg id="next_Mo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path d="M246.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-9.2-9.2-22.9-11.9-34.9-6.9s-19.8 16.6-19.8 29.6l0 256c0 12.9 7.8 24.6 19.8 29.6s25.7 2.2 34.9-6.9l128-128z"/></svg>
         </div>
         <div class="row mg-0">
             <div class="panel row w-50 spc-btwn">
-                <h2>Profit (Des)</h2>
+                <h2>Profit</h2>
                 <h2>Rs.84021.00</h2>
             </div>
             <div class="panel row w-50 spc-btwn">
-                <h2>Withdrawal (Des)</h2>
+                <h2>Withdrawal</h2>
                 <h2>Rs.948302.00</h2>
             </div>
         </div>
         <div class="row mg-0">
             <div class="panel row w-50 spc-btwn">
-                <h2>Income (Des)</h2>
-                <h2>Rs.9389.00</h2>
+                <h2>Income</h2>
+                <h2 id="income">Rs.00.00</h2>
             </div>
             <div class="panel row w-50 spc-btwn">
-                <h2>Expenses (Des)</h2>
-                <h2>Rs.40324.00</h2>
+                <h2>Expenses</h2>
+                <h2 id="expenses">Rs.00.00</h2>
             </div>
         </div>
+        <br>
+        <br>
         <div class="row max-w-900 m-i-auto">
             <a href="<?=LINKROOT?>/ShopOwner/recordTransaction/Withdrow" class="btn fg1">Record Withdrawal</a>
             <a href="<?=LINKROOT?>/ShopOwner/recordTransaction/BankDeposit" class="btn fg1">Record Bank Deposits</a>

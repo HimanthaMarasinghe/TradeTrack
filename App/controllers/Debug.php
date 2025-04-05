@@ -27,7 +27,6 @@ class Debug extends Controller
     }
 
     public function test(){
-        $bill = new Bills;
-        $bill->where(['cus_phone' => '0770000000']);
+        show((new BillItems)->getBillsTotal(4, 2025));
     }
 }

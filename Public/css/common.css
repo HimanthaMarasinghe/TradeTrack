@@ -363,6 +363,17 @@ img.default{
 }
 
 svg#up,
-svg#down {
+svg#down{
     height: 2em;
+}
+
+svg#next_Mo,
+svg#pre_Mo {
+    height: 3em;
+    cursor: pointer;
+    fill: var(--btn-primary);
+
+    &:hover {
+        fill: var(--btn-hover);
+    }
 }

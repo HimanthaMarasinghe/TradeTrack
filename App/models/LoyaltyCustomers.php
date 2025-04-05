@@ -59,4 +59,10 @@ class LoyaltyCustomers extends Model
         return $this->query($query, $data);
     }
 
+    public function walletAmounts(){
+        if(!isset($_SESSION['shop_owner']['phone'])) return false;
+        $sql = "SELECT wallet FROM $this->table WHERE so_phone = :so_phone";
+        return $this->query($sql, ['so_phone' => $_SESSION['shop_owner']['phone']]);
+    }
+
 }
