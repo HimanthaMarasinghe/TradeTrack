@@ -212,6 +212,16 @@ class ShopOwner extends Controller
     
     public function accounts() {
         $this->data['tabs']['active'] = 'Accounts';
+
+        $this->data['debtors'] = 0;
+        $this->data['creditors'] = 0;
+
+        $wallets = (new LoyaltyCustomers)->walletAmounts();
+        foreach($wallets as $wallet){
+            if ($wallet['wallet'] > 0) $this->data['debtors'] += $wallet['wallet'];
+            else $this->data['creditors'] += abs($wallet['wallet']);
+        }
+
         $this->view('shopOwner/accounts', $this->data);
     }
 
@@ -524,5 +534,16 @@ class ShopOwner extends Controller
     public function addBillItemsToSession() {
         $_SESSION['bill'] = jsonPostDecode();
         echo json_encode(['status' => 'success']);
+    }
+
+    public function accountsForMonth($month, $year) {
+        if (!filter_var($month, FILTER_VALIDATE_INT) || !filter_var($year, FILTER_VALIDATE_INT) || $month < 1 || $month > 12 || $year < 2000 || $year > 2100) {
+            $year = date('Y');
+            $month = date('n');
+        }
+        $accounts['income'] = (new BillItems)->getBillsTotal($month, $year) ?? 0;
+        $accounts['expenses'] = 0;
+        
+        echo json_encode($accounts);
     }
 }

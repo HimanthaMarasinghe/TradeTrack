@@ -2,7 +2,7 @@
 
 class BillService extends Database
 {
-    function addBill($cus_phone, $wallet_update){
+    public function addBill($cus_phone, $wallet_update){
         $bill = new Bills();
         $billItems = new BillItems();
         $loyaltyCustomers = new LoyaltyCustomers();

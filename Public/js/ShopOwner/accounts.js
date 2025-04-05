@@ -41,3 +41,74 @@ const billApiConfig = {
 }
 
 new ApiFetcherMod(billApiConfig);
+
+const income = document.getElementById('income');
+const expenses = document.getElementById('expenses');
+const pre_Mo = document.getElementById('pre_Mo');
+const next_Mo = document.getElementById('next_Mo');
+const monthYear = document.getElementById('monthYear');
+const monthInput = document.getElementById('monthInput');
+const downArrow = document.getElementById('down');
+
+const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+
+const thisMonth = new Date().getMonth() + 1; // Months are 0-indexed in JS
+const thisYear = new Date().getFullYear();
+
+let month = thisMonth;
+let year = thisYear;
+
+function FetchMonthlyData() {
+    monthYear.innerText = `${monthNames[month - 1]} ${year}`;
+    fetch(`${LINKROOT}/ShopOwner/accountsForMonth/${month}/${year}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data) {
+                income.innerText = `Rs.${data.income.toFixed(2)}`;
+                expenses.innerText = `Rs.${data.expenses.toFixed(2)}`;
+            }
+            else {
+                income.innerText = '0.00';
+                expenses.innerText = '0.00';
+                alert('Error: No data found for this month.');
+            }
+        })
+}
+
+FetchMonthlyData();
+
+downArrow.addEventListener('click', () => {
+    monthInput.showPicker();
+})
+
+monthInput.addEventListener('change', () => {
+    if (monthInput.value === '') return;
+    const selectedDate = new Date(monthInput.value);
+    month = selectedDate.getMonth() + 1; // Months are 0-indexed in JS
+    year = selectedDate.getFullYear();
+    FetchMonthlyData();
+})
+
+pre_Mo.addEventListener('click', () => {
+    month--;
+    if (month < 1) {
+        month = 12;
+        year--;
+    }
+    FetchMonthlyData();
+})
+
+next_Mo.addEventListener('click', () => {
+    if(month === thisMonth && year === thisYear) {
+        return;
+    }
+    month++;
+    if (month > 12) {
+        month = 1;
+        year++;
+    }
+    FetchMonthlyData();
+})
