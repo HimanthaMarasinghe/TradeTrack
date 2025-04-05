@@ -38,11 +38,51 @@ class ShopStock extends Model
     }
 
     public function updateStock($barcode, $so_phone, $quantity, $con = null){
-        $query =   "INSERT INTO so_stocks (barcode, so_phone, quantity) 
-                    VALUES (:barcode, :so_phone, :quantity)
+        $query =   "INSERT INTO so_stocks (barcode, so_phone, quantity, pre_orderable_stock) 
+                    VALUES (:barcode, :so_phone, :quantity, :quantity)
                     ON DUPLICATE KEY UPDATE 
-                    quantity = quantity + VALUES(quantity);";
+                    quantity = quantity + VALUES(quantity),
+                    pre_orderable_stock = pre_orderable_stock + VALUES(quantity)";
         return $this->query($query, ['barcode' => $barcode, 'so_phone' => $so_phone, 'quantity' => $quantity], $con);
+    }
+
+    public function updatePreOrderableStock($barcode, $so_phone, $quantity, $con = null){
+        $query =   "UPDATE so_stocks 
+                    SET pre_orderable_stock = pre_orderable_stock + :quantity
+                    WHERE barcode = :barcode AND so_phone = :so_phone";
+        return $this->query($query, ['barcode' => $barcode, 'so_phone' => $so_phone, 'quantity' => $quantity], $con);
+    }
+
+    public function updateStockItems($items, $so_phone = null) {
+        if ($so_phone === null) $so_phone = $_SESSION['shop_owner']['phone'];
+        $con = $this->startTransaction();
+        foreach($items as $item) {
+            $this->updateStock($item['barcode'], $so_phone, -1*$item['qty'], $con);
+        }
+        $con->commit();
+    }
+
+    public function updatePreOrderableStockItems($items, $so_phone = null, $con = null) {
+        if ($so_phone === null) $so_phone = $_SESSION['so_phone'];
+        foreach($items as $item) {
+            $this->updatePreOrderableStock($item['barcode'], $so_phone, -1*$item['quantity'], $con);
+        }
+    }
+
+    public function updatePreOrderableStockByOrder($order_id, $con = null, $increase = false){
+        $query = "UPDATE so_stocks s SET s.pre_orderable_stock =";
+        if($increase) $query .= " s.pre_orderable_stock + (SELECT quantity FROM pre_order_items WHERE pre_order_id = :order_id AND barcode = s.barcode)";
+        else $query .= " s.pre_orderable_stock - (SELECT quantity FROM pre_order_items WHERE pre_order_id = :order_id AND barcode = s.barcode)";
+        $query .= " WHERE s.barcode IN (SELECT barcode FROM pre_order_items WHERE pre_order_id = :order_id)";
+        return $this->query($query, ['order_id' => $order_id], $con);
+    }
+
+    public function updateStockOnPreOrder($order_id, $con = null, $increase = false){
+        $query = "UPDATE so_stocks s SET s.quantity =";
+        if($increase) $query .= " s.quantity + (SELECT quantity FROM pre_order_items WHERE pre_order_id = :order_id AND barcode = s.barcode)";
+        else $query .= " s.quantity - (SELECT quantity FROM pre_order_items WHERE pre_order_id = :order_id AND barcode = s.barcode)";
+        $query .= " WHERE s.barcode IN (SELECT barcode FROM pre_order_items WHERE pre_order_id = :order_id)";
+        return $this->query($query, ['order_id' => $order_id], $con);
     }
 
     public function getStockLevel($barcode, $so_phone){
