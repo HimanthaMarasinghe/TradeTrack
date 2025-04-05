@@ -56,6 +56,10 @@ function updateUI(){
         tip.innerHTML = "Some items in this order are out of stock. Click the update button to adjust the order quantity and wait for the customer's confirmation.";
         //  The adjustment will follow predefined settings, ensuring small quantities of these items remain available for other customers. This prevents future pre-order updates if other customers purchase the product while waiting for confirmation.
         // above text should go as a hover tip for the update button
+    } else if (shouldBeRejected) {
+        changeStatusBtn.classList.add('hidden');
+        changeStatusBtn.removeEventListener('click', btnClickEvent);
+        tip.innerHTML = "All the products in this order are out of stock. Reject or wait for new stock."
     }
 
     switch (status) {
@@ -176,7 +180,7 @@ updateBtn.addEventListener('click', () => {
         if(item.quantity > item.stock.quantity){
             newPreOrderItems.push({
                 barcode: item.barcode,
-                quantity: item.stock.quantity - item.stock.non_preorderable_stock 
+                quantity: item.stock.quantity
             });
         }
     });

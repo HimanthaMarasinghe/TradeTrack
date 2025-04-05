@@ -113,6 +113,7 @@
     const ws_id = "<?=$_SESSION['shop_owner']['phone']?>";
     const pre_order_id = '<?=$preOrder['pre_order_id']?>';
     let shouldBeUpdated = '<?=$shouldBeUpdated?>';
+    let shouldBeRejected = '<?=$shouldBeRejected?>'
     let status = '<?=$preOrder['status']?>';
     if(shouldBeUpdated)
         var preOrderItems = <?= json_encode($preOrderItems) ?>;

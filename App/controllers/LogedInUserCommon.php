@@ -71,12 +71,12 @@ class LogedInUserCommon extends Controller
         else if(isset($_GET['cus_phone'])) {
             $data = ['s.so_phone' => $_SESSION['shop_owner']['phone'], 'u.phone' => $_GET['cus_phone']];
             if($_GET['date']) $data['date'] = $_GET['date'];
-            $bills = $bill->where($data, [], 10,$offset, ['bill_id', 'date', 'time', 'first_name', 'last_name', 'cus_phone', 'pic_format']);
+            $bills = $bill->where($data, [], 10,$offset, ['bill_id', 'date', 'time', 'first_name', 'last_name', 'cus_phone', 'pic_format'], ['bill_id']);
         }
         else if($_GET['so_phone']) {
             $data = ['u.phone' => $_SESSION['customer']['phone'], 's.so_phone' => $_GET['so_phone']];
             if(isset($_GET['date'])) $data['date'] = $_GET['date'];
-            $bills = $bill->where($data, [], 10, $offset, ['bill_id', 'date', 'time', 'shop_name', 's.so_phone', 'shop_pic_format']);
+            $bills = $bill->where($data, [], 10, $offset, ['bill_id', 'date', 'time', 'shop_name', 's.so_phone', 'shop_pic_format'], ['bill_id']);
         }
         foreach($bills as &$bill){
             $bill['total'] = $billItems->getBillTotal($bill['bill_id']);

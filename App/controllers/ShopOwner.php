@@ -76,7 +76,8 @@ class ShopOwner extends Controller
             header('Location: ' . LINKROOT . '/ShopOwner/newPurchase');
         }
         $billService = new BillService;
-        $billService-> addBill($_POST['cus-phone'] ?? null, $_POST['wallet'] ?? 0);
+        $lastId = $billService-> addBill($_POST['cus-phone'] ?? null, $_POST['wallet'] ?? 0);
+        (new ShopStock)->updateStockItems($_SESSION['bill']);
         $this->data['cus_phone'] = $_POST['cus-phone'] ?? null;
         $this->data['cus_email'] = $_POST['cus-email'] ?? null;
         $this->data['total'] = $_SESSION['total'];
@@ -84,6 +85,16 @@ class ShopOwner extends Controller
 
         unset($_SESSION['total']);
         unset($_SESSION['bill']);
+
+        if ($_POST['cus-phone'])
+        (new NotificationService)->sendNotification(
+            $_POST['cus-phone'], 
+            'bill', 
+            $lastId,
+            "Bill Settled", 
+            "Your bill at {$_SESSION['shop_owner']['shop_name']} has been settled.", 
+            "Customer/shop/{$_SESSION['shop_owner']['phone']}", 
+            "Profile/{$_SESSION['shop_owner']['phone']}.{$_SESSION['shop_owner']['pic_format']}");
         
         $this->view('shopOwner/purchaseDone', $this->data);
     }
@@ -106,16 +117,21 @@ class ShopOwner extends Controller
         $this->data['preOrderItems'] = $preOrderItems->where(['pre_order_id' => $order_id]);
 
         $this->data['shouldCheckStock'] = !in_array($this->data['preOrder']['status'], ['Picked', 'Rejected']);
+        $this->data['shouldBeRejected'] = $this->data['shouldCheckStock'];
 
         foreach ($this->data['preOrderItems'] as &$item) {
             $item['row_total'] = number_format($item['po_unit_price'] * $item['quantity'], 2);
             if ($this->data['shouldCheckStock']) {
                 $item['stock'] = $stock->getStockLevel($item['barcode'], $_SESSION['shop_owner']['phone']);
-                if ($item['stock']['quantity'] < $item['quantity']) {
-                    $this->data['shouldBeUpdated'] = true;
-                }
+                if ($item['stock']['quantity'] < $item['quantity'])
+                    $this->data['shouldBeUpdated'] = true; // Even if one item can not be provided, order should be updated.
+                if ($item['stock']['quantity'] > 0)
+                    $this->data['shouldBeRejected'] = false; // If at least one item can be provided, order should not be rejected.
             }
         }
+
+        if ($this->data['shouldBeRejected']) $this->data['shouldBeUpdated'] = false; // If all the items are out of stock, ther is nothing to update.
+    
 
         $this->data['tabs']['active'] = 'Customers';
         $this->view('shopOwner/preOrder', $this->data);
@@ -208,7 +224,7 @@ class ShopOwner extends Controller
         $this->view('shopOwner/profitAndLossStatement');
     }
     
-    public function UpdateStock() {
+    public function updateStockView() {
         $this->view('shopOwner/updateStock', $this->data);
     }
 
@@ -245,11 +261,11 @@ class ShopOwner extends Controller
     }
 
     public function addStock() {
-        if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['barcode']) && !empty($_POST['quantity']) && !empty($_POST['cost']) && !empty($_POST['purchaseType'])){
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['barcode']) && !empty($_POST['quantity'])){
             $stck = new ShopStock;
             $con = $stck->startTransaction();
-            $stck->addStock($_POST['barcode'], $_SESSION['shop_owner']['phone'], $_POST['quantity'], $con);
-            if($_POST['purchaseType'] == 'onCash'){
+            $stck->updateStock($_POST['barcode'], $_SESSION['shop_owner']['phone'], $_POST['quantity'], $con);
+            if($_POST['purchaseType'] == 'onCash' && !empty($_POST['cost'])){
                 $shop = new Shops;
                 $shop->updateCashDrawer($_SESSION['shop_owner']['phone'], -1 * $_POST['cost'], $con);
             }
@@ -394,7 +410,8 @@ class ShopOwner extends Controller
     public function updateStatus(){
         if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['pre_order_id']) && !empty($_POST['status'])){
             $preOrder = new PreOrder;
-            $preOrder->update(['pre_order_id' => $_POST['pre_order_id'], 'so_phone' => $_SESSION['shop_owner']['phone']], ['status' => $_POST['status']]);
+            $con = $preOrder->startTransaction();
+            $preOrder->update(['pre_order_id' => $_POST['pre_order_id'], 'so_phone' => $_SESSION['shop_owner']['phone']], ['status' => $_POST['status']], $con);
             
             $cus_phone = $preOrder->first(['pre_order_id' => $_POST['pre_order_id']], [], ['cus_phone'])['cus_phone'];
 
@@ -404,6 +421,7 @@ class ShopOwner extends Controller
                     $body = "Your pre-order at {$_SESSION['shop_owner']['shop_name']} is now being processed.";
                     break;
                 case 'Ready':
+                    (new ShopStock)->updateStockOnPreOrder($_POST['pre_order_id'], $con);
                     $title = 'Pre-Order Ready';
                     $body = "Your pre-order at {$_SESSION['shop_owner']['shop_name']} is ready for pickup.";
                     break;
@@ -412,10 +430,17 @@ class ShopOwner extends Controller
                     $body = "Your pre-order at {$_SESSION['shop_owner']['shop_name']} has been picked.";
                     break;
                 case 'Rejected':
+                    (new ShopStock)->updatePreOrderableStockByOrder($_POST['pre_order_id'], $con, true);
                     $title = 'Pre-Order Rejected';
                     $body = "Your pre-order at {$_SESSION['shop_owner']['shop_name']} has been rejected.";
                     break;
             };
+
+            if(!$con->commit()){
+                echo json_encode(['success' => false]);
+                return;
+            }
+
             (new NotificationService)->sendNotification(
                 $cus_phone, 
                 'preOrder', 
@@ -452,16 +477,15 @@ class ShopOwner extends Controller
 
             $preOrder = new PreOrder;
             $preOrderItems = new PreOrderItems;
+            $shopStock = new ShopStock;
             $con = $preOrder->startTransaction();
             $preOrder->update(['pre_order_id' => $_POST['pre_order_id']], ['status' => 'Updated'], $con);
+            $shopStock->updateStockOnPreOrder($_POST['pre_order_id'], $con, true);
             foreach($newPreOrderItems as $item){
-                if($item['quantity'] == 0){
-                    $preOrderItems->delete(['pre_order_id' => $_POST['pre_order_id'], 'barcode' => $item['barcode']], $con);
-                }
-                else{
-                    $preOrderItems->update(['pre_order_id' => $_POST['pre_order_id'], 'barcode' => $item['barcode']], ['quantity' => $item['quantity']], $con);
-                }
+                if($item['quantity'] == 0) $preOrderItems->delete(['pre_order_id' => $_POST['pre_order_id'], 'barcode' => $item['barcode']], $con);
+                else $preOrderItems->update(['pre_order_id' => $_POST['pre_order_id'], 'barcode' => $item['barcode']], ['quantity' => $item['quantity']], $con);
             }
+            $shopStock->updatePreOrderableStockItems($newPreOrderItems, $_SESSION['shop_owner']['phone'], $con);
 
             if ($con->commit()) {
                 $cus_phone = $preOrder->first(['pre_order_id' => $_POST['pre_order_id']], [], ['cus_phone'])['cus_phone'];

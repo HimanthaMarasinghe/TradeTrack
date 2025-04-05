@@ -61,7 +61,7 @@
             src="<?=ROOT?>/images/Profile/<?=$customer['phone']?>.<?=$customer['pic_format']?>" 
             class="profile-img big" 
             alt="Customers Profile Photo"
-            <!-- onerror="this.src='<?=ROOT?>/images/Profile/PhoneNumber.jpg'" -->
+            onerror="this.src='<?=ROOT?>/images/Profile/PhoneNumber.jpg'"
         >
     </div>
     <div class="row">

@@ -3,7 +3,7 @@
 class Model extends Database
 {
 
-    public function where($data, $data_not = [], $limit = null, $offset = null, $readFields = [])
+    public function where($data, $data_not = [], $limit = null, $offset = null, $readFields = [], $orderBy = [])
     {
         $keys = array_keys($data);
         $keys_not = array_keys($data_not);
@@ -33,6 +33,11 @@ class Model extends Database
         }
 
         $query = rtrim($query, " && ");
+
+        if($orderBy)
+        {
+            $query .= " ORDER BY ".implode("DESC , ", $orderBy)." DESC";
+        }
 
         if($limit)
         {
@@ -88,7 +93,7 @@ class Model extends Database
     }
 
 
-    public function readAll($limit = null, $offset = null, $readFields = [])
+    public function readAll($limit = null, $offset = null, $readFields = [], $orderBy = [])
     {
         if(!isset($this->readTable)){
             $this->readTable = $this->table;
@@ -101,6 +106,11 @@ class Model extends Database
         if($limit)
         {
             $query .= " LIMIT $limit";
+        }
+
+        if($orderBy)
+        {
+            $query .= " ORDER BY ".implode("DESC , ", $orderBy)." DESC";
         }
 
         if($offset)

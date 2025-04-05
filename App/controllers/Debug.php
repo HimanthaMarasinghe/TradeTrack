@@ -25,4 +25,9 @@ class Debug extends Controller
         $notification = new NotificationService;
         $notification->sendNotification($phone, 'ann', "checkref2",'New Pre Order', "Check message", "debug", null);
     }
+
+    public function test(){
+        $bill = new Bills;
+        $bill->where(['cus_phone' => '0770000000']);
+    }
 }

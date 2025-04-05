@@ -196,6 +196,7 @@ class Customer extends Controller
         $preOrderP = new PreOrder;
         $preOrderItemsP = new PreOrderItems;
         $products = new Products;
+        $shopStock = new ShopStock;
 
         $con = $preOrderP->startTransaction();
 
@@ -208,6 +209,7 @@ class Customer extends Controller
         }
 
         $preOrderItemsP->bulkInsert($preOrderItems, ['barcode', 'quantity', 'po_unit_price', 'pre_order_id'], $con);
+        $shopStock->updatePreOrderableStockItems($preOrderItems, $so_phone, $con);
         
         if ($con->commit()){
             $returnData = ['status' => 'success'];
@@ -247,12 +249,14 @@ class Customer extends Controller
     }
 
     public function changePreOrderStatus($preOrderId){ 
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || $preOrderId === null) redirect('Customer/preOrderHistory');
         $s = jsonPostDecode();
         if ($s === 1){
             $status = 'Pending';
             $title = "Updated Pre-Order Accepted";
             $body = "{$_SESSION['customer']['first_name']} {$_SESSION['customer']['last_name']} accepted the changes in the pre-order";
         } else if ($s === 2){
+            (new ShopStock)->updatePreOrderableStockByOrder($_POST['pre_order_id'], null, true);
             $status = 'Canceled';
             $title = "Pre-Order got Canceled";
             $body = "{$_SESSION['customer']['first_name']} {$_SESSION['customer']['last_name']} canceled the pre-order";
