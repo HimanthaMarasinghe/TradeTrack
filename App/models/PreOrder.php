@@ -64,11 +64,16 @@ class PreOrder extends Model
                     u.first_name, 
                     u.last_name, 
                     u.pic_format, 
-                    u.address 
+                    u.address,
+                    lc.wallet
                 FROM 
                     pre_order p INNER JOIN  users u 
                 ON 
                     p.cus_phone = u.phone 
+                INNER JOIN 
+                    loyalty_customers lc 
+                ON 
+                    p.cus_phone = lc.cus_phone AND p.so_phone = lc.so_phone
                 WHERE 
                     p.pre_order_id = :pre_order_id AND p.so_phone = :so_phone
                 LIMIT 1";

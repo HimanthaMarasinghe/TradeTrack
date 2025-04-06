@@ -21,6 +21,10 @@ const tip = document.getElementById('tip');
 let nextStatus;
 
 function btnClickEvent(){
+    if (status === 'Ready'){
+        viewPopUp('popUp');
+        return;
+    }
     fetch(`${LINKROOT}/ShopOwner/updateStatus`, {
         method: 'POST',
         headers: {
@@ -211,4 +215,103 @@ document.addEventListener('DOMContentLoaded', () => {
         startProcessingPreOrder();
         checkItemCheckBox();
     }
+});
+
+const walletElem = document.getElementById('walletElem');
+let change = -document.getElementById('total').value;
+const changeElement = document.getElementById('change');
+const walletUpdate = document.getElementById('wallet-update');
+const returnToCus = document.getElementById('return-to-cus');
+const cash = document.getElementById('cash')
+// const cus_details = document.getElementById('cus-details');
+const print = document.getElementById('print');
+const skip = document.getElementById('skip');
+
+const hw0 = document.querySelectorAll('.hw0');
+const hwl = document.querySelectorAll('.hwl');
+const hwg = document.querySelector('.hwg');
+
+if(walletAmount < 0) {
+    const bold = walletElem.querySelector('b');
+    bold.classList.remove('green-text');
+    bold.innerHTML = `Rs.(${walletAmount.toFixed(2)})`;
+    bold.classList.add('red-text');
+}
+
+cash.addEventListener('input', function(e) {
+    e.target.value = e.target.value < 0 ? e.target.value*(-1) : e.target.value;
+    change = e.target.value - parseFloat(preOrderTotal.replace(/,/g, ''));
+    
+    if(change !== 0) {
+        hw0.forEach(element => {
+            element.classList.remove('hidden');
+        });
+        walletUpdate.disabled = false;
+    } else {
+        hw0.forEach(element => {
+            element.classList.add('hidden');
+        });
+        walletUpdate.disabled = true;
+    }
+
+    if(change < 0) {
+        changeElement.classList.remove('green-text');
+        e.target.classList.remove('green-text');
+        changeElement.classList.add('red-text');
+        e.target.classList.add('red-text');
+        walletUpdate.value = change;
+        hwl.forEach(element => {
+            element.classList.add('hidden');
+        });
+    } else {
+        changeElement.classList.remove('red-text');
+        e.target.classList.remove('red-text');
+        changeElement.classList.add('green-text');
+        e.target.classList.add('green-text');
+        hwg.classList.add('hidden');
+        walletUpdate.value = 0;
+    }
+    changeElement.value = change;
+    document.getElementById('change-loyaltyBox').value = change;
+    returnToCus.value =change;
+});
+
+returnToCus.addEventListener('input', function(e) {
+    e.target.value = e.target.value < 0 ? e.target.value*(-1) : e.target.value;
+    e.target.value = e.target.value > change ? change : e.target.value;
+    walletUpdate.value = change - e.target.value;
+});
+
+
+function finalize(){
+    fetch(`${LINKROOT}/ShopOwner/updateStatus`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: 'pre_order_id=' + pre_order_id + '&status=Picked&wallet_update=' + parseFloat(walletUpdate.value.replace(/,/g, ''))
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log(data);
+        if (data.success){
+            status = "Picked";
+            location.reload();
+        }
+        else
+            alert('Failed to update order status');
+    });
+}
+
+skip.addEventListener('click', function(e) {
+    e.preventDefault();
+    finalize();
+});
+
+print.addEventListener('click', function(e) {
+    e.preventDefault();
+    document.getElementById('bill-date').innerText = 'Date : ' + new Date().toLocaleDateString();
+    document.getElementById('bill-time').innerText = 'Time : ' + new Date().toLocaleTimeString();
+    window.print();
+    finalize();
 });

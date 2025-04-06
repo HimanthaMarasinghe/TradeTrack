@@ -13,7 +13,7 @@ body {
 
 .row {
     display: flex;
-    flex-direction: row;
+    flex-direction: row !important;
     margin: 10px 0;
     gap: 5px;
 }
@@ -105,6 +105,10 @@ body {
 
 .w-100 {
     width: 100%;
+}
+
+.w-100px {
+    width: 1000px !important;
 }
 
 .h-25{

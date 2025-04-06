@@ -2,13 +2,13 @@
 
 class BillService extends Database
 {
-    public function addBill($cus_phone, $wallet_update){
+    public function addBill($cus_phone, $wallet_update, $preOrderItems = null, $con1 = null){
         $bill = new Bills();
         $billItems = new BillItems();
         $loyaltyCustomers = new LoyaltyCustomers();
         $shop = new Shops(); 
 
-        $con = $this->startTransaction();
+        $con = $con1 ?? $this->startTransaction(); //If null assing new conection
         //Transactions should be done using the same connection. Therefore, we pass the connection to the functions that need it.
 
         $bill->insert([
@@ -18,7 +18,7 @@ class BillService extends Database
 
         $lastId = $this->lastId($con);
 
-        $itemArray = $_SESSION['bill'];
+        $itemArray = $preOrderItems ?? $_SESSION['bill'];
 
         foreach ($itemArray as &$item) {
             $item['bill_id'] = $lastId;
@@ -30,6 +30,8 @@ class BillService extends Database
         $shop->updateCashDrawer($_SESSION['shop_owner']['phone'], $_SESSION['total']+$wallet_update, $con);
         if($wallet_update && $cus_phone)
             $loyaltyCustomers->updateWallet($cus_phone, $wallet_update, $con);
+
+        if($con1) return;
 
         $this->commit( $con);
         return $lastId;
