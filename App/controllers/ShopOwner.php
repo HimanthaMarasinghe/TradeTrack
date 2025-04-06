@@ -257,8 +257,8 @@ class ShopOwner extends Controller
         $this->view('ShopOwner/announcements', $this->data);
     }
 
-    public function orderStocks() {
-        
+    public function orderStocks($dis_phone) {
+        $this->data['dis_phone'] = $dis_phone;
         $this->data['tabs']['active'] = 'Stocks';
         $this->view('shopOwner/orderStocks', $this->data);
     }
@@ -552,5 +552,50 @@ class ShopOwner extends Controller
         $accounts['expenses'] = 0;
         
         echo json_encode($accounts);
+    }
+
+    public function getNewStockDetails($offset) {
+        if (!filter_var($offset, FILTER_VALIDATE_INT)) 
+            $offset = 0;  // Default to 0 if invalid
+        $details = (new DistributorStocks)->search($_GET['disPhone'], $_GET['search'], $offset);
+        header('Content-Type: application/json');
+        echo json_encode($details);
+    }
+
+    public function placeStockOrder($dis_phone) {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') 
+            redirect("ShopOwner/orderStocks/{$dis_phone}");
+
+        $orderItems = jsonPostDecode()['orderItems'];
+        writeToFile($orderItems);
+
+        $shopOrder = new ShopOrder;
+        $shopOrderItems = new ShopOrderItems;
+
+        $con = $shopOrder->startTransaction();
+        $shopOrder->insert(['dis_phone' => $dis_phone, 'so_phone' => $_SESSION['shop_owner']['phone']], $con);
+        $orderId = $con->lastInsertId();
+
+        foreach($orderItems as &$item) {
+            $item['order_id'] = $orderId;
+        }
+
+        $shopOrderItems->bulkInsert($orderItems, ['barcode', 'quantity', 'order_id'], $con);
+
+        if ($con->commit()){
+            $returnData = ['status' => 'success'];
+            (new NotificationService)->sendNotification(
+                $dis_phone, 
+                'stkOrdr',  
+                $orderId,
+                'New Order', 
+                "{$_SESSION['shop_owner']['first_name']} {$_SESSION['shop_owner']['last_name']} placed an order", 
+                "ShopOwner/preOrder/{$orderId}", 
+                "Profile/{$_SESSION['shop_owner']['phone']}.{$_SESSION['shop_owner']['pic_format']}");
+        }
+        else{
+            $returnData = ['status' => 'fail'];
+        }
+        echo json_encode($returnData);
     }
 }

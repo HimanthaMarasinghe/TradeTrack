@@ -33,7 +33,7 @@
         <div class="panel cash-drawer">
             <h2>Cash Drawer Balance</h2>
             <div class="balance">
-                <h1>Rs.<?=$cashDrawerBallance?>.00</h1>
+                <h1>Rs.<?=number_format($cashDrawerBallance, 2)?></h1>
             </div>
         </div>
 
