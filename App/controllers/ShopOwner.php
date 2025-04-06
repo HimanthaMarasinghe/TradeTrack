@@ -436,6 +436,13 @@ class ShopOwner extends Controller
                     $body = "Your pre-order at {$_SESSION['shop_owner']['shop_name']} is ready for pickup.";
                     break;
                 case 'Picked':
+                    if(empty($_POST['wallet_update'])) {
+                        $con->rollBack();
+                        echo json_encode(['success' => false]);
+                        return;
+                    }
+                    $preOrderItems = (new PreOrderItems)->readPreOrderItems($_POST['pre_order_id']);
+                    (new BillService)->addBill($cus_phone, $_POST['wallet_update'], $preOrderItems, $con);
                     $title = 'Pre-Order Picked';
                     $body = "Your pre-order at {$_SESSION['shop_owner']['shop_name']} has been picked.";
                     break;
