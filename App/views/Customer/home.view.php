@@ -58,7 +58,7 @@
 </div>
 
 <div id="popUpBackDrop" class="hidden"></div>
-<?php $this->component("billDetails", [$role = 'Customer']) ?>
+<?php $this->component("billDetails", ['role' => 'Customer']) ?>
 <div id="notification-container"></div>
 
 <script>

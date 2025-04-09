@@ -19,6 +19,7 @@
     margin: 10px auto;
     padding: 15px;
     width: 100%;
+    position: relative;
 
     & .details {
         flex-grow: 1;
@@ -35,5 +36,14 @@
         & .quantity{
             color: #ff2f00;
         }
+    }
+
+    & .badge{
+        border-radius: 10px;
+        background-color: #FEF7FF;
+        color: var(--primary-color);
+        border: 1px solid var(--primary-color);
+        top: -9px;
+        right: 10px;
     }
 }

@@ -286,6 +286,11 @@ class ShopOwner extends Controller
         $this->view('shopOwner/addStock', $this->data);
     }
 
+    public function ordersHistory() {
+        $this->data['tabs']['active'] = 'Stocks';
+        $this->view('shopOwner/ordersHistory', $this->data);
+    }
+
     // API endpoints
 
     public function addLoyCus(){
@@ -597,5 +602,27 @@ class ShopOwner extends Controller
             $returnData = ['status' => 'fail'];
         }
         echo json_encode($returnData);
+    }
+
+    public function getAllStockOrders($offset = 0){ 
+        if (!filter_var($offset, FILTER_VALIDATE_INT)) 
+            $offset = 0;  // Default to 0 if invalid
+
+        $search = $_GET['search'] ?? null;
+        $status = $_GET['status'] ?? null;
+
+        $orders = (new ShopOrder)->search($search, $status, $offset);
+        header('Content-Type: application/json');
+        echo json_encode($orders);        
+    }
+
+    public function getOrderDetails($order_id){
+        $order = (new ShopOrder)->first(['order_id' => $order_id, 'so_phone' => $_SESSION['shop_owner']['phone']]);
+        if (!$order){
+            echo json_encode(['error' => 'Error: Orders is not avilable']);
+            return;
+        }
+        $orderDetails = (new ShopOrderItems)->orderDetails($order_id);
+        echo json_encode($orderDetails);
     }
 }
