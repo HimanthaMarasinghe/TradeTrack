@@ -5,7 +5,7 @@ export default class ApiFetcherMod {
         this.cardTemplate = config.cardTemplate;
 
         //Optional fields
-        this.dataArr = config.dataArr;
+        this.dataArr = config.dataArr; //Used to save fetched data if want to use later
         this.offsetIncrement = config.offsetIncrement || 10;
         this.getVariables = config.getVariables || { search: "" };
         this.updateGetVariables = config.updateGetVariables || this.defaultUpdateGetVariables;

@@ -8,7 +8,10 @@
 
     <div class="bar">
         <img src="<?=ROOT?>/images/icons/home.svg" alt="">
-        <h1><?=$_SESSION['shop_owner']['shop_name']?></h1>
+        <div class="coloum center-al">
+            <h1><?=$_SESSION['shop_owner']['shop_name']?></h1>
+            <h2>Stock Orders History</h2>
+        </div>
         <div class="row gap-10">
             <a href="<?=LINKROOT?>/ShopOwner/announcements"><img src="<?=ROOT?>/images/icons/Announcement.svg" alt=""></a>
             <?php $this->component("notification") ?>
@@ -16,12 +19,17 @@
         </div>
     </div>
     
-    <div class="panel mg-10 fg1">
+    <div class="row fg1 ovf-hdn">
+        <div class="panel mg-10 fg1">
         <div class="row">
             <input id="searchBar" type="text" class="search-bar fg1" placeholder="Search">
-            <a class="btn" href="<?=LINKROOT?>/ShopOwner/addStock">Add stocks</a>
-            <a class="btn" href="<?=LINKROOT?>/ShopOwner/distributors">Order Stocks</a>
-            <a class="btn" href="<?=LINKROOT?>/ShopOwner/OrdersHistory">Orders History</a>
+            <select id="Filter" class="filter-js">
+                <option value="all">All</option>
+                <option value="Pending">Pending</option>
+                <option value="Processing">Processing</option>
+                <option value="Ready">Delivering</option>
+                <option value="Picked">Delivered</option>
+            </select>
         </div>
         <div class="scroll-box grid g-resp-300" id="elements-Scroll-Div">
         </div>
@@ -29,14 +37,17 @@
 
 </div>
 
-<div id="notification-container"></div>
+<!-- PopUp -->
+<div id="popUpBackDrop" class="hidden"></div>
+<?php $this->component("billDetails", ['role' =>'Distributor']) ?>
+
 
 <script>
     const ROOT = "<?=ROOT?>";
-    const LINKROOT = "<?=LINKROOT?>"
+    const LINKROOT = "<?=LINKROOT?>";
     const ws_id = "<?=$_SESSION['shop_owner']['phone']?>";
-    const ws_token = "<?=$_SESSION['web_socket_token']?>";
 </script>
-<script src="<?=ROOT?>/js/ShopOwner/stocks.js" type="module"></script>
+<script src="<?=ROOT?>/js/ShopOwner/ordersHistory.js" type="module"></script>
+<script src="<?=ROOT?>/js/popUp.js"></script>
 
 <?php $this->component("footer") ?>
