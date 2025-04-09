@@ -1,5 +1,6 @@
 import ApiFetcherMod from "../ApiFetcherMod.js";
 import Notification from "../notification.js";
+import {newStockCardTemplate} from "../UI_Elements_templates.js"
 
 const orderItems = [];
 let selectedProduct = null;
@@ -140,31 +141,6 @@ placeOrderBtn.addEventListener('click', () => {
 });
 
 //********** ApiFetcherMod Configurations **********//
-
-//Card template
-
-function newStockCardTemplate(product) {
-    const {
-        barcode,
-        product_name,
-        bulk_price,
-        pic_format,
-    } = product;
-    
-    const imageSrc = `${ROOT}/images/Products/${barcode}.${pic_format}`;
-
-    return `
-        <a href="#" class="card btn-card" id="${barcode}">
-            <div class="details h-100">
-                <h3>${product_name}</h3>
-                <h4>Rs.${bulk_price.toFixed(2)}</h4>
-            </div>
-            <div class="product-img-container">
-                <img class="product-img" src="${imageSrc}" alt="" onerror="this.src='${ROOT}/images/Products/default.jpeg'">
-            </div>
-        </a>
-    `;
-}
 
 function addProductToBill(product) {
     selectedProduct = product;

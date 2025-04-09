@@ -1,5 +1,6 @@
 import ApiFetcherMod from "../ApiFetcherMod.js";
 import Notification from "../Notification.js";
+import {orderMoreDetails} from "./Common.js"
 
 const filter = document.getElementById('Filter');
 
@@ -32,84 +33,18 @@ function updateGetVariables() {
     this.getVariables.status = filter.value;
 }
 
-const cofig = {
+const config = {
     api : "ShopOwner/getAllStockOrders",
     cardTemplate : cardTemplate,
     getVariables : getVariables,
     updateGetVariables : updateGetVariables,
-    clickEvent: billMoreDetails
+    clickEvent: orderMoreDetails
 }
 
-const apiFetcherMod = new ApiFetcherMod(cofig);
+const apiFetcherMod = new ApiFetcherMod(config);
 
 const loadDataOnNotification = (type) => {
     if(type == 'preOrder') apiFetcherMod.loadDataWithSearchOrFilter();
-}
-
-function billMoreDetails(dataset){
-    const itemsList = document.getElementById('billDetailsItems');
-    const nameElem = document.getElementById('More-details-bill-name');
-    const phoneElem = document.getElementById('More-details-bill-phone');
-    const {
-        order_id,
-        date,
-        time,
-        full_name,
-        dis_phone,
-        pic_format,
-        status
-    } = dataset;
-    fetch(LINKROOT + '/ShopOwner/getOrderDetails/' + order_id)
-    .then(res => res.json())
-    .then(data => {
-        if(data){
-            const {
-                total,
-                items,
-            } = data;
-            document.getElementById('More-details-bill-id').innerText = " - " + order_id;
-            document.getElementById('More-details-bill-date').innerText = " - " + date;
-            document.getElementById('More-details-bill-time').innerText = " - " + time;
-            document.getElementById('More-details-bill-total').innerText = 'Rs.' + total.toFixed(2);
-            document.getElementById('More-details-bill-status').innerText = " - " + status;
-
-            if (dis_phone) {
-                nameElem.innerHTML = ` - <a class="link" href="${LINKROOT}/ShopOwner/Distributor/${dis_phone}">${full_name}</a>`;
-                phoneElem.innerText = " - " + dis_phone;
-            } else {
-                nameElem.innerText = " - Unregisterd";
-                phoneElem.innerText = " - Unregisterd";
-            }
-            const billImage = document.getElementById('More-details-bill-img');
-            billImage.src = `${ROOT}/images/Profile/${dis_phone}.${pic_format}`;
-            billImage.onerror = function () {
-                this.src = `${ROOT}/images/Profile/PhoneNumber.jpg`;
-            };
-            itemsList.innerHTML = '';
-            items.forEach(item => {
-                const {
-                    barcode,
-                    product_name,
-                    quantity,
-                    bulk_price,
-                    total
-                } = item;
-                // let rowTotal = quantity * bulk_price;
-                itemsList.innerHTML += `
-                    <tr calss='Item'>
-                        <td class='center-al'>${barcode}</td>
-                        <td class='left-al'>${product_name}</td>
-                        <td class='center-al'>${quantity}</td>
-                        <td>Rs.${bulk_price.toFixed(2)}</td>
-                        <td>Rs.${total.toFixed(2)}</td>
-                    </tr>
-                `;
-            });
-            viewPopUp('BillDetails');
-        } else {
-            alert('Failed to get bill details');
-        }
-    }); 
 }
 
 new Notification(loadDataOnNotification);

@@ -259,6 +259,7 @@ class ShopOwner extends Controller
 
     public function orderStocks($dis_phone) {
         $this->data['dis_phone'] = $dis_phone;
+        $this->data['dis_busines_name'] = (new DistributorM)->first(data: ['dis_phone' => $dis_phone], readFields: ['dis_busines_name'])['dis_busines_name'];
         $this->data['tabs']['active'] = 'Stocks';
         $this->view('shopOwner/orderStocks', $this->data);
     }
@@ -268,6 +269,15 @@ class ShopOwner extends Controller
         $this->data['tabs']['active'] = 'Distributors';
         $this->view('shopOwner/distributors', $this->data);
 
+    }
+
+    public function Distributor($dis_phone) {
+
+        $this->data['distributor'] = (new DistributorM)->first(['dis_phone' => $dis_phone]);
+        $this->data['distributor']['wallet'] = (new WalletSoDis)->first(['dis_phone' => $dis_phone, 'so_phone' => $_SESSION['shop_owner']['phone']]);
+        
+        $this->data['tabs']['active'] = 'Distributors';
+        $this->view('shopOwner/distributor', $this->data);
     }
 
     public function addStock() {
@@ -402,12 +412,6 @@ class ShopOwner extends Controller
         //     $distributors = [];
         
         echo json_encode($distributors);
-    }
-
-    public function getDistributorProductsBarcodes($dis_phone){
-        $distributorStocks = new DistributorStocks;
-        $barcodes = $distributorStocks->getStockBarcodes($dis_phone);
-        echo json_encode($barcodes);
     }
 
     public function getLoyaltyCustomers($offset = 0){
@@ -610,8 +614,9 @@ class ShopOwner extends Controller
 
         $search = $_GET['search'] ?? null;
         $status = $_GET['status'] ?? null;
+        $dis_phone = $_GET['dis_phone'] ?? null;
 
-        $orders = (new ShopOrder)->search($search, $status, $offset);
+        $orders = (new ShopOrder)->search($search, $status, $offset, $dis_phone);
         header('Content-Type: application/json');
         echo json_encode($orders);        
     }
