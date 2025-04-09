@@ -5,7 +5,7 @@ class ShopOrder extends Model
     protected $table = 'shop_orders';
     protected $fillable = ['date', 'time', 'so_phone', 'dis_phone'];
 
-    public function search($search, $status, $offset, $dis_phone = null) {
+    public function search($search, $status, $offset, $dis_phone = null, $date = null) {
         $queryPara['so_phone'] = $_SESSION['shop_owner']['phone'];
         $query = "SELECT 
                     so.order_id,
@@ -15,7 +15,8 @@ class ShopOrder extends Model
                     so.status,
                     d.dis_busines_name,
                     u.pic_format,
-                    CONCAT(u.first_name, ' ', u.last_name) as full_name
+                    CONCAT(u.first_name, ' ', u.last_name) as full_name,
+                    (SELECT SUM(soi.quantity * p.bulk_price) FROM shop_order_items soi INNER JOIN products p ON soi.barcode = p.barcode WHERE soi.order_id = so.order_id) as total
                   FROM shop_orders so INNER JOIN distributors d ON so.dis_phone = d.dis_phone
                   INNER JOIN users u ON so.dis_phone = u.phone";
         
@@ -30,6 +31,11 @@ class ShopOrder extends Model
         else {
             $query .= " WHERE so.so_phone = :so_phone AND so.dis_phone = :dis_phone";
             $queryPara['dis_phone'] = $dis_phone;
+        }
+
+        if($date) {
+            $query .= " AND so.date = :date";
+            $queryPara['date'] = $date;
         }
         $query .= " ORDER BY so.date DESC, so.time DESC LIMIT 10 OFFSET $offset";
 

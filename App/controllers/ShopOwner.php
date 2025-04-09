@@ -615,8 +615,9 @@ class ShopOwner extends Controller
         $search = $_GET['search'] ?? null;
         $status = $_GET['status'] ?? null;
         $dis_phone = $_GET['dis_phone'] ?? null;
+        $date = $_GET['date'] ?? null;
 
-        $orders = (new ShopOrder)->search($search, $status, $offset, $dis_phone);
+        $orders = (new ShopOrder)->search($search, $status, $offset, $dis_phone, $date);
         header('Content-Type: application/json');
         echo json_encode($orders);        
     }

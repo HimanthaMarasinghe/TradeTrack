@@ -5,6 +5,7 @@
 ?>
 
 <div class="main-content colomn">
+    <h3 class="badge"><?=$_SESSION['shop_owner']['shop_name']?></h3>
             <div class="bar">
                 <img src="<?=ROOT?>/images/icons/home.svg" alt="">
                 <h1>Announcements</h1>

@@ -9,8 +9,7 @@
     <div class="bar">
         <img src="<?=ROOT?>/images/icons/home.svg" alt="">
         <div class="coloum center-al">
-            <h1><?=$_SESSION['shop_owner']['shop_name']?></h1>
-            <h2>Stock Orders History</h2>
+            <h1>Stock Orders History</h1>
         </div>
         <div class="row gap-10">
             <a href="<?=LINKROOT?>/ShopOwner/announcements"><img src="<?=ROOT?>/images/icons/Announcement.svg" alt=""></a>
@@ -30,6 +29,7 @@
                 <option value="Ready">Delivering</option>
                 <option value="Picked">Delivered</option>
             </select>
+            <input type="date" id="order_Date" class="filter-js">
         </div>
         <div class="scroll-box grid g-resp-300" id="elements-Scroll-Div">
         </div>

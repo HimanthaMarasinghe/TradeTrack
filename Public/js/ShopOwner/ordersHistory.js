@@ -3,6 +3,7 @@ import Notification from "../Notification.js";
 import {orderMoreDetails} from "./Common.js"
 
 const filter = document.getElementById('Filter');
+const orderDate = document.getElementById('order_Date');
 
 function cardTemplate(order) {
     return `
@@ -14,10 +15,11 @@ function cardTemplate(order) {
                      onerror="this.src='${ROOT}/images/Profile/PhoneNumber.jpg'">
             </div>
             <div class="details center-al">
-                <h2>${order.dis_busines_name}</h2>
-                <h4>${order.full_name}</h4>
-                <h4>${order.date} ${order.time}</h4>
-                <h4 class="status">${order.status}</h4>
+                <h3>${order.dis_busines_name}</h3>
+                <h5>${order.full_name}</h5>
+                <h5>${order.date} ${order.time}</h5>
+                <h4>Rs.${order.total.toFixed(2)}</h4>
+                <h5 class="status">${order.status}</h5>
             </div>
         </a>
     `;
@@ -25,12 +27,14 @@ function cardTemplate(order) {
 
 const getVariables = {
     search: "",
-    status: ""
+    status: "",
+    date: ""
 };
 
 function updateGetVariables() {
     this.getVariables.search = searchBar.value;
     this.getVariables.status = filter.value;
+    this.getVariables.date = orderDate.value;
 }
 
 const config = {

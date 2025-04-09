@@ -1,6 +1,7 @@
 import Notification from "../Notification.js";
 import ApiFetcherMod from "../ApiFetcherMod.js";
 import billMoreDetails from "./Common.js";
+import {orderMoreDetails} from "./Common.js"
 
 new Notification();
 
@@ -41,6 +42,45 @@ const billApiConfig = {
 }
 
 new ApiFetcherMod(billApiConfig);
+
+function orderRow(order) {
+    const { order_id, date, time, dis_busines_name, total} = order;
+    return `
+        <tr class='Item clickable' id='${order_id}'>
+            <td class='center-al'>${order_id}</td>
+            <td class='left-al'>${date}</td>
+            <td class='left-al'>${time}</td>
+            <td class='left-al'>${dis_busines_name}</td>
+            <td>Rs.${total.toFixed(2)}</td>
+        </tr>
+    `;
+}
+
+const orderGetVariables = {
+    search: "",
+    date: "",
+    status: "Delivered"
+    // status: "all"
+};
+
+function updateOrderGetVariables() {
+    orderGetVariables.search = document.getElementById('order-searchBar').value;
+    orderGetVariables.date = document.getElementById('order_Date').value;
+}
+
+const config = {
+    api : "ShopOwner/getAllStockOrders",
+    cardTemplate : orderRow,
+    getVariables : orderGetVariables,
+    updateGetVariables : updateOrderGetVariables,
+    searchBarId: "order-searchBar",
+    filterClass: '.filter-js-order',
+    elementsListId: 'orderTbody',
+    scrollDivId: 'orderScroll',
+    clickEvent: orderMoreDetails
+}
+
+const apiFetcherMod = new ApiFetcherMod(config);
 
 const income = document.getElementById('income');
 const expenses = document.getElementById('expenses');
@@ -98,6 +138,7 @@ pre_Mo.addEventListener('click', () => {
         month = 12;
         year--;
     }
+    monthInput.value = null;
     FetchMonthlyData();
 })
 
@@ -110,5 +151,10 @@ next_Mo.addEventListener('click', () => {
         month = 1;
         year++;
     }
+    monthInput.value = null;
     FetchMonthlyData();
 })
+
+document.getElementById('rec_expence').addEventListener('click', () => viewPopUp('expence'));
+document.getElementById('rec_withdraw').addEventListener('click', () => viewPopUp('withdraw'));
+document.getElementById('rec_cash_in').addEventListener('click', () => viewPopUp('cash_in'));
