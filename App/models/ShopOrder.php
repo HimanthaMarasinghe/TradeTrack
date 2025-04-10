@@ -41,4 +41,14 @@ class ShopOrder extends Model
 
         return $this->query($query, $queryPara);
     }
+
+    public function monthlyTotla($month, $year) {
+        $query = "  SELECT SUM(soi.quantity * p.bulk_price) as total
+                    FROM shop_orders so 
+                    INNER JOIN shop_order_items soi ON so.order_id = soi.order_id
+                    INNER JOIN products p ON soi.barcode = p.barcode
+                    WHERE MONTH(so.date) = :month AND YEAR(so.date) = :year
+                    AND so.so_phone = :so_phone AND so.status = 'Delivered'";
+        return $this->query($query, ['month' => $month, 'year' => $year, 'so_phone' => $_SESSION['shop_owner']['phone']])[0]['total'];
+    }
 }

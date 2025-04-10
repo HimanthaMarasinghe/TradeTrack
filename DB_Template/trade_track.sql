@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 21, 2025 at 04:25 PM
+-- Generation Time: Apr 10, 2025 at 07:23 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -71,36 +71,40 @@ CREATE TABLE `bills` (
 --
 
 INSERT INTO `bills` (`bill_id`, `date`, `time`, `cus_phone`, `so_phone`) VALUES
-(182, '2024-10-17', '00:33:34', '0770000000', '0112223333'),
-(183, '2024-10-24', '00:39:15', '0770000000', '0112223333'),
-(184, '2024-11-11', '13:08:29', '0770000000', '0112223333'),
-(185, '2024-11-15', '23:44:32', '0770000000', '0112223333'),
-(186, '2024-11-17', '19:52:30', '0770000000', '0112223333'),
-(187, '2024-11-18', '11:11:03', '0770000000', '0112223333'),
-(188, '2024-11-20', '10:37:24', '0770000000', '0112223333'),
-(189, '2024-11-20', '10:38:24', '0770000000', '0112223333'),
-(190, '2024-11-20', '10:42:41', '0770000000', '0112223333'),
-(191, '2024-11-20', '10:43:19', '0770000000', '0112223333'),
-(192, '2024-11-20', '10:43:59', '0770000000', '0112223333'),
-(193, '2024-11-20', '14:41:23', '0770000000', '0112223333'),
-(194, '2024-11-20', '15:39:14', '0770000000', '0112223333'),
-(195, '2024-11-20', '15:45:03', '0770000000', '0112223333'),
-(197, '2024-11-23', '14:13:27', '0770000000', '0112223333'),
-(198, '2024-11-30', '00:00:45', '0770000000', '0112223333'),
-(199, '2024-11-30', '19:21:53', '0770000000', '0112223333'),
-(200, '2024-11-30', '19:23:51', '0770000000', '0112223333'),
-(201, '2024-11-30', '19:24:33', '0770000000', '0112223333'),
-(202, '2024-11-30', '19:25:11', '0770000000', '0112223333'),
-(203, '2024-11-30', '19:45:03', '0770000000', '0112223333'),
-(204, '2024-11-30', '20:19:39', '0770000000', '0112223333'),
-(205, '2024-12-02', '11:23:38', '0770000000', '0112223333'),
-(206, '2024-12-02', '12:45:29', '0770000000', '0112223333'),
-(207, '2024-12-02', '12:47:55', '0770000000', '0112223333'),
-(208, '2024-12-02', '13:47:35', '0770000000', '0112223333'),
-(209, '2024-12-02', '15:46:01', '0770000000', '0112223333'),
-(210, '2024-12-22', '13:52:48', '0770000000', '0112223333'),
-(212, '2024-12-26', '17:06:24', '0770000000', '0112223333'),
-(213, '2025-01-07', '11:23:01', '0770000000', '0112223333');
+(220, '2025-02-12', '18:54:44', '0770000000', '0112223333'),
+(221, '2025-02-12', '18:55:49', '', '0112223333'),
+(222, '2025-02-12', '19:21:12', '0770000000', '0112223333'),
+(223, '2025-02-12', '19:59:13', '0770000000', '0112223333'),
+(224, '2025-02-12', '20:16:04', '', '0112223333'),
+(225, '2025-02-12', '20:48:26', '', '0112223333'),
+(226, '2025-02-12', '22:14:53', '0770000000', '0112223333'),
+(227, '2025-02-12', '22:21:11', '0770000000', '0112223333'),
+(228, '2025-02-12', '22:24:32', '0123456789', '0112223333'),
+(229, '2025-02-19', '21:55:04', '0770000000', '0112223333'),
+(230, '2025-02-19', '21:57:41', '0770000000', '0112223333'),
+(232, '2025-02-19', '22:10:46', '0770000000', '0112223333'),
+(233, '2025-02-19', '22:13:12', '', '0112223333'),
+(234, '2025-02-20', '17:19:16', '', '0112223333'),
+(235, '2025-02-20', '17:19:54', '', '0112223333'),
+(236, '2025-04-05', '09:00:33', '0987654321', '0112223333'),
+(237, '2025-04-05', '09:26:42', '0987654321', '0112223333'),
+(238, '2025-04-05', '09:29:13', '0123456789', '0112223333'),
+(239, '2025-04-05', '09:40:45', '', '0112223333'),
+(240, '2025-04-05', '12:00:42', '', '0112223333'),
+(241, '2025-04-05', '12:01:02', '', '0112223333'),
+(242, '2025-04-05', '12:55:58', '', '0112223333'),
+(243, '2025-04-05', '13:12:40', '', '0112223333'),
+(244, '2025-04-06', '12:37:36', '0770000000', '0112223333'),
+(245, '2025-04-06', '12:40:05', '0770000000', '0112223333'),
+(246, '2025-04-06', '12:40:07', '0770000000', '0112223333'),
+(247, '2025-04-06', '12:56:39', '0770000000', '0112223333'),
+(248, '2025-04-06', '13:00:47', '0770000000', '0112223333'),
+(249, '2025-04-06', '13:06:33', '0770000000', '0112223333'),
+(250, '2025-04-06', '13:08:03', '0770000000', '0112223333'),
+(251, '2025-04-06', '13:09:43', '0770000000', '0112223333'),
+(252, '2025-04-06', '13:21:29', '0770000000', '0112223333'),
+(253, '2025-04-06', '13:24:52', '', '0112223333'),
+(254, '2025-04-06', '13:25:46', '', '0112223333');
 
 -- --------------------------------------------------------
 
@@ -111,58 +115,60 @@ INSERT INTO `bills` (`bill_id`, `date`, `time`, `cus_phone`, `so_phone`) VALUES
 CREATE TABLE `bill_items` (
   `bill_id` int(11) NOT NULL,
   `barcode` varchar(13) NOT NULL,
-  `quantity` float NOT NULL
+  `quantity` float NOT NULL,
+  `sold_price` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `bill_items`
 --
 
-INSERT INTO `bill_items` (`bill_id`, `barcode`, `quantity`) VALUES
-(182, '8888101611705', 1),
-(183, '4790015950624', 1),
-(184, '4791010040044', 12),
-(185, '4791010040044', 4),
-(186, '4790015950624', 2),
-(187, '4790015950624', 3),
-(188, '4790015950624', 2),
-(189, '4790015950624', 3),
-(190, '4790015950624', 2),
-(191, '4790015950624', 2),
-(192, '4790015950624', 6),
-(193, '4790015950624', 3),
-(194, '4790015950624', 2),
-(195, '4790015950624', 7),
-(195, '4791010040044', 3),
-(197, '4790015950624', 2),
-(198, '4790015950624', 2),
-(199, '4790015950624', 2),
-(199, '4791010040044', 1),
-(199, '4791034015318', 1),
-(199, '4791034070287', 1),
-(199, '4791034072366', 4),
-(199, '4791034072663', 4),
-(200, '4791034072663', 1),
-(201, '4791034072663', 1),
-(202, '4791034072663', 1),
-(203, '4791034072366', 3),
-(204, '4791034072366', 3),
-(205, '4790015950624', 3),
-(205, '4791034015318', 4),
-(206, '4791034070287', 3),
-(206, '4791034072366', 3),
-(207, '4791034070287', 2),
-(207, '4791034072366', 3),
-(207, '4791034072663', 4),
-(208, '4791034070287', 3),
-(208, '4791034072366', 1),
-(208, '4791034072663', 3),
-(209, '4791034070287', 4),
-(209, '4791034072366', 7),
-(209, '4791034072663', 1),
-(210, '4791111102948', 6),
-(212, '4790015950624', 22),
-(213, '4791034072366', 12);
+INSERT INTO `bill_items` (`bill_id`, `barcode`, `quantity`, `sold_price`) VALUES
+(220, '4791010040044', 4, 0),
+(221, '4791010040044', 9, 0),
+(222, '4791010040044', 9, 200),
+(223, '4791010040044', 3, 200),
+(223, '4791010040044', 3, 400),
+(224, '4791010040044', 3, 100),
+(224, '4791010040044', 12, 200),
+(225, '4791010040044', 24, 200.5),
+(226, '4791010040044', 3, 50),
+(226, '4791010040044', 2, 200),
+(227, '4791010040044', 4, 200),
+(228, '4791010040044', 3, 200),
+(229, '4790015950624', 200, 1050),
+(230, '4790015950624', 10, 1050),
+(232, '4790015950624', 5, 1050),
+(233, '4790015950624', 4, 1050),
+(234, '4791034072663', 89, 220),
+(235, '4791034072663', 89, 220),
+(236, '4791010040044', 15, 200),
+(237, '4791010040044', 15, 200),
+(238, '4791010040044', 5, 200),
+(239, '4791010040044', 10, 200),
+(240, '4791010040044', 5, 200),
+(241, '4791010040044', 5, 200),
+(242, '4791010040044', 15, 200),
+(243, '4791010040044', 8, 200),
+(244, '4792081031580', 2, 135),
+(245, '4791111102948', 1, 240),
+(246, '4791111102948', 1, 240),
+(247, '4796020480217', 2, 1100),
+(248, '4791111102948', 3, 240),
+(249, '4791111102948', 4, 240),
+(250, '4790015950624', 3, 1050),
+(251, '8888101611705', 4, 400),
+(252, '4790015950624', 5, 1050),
+(252, '4791010040044', 5, 200),
+(252, '4791034072663', 10, 220),
+(252, '4791111102948', 10, 240),
+(252, '4792024019545', 5, 780),
+(252, '4792081031580', 15, 135),
+(252, '4792173000005', 10, 80),
+(252, '4796020480217', 2, 1100),
+(252, '8888101611705', 5, 400),
+(253, '4790015950624', 7, 1050),
+(254, '4790015950624', 20, 1050);
 
 -- --------------------------------------------------------
 
@@ -249,7 +255,8 @@ INSERT INTO `distributer_orders` (`order_id`, `date`, `time`, `dis_phone`, `man_
 (33, '2024-12-02', '11:35:05', '0372222690', '0771111111', 'Processing'),
 (37, '2024-12-26', '15:09:28', '0372222690', '0771111111', 'Processing'),
 (38, '2024-12-26', '17:07:35', '0372222690', '0771111111', 'Processing'),
-(39, '2025-01-07', '12:36:04', '0372222690', '0771111111', 'Pending');
+(39, '2025-01-07', '12:36:04', '0372222690', '0771111111', 'Pending'),
+(40, '2025-04-06', '14:46:01', '0372222690', '0771111111', 'Processing');
 
 -- --------------------------------------------------------
 
@@ -280,7 +287,8 @@ INSERT INTO `distributer_order_items` (`order_id`, `barcode`, `quantity`) VALUES
 (33, '4791034015318', 100),
 (37, '4791034015318', 56),
 (38, '4791034070287', 600),
-(39, '4790015950624', 12);
+(39, '4790015950624', 12),
+(40, '4790015950624', 600);
 
 -- --------------------------------------------------------
 
@@ -343,13 +351,15 @@ CREATE TABLE `loyalty_customers` (
 --
 
 INSERT INTO `loyalty_customers` (`so_phone`, `cus_phone`, `wallet`, `since`) VALUES
-('0112223333', '0123456789', 28220, '2024-10-24'),
+('0112223333', '0123456789', 26620, '2024-10-24'),
 ('0112223333', '0712345678', 1500, '2024-10-24'),
 ('0112223333', '0756789123', 2000, '2024-10-24'),
-('0112223333', '0770000000', 0, '2025-01-21'),
+('0112223333', '0770000000', 449365, '2025-01-21'),
 ('0112223333', '0776543210', 0, '2024-10-24'),
+('0112223333', '0781234567', 0, '2025-02-11'),
 ('0112223333', '0789988776', 0, '2024-10-24'),
-('0112223333', '0987654321', 560, '2024-10-24'),
+('0112223333', '0897867564', 0, '2025-04-05'),
+('0112223333', '0987654321', 14560, '2024-10-24'),
 ('0701234567', '0123456789', 0, '2024-11-18'),
 ('0711234567', '0123456789', 0, '2024-11-18'),
 ('0714567890', '0123456789', 0, '2024-11-18'),
@@ -392,6 +402,7 @@ CREATE TABLE `loyalty_requests` (
 INSERT INTO `loyalty_requests` (`cus_phone`, `so_phone`, `created_time`) VALUES
 ('0770000000', '0702345678', '2025-01-20 20:16:52'),
 ('0770000000', '0711234567', '2025-01-20 20:08:36'),
+('0770000000', '0712345678', '2025-01-28 11:08:03'),
 ('0770000000', '0713456789', '2025-01-20 20:17:02');
 
 --
@@ -486,8 +497,8 @@ CREATE TABLE `pre_order` (
   `so_phone` varchar(10) NOT NULL,
   `cus_phone` varchar(10) NOT NULL,
   `pre_order_id` int(11) NOT NULL,
-  `date_time` datetime NOT NULL,
-  `status` enum('Pending','Processing','Ready','Picked','Rejected','Updated') NOT NULL DEFAULT 'Pending'
+  `date_time` datetime NOT NULL DEFAULT current_timestamp(),
+  `status` enum('Pending','Processing','Ready','Picked','Rejected','Updated','Canceled') NOT NULL DEFAULT 'Pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -495,10 +506,43 @@ CREATE TABLE `pre_order` (
 --
 
 INSERT INTO `pre_order` (`so_phone`, `cus_phone`, `pre_order_id`, `date_time`, `status`) VALUES
-('0112223333', '0123456789', 2, '2025-01-18 09:04:24', 'Rejected'),
-('0112223333', '0123456789', 5, '2025-01-17 17:17:58', 'Rejected'),
-('0112223333', '0756789123', 6, '2025-01-08 19:40:21', 'Picked'),
-('0112223333', '0987654321', 4, '2025-01-17 17:17:58', 'Rejected');
+('0112223333', '0770000000', 73, '2025-02-09 19:20:59', 'Picked'),
+('0112223333', '0770000000', 74, '2025-02-09 19:21:19', 'Picked'),
+('0112223333', '0770000000', 75, '2025-02-09 19:23:29', 'Picked'),
+('0112223333', '0770000000', 76, '2025-02-09 20:22:59', 'Picked'),
+('0112223333', '0770000000', 77, '2025-02-09 20:30:42', 'Picked'),
+('0112223333', '0770000000', 78, '2025-02-09 20:31:16', 'Picked'),
+('0112223333', '0770000000', 79, '2025-02-09 20:32:44', 'Picked'),
+('0112223333', '0770000000', 80, '2025-02-10 13:36:10', 'Picked'),
+('0112223333', '0770000000', 81, '2025-02-11 13:41:37', 'Picked'),
+('0112223333', '0770000000', 82, '2025-02-11 13:42:00', 'Picked'),
+('0112223333', '0770000000', 83, '2025-02-11 13:46:41', 'Picked'),
+('0112223333', '0770000000', 85, '2025-02-11 16:53:13', 'Canceled'),
+('0112223333', '0770000000', 86, '2025-02-15 23:13:43', 'Picked'),
+('0112223333', '0770000000', 87, '2025-02-15 23:14:24', 'Picked'),
+('0112223333', '0770000000', 88, '2025-02-16 01:12:43', 'Canceled'),
+('0112223333', '0770000000', 89, '2025-02-16 01:23:00', 'Canceled'),
+('0112223333', '0770000000', 90, '2025-02-16 01:55:50', 'Picked'),
+('0112223333', '0770000000', 91, '2025-02-16 22:00:09', 'Picked'),
+('0112223333', '0770000000', 96, '2025-02-26 09:51:59', 'Rejected'),
+('0112223333', '0770000000', 97, '2025-02-26 11:14:34', 'Rejected'),
+('0112223333', '0770000000', 98, '2025-02-26 11:22:30', 'Canceled'),
+('0112223333', '0770000000', 99, '2025-02-26 11:25:47', 'Canceled'),
+('0112223333', '0770000000', 100, '2025-02-26 19:23:36', 'Picked'),
+('0112223333', '0770000000', 101, '2025-02-27 10:41:52', 'Canceled'),
+('0112223333', '0770000000', 102, '2025-04-05 08:46:22', 'Rejected'),
+('0112223333', '0770000000', 103, '2025-04-05 08:49:41', 'Canceled'),
+('0112223333', '0770000000', 104, '2025-04-05 08:52:40', 'Canceled'),
+('0112223333', '0770000000', 105, '2025-04-05 08:58:44', 'Canceled'),
+('0112223333', '0770000000', 106, '2025-04-05 09:38:59', 'Canceled'),
+('0112223333', '0770000000', 107, '2025-04-05 12:00:00', 'Canceled'),
+('0112223333', '0770000000', 108, '2025-04-05 12:55:33', 'Rejected'),
+('0112223333', '0770000000', 109, '2025-04-06 12:47:31', 'Picked'),
+('0112223333', '0770000000', 110, '2025-04-06 13:00:19', 'Picked'),
+('0112223333', '0770000000', 111, '2025-04-06 13:06:16', 'Picked'),
+('0112223333', '0770000000', 112, '2025-04-06 13:09:16', 'Picked'),
+('0112223333', '0770000000', 113, '2025-04-06 13:11:11', 'Picked'),
+('0112223333', '0781234567', 84, '2025-02-11 14:16:32', 'Rejected');
 
 -- --------------------------------------------------------
 
@@ -518,9 +562,51 @@ CREATE TABLE `pre_order_items` (
 --
 
 INSERT INTO `pre_order_items` (`pre_order_id`, `barcode`, `quantity`, `po_unit_price`) VALUES
-(2, '4790015950624', 1, 1050),
-(2, '4791010040044', 1, 200),
-(2, '4792081031580', 110, 80);
+(73, '4792173000005', 1, 80),
+(74, '4791111102948', 3, 240),
+(75, '4792024019545', 3, 780),
+(76, '4792173000005', 3, 80),
+(77, '4792173000005', 1, 80),
+(78, '4792173000005', 1, 80),
+(79, '4791111102948', 1, 240),
+(80, '4796020480217', 2, 1100),
+(81, '4791111102948', 3, 240),
+(82, '4791111102948', 3, 240),
+(83, '4792081031580', 2, 135),
+(84, '4792173000005', 1, 80),
+(85, '4791111102948', 2, 240),
+(86, '4792173000005', 2, 80),
+(87, '4792024019545', 2, 780),
+(88, '4792173000005', 3, 80),
+(89, '4791111102948', 2, 240),
+(90, '4790015950624', 2, 1050),
+(90, '4791010040044', 100, 200),
+(90, '4792081031580', 6, 135),
+(90, '4792173000005', 3, 80),
+(91, '4792173000005', 1, 80),
+(96, '4796020480217', 2, 1100),
+(97, '4796020480217', 2, 1100),
+(98, '4796020480217', 2, 1100),
+(99, '4796020480217', 2, 1100),
+(100, '4796020480217', 2, 1100),
+(101, '4796020480217', 2, 1100),
+(102, '4790015950624', 5, 1050),
+(103, '4791111102948', 10, 240),
+(107, '4791010040044', 2, 200),
+(108, '4791010040044', 2, 200),
+(109, '4796020480217', 2, 1100),
+(110, '4791111102948', 3, 240),
+(111, '4791111102948', 4, 240),
+(112, '8888101611705', 4, 400),
+(113, '4790015950624', 5, 1050),
+(113, '4791010040044', 5, 200),
+(113, '4791034072663', 10, 220),
+(113, '4791111102948', 10, 240),
+(113, '4792024019545', 5, 780),
+(113, '4792081031580', 15, 135),
+(113, '4792173000005', 10, 80),
+(113, '4796020480217', 2, 1100),
+(113, '8888101611705', 5, 400);
 
 -- --------------------------------------------------------
 
@@ -578,7 +664,8 @@ CREATE TABLE `shops` (
 --
 
 INSERT INTO `shops` (`so_phone`, `shop_name`, `shop_address`, `cash_drawer_balance`, `bank_balance`, `shop_pic_format`) VALUES
-('0112223333', 'Gamunu Stores', 'No. 13, Negombo Road, Kurunega', -876010, 0, '.jpg'),
+('0112223333', 'Gamunu Stores', 'No. 13, Negombo Road, Kurunega', 1236980000, 0, '.jpg'),
+('0122334456', 'Janaka stores', 'No.6, High level road, Nugegod', 0, 0, 'jpg'),
 ('0701234567', 'Jaffna Stores', 'No. 55, Stanley Road, Jaffna', 18000, 45000, '.webp'),
 ('0702345678', 'Vavuniya Market', 'No. 45, Bazaar Street, Vavuniy', 15000, 48000, '.jpg'),
 ('0711234567', 'Kandy Grocers', 'No. 12, Peradeniya Road, Kandy', 10000, 50000, '.jpeg'),
@@ -598,7 +685,12 @@ INSERT INTO `shops` (`so_phone`, `shop_name`, `shop_address`, `cash_drawer_balan
 ('0761234567', 'Negombo Fresh Market', 'No. 19, Main Street, Negombo', 14000, 30000, ''),
 ('0762345678', 'Chilaw Stores', 'No. 30, New Bazaar, Chilaw', 18000, 39000, ''),
 ('0772345678', 'Badulla Bazaar', 'No. 34, Passara Road, Badulla', 11000, 62000, ''),
-('0774567890', 'Hambantota Corner', 'No. 22, Tissa Road, Hambantota', 13000, 40000, '');
+('0774567890', 'Hambantota Corner', 'No. 22, Tissa Road, Hambantota', 13000, 40000, ''),
+('0775648392', 'Maple Shop', 'No.111/11, Maple street, Londo', 0, 0, NULL),
+('1153294893', 'Amber Gilbert', 'Obcaecati molestiae ', 0, 0, 'jpg'),
+('2416052903', 'Garrison Byers', 'In esse fugiat aliq', 0, 0, NULL),
+('4995352045', 'Abigail Cain', 'Ut qui duis occaecat', 0, 0, '.jpg'),
+('7747511805', 'Mufutau Tillman', 'Commodo voluptate au', 0, 0, '.jpg');
 
 -- --------------------------------------------------------
 
@@ -610,9 +702,18 @@ CREATE TABLE `shop_orders` (
   `order_id` int(11) NOT NULL,
   `date` date NOT NULL DEFAULT current_timestamp(),
   `time` time NOT NULL DEFAULT current_timestamp(),
+  `status` enum('Pending','Processing','Delivering','Delivered') NOT NULL DEFAULT 'Pending',
   `so_phone` varchar(10) NOT NULL,
   `dis_phone` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `shop_orders`
+--
+
+INSERT INTO `shop_orders` (`order_id`, `date`, `time`, `status`, `so_phone`, `dis_phone`) VALUES
+(6, '2025-04-06', '18:29:30', 'Pending', '0112223333', '0372222690'),
+(7, '2025-04-06', '18:31:53', 'Pending', '0112223333', '0372222690');
 
 -- --------------------------------------------------------
 
@@ -622,11 +723,17 @@ CREATE TABLE `shop_orders` (
 
 CREATE TABLE `shop_order_items` (
   `order_id` int(11) NOT NULL,
-  `so_phone` varchar(10) NOT NULL,
-  `dis_phone` varchar(10) NOT NULL,
   `barcode` varchar(13) NOT NULL,
   `quantity` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `shop_order_items`
+--
+
+INSERT INTO `shop_order_items` (`order_id`, `barcode`, `quantity`) VALUES
+(6, '4790015950624', 111),
+(7, '4791034015318', 111);
 
 -- --------------------------------------------------------
 
@@ -644,6 +751,80 @@ CREATE TABLE `shop_unique_products` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `so_cash_drawer_flow`
+--
+
+CREATE TABLE `so_cash_drawer_flow` (
+  `id` int(11) NOT NULL,
+  `so_phone` varchar(10) NOT NULL,
+  `date` date NOT NULL,
+  `time` time NOT NULL,
+  `type` enum('Personnel Use','Bank Deposit','Invest in other businesses','Other withdrawal','Add cash in') NOT NULL,
+  `amount` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `so_cash_drawer_flow`
+--
+
+INSERT INTO `so_cash_drawer_flow` (`id`, `so_phone`, `date`, `time`, `type`, `amount`) VALUES
+(1, '0112223333', '2025-04-10', '11:47:00', '', 1000),
+(2, '0112223333', '2025-04-10', '08:48:00', '', 7925),
+(3, '0112223333', '2025-04-10', '09:16:00', '', 9000),
+(4, '0112223333', '2025-04-10', '09:17:00', '', 1000),
+(5, '0112223333', '2025-04-10', '09:18:00', '', 1000),
+(6, '0112223333', '2025-04-10', '06:19:00', '', 500),
+(7, '0112223333', '2025-04-09', '09:24:00', '', 50),
+(8, '0112223333', '2025-04-10', '10:42:00', 'Add cash in', 50),
+(9, '0112223333', '2025-04-10', '10:43:00', '', 500),
+(10, '0112223333', '2025-04-01', '10:50:00', 'Personnel Use', 7000),
+(11, '0112223333', '2025-04-01', '10:57:00', 'Bank Deposit', -1111),
+(12, '0112223333', '2025-04-10', '13:01:00', 'Add cash in', 100),
+(13, '0112223333', '2025-04-10', '13:20:00', 'Bank Deposit', -999),
+(14, '0112223333', '2025-04-10', '13:24:00', '', -9090),
+(15, '0112223333', '2025-04-10', '13:27:00', 'Add cash in', 99876),
+(16, '0112223333', '2025-04-10', '13:28:00', 'Add cash in', 784352),
+(17, '0112223333', '2025-04-10', '13:30:00', 'Add cash in', 1628394),
+(18, '0112223333', '2025-04-10', '13:42:00', 'Bank Deposit', -200000),
+(19, '0112223333', '2025-04-10', '13:45:00', 'Invest in other businesses', -430),
+(20, '0112223333', '2025-04-10', '15:47:00', '', -1234),
+(21, '0112223333', '2025-04-10', '17:53:00', 'Add cash in', 1234567890),
+(22, '0112223333', '2025-04-10', '16:00:00', 'Invest in other businesses', -666666);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `so_other_expences`
+--
+
+CREATE TABLE `so_other_expences` (
+  `id` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `time` time NOT NULL,
+  `cashDrawer` tinyint(1) NOT NULL,
+  `type` enum('Electricity','Water','Telephone','Rent','Tax','Other') NOT NULL,
+  `amount` float NOT NULL,
+  `so_phone` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `so_other_expences`
+--
+
+INSERT INTO `so_other_expences` (`id`, `date`, `time`, `cashDrawer`, `type`, `amount`, `so_phone`) VALUES
+(2, '2025-04-10', '11:40:00', 1, 'Water', 889, '0112223333'),
+(3, '2025-04-10', '11:41:00', 1, 'Electricity', 78, '0112223333'),
+(4, '2025-04-10', '11:42:00', 1, 'Electricity', 56, '0112223333'),
+(5, '2025-04-10', '11:43:00', 0, 'Electricity', 50, '0112223333'),
+(6, '2025-04-10', '14:47:00', 1, 'Electricity', 400, '0112223333'),
+(7, '2025-04-10', '14:51:00', 0, 'Telephone', 234, '0112223333'),
+(8, '2025-04-01', '15:51:00', 1, 'Tax', 300, '0112223333'),
+(9, '2025-03-10', '21:13:00', 1, 'Electricity', 100, '0112223333'),
+(10, '2025-04-10', '21:19:00', 1, 'Electricity', 1234, '0112223333');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `so_stocks`
 --
 
@@ -653,50 +834,28 @@ CREATE TABLE `so_stocks` (
   `quantity` float NOT NULL,
   `low_stock_level` int(11) NOT NULL,
   `pre_orderable_stock` int(11) NOT NULL,
-  `non_preorderable_stock` int(11) NOT NULL
+  `amount_alowed_per_pre_Order` int(11) NOT NULL DEFAULT 10
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `so_stocks`
 --
 
-INSERT INTO `so_stocks` (`so_phone`, `barcode`, `quantity`, `low_stock_level`, `pre_orderable_stock`, `non_preorderable_stock`) VALUES
-('0112223333', '4790015950624', 206, 50, 201, 5),
-('0112223333', '4791010040044', 140, 50, 135, 5),
-('0112223333', '4791034072366', 95, 100, 85, 10),
-('0112223333', '4791111102948', 380, 100, 370, 10),
-('0112223333', '4792024019545', 240, 50, 235, 5),
-('0112223333', '4792081031580', 100, 20, 98, 2),
-('0112223333', '4792173000005', 400, 100, 390, 10),
-('0112223333', '4796020480217', 1000, 20, 998, 2),
-('0112223333', '8888101611705', 146, 20, 144, 2),
-('0701234567', '4790015950624', 300, 20, 298, 2),
-('0712345678', '4790015950624', 100, 10, 99, 1),
-('0718765432', '4790015950624', 200, 10, 199, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `transactions`
---
-
-CREATE TABLE `transactions` (
-  `transactions_id` int(11) NOT NULL,
-  `type` enum('owner-bank','owner-business','bank-business','') NOT NULL,
-  `amount` float NOT NULL,
-  `so_phone` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `transactions_description`
---
-
-CREATE TABLE `transactions_description` (
-  `transactions_id` int(11) NOT NULL,
-  `description` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `so_stocks` (`so_phone`, `barcode`, `quantity`, `low_stock_level`, `pre_orderable_stock`, `amount_alowed_per_pre_Order`) VALUES
+('0112223333', '4790015950624', 550, 50, 166, 5),
+('0112223333', '4791010040044', 95, 50, 85, 5),
+('0112223333', '4791034072366', 195, 100, 0, 10),
+('0112223333', '4791034072663', 101, 10, 91, 10),
+('0112223333', '4791111102948', 463, 100, 343, 10),
+('0112223333', '4792024019545', 235, 50, 230, 5),
+('0112223333', '4792081031580', 179, 20, 83, 15),
+('0112223333', '4792173000005', 417, 100, 380, 10),
+('0112223333', '4796000301471', 600, 0, 0, 0),
+('0112223333', '4796020480217', 996, 20, 984, 2),
+('0112223333', '8888101611705', 137, 20, 0, 10),
+('0701234567', '4790015950624', 293, 20, 303, 5),
+('0712345678', '4790015950624', 93, 10, 104, 2),
+('0718765432', '4790015950624', 193, 10, 204, 3);
 
 -- --------------------------------------------------------
 
@@ -719,6 +878,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`phone`, `first_name`, `last_name`, `address`, `pic_format`, `role`) VALUES
 ('0112223333', 'Gamunu', 'Jayawardhana', 'No. 10, Negambo Road, Kurunegala', '', 1),
+('0122334456', 'Janaka', 'Bandara', 'No.6, High level road, Nugegoda.', '', 1),
 ('0123456789', 'Saman', 'Rathnayaka', 'No.120/1, Karadana, Gampaha', 'jpg', 0),
 ('0372222690', 'Sumudu', 'Karunarathna', 'No.6, High level road, Nugegoda', 'jpeg', 3),
 ('0701122334', 'Sarath', 'Gunasekara', 'No.12/3, Dutugemunu Mawatha, Maharagama', '', 0),
@@ -752,13 +912,55 @@ INSERT INTO `users` (`phone`, `first_name`, `last_name`, `address`, `pic_format`
 ('0772233445', 'Piumi', 'Senarath', 'No.7, Hospital Lane, Kalutara', '', 0),
 ('0772345678', 'Mahesh', 'Senanayake', 'No. 6, Welimada Road, Badulla', '', 1),
 ('0774567890', 'Jagath', 'Mendis', 'No. 10, New Bazaar, Hambantota', '', 1),
+('0775648392', 'Jagath', 'Gunawardhana', 'No.111/11, Maple street, London', '', 1),
 ('0776543210', 'Samantha', 'Fernando', 'No.66, Beach Road, Negombo', '', 0),
 ('0778765432', 'Sunil', 'Wijesinghe', 'No.55, Main Street, Piliyandala', '', 0),
 ('0781234567', 'Chandani', 'Silva', 'No.30, Galle Road, Hikkaduwa', '', 0),
 ('0787766554', 'Janaka', 'Karunaratne', 'No.10/2, Rajagiriya Road, Nawala', '', 0),
 ('0789988776', 'Harsha', 'Abeysekara', 'No.5, Peradeniya Road, Kandy', '', 0),
+('0897867564', 'Maduranga', 'Kuruppu', 'Mawatta, Polgahawela', 'jpg', 0),
 ('0987654321', 'Kamala', 'Gunawardana', 'No.111, Batuwaththa, Meerigama', 'jpg', 0),
-('22020586', 'Admin', 'Admin', 'Admin', '', 4);
+('1153294893', 'Ali', 'Baxter', 'Amet suscipit error', 'jpg', 1),
+('22020586', 'Admin', 'Admin', 'Admin', '', 4),
+('2416052903', 'Halla', 'Pena', 'Soluta laudantium n', '', 1),
+('4995352045', 'Fletcher', 'Perkins', 'Ut quia adipisci con', 'jpg', 1),
+('7747511805', 'Lawrence', 'Velez', 'Ab repudiandae est m', 'jpg', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_notificatoin`
+--
+
+CREATE TABLE `user_notificatoin` (
+  `id` int(11) NOT NULL,
+  `phone` varchar(10) NOT NULL,
+  `type` varchar(25) NOT NULL,
+  `ref_id` varchar(10) NOT NULL,
+  `title` varchar(100) NOT NULL,
+  `body` varchar(255) NOT NULL,
+  `link` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user_notificatoin`
+--
+
+INSERT INTO `user_notificatoin` (`id`, `phone`, `type`, `ref_id`, `title`, `body`, `link`) VALUES
+(122, '0770000000', 'bill', '232', 'Bill Settled', 'Your bill at Gamunu Stores has been settled.', 'Customer/shop/0112223333'),
+(141, '0112223333', 'preOrder', '103', 'Pre-Order got Canceled', 'Piyal Karunarathna canceled the pre-order', 'ShopOwner/preOrder/103'),
+(144, '0112223333', 'preOrder', '104', 'Pre-Order got Canceled', 'Piyal Karunarathna canceled the pre-order', 'ShopOwner/preOrder/104'),
+(147, '0987654321', 'bill', '237', 'Bill Settled', 'Your bill at Gamunu Stores has been settled.', 'Customer/shop/0112223333'),
+(148, '0123456789', 'bill', '238', 'Bill Settled', 'Your bill at Gamunu Stores has been settled.', 'Customer/shop/0112223333'),
+(152, '0112223333', 'preOrder', '106', 'Pre-Order got Canceled', 'Piyal Karunarathna canceled the pre-order', 'ShopOwner/preOrder/106'),
+(157, '0112223333', 'preOrder', '105', 'Pre-Order got Canceled', 'Piyal Karunarathna canceled the pre-order', 'ShopOwner/preOrder/105'),
+(163, '0897867564', 'loyaltyReq', '0112223333', 'Loyalty Request Accepted', 'Gamunu Stores accepted your request to be a loyal customer', 'Customer/shop/0112223333'),
+(169, '0770000000', 'preOrder', '110', 'Pre-Order Ready', 'Your pre-order at Gamunu Stores is ready for pickup.', 'Customer/preOrder/110'),
+(172, '0770000000', 'preOrder', '111', 'Pre-Order Picked', 'Your pre-order at Gamunu Stores has been picked.', 'Customer/preOrder/111'),
+(175, '0770000000', 'bill', '250', 'Bill Settled', 'Your bill at Gamunu Stores has been settled.', 'Customer/shop/0112223333'),
+(177, '0770000000', 'preOrder', '112', 'Pre-Order Picked', 'Your pre-order at Gamunu Stores has been picked.', 'Customer/preOrder/112'),
+(184, '0372222690', 'stkOrdr', '6', 'New Order', 'Gamunu Jayawardhana placed an order', 'ShopOwner/preOrder/6'),
+(185, '0372222690', 'stkOrdr', '7', 'New Order', 'Gamunu Jayawardhana placed an order', 'ShopOwner/preOrder/7');
 
 -- --------------------------------------------------------
 
@@ -777,7 +979,8 @@ CREATE TABLE `user_passwords` (
 
 INSERT INTO `user_passwords` (`phone`, `password`) VALUES
 ('0112223333', '$2y$10$LEyOQFzgjQNmezi9Yo0/E.8VQgfFPXcbRYB6P0mDQI.RDPMn88/ye'),
-('0123456789', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0122334456', '$2y$10$Z4mvGQeW5uybMo8fRRmU1Okay8nfHTQShuDJdaYu09CO9KoZ2Yf96'),
+('0123456789', '$2y$10$LEyOQFzgjQNmezi9Yo0/E.8VQgfFPXcbRYB6P0mDQI.RDPMn88/ye'),
 ('0372222690', '$2y$10$LEyOQFzgjQNmezi9Yo0/E.8VQgfFPXcbRYB6P0mDQI.RDPMn88/ye'),
 ('0701122334', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
 ('0701234567', '$2y$10$LEyOQFzgjQNmezi9Yo0/E.8VQgfFPXcbRYB6P0mDQI.RDPMn88/ye'),
@@ -810,29 +1013,31 @@ INSERT INTO `user_passwords` (`phone`, `password`) VALUES
 ('0772233445', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
 ('0772345678', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
 ('0774567890', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0775648392', '$2y$10$7wkdCu9BaKKhKrEuhRVXSOWXIjP1rAEXFmA47Tkj2zUBjZjCwqPyO'),
 ('0776543210', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
 ('0778765432', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
-('0781234567', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0781234567', '$2y$10$LEyOQFzgjQNmezi9Yo0/E.8VQgfFPXcbRYB6P0mDQI.RDPMn88/ye'),
 ('0787766554', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
 ('0789988776', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('0897867564', '$2y$10$Kdn3T4scMIGrn.twjkVE2OfAWqRfCqwWJnKfnlWGa0fwrsrqGJMoC'),
 ('0987654321', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
+('1153294893', '$2y$10$Yj0vXT2nGMOMLkYHq2wnN.hmNbJM4lLxf2ikm5bNEvDihYzYQew/i'),
 ('22020586', '$2y$10$LEyOQFzgjQNmezi9Yo0/E.8VQgfFPXcbRYB6P0mDQI.RDPMn88/ye'),
-('759876543', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
-('761234567', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
-('762345678', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
-('763322110', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
-('765432198', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
-('770000000', '$2y$10$LEyOQFzgjQNmezi9Yo0/E.8VQgfFPXcbRYB6P0mDQI.RDPMn88/ye'),
-('771111111', '$2y$10$LEyOQFzgjQNmezi9Yo0/E.8VQgfFPXcbRYB6P0mDQI.RDPMn88/ye'),
-('772233445', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
-('772345678', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
-('774567890', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
-('776543210', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
-('778765432', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
-('781234567', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
-('787766554', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
-('789988776', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi'),
-('987654321', '$2y$10$UQ1xkopG8jblh/53K.XWOuIdGJQv8ZSW/WfZoqlHJ8PVqX8rDcpNi');
+('2416052903', '$2y$10$S.rXb2Y//OddB2Os9xphYOhYkJK2wkH7SEgz3ecogFTnJmK1THLHC'),
+('4995352045', '$2y$10$3GK.vF4/VyY4479eVqjXcOkLZp8uUOAlNhQO4Z2wJ1yrUHkjrpBbC'),
+('7747511805', '$2y$10$2aSuSTv8o3JvcKjuQIv2xO0xELd7tnK0kodvrxEwzhhKQSljnpRqW');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `wallet_so_dis`
+--
+
+CREATE TABLE `wallet_so_dis` (
+  `so_phone` varchar(10) NOT NULL,
+  `dis_phone` varchar(10) NOT NULL,
+  `wallet` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
@@ -856,7 +1061,7 @@ ALTER TABLE `bills`
 -- Indexes for table `bill_items`
 --
 ALTER TABLE `bill_items`
-  ADD PRIMARY KEY (`bill_id`,`barcode`),
+  ADD PRIMARY KEY (`bill_id`,`barcode`,`sold_price`),
   ADD KEY `barcode` (`barcode`);
 
 --
@@ -991,14 +1196,26 @@ ALTER TABLE `shop_orders`
 --
 ALTER TABLE `shop_order_items`
   ADD PRIMARY KEY (`order_id`,`barcode`),
-  ADD KEY `barcode` (`barcode`),
-  ADD KEY `sa_phone` (`dis_phone`),
-  ADD KEY `so_phone` (`so_phone`);
+  ADD KEY `barcode` (`barcode`);
 
 --
 -- Indexes for table `shop_unique_products`
 --
 ALTER TABLE `shop_unique_products`
+  ADD KEY `so_phone` (`so_phone`);
+
+--
+-- Indexes for table `so_cash_drawer_flow`
+--
+ALTER TABLE `so_cash_drawer_flow`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `so_phone` (`so_phone`);
+
+--
+-- Indexes for table `so_other_expences`
+--
+ALTER TABLE `so_other_expences`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `so_phone` (`so_phone`);
 
 --
@@ -1009,29 +1226,30 @@ ALTER TABLE `so_stocks`
   ADD KEY `barcode` (`barcode`);
 
 --
--- Indexes for table `transactions`
---
-ALTER TABLE `transactions`
-  ADD PRIMARY KEY (`transactions_id`),
-  ADD KEY `so_phone` (`so_phone`);
-
---
--- Indexes for table `transactions_description`
---
-ALTER TABLE `transactions_description`
-  ADD PRIMARY KEY (`transactions_id`);
-
---
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`phone`);
 
 --
+-- Indexes for table `user_notificatoin`
+--
+ALTER TABLE `user_notificatoin`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `phone_2` (`phone`,`type`,`ref_id`);
+
+--
 -- Indexes for table `user_passwords`
 --
 ALTER TABLE `user_passwords`
   ADD PRIMARY KEY (`phone`);
+
+--
+-- Indexes for table `wallet_so_dis`
+--
+ALTER TABLE `wallet_so_dis`
+  ADD PRIMARY KEY (`so_phone`,`dis_phone`),
+  ADD KEY `dis_phone` (`dis_phone`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -1047,7 +1265,7 @@ ALTER TABLE `announcements`
 -- AUTO_INCREMENT for table `bills`
 --
 ALTER TABLE `bills`
-  MODIFY `bill_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=214;
+  MODIFY `bill_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=255;
 
 --
 -- AUTO_INCREMENT for table `chat_cus_so`
@@ -1071,7 +1289,7 @@ ALTER TABLE `chat_so_dis`
 -- AUTO_INCREMENT for table `distributer_orders`
 --
 ALTER TABLE `distributer_orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `pending_product_requests`
@@ -1083,25 +1301,37 @@ ALTER TABLE `pending_product_requests`
 -- AUTO_INCREMENT for table `pre_order`
 --
 ALTER TABLE `pre_order`
-  MODIFY `pre_order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `pre_order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
 
 --
 -- AUTO_INCREMENT for table `shop_orders`
 --
 ALTER TABLE `shop_orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `shop_order_items`
 --
 ALTER TABLE `shop_order_items`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `transactions`
+-- AUTO_INCREMENT for table `so_cash_drawer_flow`
 --
-ALTER TABLE `transactions`
-  MODIFY `transactions_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `so_cash_drawer_flow`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
+-- AUTO_INCREMENT for table `so_other_expences`
+--
+ALTER TABLE `so_other_expences`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `user_notificatoin`
+--
+ALTER TABLE `user_notificatoin`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=186;
 
 --
 -- Constraints for dumped tables
@@ -1238,14 +1468,25 @@ ALTER TABLE `shop_orders`
 --
 ALTER TABLE `shop_order_items`
   ADD CONSTRAINT `shop_order_items_ibfk_1` FOREIGN KEY (`barcode`) REFERENCES `products` (`barcode`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `shop_order_items_ibfk_2` FOREIGN KEY (`dis_phone`) REFERENCES `distributors` (`dis_phone`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `shop_order_items_ibfk_3` FOREIGN KEY (`so_phone`) REFERENCES `shops` (`so_phone`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `shop_order_items_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `shop_orders` (`order_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `shop_unique_products`
 --
 ALTER TABLE `shop_unique_products`
   ADD CONSTRAINT `shop_unique_products_ibfk_1` FOREIGN KEY (`so_phone`) REFERENCES `shops` (`so_phone`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `so_cash_drawer_flow`
+--
+ALTER TABLE `so_cash_drawer_flow`
+  ADD CONSTRAINT `so_cash_drawer_flow_ibfk_1` FOREIGN KEY (`so_phone`) REFERENCES `shops` (`so_phone`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `so_other_expences`
+--
+ALTER TABLE `so_other_expences`
+  ADD CONSTRAINT `so_other_expences_ibfk_1` FOREIGN KEY (`so_phone`) REFERENCES `shops` (`so_phone`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `so_stocks`
@@ -1255,22 +1496,23 @@ ALTER TABLE `so_stocks`
   ADD CONSTRAINT `so_stocks_ibfk_2` FOREIGN KEY (`so_phone`) REFERENCES `shops` (`so_phone`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `transactions`
---
-ALTER TABLE `transactions`
-  ADD CONSTRAINT `transactions_ibfk_1` FOREIGN KEY (`so_phone`) REFERENCES `shops` (`so_phone`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `transactions_description`
---
-ALTER TABLE `transactions_description`
-  ADD CONSTRAINT `transactions_description_ibfk_1` FOREIGN KEY (`transactions_id`) REFERENCES `transactions` (`transactions_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Constraints for table `users`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`phone`) REFERENCES `user_passwords` (`phone`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `user_notificatoin`
+--
+ALTER TABLE `user_notificatoin`
+  ADD CONSTRAINT `user_notificatoin_ibfk_1` FOREIGN KEY (`phone`) REFERENCES `users` (`phone`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `wallet_so_dis`
+--
+ALTER TABLE `wallet_so_dis`
+  ADD CONSTRAINT `wallet_so_dis_ibfk_1` FOREIGN KEY (`dis_phone`) REFERENCES `distributors` (`dis_phone`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `wallet_so_dis_ibfk_2` FOREIGN KEY (`so_phone`) REFERENCES `shops` (`so_phone`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
