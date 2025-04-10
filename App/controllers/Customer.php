@@ -44,8 +44,9 @@ class Customer extends Controller
     public function placePreOrder($so_phone){
         if(!$this->LoyalToShop($so_phone))
             redirect('Customer/shops');
+        $this->data['shop_name'] = (new Shops)->first(data: ['so_phone' => $so_phone], readFields: ['shop_name'])['shop_name'];
         $this->data['so_phone'] = $so_phone;
-        $this->data['tabs']['active'] = 'Home';
+        $this->data['tabs']['active'] = 'Shops';
         $this->view('Customer/placePreOrder',$this->data);
     }
 

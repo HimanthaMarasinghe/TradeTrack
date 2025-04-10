@@ -75,3 +75,26 @@ export function preOrderCard(order) {
         </a>
     `;
 }
+
+ export function newStockCardTemplate(product) {
+    const {
+        barcode,
+        product_name,
+        bulk_price,
+        pic_format,
+    } = product;
+    
+    const imageSrc = `${ROOT}/images/Products/${barcode}.${pic_format}`;
+
+    return `
+        <a href="#" class="card btn-card" id="${barcode}">
+            <div class="details h-100">
+                <h3>${product_name}</h3>
+                <h4>Rs.${bulk_price.toFixed(2)}</h4>
+            </div>
+            <div class="product-img-container">
+                <img class="product-img" src="${imageSrc}" alt="" onerror="this.src='${ROOT}/images/Products/default.jpeg'">
+            </div>
+        </a>
+    `;
+}

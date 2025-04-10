@@ -3,7 +3,7 @@
 class Model extends Database
 {
 
-    public function where($data, $data_not = [], $limit = null, $offset = null, $readFields = [], $orderBy = [])
+    public function where($data, $data_not = [], $limit = null, $offset = null, $readFields = [], $orderBy = [], $ascOrderBy = [])
     {
         $keys = array_keys($data);
         $keys_not = array_keys($data_not);
@@ -36,7 +36,12 @@ class Model extends Database
 
         if($orderBy)
         {
-            $query .= " ORDER BY ".implode("DESC , ", $orderBy)." DESC";
+            $query .= " ORDER BY ".implode(" DESC , ", $orderBy)." DESC";
+        }
+
+        if($ascOrderBy)
+        {
+            $query .= " ORDER BY ".implode(" ASC , ", $ascOrderBy)." ASC";
         }
 
         if($limit)
@@ -93,7 +98,7 @@ class Model extends Database
     }
 
 
-    public function readAll($limit = null, $offset = null, $readFields = [], $orderBy = [])
+    public function readAll($limit = null, $offset = null, $readFields = [], $orderBy = [], $ascOrderBy = [])
     {
         if(!isset($this->readTable)){
             $this->readTable = $this->table;
@@ -110,7 +115,12 @@ class Model extends Database
 
         if($orderBy)
         {
-            $query .= " ORDER BY ".implode("DESC , ", $orderBy)." DESC";
+            $query .= " ORDER BY ".implode(" DESC , ", $orderBy)." DESC";
+        }
+        
+        if($ascOrderBy)
+        {
+            $query .= " ORDER BY ".implode(" ASC , ", $ascOrderBy)." ASC";
         }
 
         if($offset)

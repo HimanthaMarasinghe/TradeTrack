@@ -215,6 +215,7 @@ class ShopOwner extends Controller
 
         $this->data['debtors'] = 0;
         $this->data['creditors'] = 0;
+        $this->data['cashDrawerBallance'] = (new shops)->first(['so_phone' => $_SESSION['shop_owner']['phone']])['cash_drawer_balance'];
 
         $wallets = (new LoyaltyCustomers)->walletAmounts();
         foreach($wallets as $wallet){
@@ -259,6 +260,7 @@ class ShopOwner extends Controller
 
     public function orderStocks($dis_phone) {
         $this->data['dis_phone'] = $dis_phone;
+        $this->data['dis_busines_name'] = (new DistributorM)->first(data: ['dis_phone' => $dis_phone], readFields: ['dis_busines_name'])['dis_busines_name'];
         $this->data['tabs']['active'] = 'Stocks';
         $this->view('shopOwner/orderStocks', $this->data);
     }
@@ -268,6 +270,15 @@ class ShopOwner extends Controller
         $this->data['tabs']['active'] = 'Distributors';
         $this->view('shopOwner/distributors', $this->data);
 
+    }
+
+    public function Distributor($dis_phone) {
+
+        $this->data['distributor'] = (new DistributorM)->first(['dis_phone' => $dis_phone]);
+        $this->data['distributor']['wallet'] = (new WalletSoDis)->first(['dis_phone' => $dis_phone, 'so_phone' => $_SESSION['shop_owner']['phone']]);
+        
+        $this->data['tabs']['active'] = 'Distributors';
+        $this->view('shopOwner/distributor', $this->data);
     }
 
     public function addStock() {
@@ -402,12 +413,6 @@ class ShopOwner extends Controller
         //     $distributors = [];
         
         echo json_encode($distributors);
-    }
-
-    public function getDistributorProductsBarcodes($dis_phone){
-        $distributorStocks = new DistributorStocks;
-        $barcodes = $distributorStocks->getStockBarcodes($dis_phone);
-        echo json_encode($barcodes);
     }
 
     public function getLoyaltyCustomers($offset = 0){
@@ -554,8 +559,9 @@ class ShopOwner extends Controller
             $month = date('n');
         }
         $accounts['income'] = (new BillItems)->getBillsTotal($month, $year) ?? 0;
-        $accounts['expenses'] = 0;
-        
+        $accounts['expenses'] = (new soOtherExpences)->totalForMonth($year, $month, $_SESSION['shop_owner']['phone']) ?? 0;
+        $accounts['expenses'] += (new ShopOrder)->monthlyTotla($month, $year);
+        $accounts['profit'] = $accounts['income'] - $accounts['expenses'];
         echo json_encode($accounts);
     }
 
@@ -610,8 +616,10 @@ class ShopOwner extends Controller
 
         $search = $_GET['search'] ?? null;
         $status = $_GET['status'] ?? null;
+        $dis_phone = $_GET['dis_phone'] ?? null;
+        $date = $_GET['date'] ?? null;
 
-        $orders = (new ShopOrder)->search($search, $status, $offset);
+        $orders = (new ShopOrder)->search($search, $status, $offset, $dis_phone, $date);
         header('Content-Type: application/json');
         echo json_encode($orders);        
     }
@@ -624,5 +632,65 @@ class ShopOwner extends Controller
         }
         $orderDetails = (new ShopOrderItems)->orderDetails($order_id);
         echo json_encode($orderDetails);
+    }
+
+    public function recordExpence() {
+        $shop = new Shops;
+        $con = $shop->startTransaction();
+        $cashDrawer = 0;
+        if($_POST['cashDrawer']){
+            $cashDrawer = 1;
+            $shop->updateCashDrawer($_SESSION['shop_owner']['phone'], -1*$_POST['amount'], $con);
+        }
+        (new soOtherExpences)->insert(['date' => $_POST['date'], 'time' => $_POST['time'], 'cashDrawer' => $cashDrawer, 'type' => $_POST['type'], 'amount' => $_POST['amount'], 'so_phone' => $_SESSION['shop_owner']['phone']], $con);
+        if($con->commit())
+            echo json_encode(['success' => true]);
+        else
+            echo json_encode(['success' => false]);
+    }
+
+    public function getAllExpences($offset) {
+        if (!filter_var($offset, FILTER_VALIDATE_INT)) 
+            $offset = 0;  // Default to 0 if invalid
+
+        $data = ['so_phone' => $_SESSION['shop_owner']['phone']];
+
+        if ($_GET['date']) $data['date'] = $_GET['date'];
+        if ($_GET['type'] != 'all') $data['type'] = $_GET['type'];
+            
+        $cashFlows = (new soOtherExpences)->where(data: $data, offset: $offset, limit: 10, orderBy:['date', 'time']);
+
+        header('Content-Type: application/json');
+        echo json_encode($cashFlows);  
+    }
+
+    public function recordCashFlow() {
+        $soCashDraweFlow = new soCashDrawerFlow;
+        $con = $soCashDraweFlow->startTransaction();
+        $amount = $_POST['type'] == 'Add cash in' ? $_POST['amount'] : -1*$_POST['amount'];
+        $soCashDraweFlow->insert(['so_phone' => $_SESSION['shop_owner']['phone'], 'date' => $_POST['date'], 'time' => $_POST['time'], 'type' => $_POST['type'], 'amount' => $amount], $con);
+        (new Shops)->updateCashDrawer($_SESSION['shop_owner']['phone'], $amount, $con);
+        if($con->commit())
+            echo json_encode(['success' => true]);
+        else
+            echo json_encode(['success' => false]);
+    }
+
+    public function getAllCashFlows($offset = 0){ 
+        if (!filter_var($offset, FILTER_VALIDATE_INT)) 
+            $offset = 0;  // Default to 0 if invalid
+
+        $data = ['so_phone' => $_SESSION['shop_owner']['phone']];
+
+        if ($_GET['date']) $data['date'] = $_GET['date'];
+            
+        $cashFlows = (new soCashDrawerFlow)->where(data: $data, offset: $offset, limit: 10, orderBy:['date', 'time']);
+
+        header('Content-Type: application/json');
+        echo json_encode($cashFlows);        
+    }
+
+    public function fetchChashDrawer() {
+        echo json_encode(['cashDrawer' => (new shops)->first(['so_phone' => $_SESSION['shop_owner']['phone']])['cash_drawer_balance']]);
     }
 }

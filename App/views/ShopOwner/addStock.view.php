@@ -5,7 +5,6 @@
 ?>
 
 <div class="main-content colomn">
-
     <div class="bar">
         <img src="<?=ROOT?>/images/icons/home.svg" alt="">
         <h1><?=$_SESSION['shop_owner']['shop_name']?></h1>

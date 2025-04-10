@@ -6,6 +6,8 @@
 <div class="main-content">
     <div class="row h-100 gap-10">
         <div class="colomn w-25">
+            <h3>New Stock Order</h3>
+            <h4><?=$dis_busines_name?></h4>
             <input id="searchBar" type="text" class="search-bar" placeholder="Search">
             <div class="grid g-resp-300 scroll-box" id="elements-Scroll-Div">
             </div>

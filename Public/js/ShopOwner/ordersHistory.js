@@ -1,7 +1,9 @@
 import ApiFetcherMod from "../ApiFetcherMod.js";
 import Notification from "../Notification.js";
+import {orderMoreDetails} from "./Common.js"
 
 const filter = document.getElementById('Filter');
+const orderDate = document.getElementById('order_Date');
 
 function cardTemplate(order) {
     return `
@@ -13,10 +15,11 @@ function cardTemplate(order) {
                      onerror="this.src='${ROOT}/images/Profile/PhoneNumber.jpg'">
             </div>
             <div class="details center-al">
-                <h2>${order.dis_busines_name}</h2>
-                <h4>${order.full_name}</h4>
-                <h4>${order.date} ${order.time}</h4>
-                <h4 class="status">${order.status}</h4>
+                <h3>${order.dis_busines_name}</h3>
+                <h5>${order.full_name}</h5>
+                <h5>${order.date} ${order.time}</h5>
+                <h4>Rs.${order.total.toFixed(2)}</h4>
+                <h5 class="status">${order.status}</h5>
             </div>
         </a>
     `;
@@ -24,92 +27,28 @@ function cardTemplate(order) {
 
 const getVariables = {
     search: "",
-    status: ""
+    status: "",
+    date: ""
 };
 
 function updateGetVariables() {
     this.getVariables.search = searchBar.value;
     this.getVariables.status = filter.value;
+    this.getVariables.date = orderDate.value;
 }
 
-const cofig = {
+const config = {
     api : "ShopOwner/getAllStockOrders",
     cardTemplate : cardTemplate,
     getVariables : getVariables,
     updateGetVariables : updateGetVariables,
-    clickEvent: billMoreDetails
+    clickEvent: orderMoreDetails
 }
 
-const apiFetcherMod = new ApiFetcherMod(cofig);
+const apiFetcherMod = new ApiFetcherMod(config);
 
 const loadDataOnNotification = (type) => {
     if(type == 'preOrder') apiFetcherMod.loadDataWithSearchOrFilter();
-}
-
-function billMoreDetails(dataset){
-    const itemsList = document.getElementById('billDetailsItems');
-    const nameElem = document.getElementById('More-details-bill-name');
-    const phoneElem = document.getElementById('More-details-bill-phone');
-    const {
-        order_id,
-        date,
-        time,
-        full_name,
-        dis_phone,
-        pic_format,
-        status
-    } = dataset;
-    fetch(LINKROOT + '/ShopOwner/getOrderDetails/' + order_id)
-    .then(res => res.json())
-    .then(data => {
-        if(data){
-            const {
-                total,
-                items,
-            } = data;
-            document.getElementById('More-details-bill-id').innerText = " - " + order_id;
-            document.getElementById('More-details-bill-date').innerText = " - " + date;
-            document.getElementById('More-details-bill-time').innerText = " - " + time;
-            document.getElementById('More-details-bill-total').innerText = 'Rs.' + total.toFixed(2);
-            document.getElementById('More-details-bill-status').innerText = " - " + status;
-
-            if (dis_phone) {
-                nameElem.innerHTML = ` - <a class="link" href="${LINKROOT}/ShopOwner/Distributor/${dis_phone}">${full_name}</a>`;
-                phoneElem.innerText = " - " + dis_phone;
-            } else {
-                nameElem.innerText = " - Unregisterd";
-                phoneElem.innerText = " - Unregisterd";
-            }
-            const billImage = document.getElementById('More-details-bill-img');
-            billImage.src = `${ROOT}/images/Profile/${dis_phone}.${pic_format}`;
-            billImage.onerror = function () {
-                this.src = `${ROOT}/images/Profile/PhoneNumber.jpg`;
-            };
-            itemsList.innerHTML = '';
-            items.forEach(item => {
-                const {
-                    barcode,
-                    product_name,
-                    quantity,
-                    bulk_price,
-                    total
-                } = item;
-                // let rowTotal = quantity * bulk_price;
-                itemsList.innerHTML += `
-                    <tr calss='Item'>
-                        <td class='center-al'>${barcode}</td>
-                        <td class='left-al'>${product_name}</td>
-                        <td class='center-al'>${quantity}</td>
-                        <td>Rs.${bulk_price.toFixed(2)}</td>
-                        <td>Rs.${total.toFixed(2)}</td>
-                    </tr>
-                `;
-            });
-            viewPopUp('BillDetails');
-        } else {
-            alert('Failed to get bill details');
-        }
-    }); 
 }
 
 new Notification(loadDataOnNotification);

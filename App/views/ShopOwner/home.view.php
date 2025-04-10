@@ -4,7 +4,6 @@
 ?>
 
 <div class="main-content colomn">
-
     <div class="top">
         <div class="bar">
             <img src="<?=ROOT?>/images/icons/home.svg" alt="" style="visibility:hidden;">
