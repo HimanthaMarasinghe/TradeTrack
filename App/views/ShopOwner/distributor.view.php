@@ -24,12 +24,18 @@
                 <td>Distributor's Phone number</td>
                 <td><?=$distributor['dis_phone']?></td>
             </tr>
-            <tr>
-                <td><h2>Debt/Credit</h2></td>
+            <tr id="creditTR">
+            <?php if($distributor['wallet'] > 0) { ?>
+                <td><h2>Credit</h2></td>
                 <td><h2>Rs.<?=number_format($distributor['wallet'], 2)?></h2></td>
+                <?php } else { ?>
+                    <td><h2>Debt</h2></td>
+                    <td><h2>Rs.<?=number_format(-1*$distributor['wallet'], 2)?></h2></td>
+                <?php } ?>
             </tr>
             <tr>
-                <td><a href="<?=LINKROOT?>/ShopOwner/orderStocks/<?=$distributor['dis_phone']?>" class="btn">Place an Order</a></td>
+                <td><a href="<?=LINKROOT?>/ShopOwner/orderStocks/<?=$distributor['dis_phone']?>" class="btn w-100">Place an Order</a></td>
+                <td><button id="pay" class="btn w-100px">Pay</button></td>
             </tr>
         </table>
         <img
@@ -58,6 +64,7 @@
                             <th class='left-al'">Date</th>
                             <th class='left-al'>Time</th>
                             <th>Status</th>
+                            <th>Total</th>
                         </tr>
                     </thead>
                     <tbody id="billTable">
@@ -71,7 +78,36 @@
 <!-- popup -->
 
 <div id="popUpBackDrop" class="hidden"></div>
-<?php $this->component("billDetails", ['role' => 'Distributor']) ?>
+<?php $this->component("orderDetails") ?>
+<div class="popUpDiv hidden" id="payPopUp">
+    <h2>Pay to the Distributor</h2>
+    <img
+            class="profile-img"
+            src="<?=ROOT?>/images/Profile/<?=$distributor['dis_phone']?>.<?=$distributor['pic_format']?>"
+            alt=""
+            onerror="this.src='<?=ROOT?>/images/Profile/PhoneNumber.jpg'"
+        >
+    <form id="payForm">
+        <table class="profile">
+            <tr>
+                <td>Distributor Name</td>
+                <td><?=$distributor['first_name']." ".$distributor['last_name']?></td>
+            </tr>
+            <tr>
+                <td>Busines Name</td>
+                <td><?=$distributor['dis_busines_name']?></td>
+            </tr>
+            <tr>
+                <td>Pay Amount</td>
+                <td>
+                    <input class="userInput" type="number" name="amount" required>
+                </td>
+            </tr>
+        </table>
+        <input type="text" name="dis_phone" class="hidden" value="<?=$distributor['dis_phone']?>" readonly required>
+    </form>
+    <button type="button" id="payBtn" class="btn w-100px">Pay</button>
+</div>
 <div id="notification-container"></div>
 
 <script>

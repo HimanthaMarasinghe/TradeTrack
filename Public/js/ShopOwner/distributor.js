@@ -17,6 +17,7 @@ function rowTemplate(order){
             <td class='left-al'>${date}</td>
             <td class='left-al'>${time}</td>
             <td class='center-al'>${status}</th>
+            <td>${total.toFixed(2)}</th>
         </tr>
     `;
 }
@@ -46,3 +47,38 @@ const stockConfig = {
 }
 
 new ApiFetcherMod(stockConfig);
+
+document.getElementById('pay').addEventListener('click', () => viewPopUp('payPopUp'));
+
+document.getElementById('payBtn').addEventListener('click', () => {
+    const form = document.getElementById('payForm');
+    if(form.reportValidity()){
+        const formData = new FormData(form);
+        fetch(LINKROOT + '/ShopOwner/payToDistributor', {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                alert("Payment recorded Successfully");
+                form.reset();
+                const tr = document.getElementById('creditTR');
+                if(data.new > 0) {
+                    tr.innerHTML = `<td><h2>Credit</h2></td>
+                                    <td><h2>Rs.${data.new.toFixed(2)}</h2></td>`;
+                }else{
+                    tr.innerHTML = `<td><h2>Debt</td></h2>
+                                    <td><h2>Rs.${(-1*data.new).toFixed(2)}</h2></td>`;
+                }
+            } else {
+                alert('An error occurred');
+            }
+            
+            closePopUp();
+            return fetch(`${LINKROOT}/ShopOwner/fetchChashDrawer`);
+        })
+    }
+});
+
+new Notification();

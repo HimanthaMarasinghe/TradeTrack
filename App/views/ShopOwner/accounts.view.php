@@ -88,7 +88,7 @@
                                 <th class='left-al'>Date</th>
                                 <th class='left-al'>Time</th>
                                 <th class='left-al'>Customer</th>
-                                <th class="left-al">Amount</th>
+                                <th>Amount</th>
                             </tr>
                         </thead>
                         <tbody id="billTbody">
@@ -111,7 +111,7 @@
                                 <th class='left-al'>Date</th>
                                 <th class='left-al'>Time</th>
                                 <th class='left-al'>Distributor</th>
-                                <th class="left-al">Amount</th>
+                                <th>Amount</th>
                             </tr>
                         </thead>
                         <tbody id="orderTbody">
@@ -129,7 +129,6 @@
                 <!-- This search-bar is used because apiFetcher required a search field. It is hidden because seaching cash flow is useless. -->
                 <input type="date" id="cash-add_Date" class="filter-js-cash-add">
             </div>
-                <h5>Click on any row to see more details</h5>
                 <div class="billScroll h-350" id="cash-add-scroll">
                     <table class="bill">
                         <thead>
@@ -137,7 +136,7 @@
                                 <th class='center-al'>Date</th>
                                 <th class='center-al'>Time</th>
                                 <th class='left-al'>Type</th>
-                                <th class="left-al">Amount</th>
+                                <th>Amount</th>
                             </tr>
                         </thead>
                         <tbody id="cash-add-Tbody">
@@ -161,7 +160,6 @@
                 </select>
                 <input type="date" id="expences_Date" class="filter-js-expences">
             </div>
-                <h5>Click on any row to see more details</h5>
                 <div class="billScroll h-350" id="expenceScroll">
                     <table class="bill">
                         <thead>
@@ -207,6 +205,7 @@
                 <option value="Telephone">Telephone</option>
                 <option value="Rent">Rent</option>
                 <option value="Tax">Tax</option>
+                <option value="Payed to Creditors">Payed to Creditors</option>
                 <option value="Other">Other</option>
             </select></td>
         </tr>
@@ -285,7 +284,7 @@
     </form>
 </div>
 
-<?php $this->component("billDetails", ['role' =>'Distributor']) ?>
+<?php $this->component("orderDetails") ?>
 
 <!-- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> -->
 <script src="<?=ROOT?>/js/popUp.js"></script>

@@ -7,7 +7,7 @@
 <div class="main-content colomn">
     <div class="bar">
         <img src="<?=ROOT?>/images/icons/home.svg" alt="">
-        <h1><?=$_SESSION['shop_owner']['shop_name']?></h1>
+        <h1>Products</h1>
         <div class="row gap-10">
             <a href="<?=LINKROOT?>/ShopOwner/announcements"><img src="<?=ROOT?>/images/icons/Announcement.svg" alt=""></a>
             <?php $this->component("notification") ?>
@@ -29,62 +29,6 @@
 
 </div>
 
-<!-- PopUp -->
-<div id="popUpBackDrop" class="hidden"></div>
-<div id="addStock" class="popUpDiv hidden">
-    <img id="popUp-prdct-image" class="profile-img big" src="<?=ROOT?>/images/Products/default.jpeg" alt="">
-    <div class="details h-50 center-al">
-        <h4 id="popUp-prdct-name">product_name</h4>
-        <table>
-            <tr>
-                <td>Unit Price</td>
-                <td id="popUp-prdct-unit-price">Rs.100.00</td>
-            </tr>
-            <tr>
-                <td>Bulk Price</td>
-                <td id="popUp-prdct-bulk-price">Rs.100.00</td>
-            </tr>
-        </table>
-    </div>
-    <form class="colomn mg-10 gap-10" id="addStockForm" onsubmit="event.preventDefault();">
-        <input type="hidden" id="popUp-prdct-barcode" name="barcode">
-        <table>
-            <tr>
-                <td><label for="quantity">Quanitity</label></td>
-                <td><input type="number" class="userInput" id="quantity" name="quantity"></td>
-            </tr>
-            <tr>
-                <td><label for="cost">Cost</label></td>
-                <td><input type="number" class="userInput" id="cost" name="cost"></td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="radio" id="onCash-radio" name="purchaseType" value="onCash" checked> 
-                </td>
-                <td>
-                    <label for="onCash-radio">Purchased On Cash</label>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="radio" id="onCredit-radio" name="purchaseType" value="onCredit"> 
-                </td>
-                <td>
-                    <label for="onCredit-radio">Purchased On Credit</label>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="radio" id="none-radio" name="purchaseType" value="none"> 
-                </td>
-                <td>
-                    <label for="none-radio">Do not update accounts</label>
-                </td>
-            </tr>
-        </table>
-        <button id="addStockBtn" class="btn">Add</button>
-    </form>
-</div>
 <div id="notification-container"></div>
 
 <script>
@@ -93,6 +37,5 @@
     const ws_id = "<?=$_SESSION['shop_owner']['phone']?>";
 </script>
 <script src="<?=ROOT?>/js/ShopOwner/addStock.js" type="module"></script>
-<script src="<?=ROOT?>/js/popUp.js"></script>
 
 <?php $this->component("footer") ?>

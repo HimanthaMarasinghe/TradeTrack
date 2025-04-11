@@ -26,12 +26,12 @@
                 <option value="all">All</option>
                 <option value="Pending">Pending</option>
                 <option value="Processing">Processing</option>
-                <option value="Ready">Delivering</option>
-                <option value="Picked">Delivered</option>
+                <option value="Delivering">Delivering</option>
+                <option value="Delivered">Received</option>
             </select>
             <input type="date" id="order_Date" class="filter-js">
         </div>
-        <div class="scroll-box grid g-resp-300" id="elements-Scroll-Div">
+        <div class="scroll-box grid g-resp-200" id="elements-Scroll-Div">
         </div>
     </div>
 
@@ -39,7 +39,7 @@
 
 <!-- PopUp -->
 <div id="popUpBackDrop" class="hidden"></div>
-<?php $this->component("billDetails", ['role' =>'Distributor']) ?>
+<?php $this->component("orderDetails") ?>
 
 
 <script>

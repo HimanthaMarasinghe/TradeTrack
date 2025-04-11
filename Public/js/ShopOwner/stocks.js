@@ -9,10 +9,11 @@ function cardTemplate(product) {
         low_stock_level,
         unit_price,
         pic_format,
+        unit_type
     } = product;
 
     // Determine the link
-    const link =`${ROOT}/ShopOwner/product/${barcode}`;
+    const link =`${LINKROOT}/ShopOwner/product/${barcode}`;
 
     // Determine the image path
     const imageSrc = `${ROOT}/images/Products/${barcode}.${pic_format}`;
@@ -24,7 +25,7 @@ function cardTemplate(product) {
         <a href="${link}" class="card btn-card center-al ${lowStockClass}" id="${barcode}">
             <div class="details h-100">
                 <h4>${product_name}</h4>
-                <h4 class="quantity">${quantity} Units in stock</h4>
+                <h4 class="quantity">${quantity} ${unit_type} in stock</h4>
                 <h4>Rs.${unit_price.toFixed(2)}</h4>
             </div>
             <div class="product-img-container">
