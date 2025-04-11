@@ -98,3 +98,28 @@ export function preOrderCard(order) {
         </a>
     `;
 }
+
+export function distributorCard(distributor) {
+    const {
+        dis_phone,
+        first_name,
+        last_name,
+        dis_busines_name,
+        pic_format
+    } = distributor;
+    return `
+        <a class="card btn-card colomn asp-rtio") id="${dis_phone}" href="${LINKROOT}/ShopOwner/Distributor/${dis_phone}">
+            <img 
+            class="product-img" 
+            src="${ROOT}/images/Profile/${dis_phone}.${pic_format}" 
+            alt="distibutor Image"
+            onerror="this.src='${ROOT}/images/Profile/PhoneNumber.jpg'">
+            <div class="details h-50 ovf-hdn">
+                <h4>${first_name}</h4>
+                <h4>${last_name}</h4>
+                <h4>${dis_busines_name}</h4>
+                <h4>${dis_phone}</h4>
+            </div>
+        </a>
+    `;
+}

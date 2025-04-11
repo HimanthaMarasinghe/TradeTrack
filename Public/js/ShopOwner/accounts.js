@@ -54,7 +54,7 @@ function orderRow(order) {
             <td class='center-al'>${order_id}</td>
             <td class='left-al'>${date}</td>
             <td class='left-al'>${time}</td>
-            <td class='left-al'>${dis_busines_name}</td>
+            <td class='left-al'>${dis_busines_name ?? '-'}</td>
             <td>Rs.${total.toFixed(2)}</td>
         </tr>
     `;
@@ -91,7 +91,7 @@ new ApiFetcherMod(config);
 function cashFlowRow(flow){
     const {date, time, type, amount} = flow;
     return `
-        <tr class='Item clickable'>
+        <tr class='Item'>
             <td class='center-al'>${date}</td>
             <td class='center-al'>${time}</td>
             <td class='left-al'>${type}</td>
@@ -126,7 +126,7 @@ const cashFlow = new ApiFetcherMod(cashFlowConfig);
 function expenceRow(expence){
     const {date, time, cashDrawer, type, amount} = expence;
     return `
-        <tr class='Item clickable'>
+        <tr class='Item'>
             <td class='center-al'>${date}</td>
             <td class='center-al'>${time}</td>
             <td class='center-al'>${cashDrawer == 1 ? "✔" : ""}</td>
@@ -251,7 +251,7 @@ document.getElementById('rec_expence').addEventListener('click', () => openForm(
 document.getElementById('rec_withdraw').addEventListener('click', () => openForm('withdraw'));
 document.getElementById('rec_cash_in').addEventListener('click', () => openForm('cash_in'));
 
-function submitForm(form_id, api, message, popUp, refresh) {
+function submitForm(form_id, api, message, refresh) {
     const form = document.getElementById(form_id);
     if (form.reportValidity()) {
         const formData = new FormData(form);
@@ -268,7 +268,7 @@ function submitForm(form_id, api, message, popUp, refresh) {
                 alert('An error occurred');
             }
             
-            closePopUp(popUp);
+            closePopUp();
             return fetch(`${LINKROOT}/ShopOwner/fetchChashDrawer`);
         })
         .then(res => res.json())
@@ -281,6 +281,6 @@ function submitForm(form_id, api, message, popUp, refresh) {
     }
 }
 
-document.getElementById('record_expence').addEventListener('click', () => submitForm('expence_form', 'recordExpence', 'Expence recorded successfully!', 'expence', expence.loadDataWithSearchOrFilter.bind(expence)));
-document.getElementById('record_withdrwal').addEventListener('click', () => submitForm('withdraw_form', 'recordCashFlow', 'Withdraw recorded successfully!', 'withdraw', cashFlow.loadDataWithSearchOrFilter.bind(cashFlow)));
-document.getElementById('record_cash_in').addEventListener('click', () => submitForm('cash_in_form', 'recordCashFlow', 'Cash in recorded successfully!', 'cash_in', cashFlow.loadDataWithSearchOrFilter.bind(cashFlow)));
+document.getElementById('record_expence').addEventListener('click', () => submitForm('expence_form', 'recordExpence', 'Expence recorded successfully!', expence.loadDataWithSearchOrFilter.bind(expence)));
+document.getElementById('record_withdrwal').addEventListener('click', () => submitForm('withdraw_form', 'recordCashFlow', 'Withdraw recorded successfully!', cashFlow.loadDataWithSearchOrFilter.bind(cashFlow)));
+document.getElementById('record_cash_in').addEventListener('click', () => submitForm('cash_in_form', 'recordCashFlow', 'Cash in recorded successfully!', cashFlow.loadDataWithSearchOrFilter.bind(cashFlow)));

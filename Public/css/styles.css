@@ -156,11 +156,18 @@
     text-decoration: none;
     text-align: center;
     color: var(--btn-primary-text);
-    border: none;
+    border: 2px solid var(--btn-primary);
+    box-sizing: border-box;
     border-radius: 20px;
-    padding: 10px 20px;
+    padding: 8px 16px;
     cursor: pointer;
     font-size: 13px;
+
+    &:hover {
+        background-color: var(--btn-primary-text);
+        color: var(--btn-primary);
+        
+    }
 }
 
 .btn-mini {
@@ -295,7 +302,7 @@ img.product-img {
 .billScroll {
     flex-grow: 1;
     overflow: auto;
-    /* scrollbar-width: none; */
+    scrollbar-width: thin;
     border: 1px solid var(--border-color);
     border-radius: 5px;
     /* border-top-left-radius: 20px;
@@ -526,6 +533,7 @@ div.popUpDiv{
     }
 }
 
+.Delivering-preOrder,
 .Ready-preOrder{
     border-color: orange !important;
 
@@ -534,6 +542,7 @@ div.popUpDiv{
     }
 }
 
+.Received-preOrder,
 .Picked-preOrder{
     border-color: purple !important;
 

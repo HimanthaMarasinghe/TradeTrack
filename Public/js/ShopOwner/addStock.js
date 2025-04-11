@@ -5,7 +5,7 @@ const dataArr = [];
 
 function cardTemplate(product) {
     return `
-        <a href="#" class="card btn-card center-al" id="${product.barcode}">
+        <a href="${LINKROOT}/ShopOwner/product/${product.barcode}" class="card btn-card center-al" id="${product.barcode}">
             <div class="details h-100">
                 <h4>${product.product_name}</h4>
                 <table class='left-al'>
@@ -57,45 +57,5 @@ function addStockPopUp(barcode) {
         viewPopUp('addStock');
     }
 }
-
-// Attach a single listener to the parent container
-document.getElementById('elements-Scroll-Div').addEventListener('click', (event) => {
-    const target = event.target.closest('.card');
-    if (target) {
-        const barcode = target.id;
-        addStockPopUp(barcode);
-    }
-});
-
-
-const quantityField = document.getElementById('quantity');
-const costField = document.getElementById('cost');
-
-quantityField.addEventListener('input', function () {
-    const quantity = this.value;
-    costField.value = (quantity * product.bulk_price).toFixed(2);
-});
-
-document.getElementById('addStockBtn').addEventListener('click', () => {
-    const barcode = document.getElementById('popUp-prdct-barcode').value;
-    const form = document.getElementById('addStockForm');
-
-    if (quantity === "" || cost === "") {
-        alert("Please fill all fields");
-        return;
-    }
-
-    const formData = new FormData(form);
-    formData.append('barcode', barcode);
-
-    fetch(`${LINKROOT}/ShopOwner/addStock`, {
-        method: 'POST',
-        body: formData
-    })
-    .then(() => {
-        closePopUp();
-    })
-    .catch(err => console.error("Error adding stock:", err));
-});
 
 new Notification();

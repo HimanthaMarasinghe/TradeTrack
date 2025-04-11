@@ -203,9 +203,8 @@ class ShopOwner extends Controller
             return;
         }
         $prd = new Products;
-        $agnt = new DistributorM;
         $this->data['product'] = $prd->first(['barcode' => $barcodeIn]);
-        $this->data['agents'] = $agnt->readAll(); //todo : Emplement properly
+        $this->data['stock'] = (new ShopStock)->first(data: ['barcode' => $barcodeIn, 'so_phone' => $_SESSION['shop_owner']['phone']], readFields:['quantity'])['quantity'] ?? 0;
         $this->data['tabs']['active'] = 'Stocks';
         $this->view('shopOwner/product', $this->data);
     }
@@ -213,15 +212,19 @@ class ShopOwner extends Controller
     public function accounts() {
         $this->data['tabs']['active'] = 'Accounts';
 
-        $this->data['debtors'] = 0;
-        $this->data['creditors'] = 0;
-        $this->data['cashDrawerBallance'] = (new shops)->first(['so_phone' => $_SESSION['shop_owner']['phone']])['cash_drawer_balance'];
+        $shopAcc = (new shops)->first(data: ['so_phone' => $_SESSION['shop_owner']['phone']], readFields:['cash_drawer_balance', 'non_registerd_creditors']);
 
-        $wallets = (new LoyaltyCustomers)->walletAmounts();
+        $this->data['debtors'] = 0;
+        $this->data['creditors'] = $shopAcc['non_registerd_creditors'];
+        $this->data['cashDrawerBallance'] = $shopAcc['cash_drawer_balance'];
+
+        $wallets = (new LoyaltyCustomers)->where(data: ['so_phone' => $_SESSION['shop_owner']['phone']], readFields:['wallet']);
+        array_push($wallets, ...(new WalletSoDis)->where(data: ['so_phone' => $_SESSION['shop_owner']['phone']], readFields:['wallet']));
         foreach($wallets as $wallet){
             if ($wallet['wallet'] > 0) $this->data['debtors'] += $wallet['wallet'];
             else $this->data['creditors'] += abs($wallet['wallet']);
         }
+
 
         $this->view('shopOwner/accounts', $this->data);
     }
@@ -275,22 +278,40 @@ class ShopOwner extends Controller
     public function Distributor($dis_phone) {
 
         $this->data['distributor'] = (new DistributorM)->first(['dis_phone' => $dis_phone]);
-        $this->data['distributor']['wallet'] = (new WalletSoDis)->first(['dis_phone' => $dis_phone, 'so_phone' => $_SESSION['shop_owner']['phone']]);
+        $this->data['distributor']['wallet'] = (new WalletSoDis)->first(data: ['dis_phone' => $dis_phone, 'so_phone' => $_SESSION['shop_owner']['phone']], readFields:['wallet'])['wallet'];
         
         $this->data['tabs']['active'] = 'Distributors';
         $this->view('shopOwner/distributor', $this->data);
     }
 
     public function addStock() {
-        if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['barcode']) && !empty($_POST['quantity'])){
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['barcode']) && !empty($_POST['quantity']) && !empty($_POST['cost'])){
             $stck = new ShopStock;
             $con = $stck->startTransaction();
             $stck->updateStock($_POST['barcode'], $_SESSION['shop_owner']['phone'], $_POST['quantity'], $con);
-            if($_POST['purchaseType'] == 'onCash' && !empty($_POST['cost'])){
-                $shop = new Shops;
-                $shop->updateCashDrawer($_SESSION['shop_owner']['phone'], -1 * $_POST['cost'], $con);
+
+            (new ShopOrder)->insert(['so_phone' => $_SESSION['shop_owner']['phone'], 'status' => 'Delivered'], $con);
+            $lastId = $con->lastInsertId();
+            $sold_bulk_price = $_POST['cost'] / $_POST['quantity'];
+            (new ShopOrderItems)->insert(['order_id' => $lastId, 'barcode' => $_POST['barcode'], 'quantity' => $_POST['quantity'], 'sold_bulk_price' => $sold_bulk_price], $con);
+
+            $shop = new Shops;
+
+            switch ($_POST['purchaseType']) {
+                case 'fromDrawer':
+                    $shop->updateCashDrawer($_SESSION['shop_owner']['phone'], -1 * $_POST['cost'], $con);
+                    break;
+                case 'onCredit':
+                    $shop->updateCreditors($_SESSION['shop_owner']['phone'], $_POST['cost'], $con);
+                    break;
             }
-            $stck->commit($con);
+
+            if($con->commit()) {
+                $newStock = $stck->first(data: ['so_phone' => $_SESSION['shop_owner']['phone'], 'barcode' => $_POST['barcode']], readFields:['quantity'])['quantity'];
+                echo json_encode(['success' => true, 'new_stock' => $newStock]);
+            }
+
+            else echo json_encode(['success' => false]);
             return;
         }
         $this->data['tabs']['active'] = 'Stocks';
@@ -403,15 +424,12 @@ class ShopOwner extends Controller
         $search = $_GET['search'] ?? null;
         $distributor = new DistributorM;
 
-        if($search == null)
-            $distributors = $distributor->readAll(10, $offset);
-
+        if ($_GET['barcode'])
+            $distributors = $distributor->distributorsForProduct($offset, $search, $_GET['barcode']);
         else
             $distributors = $distributor->searchDistributors($search, $offset);
-
-        // if(!$distributors)
-        //     $distributors = [];
         
+        header('Content-Type: application/json');
         echo json_encode($distributors);
     }
 
@@ -578,7 +596,6 @@ class ShopOwner extends Controller
             redirect("ShopOwner/orderStocks/{$dis_phone}");
 
         $orderItems = jsonPostDecode()['orderItems'];
-        writeToFile($orderItems);
 
         $shopOrder = new ShopOrder;
         $shopOrderItems = new ShopOrderItems;
@@ -692,5 +709,14 @@ class ShopOwner extends Controller
 
     public function fetchChashDrawer() {
         echo json_encode(['cashDrawer' => (new shops)->first(['so_phone' => $_SESSION['shop_owner']['phone']])['cash_drawer_balance']]);
+    }
+
+    public function payToDistributor(){
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $walletSoDis = new WalletSoDis;
+            $walletSoDis->updateWallet($_POST['dis_phone'], $_SESSION['shop_owner']['phone'], -1*$_POST['amount']);
+            $new = $walletSoDis->first(data: ['so_phone' => $_SESSION['shop_owner']['phone'], 'dis_phone' => $_POST['dis_phone']], readFields:['wallet'])['wallet'];
+            echo json_encode(['success' => true, 'new' => $new]);
+        }
     }
 }

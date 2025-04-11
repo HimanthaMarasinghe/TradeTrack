@@ -120,6 +120,10 @@ body {
 }
 
 .w-100px {
+    width: 100px !important;
+}
+
+.w-1000px {
     width: 1000px !important;
 }
 
@@ -239,6 +243,7 @@ input[type='text'].search-bar {
 }
 
 .disabled-link {
+    border-color: var(--btn-secondary);
     pointer-events: none;
     background-color: var(--btn-secondary);
 }

@@ -3,7 +3,7 @@
 class ShopOrder extends Model
 {
     protected $table = 'shop_orders';
-    protected $fillable = ['date', 'time', 'so_phone', 'dis_phone'];
+    protected $fillable = ['date', 'time', 'so_phone', 'dis_phone', 'status'];
 
     public function search($search, $status, $offset, $dis_phone = null, $date = null) {
         $queryPara['so_phone'] = $_SESSION['shop_owner']['phone'];
@@ -14,11 +14,10 @@ class ShopOrder extends Model
                     so.time,
                     so.status,
                     d.dis_busines_name,
-                    u.pic_format,
                     CONCAT(u.first_name, ' ', u.last_name) as full_name,
-                    (SELECT SUM(soi.quantity * p.bulk_price) FROM shop_order_items soi INNER JOIN products p ON soi.barcode = p.barcode WHERE soi.order_id = so.order_id) as total
-                  FROM shop_orders so INNER JOIN distributors d ON so.dis_phone = d.dis_phone
-                  INNER JOIN users u ON so.dis_phone = u.phone";
+                    (SELECT SUM(soi.quantity * soi.sold_bulk_price) FROM shop_order_items soi WHERE soi.order_id = so.order_id) as total
+                  FROM shop_orders so LEFT JOIN distributors d ON so.dis_phone = d.dis_phone
+                  LEFT JOIN users u ON so.dis_phone = u.phone";
         
         if(!$dis_phone) {
             $query .= " WHERE so.so_phone = :so_phone AND (so.order_id LIKE :search OR d.dis_busines_name LIKE :search OR CONCAT(u.first_name, u.last_name) LIKE :search)";

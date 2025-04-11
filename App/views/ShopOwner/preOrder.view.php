@@ -114,7 +114,7 @@
 <!-- PopUp -->
 <div id="popUpBackDrop" class="hidden"></div>
 <div id="popUp" class="popUpDiv hidden">
-    <form class="row w-100px" method="post" action="<?=LINKROOT?>/ShopOwner/purchaseDone" id="bill-form" autocomplete="off">
+    <form class="row w-1000px" method="post" action="<?=LINKROOT?>/ShopOwner/purchaseDone" id="bill-form" autocomplete="off">
         <div class="center">
             <h1>Total</h1>
             <input id="total" type="text" class="userInput" value="<?=$preOrder['total']?>" readonly tabindex="-1">
