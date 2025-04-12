@@ -267,11 +267,29 @@ class Manufacturer extends Controller
         $this->view('Manufacturer/announcements', $this->data);
     }
 
+    // api
+
     public function getAnnouncement($id){
         $announcement = new Announcements;
         $announcement = $announcement->first(['id' => $id]);
         echo json_encode($announcement);
     }
+
+    public function getProducts(){ 
+        $search = $_GET['search'] ?? null;
+        $prdct = new Products;
+        if($search == null)
+            $products = $prdct->readAll();
+
+        else
+            $products = $prdct->searchProductsMan($search, $_SESSION['manufacturer']['phone']);
+
+        if(!$products)
+            $products = [];
+        echo json_encode($products);
+    }
+    
+
 
 
 

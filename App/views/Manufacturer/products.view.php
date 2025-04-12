@@ -23,13 +23,7 @@
                 <button class="btn" onclick="addNewProduct()">Add new products</button>
             </div>
             <div class="scroll-box grid g-resp-300">
-                <?php
-                    foreach ($staticStocks as $stock) { 
-                        $this->component('card/product', $stock, ['baseUrl' => 'Manufacturer/product']); 
-                    }
-                    foreach ($pendingProducts as $stock) { 
-                        $this->component('card/product', $stock, ['special' => "Request Pending"]); 
-                     } ?>
+             
             </div>
         </div>
     </div>
