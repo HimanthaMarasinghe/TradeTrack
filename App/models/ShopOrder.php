@@ -15,7 +15,7 @@ class ShopOrder extends Model
                     so.status,
                     d.dis_busines_name,
                     CONCAT(u.first_name, ' ', u.last_name) as full_name,
-                    (SELECT SUM(soi.quantity * soi.sold_bulk_price) FROM shop_order_items soi WHERE soi.order_id = so.order_id) as total
+                    (SELECT SUM(soi.quantity * soi.sold_bulk_price) FROM (SELECT order_id, quantity, sold_bulk_price FROM shop_order_items UNION SELECT order_id, quantity, sold_bulk_price FROM shop_order_unique_items) AS soi WHERE soi.order_id = so.order_id) as total
                   FROM shop_orders so LEFT JOIN distributors d ON so.dis_phone = d.dis_phone
                   LEFT JOIN users u ON so.dis_phone = u.phone";
         

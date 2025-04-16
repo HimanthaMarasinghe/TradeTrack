@@ -55,11 +55,18 @@ class Customer extends Controller
         $this->view('Customer/Products',$this->data);
     }
 
-    public function product($barcode){
-        $prdct = new Products;
-        $stock = new ShopStock;
-        $this->data['product'] = $prdct->first(['barcode' => $barcode]);
-        $this->data['shops'] = $stock->shopsThatSellProduct($barcode);
+    public function product($barcode, $so_phone = null){
+        if(strlen($barcode) == 2 && $so_phone != null) {
+            $this->data['product'] = (new ShopUniqueProducts)->first(['product_code' => $barcode, 'so_phone' => $so_phone]);
+            $this->data['product']['barcode'] = "x$barcode";
+            $this->data['product']['picture'] = $so_phone.$barcode.".".$this->data['product']['pic_format'];
+            $this->data['shops'] = [(new Shops)->first(['so_phone' => $so_phone])];
+        }
+        else {
+            $this->data['product'] = (new Products)->first(['barcode' => $barcode]);
+            $this->data['product']['picture'] = $barcode.".".$this->data['product']['pic_format'];
+            $this->data['shops'] = (new ShopStock)->shopsThatSellProduct($barcode);
+        }
         $this->data['tabs']['active'] = 'Products';
         $this->view('Customer/product',$this->data);
     }
@@ -167,7 +174,7 @@ class Customer extends Controller
             $offset = 0;  // Default to 0 if invalid
         
         $search = $_GET['search'] ?? null;
-        $stck = new ShopStock;
+        $stck = new ShopProductsService;
         $stocks = $stck->readStock($_GET['shop_phone'], 'DESC', $offset, $search, $_GET['preOrderable']);
 
         foreach($stocks as &$s){

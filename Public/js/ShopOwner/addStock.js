@@ -4,8 +4,16 @@ import Notification from "../Notification.js";
 const dataArr = [];
 
 function cardTemplate(product) {
+    let badge = '';
+    let imgSrc = `${ROOT}/images/Products/${product.barcode}.${product.pic_format}`;
+    if(product.unique == 1) {
+        imgSrc = `${ROOT}/images/Products/${ws_id+product.barcode}.${product.pic_format}`
+        product.barcode = 'x' + product.barcode;
+        badge = `<span class="badge">Unique</span>`;
+    }
     return `
         <a href="${LINKROOT}/ShopOwner/product/${product.barcode}" class="card btn-card center-al" id="${product.barcode}">
+            ${badge}
             <div class="details h-100">
                 <h4>${product.product_name}</h4>
                 <table class='left-al'>
@@ -17,15 +25,11 @@ function cardTemplate(product) {
                         <td><h5>Unit Price</h5></td>
                         <td><h5>Rs.${product.unit_price.toFixed(2)}</h5></td>
                     </tr>
-                    <tr>
-                        <td><h5>Bulk Price</h5></td>
-                        <td><h5>Rs.${product.bulk_price.toFixed(2)}</h5></td>
-                    </tr>
                 </table>
             </div>
             <div class="product-img-container">
                 <img class="product-img" 
-                    src="${ROOT}/images/Products/${product.barcode}.${product.pic_format}" 
+                    src="${imgSrc}" 
                     alt="Product Image"
                     onerror="this.src='${ROOT}/images/Products/default.jpeg'">
             </div>
@@ -41,21 +45,47 @@ const apiFetcherConfig = {
 
 new ApiFetcherMod(apiFetcherConfig);
 
-// Function to handle product pop-up
-function addStockPopUp(barcode) {
-    const product = dataArr.find(p => p.barcode === barcode);
-    if (product) {
-        const productImage = document.getElementById('popUp-prdct-image');
-        productImage.src = `${ROOT}/images/Products/${product.barcode}.${product.pic_format}`;
-        productImage.onerror = function () {
-            this.src = `${ROOT}/images/Products/default.jpeg`;
-        };
-        document.getElementById('popUp-prdct-name').innerText = product.product_name;
-        document.getElementById('popUp-prdct-unit-price').innerText = `Rs.${product.unit_price.toFixed(2)}`;
-        document.getElementById('popUp-prdct-bulk-price').innerText = `Rs.${product.bulk_price.toFixed(2)}`;
-        document.getElementById('popUp-prdct-barcode').value = product.barcode;
-        viewPopUp('addStock');
+document.getElementById('addUniqueProductBtn').addEventListener('click', () => viewPopUp('addNewProducts'));
+const submitBtn = document.getElementById('formSubmit');
+const tip = document.getElementById('tip');
+document.getElementById('product_code').addEventListener('input', (e) => {
+    if (!e.target.value.startsWith('x')) {
+        e.target.value = 'x';
+      }
+    if (e.target.value.length < 3) {
+        submitBtn.classList.add('disabled-link');
+        e.target.classList.remove('green-text');
+        e.target.classList.add('red-text');
+        tip.classList.add('red-text');
+        tip.classList.remove('green-text');
+        tip.innerText = 'Code should have 3 characters';
+        return;
     }
-}
+    if (e.target.value.length > 3) {
+        e.target.value = e.target.value.slice(0, 3);
+        return;
+    }
+    console.log(e.target.value);
+    const productCode = e.target.value.slice(1, 3);
+    fetch(`${LINKROOT}/ShopOwner/productCodeCheck/${productCode}`)
+    .then(response => response.json())
+    .then(data => {
+        if(data) {
+            submitBtn.classList.remove('disabled-link');
+            e.target.classList.remove('red-text');
+            e.target.classList.add('green-text');
+            tip.innerText = 'Code is valid';
+            tip.classList.remove('red-text');
+            tip.classList.add('green-text');
+        } else {
+            submitBtn.classList.add('disabled-link');
+            e.target.classList.remove('green-text');
+            e.target.classList.add('red-text');
+            tip.classList.add('red-text');
+            tip.classList.remove('green-text');
+            tip.innerText = 'Code is already used';
+        }
+    })
+})
 
 new Notification();

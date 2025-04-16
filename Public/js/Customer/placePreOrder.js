@@ -104,8 +104,10 @@ function updateForm(){
         product_name,
         unit_price,
         pic_format,
+        unique
     } =  selectedProduct;
-    const imageSrc = `${ROOT}/images/Products/${barcode}.${pic_format}`;
+    if(unique == 1) var imageSrc = `${ROOT}/images/Products/${shopPhone+barcode}.${pic_format}`;
+    else var imageSrc = `${ROOT}/images/Products/${barcode}.${pic_format}`;
     pImage.src = imageSrc;
     pName.value = product_name;
     pPrice.value = unit_price.toFixed(2);

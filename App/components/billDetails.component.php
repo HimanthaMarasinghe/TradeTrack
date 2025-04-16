@@ -26,7 +26,7 @@
         <table class="bill min-w-1200">
             <thead>
                 <tr class="BillHeadings">
-                    <th class='center-al'>Barcode</th>
+                    <th class='center-al'>Barcode / Product Code</th>
                     <th class='left-al'>Product Name</th>
                     <th class='left-al'>Quantity</th>
                     <th>Unit Price</th>

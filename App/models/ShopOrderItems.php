@@ -9,6 +9,7 @@ class ShopOrderItems extends Model
 
     public function orderDetails($order_id) {
         $order['items'] = $this->where(['order_id' => $order_id]);
+        if (!$order['items']) return false;
         foreach($order['items'] as &$item){
             $item['total'] += $item['sold_bulk_price'] * $item['quantity'];
         }

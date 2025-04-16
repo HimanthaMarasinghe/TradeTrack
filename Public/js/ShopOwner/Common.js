@@ -47,7 +47,7 @@ export default function billMoreDetails(dataset){
                 } = item;
                 let rowTotal = quantity * sold_price;
                 itemsList.innerHTML += `
-                    <tr calss='Item'>
+                    <tr class='Item'>
                         <td class='center-al'>${barcode}</td>
                         <td class='left-al'>${product_name}</td>
                         <td class='center-al'>${quantity}</td>
@@ -97,7 +97,7 @@ export function orderMoreDetails(dataset){
                 nameElem.innerText = " - Unregisterd";
                 phoneElem.innerText = " - Unregisterd";
             }
-            const billImage = document.getElementById('More-details-Order-img');
+            // const billImage = document.getElementById('More-details-Order-img');
             itemsList.innerHTML = '';
             items.forEach(item => {
                 const {
@@ -109,7 +109,7 @@ export function orderMoreDetails(dataset){
                 } = item;
                 // let rowTotal = quantity * bulk_price;
                 itemsList.innerHTML += `
-                    <tr calss='Item'>
+                    <tr class='Item'>
                         <td class='center-al'>${barcode}</td>
                         <td class='left-al'>${product_name}</td>
                         <td class='center-al'>${quantity}</td>

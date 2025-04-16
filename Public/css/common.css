@@ -80,6 +80,10 @@ body {
     margin-top: 20px;
 }
 
+.m-bot-10px {
+    margin-bottom: 10px;
+}
+
 .p-10{
     padding: 10px;
 }
@@ -254,6 +258,10 @@ input[type='text'].search-bar {
 
 .clickable {
     cursor: pointer;
+}
+
+*[title] {
+    cursor: help;
 }
 
 /************ images ***********/

@@ -9,23 +9,28 @@ function cardTemplate(product) {
         low_stock_level,
         unit_price,
         pic_format,
-        unit_type
+        unit_type,
+        unique
     } = product;
 
-    // Determine the link
-    const link =`${LINKROOT}/ShopOwner/product/${barcode}`;
-
-    // Determine the image path
-    const imageSrc = `${ROOT}/images/Products/${barcode}.${pic_format}`;
-
-    // Determine the low stock class
+    if(unique == 1) {
+        var badge = `<span class="badge">Unique</span>`;
+        var link =`${LINKROOT}/ShopOwner/product/x${barcode}`;
+        var imageSrc = `${ROOT}/images/Products/${ws_id+barcode}.${pic_format}`;
+    } else {
+        var badge = '';
+        var link = `${LINKROOT}/ShopOwner/product/${barcode}`;
+        var imageSrc = `${ROOT}/images/Products/${barcode}.${pic_format}`;
+    }
+    
     const lowStockClass = quantity < low_stock_level ? "low" : "";
 
     return `
         <a href="${link}" class="card btn-card center-al ${lowStockClass}" id="${barcode}">
+            ${badge}
             <div class="details h-100">
                 <h4>${product_name}</h4>
-                <h4 class="quantity">${quantity} ${unit_type} in stock</h4>
+                <h4 class="quantity">${quantity < 0 ? 0 : quantity} ${unit_type} in stock</h4>
                 <h4>Rs.${unit_price.toFixed(2)}</h4>
             </div>
             <div class="product-img-container">
