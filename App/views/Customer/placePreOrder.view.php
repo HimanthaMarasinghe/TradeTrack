@@ -41,7 +41,11 @@
 
             <div class="row col-max-1024">
                 <div class="product-img-container">
-                    <img id="product-pic" class="product-img" src="<?=ROOT?>/images/Default/Product.jpeg" alt="">
+                    <img id="product-pic" 
+                         class="product-img" 
+                         src="<?=ROOT?>/images/Default/Product.jpeg" 
+                         alt="Selected Product Image"
+                         onerror="this.src='<?=ROOT?>/images/Products/default.jpeg'">
                 </div>
 
                 <div class="colomn fg1">

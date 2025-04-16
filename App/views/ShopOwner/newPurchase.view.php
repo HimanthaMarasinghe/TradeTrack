@@ -4,12 +4,13 @@
 ?>
 
 <div class="main-content colomn">
+    <h3>New Purchase</h3>
     <div class="billScroll">
         <table class="bill">
             <thead>
                 <tr class="BillHeadings">
                     <th>No.</th>
-                    <th class="w-50">Name</th>
+                    <th class="w-50 left-al">Name</th>
                     <th class="right-al">Price</th>
                     <th></th>
                     <th class="right-al">Quantity</th>
@@ -38,7 +39,7 @@
         <div class="colomn fg1">
 
             <div class="row scan">
-                <input class="userInput" type="number" id="barCode" name="itemcode" placeholder="BarCode" autofocus>
+                <input class="userInput" type="text" id="barCode" name="itemcode" placeholder="BarCode" autofocus>
                 <input class="userInput fg1" type="text" id="product-name" placeholder="Product Name" readonly tabindex="-1">
             </div>
 

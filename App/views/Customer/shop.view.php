@@ -80,9 +80,17 @@
             <h2 class="center-al">Available Products</h2>
             <div class="row mg-0">
                 <input id="stockSearchBar" type="text" class="fg1 search-bar" placeholder="Search">
-                <label class="row alitem-center mg-0">
+                <label class="row alitem-center mg-0" 
+                title="Even if there is stock in the store, 
+it might already be pre-ordered, 
+so you won't be able to place 
+a new pre-order for those items. 
+The stock level is still shown 
+because you can buy them at the shop 
+before the pre-orders are processed, 
+as in-store customers are prioritized.">
                     <input type="checkbox" id="preOrderable" class="stock-filter">
-                    <span>Pre-orderable Products</span>
+                    <span>Pre-orderable Products ⓘ</span>
                 </label>
             </div>
             <div class="scroll-box grid g-resp-300" id="stockScroll">

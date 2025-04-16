@@ -28,11 +28,11 @@
                 <td>Rs.<?= number_format($product['unit_price'], 2) ?></td>
             </tr>
         </table>
-        <?php if(file_exists("./images/Products/".$product['barcode'].".".$product['pic_format'])){ ?>
-            <img class="profile-img" src="<?=ROOT?>/images/Products/<?=$product['barcode']?>.<?=$product['pic_format']?>" alt="">
-        <?php } else { ?>
-            <img class="profile-img" src="<?=ROOT?>/images/Products/default.jpeg" alt="">
-        <?php } ?>
+
+        <img src="<?=ROOT?>/images/Products/<?=$product['picture']?>" 
+        onerror="this.src='<?=ROOT?>/images/Products/default.jpeg'"
+        alt="Product Image" 
+        class="profile-img big">
     </div>
     <h2>Shops where you can buy this product</h2>
     <div class="grid g-resp-200 scroll-box">

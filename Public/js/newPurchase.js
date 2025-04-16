@@ -1,4 +1,4 @@
-import Notification from "./notification.js";
+import Notification from "./Notification.js";
 new Notification(false, true);
 
 const qtyElement = document.getElementById('qty');
@@ -18,7 +18,7 @@ let newItem = {};
 
 barCodeElement.addEventListener('input', async function (e) {
     newItem = {};
-    e.target.value = e.target.value < 0 ? e.target.value*(-1) : e.target.value;    
+    // e.target.value = e.target.value < 0 ? e.target.value*(-1) : e.target.value;    
     
     product_name.value = '';
     unit_price.value = '';
@@ -30,7 +30,8 @@ barCodeElement.addEventListener('input', async function (e) {
         e.target.value = e.target.value.substring(13);
     }
 
-    if (e.target.value.length === 13) {
+    if (e.target.value.length === 13 || 
+        (e.target.value.length === 3 && !(/^[0-9]+$/.test(e.target.value)))) {
         const index = bill.findIndex((element) => element.barcode === e.target.value);
         if (index !== -1) newItem = { ...bill[index] };
         else {
@@ -44,20 +45,26 @@ barCodeElement.addEventListener('input', async function (e) {
             })
             .then(response => response.json())
             .then(data => {
-                
+                console.log(data);
+                if(!data) {
+                    alert('Invalid Barcode or product code');
+                    return;
+                }
                 newItem = {
-                    barcode: data.barcode,
+                    barcode: data.barcode ?? data.product_code,
+                    unique: data.product_code ? 1 : 0,
                     name: data.product_name,
                     price: data.unit_price,
                     pic_format: data.pic_format
                 };
+                product_name.value = newItem.name;
+                unit_price.value = parseFloat(newItem.price).toFixed(2);
+                if(newItem.pic_format)
+                    product_pic.src = ROOT+'/images/Products/' + newItem.barcode + '.' + newItem.pic_format;
+                qtyElement.focus();
             })
             .catch(error => console.error('Error:', error));
         }
-        product_name.value = newItem.name;
-        unit_price.value = parseFloat(newItem.price).toFixed(2);
-        product_pic.src = ROOT+'/images/Products/' + newItem.barcode + '.' + newItem.pic_format;
-        qtyElement.focus();
     }
 });
 
@@ -206,7 +213,6 @@ function cashPay() {
     if (!validBill) return;
 
     bill.forEach((element) => {
-        delete element.name;
         delete element.pic_format;
     });
 

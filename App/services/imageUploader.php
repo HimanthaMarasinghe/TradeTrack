@@ -18,6 +18,7 @@ class ImageUploader {
             $targetPath = $this->baseDir . $saveLocation . "/" . $newName . "." . $extension;
             if (move_uploaded_file($file["tmp_name"], $targetPath)) return $extension;
         }
+        writeToFile($_FILES[$fileVar]["error"]);
         return false;
     }
     public function removeImage($fileAddress) {

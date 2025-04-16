@@ -53,13 +53,26 @@ class ShopStock extends Model
         return $this->query($query, ['barcode' => $barcode, 'so_phone' => $so_phone, 'quantity' => $quantity], $con);
     }
 
-    public function updateStockItems($items, $so_phone = null) {
+    public function updateStockItems($items, $con, $so_phone = null) {
         if ($so_phone === null) $so_phone = $_SESSION['shop_owner']['phone'];
-        $con = $this->startTransaction();
-        foreach($items as $item) {
-            $this->updateStock($item['barcode'], $so_phone, -1*$item['qty'], $con);
+        $params = [];
+        $query =   "INSERT INTO so_stocks (barcode, so_phone, quantity, pre_orderable_stock) 
+                    VALUES ";
+        foreach($items as &$item) {
+            $query .= "(?, ?, ?, ?),";
+            array_push($params, $item['barcode'], $so_phone, -1*$item['qty'], -1*$item->qty);
         }
-        $con->commit();
+        $query = rtrim($query, ",");
+        $query .=  " ON DUPLICATE KEY UPDATE 
+                    quantity = quantity + VALUES(quantity),
+                    pre_orderable_stock = pre_orderable_stock + VALUES(quantity)";
+
+        writeToFile($query, 'Normal Query');
+        writeToFile($params, 'Normal query Parametors');
+        return $this->query($query, $params, $con);
+        // foreach($items as $item) {
+        //     $this->updateStock($item['barcode'], $so_phone, -1*$item['qty'], $con);
+        // }
     }
 
     public function updatePreOrderableStockItems($items, $so_phone = null, $con = null) {

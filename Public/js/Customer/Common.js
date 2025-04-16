@@ -38,7 +38,7 @@ export default function billMoreDetails(dataset){
                 } = item;
                 let rowTotal = quantity * sold_price;
                 itemsList.innerHTML += `
-                    <tr calss='Item'>
+                    <tr class='Item'>
                         <td class='center-al'>${barcode}</td>
                         <td class='left-al'>${product_name}</td>
                         <td class='center-al'>${quantity}</td>

@@ -15,8 +15,8 @@
             </div>
         </div>
 
-        <div class="bar">
-            <h1><?=$_SESSION['name']?></h1>
+        <div class="bar m-bot-10px ">
+            <span></span>
             <a class="btn" href="<?=LINKROOT?>/ShopOwner/newPurchase">
                 <h4>New Purchase</h4>
             </a>
@@ -40,14 +40,9 @@
             <h2>Low Stocks</h2>
             <div class="scroll-box grid g-resp-300">
                 <?php 
-                    foreach ($stocks as $stock)
-                    {
-                        $this->component('card/product', $stock); 
-                    }
-                    
                     foreach ($lowStocks as $stock)
                     {
-                        $this->component('card/product', $stock); 
+                        $this->component('card/product', $stock, ['baseUrl' => "ShopOwner/Product"]); 
                     }
                 ?>
             </div>
