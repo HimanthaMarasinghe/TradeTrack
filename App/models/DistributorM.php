@@ -7,7 +7,7 @@ class DistributorM extends Model
     protected $readTable = 'distributors s INNER JOIN users u ON s.dis_phone = u.phone';
     protected $fillable = ['dis_phone', 'dis_busines_name', 'man_phone'];
 
-    public function searchDistributors($search, $offset, $man_phone = null)
+    public function searchDistributors($search, $offset = null, $man_phone = null)
     {
         $sql = "SELECT * FROM $this->readTable WHERE (dis_phone LIKE :search OR dis_busines_name LIKE :search OR CONCAT(u.first_name, ' ', u.last_name) LIKE :search)"; 
         $para['search'] = "%$search%";
@@ -15,7 +15,10 @@ class DistributorM extends Model
             $sql .= " AND man_phone = :man_phone";
             $para['man_phone'] = $man_phone;
         }
-        $sql .= " LIMIT 10 OFFSET $offset";
+        
+        if ($offset)
+            $sql .= " LIMIT 10 OFFSET $offset";
+
         return $this->query($sql, $para);
     }
 
