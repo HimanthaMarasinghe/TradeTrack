@@ -7,25 +7,25 @@ export function stockCardTemplate(product) {
         low_stock_level,
         unit_price,
         pic_format,
+        unit_type,
+        unique
     } = product;
 
-    // Determine the link
-    // const link =`${ROOT}/ShopOwner/product/${barcode}`;
+    if(unique == 1) var imageSrc = `${ROOT}/images/Products/${shopPhone+barcode}.${pic_format}`;
+    else var imageSrc = `${ROOT}/images/Products/${barcode}.${pic_format}`;
 
-    // Determine the image path
-    const imageSrc = `${ROOT}/images/Products/${barcode}.${pic_format}`;
+    var badge = `<span class="badge">No Pre-orderable stock</span>`;
+    var lowStockClass = "";
 
-
-
-    // Determine the low stock class
-    const lowStockClass = quantity < low_stock_level ? "low" : "";
+    if (pre_orderable_stock > 0) badge = `<span class="badge">${pre_orderable_stock} ${unit_type} Pre-orderable</span>`;
+    else lowStockClass = "low";
 
     return `
         <a href="#" class="card btn-card ${lowStockClass}" id="${barcode}">
+        ${badge}
             <div class="details h-100">
                 <h3>${product_name}</h3>
-                <p class="quantity">${quantity} Units in stock</p>
-                <h5 class="quantity">${pre_orderable_stock > 0 ? pre_orderable_stock + ` Units can be pre orederd` : `No pre-orderable stock`}</h5>
+                <p class="quantity">${quantity < 0 ? 0 : quantity} ${unit_type} in stock</p>
                 <h4>Rs.${unit_price.toFixed(2)}</h4>
             </div>
             <div class="product-img-container">
@@ -39,11 +39,20 @@ export function stockCardTemplate(product) {
  * To use this template, there should be a global variable called `clickLink` defined in the php script inside a `<script>` tag. 
  */
 export function productCard(product) {
-    const {barcode, pic_format, product_name, unit_price } = product;
-    const imagePath = `${ROOT}/images/Products/${barcode}.${pic_format}`;
+    const {barcode, pic_format, product_name, unit_price, so_phone, shop_name, unique } = product;
+
+    var imagePath = `${ROOT}/images/Products/${barcode}.${pic_format}`;
+    var badge = "";
+    var link = `${LINKROOT}/${clickLink}/${barcode}`;
+    if (unique == 1) {
+        imagePath = `${ROOT}/images/Products/${so_phone+barcode}.${pic_format}`;
+        badge = `<span class="badge">From ${shop_name}</span>`
+        link = `${LINKROOT}/${clickLink}/${barcode}/${so_phone}`;
+    }
 
     return `
-        <a href="${LINKROOT}/${clickLink}/${barcode}" class="card btn-card colomn asp-rtio">
+        <a href="${link}" class="card btn-card colomn asp-rtio">
+            ${badge}
             <img class="product-img" 
                 src="${imagePath}" 
                 onerror="this.src='${ROOT}/images/Products/default.jpeg';"
@@ -71,6 +80,54 @@ export function preOrderCard(order) {
                 <h4>Rs.${order.total}</h4>
                 <h4>${order.date_time}</h4>
                 <h4 class="status">${order.status}</h4>
+            </div>
+        </a>
+    `;
+}
+
+ export function newStockCardTemplate(product) {
+    const {
+        barcode,
+        product_name,
+        bulk_price,
+        pic_format,
+    } = product;
+    
+    const imageSrc = `${ROOT}/images/Products/${barcode}.${pic_format}`;
+
+    return `
+        <a href="#" class="card btn-card" id="${barcode}">
+            <div class="details h-100">
+                <h3>${product_name}</h3>
+                <h4>Rs.${bulk_price.toFixed(2)}</h4>
+            </div>
+            <div class="product-img-container">
+                <img class="product-img" src="${imageSrc}" alt="" onerror="this.src='${ROOT}/images/Products/default.jpeg'">
+            </div>
+        </a>
+    `;
+}
+
+export function distributorCard(distributor) {
+    const {
+        dis_phone,
+        first_name,
+        last_name,
+        dis_busines_name,
+        pic_format
+    } = distributor;
+    return `
+        <a class="card btn-card colomn asp-rtio") id="${dis_phone}" href="${LINKROOT}/ShopOwner/Distributor/${dis_phone}">
+            <img 
+            class="product-img" 
+            src="${ROOT}/images/Profile/${dis_phone}.${pic_format}" 
+            alt="distibutor Image"
+            onerror="this.src='${ROOT}/images/Profile/PhoneNumber.jpg'">
+            <div class="details h-50 ovf-hdn">
+                <h4>${first_name}</h4>
+                <h4>${last_name}</h4>
+                <h4>${dis_busines_name}</h4>
+                <h4>${dis_phone}</h4>
             </div>
         </a>
     `;

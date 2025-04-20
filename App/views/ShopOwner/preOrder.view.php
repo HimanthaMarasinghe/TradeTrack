@@ -45,6 +45,10 @@
                 <td>Address</td>
                 <td>- <?=$preOrder['address']?></td>
             </tr>
+            <tr>
+                <td>Wallet</td>
+                <td id="walletElem">- <b class="green-text">Rs.<?=number_format($preOrder['wallet'], 2)?></b></td>
+            </tr>
         </table>
         <img 
             class="profile-img" 
@@ -107,16 +111,89 @@
 </div>
 <div id="notification-container"></div>
 
+<!-- PopUp -->
+<div id="popUpBackDrop" class="hidden"></div>
+<div id="popUp" class="popUpDiv hidden">
+    <form class="row w-1000px" method="post" action="<?=LINKROOT?>/ShopOwner/purchaseDone" id="bill-form" autocomplete="off">
+        <div class="center">
+            <h1>Total</h1>
+            <input id="total" type="text" class="userInput" value="<?=$preOrder['total']?>" readonly tabindex="-1">
+        
+            <h2>Cash</h2>
+            <input class="userInput red-text" type="number" id="cash" min="0" autofocus>
+        
+            <h2>Change</h2>
+            <input id="change" type="text" class="userInput red-text" value="-<?=$preOrder['total']?>" readonly tabindex="-1">
+        
+            <div><hr></div>
+
+            <button class="btn fg1" id="print" tabindex="-1">Print the bill</button>
+            <button class="btn fg1" id="skip" tabindex="-1">Skip the bill</button>
+            <button class="btn fg1 disabled-link" id="sms-bill" tabindex="-1">Send the bill via SMS</button>
+            <button class="btn fg1 disabled-link" id="email-bill" tabindex="-1">Send the bill via E-mail</button>
+
+        </div>
+        <div id="cus-details" class="center">
+
+            <div class="max-w-330">
+                <h1 id="cus-name"><?=$preOrder['first_name']?> <?=$preOrder['last_name']?></h1>
+            </div>
+            
+            <div>
+                <img 
+                    class="profile-img" 
+                    id="cus-img"
+                    src="<?=ROOT?>/images/Profile/<?=$preOrder['cus_phone']?>.<?=$preOrder['pic_format']?>" 
+                    onerror="this.src='<?=ROOT?>/images/Profile/PhoneNumber.jpg'"
+                    alt=""
+                >
+            </div>
+
+            <!-- 
+            in below elements, "hw_" and "lc" classes are used to query elements in the script 
+            "hw0" - hidden when the change is 0
+            "hwl" - hidden when the change is less than 0
+            "hwg" - hidden when the change is greater than 0
+            "lc"  - hidden when the customer is not a loyalty customer
+            -->
+
+            <h4 class="lc right-al">Curently in wallet</h4>
+            <input id="wallet" class="lc userInput max-w-140" type="text" readonly tabindex="-1" value="<?=number_format($preOrder['wallet'], 2)?>">
+
+            <div class="hw0 lc hidden"><hr></div>
+            <div class="hw0 lc hidden"><hr></div>
+
+            <h4 class="hw0 hwl lc right-al hidden">Return to customer</h4>
+            <input class="hw0 hwl lc userInput max-w-140 hidden" type="number" id="return-to-cus">
+
+            <span class="hw0 hwl lc hidden"></span><p class="hw0 hwl lc center-al hidden">+</p>
+                
+            <h4 class="hw0 hwl lc right-al hidden">Add to wallet</h4>
+            <h4 class="hw0 hwg lc right-al">Reduse from wallet</h4>
+            <input class="hw0 lc userInput max-w-140" type="text" id="wallet-update" name="wallet" value="-<?=$preOrder['total']?>" disabled readonly tabindex="-1">
+
+            <span class="hw0 hwl lc hidden"></span><p class="hw0 hwl lc center-al hidden">=</p>
+
+            <h4 class="hw0 hwl lc right-al hidden">Change</h4>
+            <input class="hw0 hwl lc userInput max-w-140 hidden" id="change-loyaltyBox" type="text" readonly tabindex="-1">
+        </div>
+    </form>
+</div>
+
 <script>
     const ROOT = '<?=ROOT?>';
     const LINKROOT = '<?=LINKROOT?>';
     const ws_id = "<?=$_SESSION['shop_owner']['phone']?>";
     const pre_order_id = '<?=$preOrder['pre_order_id']?>';
+    const walletAmount = <?=$preOrder['wallet']?>;
+    const preOrderTotal = '<?=$preOrder['total']?>';
     let shouldBeUpdated = '<?=$shouldBeUpdated?>';
+    let shouldBeRejected = '<?=$shouldBeRejected?>'
     let status = '<?=$preOrder['status']?>';
     if(shouldBeUpdated)
         var preOrderItems = <?= json_encode($preOrderItems) ?>;
 </script>
 <script src="<?=ROOT?>/js/ShopOwner/preOrder.js" type="module"></script>
+<script src="<?=ROOT?>/js/popUp.js"></script>
 
 <?php $this->component("footer") ?>

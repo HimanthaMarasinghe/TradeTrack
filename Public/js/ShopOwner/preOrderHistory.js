@@ -12,9 +12,9 @@ function cardTemplate(order) {
                      alt="Profile Photo" 
                      onerror="this.src='${ROOT}/images/Profile/PhoneNumber.jpg'">
             </div>
+            <h3 class="badge">Order Id ${order.pre_order_id}</h3>
             <div class="details center-al">
-                <h3>Order Id ${order.pre_order_id}</h3>
-                <h4>${order.first_name} ${order.last_name}</h4>
+                <h3>${order.first_name} ${order.last_name}</h3>
                 <h4>Rs.${order.total}</h4>
                 <h4>${order.date_time}</h4>
                 <h4 class="status">${order.status}</h4>

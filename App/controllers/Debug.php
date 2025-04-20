@@ -25,4 +25,8 @@ class Debug extends Controller
         $notification = new NotificationService;
         $notification->sendNotification($phone, 'ann', "checkref2",'New Pre Order', "Check message", "debug", null);
     }
+
+    public function test(){
+        show((new BillItems)->getBillsTotal(4, 2025));
+    }
 }

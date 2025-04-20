@@ -31,4 +31,10 @@ class Products extends Model
         return $this->query($query, $queryParam);
     }
 
+    public function searchProductsMan($search, $man_phone)
+    {
+        $query = "SELECT * FROM $this->table WHERE man_phone = :man_phone AND (product_name LIKE :search OR barcode LIKE :search)";
+        return $this->query($query, ['man_phone' => $man_phone, 'search' => "%$search%"]);
+    }
+
 }

@@ -58,5 +58,4 @@ class LoyaltyCustomers extends Model
         $data = ['cus_phone' => $cus_phone];
         return $this->query($query, $data);
     }
-
 }

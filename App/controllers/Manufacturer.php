@@ -25,13 +25,15 @@ class Manufacturer extends Controller
 
     public function products()
     {
-        $manStock = new manufacturerStock;
-        $this->data['staticStocks'] = $manStock->where(['man_phone' => $_SESSION['manufacturer']['phone']]);
+        $this->data['tabs']['active'] = 'Products';
+        $this->view('manufacturer/products', $this->data);    
+    }
 
+    public function pendingProducts(){
         $pendingProducts = new pendingProductRequests;
         $this->data['pendingProducts'] = $pendingProducts->where(['man_phone' => $_SESSION['manufacturer']['phone']]);
         $this->data['tabs']['active'] = 'Products';
-        $this->view('manufacturer/products', $this->data);    
+        $this->view('manufacturer/pendingProducts', $this->data);    
     }
 
     public function product($barcode){
@@ -116,8 +118,8 @@ class Manufacturer extends Controller
 
     public function agents()
     {
-        $agent = new DistributorM;
-        $this->data['agents'] = $agent->where(['man_phone' => $_SESSION['manufacturer']['phone']]);
+        // $agent = new DistributorM;
+        // $this->data['agents'] = $agent->where(['man_phone' => $_SESSION['manufacturer']['phone']]);
 
         $this->data['tabs']['active'] = 'Agents';
         $this->view('manufacturer/agents', $this->data);    
@@ -267,11 +269,36 @@ class Manufacturer extends Controller
         $this->view('Manufacturer/announcements', $this->data);
     }
 
+    // api
+
     public function getAnnouncement($id){
         $announcement = new Announcements;
         $announcement = $announcement->first(['id' => $id]);
         echo json_encode($announcement);
     }
+
+    public function getProducts(){ 
+        $search = $_GET['search'] ?? null;
+        $prdct = new Products;
+        
+        $products = $prdct->searchProductsMan($search, $_SESSION['manufacturer']['phone']);
+
+        if(!$products)
+            $products = [];
+        echo json_encode($products);
+    }
+    
+    public function getDistributor(){ 
+        $search = $_GET['search'] ?? null;
+        $Dis = new DistributorM;
+        
+        $distributor = $Dis->searchDistributors($search, null, $_SESSION['manufacturer']['phone']);
+
+        if(!$distributor)
+            $distributor = [];
+        echo json_encode($distributor);
+    }
+    
 
 
 

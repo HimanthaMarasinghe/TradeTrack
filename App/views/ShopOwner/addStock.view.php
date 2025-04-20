@@ -5,10 +5,9 @@
 ?>
 
 <div class="main-content colomn">
-
     <div class="bar">
         <img src="<?=ROOT?>/images/icons/home.svg" alt="">
-        <h1><?=$_SESSION['shop_owner']['shop_name']?></h1>
+        <h1>Products</h1>
         <div class="row gap-10">
             <a href="<?=LINKROOT?>/ShopOwner/announcements"><img src="<?=ROOT?>/images/icons/Announcement.svg" alt=""></a>
             <?php $this->component("notification") ?>
@@ -18,10 +17,9 @@
     
     <div class="row fg1 ovf-hdn">
         <div class="panel mg-10 fg1">
-            <p>Add stock that you receive outside of the system's order.</p>
-            <p>Do you have a unique product that's not on this list? Add it to your <a href="">unique products</a>.</p>
             <div class="row">
                 <input id="searchBar" type="text" class="search-bar fg1" placeholder="Search">
+                <button id="addUniqueProductBtn" class="btn" title="Do you have a unique product that's not on this list? Add it to your products">Unique products</button>
             </div>
             <div class="scroll-box grid g-resp-300" id="elements-Scroll-Div">
             </div>
@@ -30,63 +28,64 @@
 
 </div>
 
-<!-- PopUp -->
+<div id="notification-container"></div>
 <div id="popUpBackDrop" class="hidden"></div>
-<div id="addStock" class="popUpDiv hidden">
-    <img id="popUp-prdct-image" class="profile-img big" src="<?=ROOT?>/images/Products/default.jpeg" alt="">
-    <div class="details h-50 center-al">
-        <h4 id="popUp-prdct-name">product_name</h4>
+<div id="addNewProducts" class="hidden popUpDiv">
+    <h2>New Unique Product</h2>
+    <p>Do you have a unique product that's not on this list? Add it to your products</p>
+    <br>
+    <form action="<?=LINKROOT?>/ShopOwner/addUniqueProduct" method="POST" id="addNewProductForm" enctype="multipart/form-data">
+
+        <div class="imageUploadBox" id="pop">
+            <div id="imagePreview" class="imagePreviewBox">
+                <div id="imageContainer"></div>
+            </div>
+            
+            <input type="file" class="imageChooseInput" name="image" id="image" 
+            accept="image/jpg, image/jpeg, image/png, image/webp" 
+            onchange="previewImage(event)">
+            
+            <button type="button" class="imageChooseBtn" onclick="triggerFileInput()">Choose</button>
+            <button type="button" class="imageRemoveBtn" onclick="removeImage()">Remove</button>
+        </div>
+
         <table>
             <tr>
-                <td>Unit Price</td>
-                <td id="popUp-prdct-unit-price">Rs.100.00</td>
+                <td><label for="name">Product Name</label></td>
+                <td><input class="userInput" type="text" name="product_name" id="name" required></td>
+            </tr>
+            <tr title="Product code is used to uniquely identify the product. Should have 3 charaters and start from 'x'">
+                <td><label for="barcode">Product Code (Eg : x2A)</label></td>
+                <td><input class="userInput red-text" type="text" name="product_code" id="product_code" value="x" required></td>
             </tr>
             <tr>
-                <td>Bulk Price</td>
-                <td id="popUp-prdct-bulk-price">Rs.100.00</td>
+                <td colspan="2"><div class="center-al red-text" id="tip">Code should have 3 characters</div></td>
+            </tr>
+            <tr>
+                <td><label for="unit_type">Unit Type</label></td>
+                <td><select class="userInput" type="text" name="unit_type" id="unit_type" required>
+                        <option value="Units">Units</option>
+                        <option value="Packets">Packets</option>
+                        <option value="Bottles">Bottles</option>
+                        <option value="Kg">Kg (Kilograms)</option>
+                        <option value="L">L (Liter)</option>
+                        <option value="Tubes">Tubes</option>
+                        <option value="Cans">Cans</option>
+                        <option value="Bars">Bars</option>
+                        <option value="Pieces">Pieces</option>
+                        <option value="Boxes">Boxes</option>
+                    </select>
+                </td>
+            </tr>
+            </tr>
+            <tr>
+                <td><label for="unit_price">Unit price</label></td>
+                <td><input class="userInput" type="text" name="unit_price" id="unit_price" required></td>
             </tr>
         </table>
-    </div>
-    <form class="colomn mg-10 gap-10" id="addStockForm" onsubmit="event.preventDefault();">
-        <input type="hidden" id="popUp-prdct-barcode" name="barcode">
-        <table>
-            <tr>
-                <td><label for="quantity">Quanitity</label></td>
-                <td><input type="number" class="userInput" id="quantity" name="quantity"></td>
-            </tr>
-            <tr>
-                <td><label for="cost">Cost</label></td>
-                <td><input type="number" class="userInput" id="cost" name="cost"></td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="radio" id="onCash-radio" name="purchaseType" value="onCash" checked> 
-                </td>
-                <td>
-                    <label for="onCash-radio">Purchased On Cash</label>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="radio" id="onCredit-radio" name="purchaseType" value="onCredit"> 
-                </td>
-                <td>
-                    <label for="onCredit-radio">Purchased On Credit</label>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="radio" id="none-radio" name="purchaseType" value="none"> 
-                </td>
-                <td>
-                    <label for="none-radio">Do not update accounts</label>
-                </td>
-            </tr>
-        </table>
-        <button id="addStockBtn" class="btn">Add</button>
+        <button id="formSubmit" class="btn disabled-link w-100px" type="submit">Add</button>
     </form>
 </div>
-<div id="notification-container"></div>
 
 <script>
     const ROOT = "<?=ROOT?>";
@@ -95,5 +94,6 @@
 </script>
 <script src="<?=ROOT?>/js/ShopOwner/addStock.js" type="module"></script>
 <script src="<?=ROOT?>/js/popUp.js"></script>
+<script src="<?=ROOT?>/js/imageUploadBox.js"></script>
 
 <?php $this->component("footer") ?>

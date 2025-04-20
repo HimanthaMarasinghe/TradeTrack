@@ -8,7 +8,7 @@
 
     <div class="bar">
         <img src="<?=ROOT?>/images/icons/home.svg" alt="">
-        <h1><?=$_SESSION['shop_owner']['shop_name']?></h1>
+        <h1>Stocks</h1>
         <div class="row gap-10">
             <a href="<?=LINKROOT?>/ShopOwner/announcements"><img src="<?=ROOT?>/images/icons/Announcement.svg" alt=""></a>
             <?php $this->component("notification") ?>
@@ -20,7 +20,7 @@
         <div class="row">
             <input id="searchBar" type="text" class="search-bar fg1" placeholder="Search">
             <a class="btn" href="<?=LINKROOT?>/ShopOwner/addStock">Add stocks</a>
-            <a class="btn" href="<?=LINKROOT?>/ShopOwner/distributors">Order Stocks</a>
+            <a class="btn" href="<?=LINKROOT?>/ShopOwner/OrdersHistory">Orders History</a>
         </div>
         <div class="scroll-box grid g-resp-300" id="elements-Scroll-Div">
         </div>

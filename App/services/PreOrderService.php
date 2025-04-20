@@ -2,7 +2,7 @@
 
 class PreOrderService extends Database
 {
-    function addPreOrder($cus_phone, $itemArray){
+    public function addPreOrder($cus_phone, $itemArray){
         $preOrder = new PreOrder();
         $preOrderItems = new PreOrderItems();
         $con = $this->startTransaction();

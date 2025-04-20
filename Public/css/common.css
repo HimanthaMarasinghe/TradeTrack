@@ -13,7 +13,7 @@ body {
 
 .row {
     display: flex;
-    flex-direction: row;
+    flex-direction: row !important;
     margin: 10px 0;
     gap: 5px;
 }
@@ -72,8 +72,16 @@ body {
     margin-inline: auto;
 }
 
+.m-i-100 {
+    margin-inline: 100px;
+}
+
 .m-t-20 {
     margin-top: 20px;
+}
+
+.m-bot-10px {
+    margin-bottom: 10px;
 }
 
 .p-10{
@@ -82,6 +90,14 @@ body {
 
 .p-20{
     padding: 20px;
+}
+
+.p-i-100{
+    padding-inline: 100px;
+}
+
+.p-i-50{
+    padding-inline: 50px;
 }
 
 .app-logo {
@@ -105,6 +121,14 @@ body {
 
 .w-100 {
     width: 100%;
+}
+
+.w-100px {
+    width: 100px !important;
+}
+
+.w-1000px {
+    width: 1000px !important;
 }
 
 .h-25{
@@ -223,6 +247,7 @@ input[type='text'].search-bar {
 }
 
 .disabled-link {
+    border-color: var(--btn-secondary);
     pointer-events: none;
     background-color: var(--btn-secondary);
 }
@@ -233,6 +258,10 @@ input[type='text'].search-bar {
 
 .clickable {
     cursor: pointer;
+}
+
+*[title] {
+    cursor: help;
 }
 
 /************ images ***********/
@@ -363,6 +392,17 @@ img.default{
 }
 
 svg#up,
-svg#down {
+svg#down{
     height: 2em;
+}
+
+svg#next_Mo,
+svg#pre_Mo {
+    height: 3em;
+    cursor: pointer;
+    fill: var(--btn-primary);
+
+    &:hover {
+        fill: var(--btn-hover);
+    }
 }

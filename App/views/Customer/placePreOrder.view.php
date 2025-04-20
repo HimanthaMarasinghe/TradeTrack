@@ -6,6 +6,8 @@
 <div class="main-content">
     <div class="row h-100 gap-10">
         <div class="colomn w-25">
+            <h3>New Pre Order</h3>
+            <h4><?=$shop_name?></h4>
             <input id="searchBar" type="text" class="search-bar" placeholder="Search">
             <div class="grid g-resp-300 scroll-box" id="elements-Scroll-Div">
             </div>
@@ -39,7 +41,11 @@
 
             <div class="row col-max-1024">
                 <div class="product-img-container">
-                    <img id="product-pic" class="product-img" src="<?=ROOT?>/images/Default/Product.jpeg" alt="">
+                    <img id="product-pic" 
+                         class="product-img" 
+                         src="<?=ROOT?>/images/Default/Product.jpeg" 
+                         alt="Selected Product Image"
+                         onerror="this.src='<?=ROOT?>/images/Products/default.jpeg'">
                 </div>
 
                 <div class="colomn fg1">

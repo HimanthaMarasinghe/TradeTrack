@@ -44,8 +44,9 @@ class Customer extends Controller
     public function placePreOrder($so_phone){
         if(!$this->LoyalToShop($so_phone))
             redirect('Customer/shops');
+        $this->data['shop_name'] = (new Shops)->first(data: ['so_phone' => $so_phone], readFields: ['shop_name'])['shop_name'];
         $this->data['so_phone'] = $so_phone;
-        $this->data['tabs']['active'] = 'Home';
+        $this->data['tabs']['active'] = 'Shops';
         $this->view('Customer/placePreOrder',$this->data);
     }
 
@@ -54,11 +55,18 @@ class Customer extends Controller
         $this->view('Customer/Products',$this->data);
     }
 
-    public function product($barcode){
-        $prdct = new Products;
-        $stock = new ShopStock;
-        $this->data['product'] = $prdct->first(['barcode' => $barcode]);
-        $this->data['shops'] = $stock->shopsThatSellProduct($barcode);
+    public function product($barcode, $so_phone = null){
+        if(strlen($barcode) == 2 && $so_phone != null) {
+            $this->data['product'] = (new ShopUniqueProducts)->first(['product_code' => $barcode, 'so_phone' => $so_phone]);
+            $this->data['product']['barcode'] = "x$barcode";
+            $this->data['product']['picture'] = $so_phone.$barcode.".".$this->data['product']['pic_format'];
+            $this->data['shops'] = [(new Shops)->first(['so_phone' => $so_phone])];
+        }
+        else {
+            $this->data['product'] = (new Products)->first(['barcode' => $barcode]);
+            $this->data['product']['picture'] = $barcode.".".$this->data['product']['pic_format'];
+            $this->data['shops'] = (new ShopStock)->shopsThatSellProduct($barcode);
+        }
         $this->data['tabs']['active'] = 'Products';
         $this->view('Customer/product',$this->data);
     }
@@ -166,7 +174,7 @@ class Customer extends Controller
             $offset = 0;  // Default to 0 if invalid
         
         $search = $_GET['search'] ?? null;
-        $stck = new ShopStock;
+        $stck = new ShopProductsService;
         $stocks = $stck->readStock($_GET['shop_phone'], 'DESC', $offset, $search, $_GET['preOrderable']);
 
         foreach($stocks as &$s){
@@ -196,6 +204,7 @@ class Customer extends Controller
         $preOrderP = new PreOrder;
         $preOrderItemsP = new PreOrderItems;
         $products = new Products;
+        $shopStock = new ShopStock;
 
         $con = $preOrderP->startTransaction();
 
@@ -208,6 +217,7 @@ class Customer extends Controller
         }
 
         $preOrderItemsP->bulkInsert($preOrderItems, ['barcode', 'quantity', 'po_unit_price', 'pre_order_id'], $con);
+        $shopStock->updatePreOrderableStockItems($preOrderItems, $so_phone, $con);
         
         if ($con->commit()){
             $returnData = ['status' => 'success'];
@@ -247,12 +257,14 @@ class Customer extends Controller
     }
 
     public function changePreOrderStatus($preOrderId){ 
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || $preOrderId === null) redirect('Customer/preOrderHistory');
         $s = jsonPostDecode();
         if ($s === 1){
             $status = 'Pending';
             $title = "Updated Pre-Order Accepted";
             $body = "{$_SESSION['customer']['first_name']} {$_SESSION['customer']['last_name']} accepted the changes in the pre-order";
         } else if ($s === 2){
+            (new ShopStock)->updatePreOrderableStockByOrder($_POST['pre_order_id'], null, true);
             $status = 'Canceled';
             $title = "Pre-Order got Canceled";
             $body = "{$_SESSION['customer']['first_name']} {$_SESSION['customer']['last_name']} canceled the pre-order";

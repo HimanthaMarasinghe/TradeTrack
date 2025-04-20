@@ -12,4 +12,11 @@ class PreOrderItems extends Model
         $total = $this->query($query, ['pre_order_id' => $preOrderId])[0]['total'];
         return number_format($total, 2);
     }
+
+    // Used to create a bill for the pre-order
+    public function readPreOrderItems($preOrderId)
+    {
+        $query = "SELECT barcode, po_unit_price as price, quantity as qty FROM pre_order_items WHERE pre_order_id = :pre_order_id";
+        return $this->query($query, ['pre_order_id' => $preOrderId]);
+    }
 }

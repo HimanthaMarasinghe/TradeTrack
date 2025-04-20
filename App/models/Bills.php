@@ -46,7 +46,7 @@ class Bills extends Model
             $queryPara['date'] = $date;
         }
 
-        $sql .= " LIMIT 10 OFFSET $offset";
+        $sql .= " ORDER BY bill_id DESC LIMIT 10 OFFSET $offset";
 
         return $this->query($sql, $queryPara);
     }

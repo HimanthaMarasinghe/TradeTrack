@@ -33,13 +33,7 @@ class LogedInUserCommon extends Controller
         $this->forbidIfNotLogedIn();
         if (!filter_var($offset, FILTER_VALIDATE_INT)) 
             $offset = 0;
-        if(isset($_GET['search'])){
-            $prdct = new Products;
-            $products = $prdct->searchProducts($_GET['search'], null, $offset);
-        }else{
-            $prdct = new Products;
-            $products = $prdct->readAll(10, $offset);
-        }
+        $products = (new ShopProductsService)->searchProducts($_GET['search'], null, $offset);
         echo json_encode($products);
     }
 
@@ -66,20 +60,19 @@ class LogedInUserCommon extends Controller
         $this->forbidIfNotLogedIn(['shop_owner', 'customer']);
         if (!filter_var($offset, FILTER_VALIDATE_INT)) $offset = 0;
         $bill = new Bills;
-        $billItems = new BillItems;
         if(isset($_GET['search'])) $bills = $bill->search($offset, $_GET['search'], $_GET['date']);
         else if(isset($_GET['cus_phone'])) {
             $data = ['s.so_phone' => $_SESSION['shop_owner']['phone'], 'u.phone' => $_GET['cus_phone']];
             if($_GET['date']) $data['date'] = $_GET['date'];
-            $bills = $bill->where($data, [], 10,$offset, ['bill_id', 'date', 'time', 'first_name', 'last_name', 'cus_phone', 'pic_format']);
+            $bills = $bill->where($data, [], 10,$offset, ['bill_id', 'date', 'time', 'first_name', 'last_name', 'cus_phone', 'pic_format'], ['bill_id']);
         }
         else if($_GET['so_phone']) {
             $data = ['u.phone' => $_SESSION['customer']['phone'], 's.so_phone' => $_GET['so_phone']];
             if(isset($_GET['date'])) $data['date'] = $_GET['date'];
-            $bills = $bill->where($data, [], 10, $offset, ['bill_id', 'date', 'time', 'shop_name', 's.so_phone', 'shop_pic_format']);
+            $bills = $bill->where($data, [], 10, $offset, ['bill_id', 'date', 'time', 'shop_name', 's.so_phone', 'shop_pic_format'], ['bill_id']);
         }
         foreach($bills as &$bill){
-            $bill['total'] = $billItems->getBillTotal($bill['bill_id']);
+            $bill['total'] = (new BillService)->getBillTotal($bill['bill_id']);
         }
         unset($bill);
         echo json_encode($bills);
