@@ -16,25 +16,29 @@
         </div>
     </div>
     <div class="row">
-      <input type="text" class="search-bar fg1" placeholder="Search">
-      <button class="btn">Search</button>
+      <input type="text" id="search" class="search-bar fg1" placeholder="Search">
     </div>
     
     <!-- Shops -->
-    <div class="grid g-resp-200 scroll-box">
-    <?php foreach($this->data['shops'] as $shop): ?>
+    <div class="grid g-resp-200 scroll-box" id="elements">
+    <!-- <?php foreach($this->data['shops'] as $shop): ?>
         <a href="#" class="card btn-card colomn asp-rtio">
             <img class="product-img" src="<?php echo htmlspecialchars($shop['shop_pic_format']); ?>" alt="<?php echo htmlspecialchars($shop['shop_name']); ?>">
             <div class="details h-50">
                 <h4><?php echo htmlspecialchars($shop['shop_name']); ?></h4>
                 <h4>Address: <?php echo htmlspecialchars($shop['shop_address']); ?></h4>
-                <!-- <p>Shop Phone: <?php echo htmlspecialchars($shop['so_phone']); ?></p>
-                <p>Owner: <?php echo htmlspecialchars($shop['first_name'] . ' ' . $shop['last_name']); ?></p> -->
+                 <p>Shop Phone: <?php echo htmlspecialchars($shop['so_phone']); ?></p>
+                <p>Owner: <?php echo htmlspecialchars($shop['first_name'] . ' ' . $shop['last_name']); ?></p>
             </div>
         </a> 
-    <?php endforeach; ?>
+    <?php endforeach; ?> -->
     </div>
-
+    
+    <script>
+        const LINKROOT = "<?=LINKROOT?>";
+        const ROOT = "<?=ROOT?>";
+    </script>
+    <script src="<?=ROOT?>/js/Distributor/shops.js"></script>
 
 
 <?php $this->component("footer") ?>
