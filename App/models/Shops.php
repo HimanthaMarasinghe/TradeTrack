@@ -64,11 +64,28 @@ class Shops extends Model
         return $this->query($query, $data);
     }
 
+    public function searchShops($search) {
+        $sql = "SELECT * FROM shops s 
+                INNER JOIN users u ON s.so_phone = u.phone 
+
+                WHERE 
+                (s.so_phone = :search
+                OR CONCAT(u.first_name, ' ', u.last_name) LIKE :search
+                OR s.shop_name LIKE :search
+                OR s.shop_address LIKE :search)";
+
+        
+        return $this->query($sql, [
+            'search' => "%$search%"                // for LIKE queries
+        ]);
+    }
+    
+
     public function getShopsData($search = null, $location = null, $offset = 0)
-{
-    // Use the allShops method to fetch the data from the Shops table
-    return $this->allShops($search, $location, $offset);
-}
+    {
+        // Use the allShops method to fetch the data from the Shops table
+        return $this->allShops($search, $location, $offset);
+    }
 
 
 

@@ -29,12 +29,12 @@ class Distributor extends Controller
     public function shops(){
         $this->data['tabs']['active'] = 'Shops';
 
-        // Call the getShopsData method to retrieve shops data
-    $shopModel = new Shops;
-    $search = ''; // You can customize the search term or retrieve it from a form or query parameters
-    $location = ''; // You can also use location if needed
-    $offset = 0; // Adjust the offset for pagination if required
-    $this->data['shops'] = $shopModel->getShopsData($search, $location, $offset);
+    //     // Call the getShopsData method to retrieve shops data
+    // $shopModel = new Shops;
+    // $search = ''; // You can customize the search term or retrieve it from a form or query parameters
+    // $location = ''; // You can also use location if needed
+    // $offset = 0; // Adjust the offset for pagination if required
+    // $this->data['shops'] = $shopModel->getShopsData($search, $location, $offset);
     
         $this->view('Distributor/shops', $this->data);
     }
@@ -214,15 +214,37 @@ class Distributor extends Controller
         $this->view('Distributor/announcements', $this->data);
     }
 
+    //API Methods
+
     public function getAnnouncement($id){
         $announcement = new Announcements;
         $announcement = $announcement->first(['id' => $id]);
         echo json_encode($announcement);
     }
 
+    public function searchOrders() {
+        $search = $_GET['searchTerm'];
+        $order = new shopOrders;
+        $orders = $order->searchOrders($search);
+        header('Content-Type: application/json');
+        echo json_encode($orders);
+    }
 
+    public function searchStocks() {
+        $search = $_GET['searchTerm'];
+        $stock = new distributorStocks;
+        $stocks = $stock->searchStocks($search);
+        header('Content-Type: application/json');
+        echo json_encode($stocks);
+    }
 
-
+    public function searchShops(){
+        $search = $_GET['searchTerm'];
+        $shop = new Shops;
+        $shops = $shop->searchShops($search);
+        header('Content-Type: application/json');
+        echo json_encode($shops);
+    }
 
     
     public function new($viewName) {

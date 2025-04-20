@@ -19,8 +19,8 @@
     <div class="row fg1 ovf-hdn">
         <div class="panel mg-10 fg1">
             <div class="row">
-                <input type="text" class="search-bar fg1" placeholder="Search Product">
-                <button class="btn">Search</button>
+                <input type="text" class="search-bar fg1" placeholder="Search Product" id="search">
+                <!-- <button class="btn">Search</button> -->
                 <a class="btn" href="<?=LINKROOT?>/Distributor/newInventryRequest">
                     <h4>New Inventory Request</h4>
                 </a>
@@ -28,106 +28,106 @@
                     <h4>Request Details</h4>
                 </a>
             </div>
-            <div class="scroll-box grid g-resp-300">
+            <div class="scroll-box grid g-resp-300" id = "elements">
                 <!-- Product Cards -->
-                <?php
-                    $products = [
-                        [
-                            "name" => "Maliban Milk Powder 400g",
-                            "quantity" => 5000,
-                            "price" => 1260.00,
-                            "image" => "4790015950624.png"
-                        ],
-                        [
-                            "name" => "Maliban Chocolate Biscuit 100g",
-                            "quantity" => 10,
-                            "price" => 110.00,
-                            "image" => "4791034072366.jpeg"
-                        ],
-                        [
-                            "name" => "Maliban Cream Cracker 200g",
-                            "quantity" => 500,
-                            "price" => 250.00,
-                            "image" => "Maliban Cream Cracker 200g.jpg"
-                        ],
-                        [
-                            "name" => "Maliban Marie Biscuit 200g",
-                            "quantity" => 1500,
-                            "price" => 220.00,
-                            "image" => "Maliban Marie Biscuit 200g.jpg"
-                        ],
-                        [
-                            "name" => "Maliban Sandwich Biscuit 200g",
-                            "quantity" => 100,
-                            "price" => 300.00,
-                            "image" => "Maliban Sandwich Biscuit 200g.jpg"
-                        ],
-                        [
-                            "name" => "Maliban Milk Cream Biscuit 100g",
-                            "quantity" => 5000,
-                            "price" => 150.00,
-                            "image" => "Maliban Milk Cream Biscuit 100g.jpeg"
-                        ],
-                        [
-                            "name" => "Maliban Digestive Biscuit 250g",
-                            "quantity" => 10000,
-                            "price" => 300.00,
-                            "image" => "Maliban Digestive Biscuit 250g.jpg"
-                        ],
-                        [
-                            "name" => "Maliban Oaty Biscuit 200g",
-                            "quantity" => 5000,
-                            "price" => 180.00,
-                            "image" => "Maliban Oaty Biscuit 200g.webp"
-                        ],
-                        [
-                            "name" => "Maliban Lemon Puff 200g",
-                            "quantity" => 25,
-                            "price" => 220.00,
-                            "image" => "Maliban lemon puff 200g.jpg"
-                        ],
-                        [
-                            "name" => "Maliban Sweet Milk Biscuit 200g",
-                            "quantity" => 2500,
-                            "price" => 240.00,
-                            "image" => "Maliban Sweet Milk Biscuit 200g.jpg"
-                        ],
-                        [
-                            "name" => "Maliban Ginger Biscuit 200g",
-                            "quantity" => 5000,
-                            "price" => 210.00,
-                            "image" => "Maliban Ginger Biscuit 200g.jpg"
-                        ],
-                        [
-                            "name" => "Maliban Krisco Biscuit 170g",
-                            "quantity" => 5000,
-                            "price" => 170.00,
-                            "image" => "Maliban Krisco Biscuit 170g.jpg"
-                        ],
-                        [
-                            "name" => "Maliban Chocolate Puff Biscuit 200g",
-                            "quantity" => 5000,
-                            "price" => 260.00,
-                            "image" => "Maliban Chocolate Puff Biscuit 200g.png"
-                        ],
-                        [
-                            "name" => "Maliban Orange Cream Biscuit 200g",
-                            "quantity" => 5000,
-                            "price" => 230.00,
-                            "image" => "Maliban Orange Cream Biscuit 200g.webp"
-                        ]
-                    ];
+                <?php 
+                    // $products = [
+                    //     [
+                    //         "name" => "Maliban Milk Powder 400g",
+                    //         "quantity" => 5000,
+                    //         "price" => 1260.00,
+                    //         "image" => "4790015950624.png"
+                    //     ],
+                    //     [
+                    //         "name" => "Maliban Chocolate Biscuit 100g",
+                    //         "quantity" => 10,
+                    //         "price" => 110.00,
+                    //         "image" => "4791034072366.jpeg"
+                    //     ],
+                    //     [
+                    //         "name" => "Maliban Cream Cracker 200g",
+                    //         "quantity" => 500,
+                    //         "price" => 250.00,
+                    //         "image" => "Maliban Cream Cracker 200g.jpg"
+                    //     ],
+                    //     [
+                    //         "name" => "Maliban Marie Biscuit 200g",
+                    //         "quantity" => 1500,
+                    //         "price" => 220.00,
+                    //         "image" => "Maliban Marie Biscuit 200g.jpg"
+                    //     ],
+                    //     [
+                    //         "name" => "Maliban Sandwich Biscuit 200g",
+                    //         "quantity" => 100,
+                    //         "price" => 300.00,
+                    //         "image" => "Maliban Sandwich Biscuit 200g.jpg"
+                    //     ],
+                    //     [
+                    //         "name" => "Maliban Milk Cream Biscuit 100g",
+                    //         "quantity" => 5000,
+                    //         "price" => 150.00,
+                    //         "image" => "Maliban Milk Cream Biscuit 100g.jpeg"
+                    //     ],
+                    //     [
+                    //         "name" => "Maliban Digestive Biscuit 250g",
+                    //         "quantity" => 10000,
+                    //         "price" => 300.00,
+                    //         "image" => "Maliban Digestive Biscuit 250g.jpg"
+                    //     ],
+                    //     [
+                    //         "name" => "Maliban Oaty Biscuit 200g",
+                    //         "quantity" => 5000,
+                    //         "price" => 180.00,
+                    //         "image" => "Maliban Oaty Biscuit 200g.webp"
+                    //     ],
+                    //     [
+                    //         "name" => "Maliban Lemon Puff 200g",
+                    //         "quantity" => 25,
+                    //         "price" => 220.00,
+                    //         "image" => "Maliban lemon puff 200g.jpg"
+                    //     ],
+                    //     [
+                    //         "name" => "Maliban Sweet Milk Biscuit 200g",
+                    //         "quantity" => 2500,
+                    //         "price" => 240.00,
+                    //         "image" => "Maliban Sweet Milk Biscuit 200g.jpg"
+                    //     ],
+                    //     [
+                    //         "name" => "Maliban Ginger Biscuit 200g",
+                    //         "quantity" => 5000,
+                    //         "price" => 210.00,
+                    //         "image" => "Maliban Ginger Biscuit 200g.jpg"
+                    //     ],
+                    //     [
+                    //         "name" => "Maliban Krisco Biscuit 170g",
+                    //         "quantity" => 5000,
+                    //         "price" => 170.00,
+                    //         "image" => "Maliban Krisco Biscuit 170g.jpg"
+                    //     ],
+                    //     [
+                    //         "name" => "Maliban Chocolate Puff Biscuit 200g",
+                    //         "quantity" => 5000,
+                    //         "price" => 260.00,
+                    //         "image" => "Maliban Chocolate Puff Biscuit 200g.png"
+                    //     ],
+                    //     [
+                    //         "name" => "Maliban Orange Cream Biscuit 200g",
+                    //         "quantity" => 5000,
+                    //         "price" => 230.00,
+                    //         "image" => "Maliban Orange Cream Biscuit 200g.webp"
+                    //     ]
+                    // ];
                     
 
                    // Separate low inventory products
-                    $low_inventory = array_filter($products, fn($product) => $product['quantity'] <= 100);
-                    $regular_inventory = array_filter($products, fn($product) => $product['quantity'] > 100);
+                    // $low_inventory = array_filter($products, fn($product) => $product['quantity'] <= 100);
+                    // $regular_inventory = array_filter($products, fn($product) => $product['quantity'] > 100);
 
                     // Merge arrays: low inventory first
-                    $sorted_products = array_merge($low_inventory, $regular_inventory);
+                    // $sorted_products = array_merge($low_inventory, $regular_inventory);
                     ?>
 
-                    <?php foreach ($sorted_products as $product): ?>
+                    <!-- <?php foreach ($sorted_products as $product): ?>
                         <a href="#" 
                             class="card btn-card center-al" 
                             style="background-color: <?= $product['quantity'] <= 100 ? '#ffcccc' : '#ffffff'; ?>;"
@@ -147,14 +147,14 @@
                                     alt="<?= $product['name']; ?>">
                             </div>
                         </a>
-                    <?php endforeach; ?>
+                    <?php endforeach; ?> -->
 
             </div>
         </div>
     </div>
 
     <!-- Popup -->
-    <div class="productViewPopup" id="productViewPopup" style="display: none;">
+    <!-- <div class="productViewPopup" id="productViewPopup" style="display: none;">
         <div class="popup-content">
             <span class="close-btn" onclick="closePopup()">×</span>
             <img id="popupProductImage" class="popup-image" src="" alt="Product Image">
@@ -206,6 +206,12 @@
     });
 });
 
-</script>
+</script> -->
+
+<script>
+        const LINKROOT = "<?=LINKROOT?>";
+        const ROOT = "<?=ROOT?>";
+    </script>
+    <script src="<?=ROOT?>/js/Distributor/stock.js"></script>
 
 <?php $this->component("footer") ?>
