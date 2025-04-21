@@ -31,9 +31,10 @@ function loadData() {
 }
 
 function cardTemplate(order) {
-    const {shop_name, so_phone, shop_pic_format, time, status } = order;
+    const {shop_name, so_phone, shop_pic_format, time, status, order_id } = order;
     return (
-        `<a href="${LINKROOT}/Distributor/orderDetails" class="card btn-card center-al">
+        `<a href="${LINKROOT}/Distributor/orderDetails/${order_id}" class="card btn-card center-al">
+        <span class="badge">Order ID ${order_id}</span>
             <div class="profile-photo">
                 <img src="${ROOT}/images/shops/${so_phone+shop_pic_format}" alt={name} />
             </div>

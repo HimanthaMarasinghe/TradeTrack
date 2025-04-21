@@ -13,154 +13,23 @@
             <div class="salesagentproducts">
              
             
-            <?php
-            foreach($products as $product){ ?>
-                <a href="#" class="card btn-card center-al">
-                <p class="hidden"><?=$product['barcode']?></p>
-                <div class="details h-100">
-                    <h4><?=$product['product_name']?></h4>
-                    <h4>Rs.<?=$product['bulk_price']?>.00</h4>
-                </div>
-                <div class="product-img-container">
-                    <img class="product-img" src="<?=ROOT?>/images/Products/<?=$product['barcode']?>.<?=$product['pic_format']?>">
-                </div>
-            </a>
-           <?php }
-            ?>
+                <?php
+                foreach($products as $product){ ?>
+                    <a href="#" class="card btn-card center-al">
+                    <p class="hidden"><?=$product['barcode']?></p>
+                    <div class="details h-100">
+                        <h4><?=$product['product_name']?></h4>
+                        <h4>Rs.<?=$product['bulk_price']?>.00</h4>
+                    </div>
+                    <div class="product-img-container">
+                        <img class="product-img" src="<?=ROOT?>/images/Products/<?=$product['barcode']?>.<?=$product['pic_format']?>"
+                        onerror="this.src='<?=ROOT?>/images/Default/Product.jpeg'" 
+                        alt = "product image">
+                    </div>
+                </a>
+                <?php } ?>
             
 
-            <!-- <a href="#" class="card btn-card center-al">
-                <div class="details h-100">
-                    <h4>Maliban Chocolate Biscuit 100g</h4>
-                    <h4>Rs.110.00</h4>
-                </div>
-                <div class="product-img-container">
-                    <img class="product-img" src="<?=ROOT?>/images/Products/4791034072366.jpeg" alt="Maliban Chocolate Biscuit 100g">
-                </div>
-            </a>
-
-            <a href="#" class="card btn-card center-al">
-                <div class="details h-100">
-                    <h4>Maliban Cream Cracker 200g</h4>
-                    <h4>Rs.250.00</h4>
-                </div>
-                <div class="product-img-container">
-                    <img class="product-img" src="<?=ROOT?>/images/Products/Maliban Cream Cracker 200g.jpg" alt="Maliban Cream Cracker 200g">
-                </div>
-            </a>
-
-            <a href="#" class="card btn-card center-al">
-                <div class="details h-100">
-                    <h4>Maliban Marie Biscuit 200g</h4>
-                    <h4>Rs.220.00</h4>
-                </div>
-                <div class="product-img-container">
-                    <img class="product-img" src="<?=ROOT?>/images/Products/Maliban Marie Biscuit 200g.jpg" alt="Maliban Marie Biscuit 200g">
-                </div>
-            </a>
-
-            <a href="#" class="card btn-card center-al">
-                <div class="details h-100">
-                    <h4>Maliban Sandwich Biscuit 200g</h4>
-                    <h4>Rs.300.00</h4>
-                </div>
-                <div class="product-img-container">
-                    <img class="product-img" src="<?=ROOT?>/images/Products/Maliban Sandwich Biscuit 200g.jpg" alt="Maliban Sandwich Biscuit 200g">
-                </div>
-            </a>
-
-            <a href="#" class="card btn-card center-al">
-                <div class="details h-100">
-                    <h4>Maliban Milk Cream Biscuit 100g</h4>
-                    <h4>Rs.150.00</h4>
-                </div>
-                <div class="product-img-container">
-                    <img class="product-img" src="<?=ROOT?>/images/Products/Maliban Milk Cream Biscuit 100g.jpeg" alt="Maliban Milk Cream Biscuit 100g">
-                </div>
-            </a>
-
-            <a href="#" class="card btn-card center-al">
-                <div class="details h-100">
-                    <h4>Maliban Digestive Biscuit 250g</h4>
-                    <h4>Rs.300.00</h4>
-                </div>
-                <div class="product-img-container">
-                    <img class="product-img" src="<?=ROOT?>/images/Products/Maliban Digestive Biscuit 250g.jpg" alt="Maliban Digestive Biscuit 250g">
-                </div>
-            </a>
-
-            <a href="#" class="card btn-card center-al">
-                <div class="details h-100">
-                    <h4>Maliban Oaty Biscuit 200g</h4>
-                    <h4>Rs.180.00</h4>
-                </div>
-                <div class="product-img-container">
-                    <img class="product-img" src="<?=ROOT?>/images/Products/Maliban Oaty Biscuit 200g.webp" alt="Maliban Oaty Biscuit 200g">
-                </div>
-            </a>
-
-            <a href="#" class="card btn-card center-al">
-                <div class="details h-100">
-                    <h4>Maliban lemon puff 200g</h4>
-                    <h4>Rs.220.00</h4>
-                </div>
-                <div class="product-img-container">
-                    <img class="product-img" src="<?=ROOT?>/images/Products/Maliban lemon puff 200g.jpg" alt="Maliban Butter Biscuit 200g">
-                </div>
-            </a>
-
-            <a href="#" class="card btn-card center-al">
-                <div class="details h-100">
-                    <h4>Maliban Sweet Milk Biscuit 200g</h4>
-                    <h4>Rs.240.00</h4>
-                </div>
-                <div class="product-img-container">
-                    <img class="product-img" src="<?=ROOT?>/images/Products/Maliban Sweet Milk Biscuit 200g.jpg" alt="Maliban Sweet Milk Biscuit 200g">
-                </div>
-            </a>
-
-            <a href="#" class="card btn-card center-al">
-                <div class="details h-100">
-                    <h4>Maliban Ginger Biscuit 200g</h4>
-                    <h4>Rs.210.00</h4>
-                </div>
-                <div class="product-img-container">
-                    <img class="product-img" src="<?=ROOT?>/images/Products/Maliban Ginger Biscuit 200g.jpg" alt="Maliban Ginger Biscuit 200g">
-                </div>
-            </a>
-
-            <a href="#" class="card btn-card center-al">
-                <div class="details h-100">
-                    <h4>Maliban Krisco Biscuit 170g</h4>
-                    <h4>Rs.170.00</h4>
-                </div>
-                <div class="product-img-container">
-                    <img class="product-img" src="<?=ROOT?>/images/Products/Maliban Krisco Biscuit 170g.jpg" alt="Maliban Cornflakes Biscuit 150g">
-                </div>
-            </a>
-
-            <a href="#" class="card btn-card center-al">
-                <div class="details h-100">
-                    <h4>Maliban Chocolate Puff Biscuit 200g</h4>
-                    <h4>Rs.260.00</h4>
-                </div>
-                <div class="product-img-container">
-                    <img class="product-img" src="<?=ROOT?>/images/Products/Maliban Chocolate Puff Biscuit 200g.png" alt="Maliban Chocolate Chip Biscuit 200g">
-                </div>
-            </a>
-
-            <a href="#" class="card btn-card center-al">
-                <div class="details h-100">
-                    <h4>Maliban Orange Cream Biscuit 200g</h4>
-                    <h4>Rs.230.00</h4>
-                </div>
-                <div class="product-img-container">
-                    <img class="product-img" src="<?=ROOT?>/images/Products/Maliban Orange Cream Biscuit 200g.webp" alt="Maliban Fruit Biscuit 200g">
-                </div>
-            </a> -->
-
-               
-                
             </div>
         </div>
 
@@ -192,7 +61,9 @@
 
             <div class="row col-max-1024">
                 <div class="product-img-container">
-                    <img id="product-pic" class="product-img" src="<?=ROOT?>/images/Default/Product.jpeg" alt="">
+                    <img id="product-pic" class="product-img" src="<?=ROOT?>/images/Default/Product.jpeg" 
+                    onerror="this.src='<?=ROOT?>/images/Default/Product.jpeg'" 
+                    alt="product image">
                 </div>
 
                 <div class="colomn fg1">
@@ -581,7 +452,7 @@ document.querySelector('.close-btn').addEventListener('click', function () {
 
 document.getElementById('closeOrderModal').addEventListener('click', function () {
     document.getElementById('orderSuccessModal').style.display = 'none';
-    window.location.href = '<?=LINKROOT?>/Distributor';
+    window.location.href = '<?=LINKROOT?>/Distributor/requestDetails';
 });
 
 // Close modal on clicking outside of the modal content
