@@ -1,5 +1,7 @@
 const search = document.getElementById('search');
 const elements = document.getElementById('elements');
+const Filter = document.getElementById('Filter');
+const dateElement = document.getElementById('order_date');
 let debounceTimeout;
 
 search.addEventListener('input', () => {
@@ -8,9 +10,14 @@ search.addEventListener('input', () => {
     debounceTimeout = setTimeout(() => loadData(), 500)
 })
 
+Filter.addEventListener('change', () => loadData());
+dateElement.addEventListener('change', () => loadData());
+
 function loadData() {
+    const filterTerms = Filter.value;
+    const dateTerms = dateElement.value;
     const searchTerm = search.value;
-    fetch(`${LINKROOT}/Distributor/searchOrders?searchTerm=${encodeURIComponent(searchTerm)}`, {
+    fetch(`${LINKROOT}/Distributor/searchOrders?searchTerm=${encodeURIComponent(searchTerm)}&filter=${encodeURIComponent(filterTerms)}&date=${encodeURIComponent(dateTerms)}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -31,7 +38,7 @@ function loadData() {
 }
 
 function cardTemplate(order) {
-    const {shop_name, so_phone, shop_pic_format, time, status, order_id } = order;
+    const {shop_name, so_phone, shop_pic_format, date, status, order_id } = order;
     return (
         `<a href="${LINKROOT}/Distributor/orderDetails/${order_id}" class="card btn-card center-al">
         <span class="badge">Order ID ${order_id}</span>
@@ -40,7 +47,7 @@ function cardTemplate(order) {
             </div>
             <div class="details center-al">
                 <h4>${shop_name}</h4>
-                <h4>${time}</h4>
+                <h4>${date}</h4>
                 <h4>${status}</h4>
             </div>
         </a>`

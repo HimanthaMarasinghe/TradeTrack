@@ -6,7 +6,7 @@ class DistributorStocks extends Model{
                             JOIN products p 
                             ON ds.barcode = p.barcode';
     
-    protected $fillable = ['dis_phone', 'barcode', 'quantity'];
+    protected $fillable = ['dis_phone', 'barcode', 'quantity','low_quantity_level'];
 
     public function getStockBarcodes($dis_phone){
         $sql = "SELECT p.barcode, p.pic_format FROM $this->readTable WHERE dis_phone = :dis_phone";

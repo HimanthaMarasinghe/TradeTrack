@@ -53,7 +53,7 @@ class ShopOrder extends Model
         return $this->query($query, ['month' => $month, 'year' => $year, 'so_phone' => $_SESSION['shop_owner']['phone']])[0]['total'];
     }
 
-    public function searchOrders($search = null, $so_phone = null) {
+    public function searchOrders($search = null, $so_phone = null, $date = null, $status = null) {
         $sql = "SELECT 
                 *,
                 (SELECT SUM(soi.quantity * soi.sold_bulk_price) FROM (SELECT order_id, quantity, sold_bulk_price FROM shop_order_items) AS soi WHERE soi.order_id = o.order_id) as total
@@ -81,6 +81,26 @@ class ShopOrder extends Model
             $queryParam['so_phone'] = $search;
             $queryParam['search'] = "%$search%";
         }
+
+        if($date){
+            $sql .= " AND o.date = :date";
+            $queryParam['date'] = $date;
+           }
+       if($status) {
+           $sql .= " AND o.status = :status";
+           $queryParam['status'] = $status;
+       }
+
+        $sql.= " ORDER BY 
+        CASE o.status
+            WHEN 'Processing' THEN 1
+            WHEN 'Pending' THEN 2
+            WHEN 'Delivering' THEN 3
+            WHEN 'Delivered' THEN 4
+            ELSE 5
+        END, 
+        o.date DESC, o.time DESC";
+
         writeToFile($sql);
         return $this->query($sql, $queryParam);
     }

@@ -19,8 +19,14 @@
         <div class="panel mg-10 fg1">
             <div class="row">
                 <input type="text" class="search-bar fg1" id="search" placeholder="Search Order">
-                <a class="btn" href="<?=LINKROOT?>/Distributor/orderHistory">
-                    <h4>Order History</h4>
+                <select id="Filter" class="filter-js">
+                    <option value="">All</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Processing">Processing</option>
+                    <option value="Delivering">Delivering</option>
+                    <option value="Delivered">Delivered</option>
+                </select>
+                <input type="date" id="order_date" class="filter-js">
                 </a>
             </div>
             <div class="scroll-box grid g-resp-300" id="elements">
