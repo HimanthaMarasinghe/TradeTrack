@@ -7,7 +7,7 @@
 <div class="main-content colomn">
     <div class="bar">
         <img src="<?=ROOT?>/images/icons/home.svg" alt="">
-        <h1>Products</h1>
+        <h1>New Products</h1>
         <div class="row gap-10">
             <a href="<?=LINKROOT?>/ShopOwner/announcements"><img src="<?=ROOT?>/images/icons/Announcement.svg" alt=""></a>
             <?php $this->component("notification") ?>
@@ -21,7 +21,7 @@
                 <input id="searchBar" type="text" class="search-bar fg1" placeholder="Search">
                 <button id="addUniqueProductBtn" class="btn" title="Do you have a unique product that's not on this list? Add it to your products">Unique products</button>
             </div>
-            <div class="scroll-box grid g-resp-300" id="elements-Scroll-Div">
+            <div class="scroll-box grid g-resp-200" id="elements-Scroll-Div">
             </div>
         </div>
     </div>

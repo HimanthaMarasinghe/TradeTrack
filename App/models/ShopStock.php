@@ -4,7 +4,7 @@ class ShopStock extends Model
 {
 
     protected $table = 'so_stocks';
-    protected $fillable = ['barcode', 'so_phone', 'quantity', 'pre_orderable_stock', 'amount_alowed_per_pre_Order'];
+    protected $fillable = ['barcode', 'so_phone', 'quantity', 'low_stock_level', 'pre_orderable_stock', 'amount_alowed_per_pre_Order'];
 
     public function readStock($sop, $sort = 'DESC', $offset = null, $search = null, $preOrderable = 0){
         $query = "SELECT * FROM products p JOIN so_stocks s ON p.barcode = s.barcode WHERE s.so_phone = :so_phone ";
@@ -67,12 +67,7 @@ class ShopStock extends Model
                     quantity = quantity + VALUES(quantity),
                     pre_orderable_stock = pre_orderable_stock + VALUES(quantity)";
 
-        writeToFile($query, 'Normal Query');
-        writeToFile($params, 'Normal query Parametors');
         return $this->query($query, $params, $con);
-        // foreach($items as $item) {
-        //     $this->updateStock($item['barcode'], $so_phone, -1*$item['qty'], $con);
-        // }
     }
 
     public function updatePreOrderableStockItems($items, $so_phone = null, $con = null) {
@@ -101,5 +96,21 @@ class ShopStock extends Model
     public function getStockLevel($barcode, $so_phone){
         $query = "SELECT quantity FROM so_stocks WHERE barcode = :barcode AND so_phone = :so_phone";
         return $this->query($query, ['barcode' => $barcode, 'so_phone' => $so_phone])[0];
+    }
+
+    public function updateStockDetail($so_phone, $barcode, $low_stock_level, $aapp) {
+        $query = "INSERT INTO $this->table 
+                  (`so_phone`, `barcode`, `quantity`, `low_stock_level`, `pre_orderable_stock`, `amount_alowed_per_pre_Order`) 
+                  VALUES
+                  (:so_phone, :barcode, 0, :low_stock_level, 0, :aapp)
+                  ON DUPLICATE KEY UPDATE
+                  low_stock_level = VALUES(low_stock_level),
+                  amount_alowed_per_pre_Order = VALUES(amount_alowed_per_pre_Order)";
+        return $this->query($query, [
+            'so_phone' => $so_phone,
+            'barcode' => $barcode,
+            'low_stock_level' => $low_stock_level,
+            'aapp' => $aapp
+        ]);
     }
 }

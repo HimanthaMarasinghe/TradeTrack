@@ -129,8 +129,8 @@
 
             <button class="btn fg1" id="print" tabindex="-1">Print the bill</button>
             <button class="btn fg1" id="skip" tabindex="-1">Skip the bill</button>
-            <button class="btn fg1 disabled-link" id="sms-bill" tabindex="-1">Send the bill via SMS</button>
-            <button class="btn fg1 disabled-link" id="email-bill" tabindex="-1">Send the bill via E-mail</button>
+            <!-- <button class="btn fg1 disabled-link" id="sms-bill" tabindex="-1">Send the bill via SMS</button>
+            <button class="btn fg1 disabled-link" id="email-bill" tabindex="-1">Send the bill via E-mail</button> -->
 
         </div>
         <div id="cus-details" class="center">

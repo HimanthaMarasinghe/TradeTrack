@@ -12,9 +12,13 @@ function cardTemplate(product) {
         badge = `<span class="badge">Unique</span>`;
     }
     return `
-        <a href="${LINKROOT}/ShopOwner/product/${product.barcode}" class="card btn-card center-al" id="${product.barcode}">
+        <a href="${LINKROOT}/ShopOwner/product/${product.barcode}" class="card btn-card colomn asp-rtio" id="${product.barcode}">
             ${badge}
-            <div class="details h-100">
+            <img class="product-img" 
+                    src="${imgSrc}" 
+                    alt="Product Image"
+                    onerror="this.src='${ROOT}/images/Products/default.jpeg'">
+            <div class="details h-50">
                 <h4>${product.product_name}</h4>
                 <table class='left-al'>
                     <tr>
@@ -26,12 +30,6 @@ function cardTemplate(product) {
                         <td><h5>Rs.${product.unit_price.toFixed(2)}</h5></td>
                     </tr>
                 </table>
-            </div>
-            <div class="product-img-container">
-                <img class="product-img" 
-                    src="${imgSrc}" 
-                    alt="Product Image"
-                    onerror="this.src='${ROOT}/images/Products/default.jpeg'">
             </div>
         </a>
     `;

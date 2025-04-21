@@ -26,12 +26,12 @@ function cardTemplate(product) {
     const lowStockClass = quantity < low_stock_level ? "low" : "";
 
     return `
-        <a href="${link}" class="card btn-card center-al ${lowStockClass}" id="${barcode}">
+        <a href="${link}" class="card btn-card ${lowStockClass}" id="${barcode}">
             ${badge}
             <div class="details h-100">
                 <h4>${product_name}</h4>
                 <h4 class="quantity">${quantity < 0 ? 0 : quantity} ${unit_type} in stock</h4>
-                <h4>Rs.${unit_price.toFixed(2)}</h4>
+                <h4>My Price - Rs.${unit_price.toFixed(2)}</h4>
             </div>
             <div class="product-img-container">
                 <img class="product-img" src="${imageSrc}" alt="" onerror="this.src='${ROOT}/images/Products/default.jpeg'">

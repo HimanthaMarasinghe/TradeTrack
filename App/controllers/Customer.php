@@ -212,7 +212,8 @@ class Customer extends Controller
         $preOrderId = $con->lastInsertId();
 
         foreach ($preOrderItems as &$item) {
-            $item['po_unit_price'] = $products->first(['barcode' => $item['barcode']], [],['unit_price'])['unit_price'];
+            $price = (new SoMyPrice)->first(['barcode' => $item['barcode'], 'so_phone' => $so_phone], [], ['price'])['price'];
+            $item['po_unit_price'] = $price ?: $products->first(['barcode' => $item['barcode']], [],['unit_price'])['unit_price'];
             $item['pre_order_id'] = $preOrderId;
         }
 

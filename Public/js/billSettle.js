@@ -55,17 +55,17 @@ document.getElementById('cash').addEventListener('input', function(e) {
     document.getElementById('return-to-cus').value =change;
 });
 
-document.getElementById('cus-email').addEventListener('input', function(e) {
-    if(e.target.checkValidity() && e.target.value.length > 0) {
-        document.getElementById('email-bill').classList.remove('disabled-link');
-        e.target.classList.remove('red-text');
-        e.target.classList.add('green-text');
-    } else {
-        document.getElementById('email-bill').classList.add('disabled-link');
-        e.target.classList.remove('green-text');
-        e.target.classList.add('red-text');
-    }
-});
+// document.getElementById('cus-email').addEventListener('input', function(e) {
+//     if(e.target.checkValidity() && e.target.value.length > 0) {
+//         document.getElementById('email-bill').classList.remove('disabled-link');
+//         e.target.classList.remove('red-text');
+//         e.target.classList.add('green-text');
+//     } else {
+//         document.getElementById('email-bill').classList.add('disabled-link');
+//         e.target.classList.remove('green-text');
+//         e.target.classList.add('red-text');
+//     }
+// });
 
 document.getElementById('cus-phone').addEventListener('input', function(e) {
     e.target.value = e.target.value < 0 ? e.target.value*(-1) : e.target.value;
@@ -76,7 +76,7 @@ document.getElementById('cus-phone').addEventListener('input', function(e) {
         phoneValid = true;
         e.target.classList.remove('red-text');
         e.target.classList.add('green-text');
-        document.getElementById('sms-bill').classList.remove('disabled-link');
+        // document.getElementById('sms-bill').classList.remove('disabled-link');
         fetch(LINKROOT+'/ShopOwner/checkCustomer', {
             method: 'POST',
             headers: {
@@ -115,7 +115,7 @@ document.getElementById('cus-phone').addEventListener('input', function(e) {
         e.target.classList.remove('green-text');
         e.target.classList.add('red-text');
         updateUI();
-        document.getElementById('sms-bill').classList.add('disabled-link');
+        // document.getElementById('sms-bill').classList.add('disabled-link');
         cus_details.classList.add('hidden');
     }
 

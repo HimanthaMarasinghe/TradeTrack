@@ -18,15 +18,15 @@
         <input class="userInput" type="number" id="cus-phone" name="cus-phone" autocomplete="off">
         <!-- type = tel still allows characters other than numbers, so here we have used type = number -->
     
-        <h4>Customer's E-mail</h4>
-        <input class="userInput" type="email" id="cus-email" name="cus-email" autocomplete="off">
+        <!-- <h4>Customer's E-mail</h4>
+        <input class="userInput" type="email" id="cus-email" name="cus-email" autocomplete="off"> -->
     
         <div><hr></div>
 
         <button class="btn fg1" id="print" tabindex="-1">Print the bill</button>
         <button class="btn fg1" id="skip" tabindex="-1">Skip the bill</button>
-        <button class="btn fg1 disabled-link" id="sms-bill" tabindex="-1">Send the bill via SMS</button>
-        <button class="btn fg1 disabled-link" id="email-bill" tabindex="-1">Send the bill via E-mail</button>
+        <!-- <button class="btn fg1 disabled-link" id="sms-bill" tabindex="-1">Send the bill via SMS</button>
+        <button class="btn fg1 disabled-link" id="email-bill" tabindex="-1">Send the bill via E-mail</button> -->
 
     </div>
     <div id="cus-details" class="center hidden">
@@ -101,12 +101,13 @@
                 <?php foreach($bill as $item){
                     $itemTotal = $item['price'] * $item['qty'];
                     echo "<tr>
-                        <td>{$item['name']}</td>
-                        <td>{$item['price']}</td>
-                        <td>{$item['qty']}</td>
-                        <td>{$itemTotal}</td>";
-                }?>
-                <tr><td colspan="3">Total : </td><td><?=$total?></td></tr>
+                        <td class='left-al'>{$item['name']}</td>
+                        <td class='right-al'>" . number_format($item['price'], 2) . "</td>
+                        <td class='right-al'>{$item['qty']}</td>
+                        <td class='right-al'>" . number_format($itemTotal, 2) . "</td>
+                    </tr>";
+                } ?>
+                <tr><td colspan="3">Total : </td><td><?=number_format($total, 2)?></td></tr>
             </tbody>
         </table>
         <hr>

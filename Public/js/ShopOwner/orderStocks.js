@@ -133,7 +133,7 @@ placeOrderBtn.addEventListener('click', () => {
     .then(data => {
         if (data.status === 'success'){
             alert('Pre-Order Placed Successfully');
-            location.href = `${LINKROOT}/ShopOwner/`;
+            location.href = `${LINKROOT}/ShopOwner/Distributor/${disPhone}`;
         }
         else 
             alert('Failed to place the Stock-Order');
