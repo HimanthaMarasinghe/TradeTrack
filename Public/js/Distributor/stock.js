@@ -31,12 +31,12 @@ function loadData() {
 }
 
 function cardTemplate(stock) {
-    const {product_name,quantity,bulk_price,pic_format, barcode } = stock;
+    const {product_name,quantity,bulk_price,pic_format, barcode,unit_type } = stock;
     return (
         `<a href="#" class="card btn-card center-al" >
                             <div class="details h-100">
                                 <h4>${product_name}</h4>
-                                <h4>${quantity}</h4>
+                                <h4>${quantity} ${unit_type}</h4>
                                 <h4>Rs.${bulk_price.toFixed(2)}</h4>
                             </div>
                             <div class="product-img-container">

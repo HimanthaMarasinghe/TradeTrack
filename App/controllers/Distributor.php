@@ -17,6 +17,8 @@ class Distributor extends Controller
     //create new methods after this line.
 
     public function index(){
+        $this->data['order'] = (new ShopOrder)->where(['status' => 'pending','dis_phone' => $_SESSION['distributor']['phone']]);
+        
         $this->data['tabs']['active'] = 'Home';
         $this->view('Distributor/home', $this->data);
     }
@@ -28,14 +30,6 @@ class Distributor extends Controller
 
     public function shops(){
         $this->data['tabs']['active'] = 'Shops';
-
-    //     // Call the getShopsData method to retrieve shops data
-    // $shopModel = new Shops;
-    // $search = ''; // You can customize the search term or retrieve it from a form or query parameters
-    // $location = ''; // You can also use location if needed
-    // $offset = 0; // Adjust the offset for pagination if required
-    // $this->data['shops'] = $shopModel->getShopsData($search, $location, $offset);
-    
         $this->view('Distributor/shops', $this->data);
     }
 
@@ -44,12 +38,25 @@ class Distributor extends Controller
         $this->view('Distributor/customerShops', $this->data);
     }
 
-    public function shopProfile(){
+    public function shopProfile($so_phone){
+        $shop = new shops;
+        $this->data["shop"] = $shop->first(['so_phone' => $so_phone]);
+        $this->data['wallet'] = (new WalletSoDis)->first(['so_phone' => $so_phone, 'dis_phone' => $_SESSION['distributor']['phone']]);
         $this->data['tabs']['active'] = 'Shops';
         $this->view('Distributor/shopProfile', $this->data);
     }
 
-    public function orderDetails(){
+    public function orderDetails($order_id){
+        $order = new ShopOrder;
+        $this->data['order'] = $order->first(['order_id' => $order_id, 'dis_phone' => $_SESSION['distributor']['phone']]);
+        if(!$this->data['order']) redirect('Distributor/orders');
+        
+        $this->data['orderItems'] = (new ShopOrderItems)->where(['order_id' => $order_id]);
+        $this->data['netTotal'] = 0;
+        foreach($this->data['orderItems'] as &$item){
+            $item['total'] = $item['sold_bulk_price'] * $item['quantity'];
+            $this->data['netTotal'] += $item['total'];
+        }
         $this->data['tabs']['active'] = 'Orders';
         $this->view('Distributor/orderDetails', $this->data);
     }
@@ -71,9 +78,6 @@ class Distributor extends Controller
 
     public function newInventryRequest(){
         $product = new Products;
-        // $distributor = new DistributorM;
-        // $distDetail = $distributor->first(['dis_phone'=> $_SESSION['distributor']['phone']]);
-        // $this->data['products'] = $product->where(['man_phone'=> $distDetail['man_phone']]);
         $this->data['products'] = $product->where(['man_phone'=> $_SESSION['distributor']['man_phone']]);
         $this->data['tabs']['active'] = 'Stocks';
         $this->view('Distributor/newInventryRequest', $this->data);
@@ -89,20 +93,6 @@ class Distributor extends Controller
         $this->data['tabs']['active'] = 'Orders';
         $this->view('Distributor/orderHistory', $this->data);
     }
-
-    // public function addOrderItemToSession(){
-    //     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['barcode']) && isset($_POST['qty'])){
-    //         if(!isset($_SESSION['order']))
-    //         {
-    //             $_SESSION['order'] = [];
-    //         }
-
-    //         $_SESSION['order'][] = [
-    //             'barcode' => $_POST['barcode'],
-    //             'qty' => $_POST['qty']
-    //         ];
-    //     }
-    // }
 
     public function placeOrder(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -222,10 +212,10 @@ class Distributor extends Controller
         echo json_encode($announcement);
     }
 
-    public function searchOrders() {
+    public function searchOrders($so_phone = null) {
         $search = $_GET['searchTerm'];
-        $order = new shopOrders;
-        $orders = $order->searchOrders($search);
+        $order = new ShopOrder;
+        $orders = $order->searchOrders($search, $so_phone) ?: [];
         header('Content-Type: application/json');
         echo json_encode($orders);
     }
@@ -233,7 +223,7 @@ class Distributor extends Controller
     public function searchStocks() {
         $search = $_GET['searchTerm'];
         $stock = new distributorStocks;
-        $stocks = $stock->searchStocks($search);
+        $stocks = $stock->searchStocks($search) ?: [];
         header('Content-Type: application/json');
         echo json_encode($stocks);
     }
@@ -241,11 +231,10 @@ class Distributor extends Controller
     public function searchShops(){
         $search = $_GET['searchTerm'];
         $shop = new Shops;
-        $shops = $shop->searchShops($search);
+        $shops = $shop->searchShops($search) ?: [];
         header('Content-Type: application/json');
         echo json_encode($shops);
     }
-
     
     public function new($viewName) {
         $this->view('Distributor/'.$viewName, $this->data);

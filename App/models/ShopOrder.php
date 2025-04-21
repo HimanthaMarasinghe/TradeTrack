@@ -3,6 +3,8 @@
 class ShopOrder extends Model
 {
     protected $table = 'shop_orders';
+
+    protected $readTable = 'shop_orders o INNER JOIN Shops s ON o.so_phone = s.so_phone';
     protected $fillable = ['date', 'time', 'so_phone', 'dis_phone', 'status'];
 
     public function search($search, $status, $offset, $dis_phone = null, $date = null) {
@@ -49,5 +51,37 @@ class ShopOrder extends Model
                     WHERE MONTH(so.date) = :month AND YEAR(so.date) = :year
                     AND so.so_phone = :so_phone AND so.status = 'Delivered'";
         return $this->query($query, ['month' => $month, 'year' => $year, 'so_phone' => $_SESSION['shop_owner']['phone']])[0]['total'];
+    }
+
+    public function searchOrders($search = null, $so_phone = null) {
+        $sql = "SELECT 
+                *,
+                (SELECT SUM(soi.quantity * soi.sold_bulk_price) FROM (SELECT order_id, quantity, sold_bulk_price FROM shop_order_items) AS soi WHERE soi.order_id = o.order_id) as total
+                FROM 
+                shop_orders o
+                INNER JOIN users u
+                ON o.so_phone = u.phone
+                INNER JOIN shops s
+                ON o.so_phone = s.so_phone
+                WHERE o.dis_phone = :dis_phone AND";
+
+        $queryParam = ['dis_phone' => $_SESSION['distributor']['phone'], 'order_id' => $search];
+
+        if($so_phone) {
+            $sql .= " (o.order_id LIKE :order_id) AND o.so_phone = :so_phone";
+
+            $queryParam['so_phone'] = $so_phone;
+            $queryParam['order_id'] = "%$search%";
+        }
+        else{
+            $sql .= " (o.so_phone LIKE :so_phone OR CONCAT(u.first_name,' ',u.last_name) LIKE :search 
+                    OR s.shop_name LIKE :search
+                    OR o.order_id = :order_id) 
+                    AND o.dis_phone = :dis_phone";
+            $queryParam['so_phone'] = $search;
+            $queryParam['search'] = "%$search%";
+        }
+        writeToFile($sql);
+        return $this->query($sql, $queryParam);
     }
 }

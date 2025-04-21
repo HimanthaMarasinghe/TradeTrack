@@ -19,7 +19,6 @@
         <div class="panel mg-10 fg1">
             <div class="row">
                 <input type="text" class="search-bar fg1" id="search" placeholder="Search Order">
-                <button class="btn">Search</button>
                 <a class="btn" href="<?=LINKROOT?>/Distributor/orderHistory">
                     <h4>Order History</h4>
                 </a>

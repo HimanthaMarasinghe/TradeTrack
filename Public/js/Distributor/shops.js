@@ -33,7 +33,7 @@ function loadData() {
 function cardTemplate(shop) {
     const {shop_name, so_phone, shop_pic_format, shop_address } = shop;
     return (
-        `<a href="${LINKROOT}/Distributor/shopProfile" class="card btn-card colomn asp-rtio">
+        `<a href="${LINKROOT}/Distributor/shopProfile/${so_phone}" class="card btn-card colomn asp-rtio">
         <img class="product-img" 
             src="${ROOT}/images/shops/${so_phone+shop_pic_format}" 
             alt={name}

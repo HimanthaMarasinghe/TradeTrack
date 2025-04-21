@@ -20,7 +20,6 @@
         <div class="panel mg-10 fg1">
             <div class="row">
                 <input type="text" class="search-bar fg1" placeholder="Search Product" id="search">
-                <!-- <button class="btn">Search</button> -->
                 <a class="btn" href="<?=LINKROOT?>/Distributor/newInventryRequest">
                     <h4>New Inventory Request</h4>
                 </a>
