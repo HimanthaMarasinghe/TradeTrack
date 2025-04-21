@@ -51,7 +51,6 @@
                     <th>Sold Bulk Price</th>
                     <th>Quntity</th>
                     <th>Total</th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -66,7 +65,6 @@
                             <td>Rs.<?=number_format($item['sold_bulk_price'],2)?></td>
                             <td><?=$item['quantity']?> <?=$item['unit_type']?></td>
                             <td><?=number_format($item['total'],2)?></td>
-                            <td><input type='checkbox'></td>
                         </tr>
                     <?php } ?>
                 <tr></tr>
@@ -78,7 +76,30 @@
             <h2>Total</h2>
             <h2>Rs.<?=number_format($netTotal,2)?></h2>
         </div>
-        <a href="#" class="btn">Set order status to ready</a>
+        <form action = "<?=LINKROOT?>/Distributor/updateOrderStatus/<?=$order['order_id']?>" method="post">
+                <?php
+                switch ($order['status']) {
+                    case 'Pending': ?>
+                        <input type="text" name='status' value="Pending" class="hidden">
+                        <button type = "submit" class="btn">Start Processing</button>
+                    <?php break;
+                    case 'Processing': ?>
+                        <input type="text" name='status' value="Processing" class="hidden">
+                        <button type = "submit" class="btn">Set Order Delivering</button>
+                    <?php    break;
+                    case 'Delivering': ?>
+                        <input type="text" name='status' value="Delivering" class="hidden">
+                        <button type = "submit" class="btn">Set Order Delivered</button>
+                    <?php    break;
+                    case 'Delivered': ?>
+                        <input type="text" name='status' value="Delivered" class="hidden">
+                        <!-- <button type = "submit" class="btn">Set Order Delivered</button> -->
+                         <a class = "btn" href = "<?=LINKROOT?>/Distributor/Orders">Done</a>
+                    <?php    break;
+                }
+                ?>
+            
+        </form>
 
     </div>
 </div>

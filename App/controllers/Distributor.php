@@ -214,8 +214,10 @@ class Distributor extends Controller
 
     public function searchOrders($so_phone = null) {
         $search = $_GET['searchTerm'];
+        $filter = $_GET['filter'] ?? null;
+        $date = $_GET['date'] ?? null;
         $order = new ShopOrder;
-        $orders = $order->searchOrders($search, $so_phone) ?: [];
+        $orders = $order->searchOrders($search, $so_phone, $date, $filter) ?: [];
         header('Content-Type: application/json');
         echo json_encode($orders);
     }
@@ -238,5 +240,18 @@ class Distributor extends Controller
     
     public function new($viewName) {
         $this->view('Distributor/'.$viewName, $this->data);
+    }
+
+    public function updateOrderStatus($order_id){
+        $status = $_POST['status'];
+        $order = new ShopOrder;
+        if($status == 'Pending'){
+            $order->update(['order_id' => $order_id],['status' => 'Processing']);
+        }else if($status == 'Processing'){
+            $order->update(['order_id' => $order_id],['status' => 'Delivering']);
+        }else if($status == 'Delivering'){
+            $order->update(['order_id' => $order_id],['status' => 'Delivered']);
+        }
+        redirect("Distributor/orderDetails/$order_id");
     }
 }
