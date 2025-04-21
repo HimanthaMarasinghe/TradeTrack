@@ -60,7 +60,7 @@ class ShopProductsService extends Database
                         s.so_phone,
                         p.barcode,
                         p.product_name,
-                        p.unit_price,
+                        COALESCE(m.price, p.unit_price) AS unit_price,
                         p.pic_format,
                         p.unit_type,
                         s.quantity,
@@ -69,6 +69,7 @@ class ShopProductsService extends Database
                         s.amount_alowed_per_pre_Order,
                         0 as 'unique' 
                     FROM products p RIGHT JOIN so_stocks s ON p.barcode = s.barcode
+                    LEFT JOIN so_my_price m ON s.so_phone = m.so_phone AND p.barcode = m.barcode
                     UNION
                     SELECT
                         so_phone,
@@ -102,7 +103,21 @@ class ShopProductsService extends Database
 
         if ($offset !== null) 
             $query .= " LIMIT 10 OFFSET $offset";  // Inject the validated offset directly
-        writeToFile($query);
         return $this->query($query,$queryParams);
+    }
+
+    public function newProducts($so_phone, $offset = null, $search = null){
+        $query = "SELECT p.*
+                  FROM products p
+                  LEFT JOIN so_stocks s ON p.barcode = s.barcode AND s.so_phone = :so_phone
+                  WHERE s.so_phone IS NULL
+                  AND (p.barcode LIKE :search OR p.product_name LIKE :search)
+                  LIMIT 10 OFFSET $offset";
+        return $this->query($query, ['so_phone' => $so_phone, 'search' => "%$search%"]);
+    }
+
+    public function getProduct($barcode, $so_phone){
+        $query = "SELECT p.*, COALESCE(m.price, p.unit_price) AS unit_price FROM products p LEFT JOIN so_my_price m ON p.barcode = m.barcode AND m.so_phone = :so_phone WHERE p.barcode = :barcode";
+        return $this->query($query, ['barcode' => $barcode, 'so_phone' => $so_phone])[0];
     }
 }

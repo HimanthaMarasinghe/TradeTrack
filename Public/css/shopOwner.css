@@ -12,7 +12,9 @@
 
 .done {
     background-color: rgb(127, 255, 146);
+    animation: fadeIn 0.8s ease-in-out;
 }
+
 
 .done img {
     min-width: 50px;

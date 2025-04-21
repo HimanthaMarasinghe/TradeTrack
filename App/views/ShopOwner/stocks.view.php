@@ -19,7 +19,7 @@
     <div class="panel mg-10 fg1">
         <div class="row">
             <input id="searchBar" type="text" class="search-bar fg1" placeholder="Search">
-            <a class="btn" href="<?=LINKROOT?>/ShopOwner/addStock">Add stocks</a>
+            <a class="btn" href="<?=LINKROOT?>/ShopOwner/addStock">New Products</a>
             <a class="btn" href="<?=LINKROOT?>/ShopOwner/OrdersHistory">Orders History</a>
         </div>
         <div class="scroll-box grid g-resp-300" id="elements-Scroll-Div">

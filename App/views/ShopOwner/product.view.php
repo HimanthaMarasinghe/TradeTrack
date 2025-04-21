@@ -20,29 +20,63 @@
                 <td><?=$product['product_name']?></td>
             </tr>
             <tr>
-                <td>Barcode</td>
+                <td><?=strlen($product['barcode']) == 13 ? "Barcode" : "Product Code"?></td>
                 <td><?=$product['barcode']?></td>
             </tr>
             <tr>
                 <td>Unit Price</td>
-                <td>Rs.<?= number_format($product['unit_price'], 2) ?></td>
+                <td>Rs.<span id="unit_Price"><?= number_format($product['unit_price'], 2) ?></span></td>
             </tr>
+        <?php if($stock) {?>
+            <tr>
+                <td>My Price</td>
+                <?php if($product['my_price'] == 0) { ?>
+                    <td><span id="unit_Price">Not Set</span></td>
+                <?php } else { ?>
+                    <td>Rs.<span id="unit_Price"><?= number_format($product['my_price'], 2) ?></span></td>
+                <?php } ?>
+            </tr>
+        <?php } ?>
             <tr>
                 <td>Bulk Price</td>
                 <td>Rs.<?= number_format($product['bulk_price'], 2) ?></td>
             </tr>
+        <?php if($stock) {?>
+            <tr>
+                <td colspan="2">
+                    <button class="btn" id="editPopUp">Edit Details</button>
+                    <button class="btn" id="openPopUp">Record stock received from unregistered distributors.</button>
+                </td>
+            </tr>
+        </table>
+        <table class="profile">
+            <tr><td colspan="2"><h2>Stock Details</h2></td></tr>
             <tr>
                 <td>Curently In Stock</td>
-                <td><span id="currentStk"><?=$stock > 0 ? $stock : 'No'?></span> <?=$product['unit_type']?></td>
-            </tr>
-            </tr>
-            <tr title="Some stock might already be pre-ordered, so pre-orderable stock isn't always the same as what's currently in stock.">
-                <td>Pre Orderable Stock ⓘ</td>
-                <td><span id="currentStk"><?=$pre_orderable_stock > 0 ? $pre_orderable_stock : 'No'?></span> <?=$product['unit_type']?></td>
+                <td><span id="currentStk"><?=$stock['quantity'] > 0 ? $stock['quantity'] : 'No'?></span> <?=$product['unit_type']?></td>
             </tr>
             <tr>
-                <td colspan="2"><button class="btn" id="openPopUp">Record stock received from unregistered distributors.</button></td>
+                <td title="The system will warn you when the stock reaches the low stock limit.">Low Stock Level ⓘ</td>
+                <td><span id="currentStk"><?=$stock['low_stock_level']?></span> <?=$product['unit_type']?></td>
             </tr>
+            <tr>
+                <td title="Customers can only pre-order a limited quantity of each product 
+to avoid large orders. Because if shop owners prepare these large orders 
+and they are never picked up, it leads to a big loss because the products 
+couldn't be sold to in-store customers either.">Amount alowed per pre-order  ⓘ</td>
+                <td><span id="amount_alowed_per_pre_Order"><?=$stock['amount_alowed_per_pre_Order'] > 0 ? $stock['amount_alowed_per_pre_Order'] : 'No'?></span> <?=$product['unit_type']?></td>
+            </tr>
+            <tr>
+                <td  title="Some stock might already be pre-ordered, 
+so pre-orderable stock isn't always 
+the same as what's currently in stock.">Pre Orderable Stock ⓘ</td>
+                <td><span id="pre_orderable_stock"><?=$stock['pre_orderable_stock'] > 0 ? $stock['pre_orderable_stock'] : 'No'?></span> <?=$product['unit_type']?></td>
+            </tr>
+        <?php } else {?>
+            <tr>
+                <td><button class="btn" id="editPopUp">Add to my stock</button></td>
+            </tr>
+        <?php } ?>
         </table>
         <?php if(file_exists("./images/Products/".$product['barcode'].".".$product['pic_format'])){ ?>
             <img class="profile-img big" src="<?=ROOT?>/images/Products/<?=$product['barcode']?>.<?=$product['pic_format']?>" alt="">
@@ -63,6 +97,7 @@
 
 <!-- PopUp -->
 <div id="popUpBackDrop" class="hidden"></div>
+<?php if($stock) {?>
 <div id="addStock" class="popUpDiv hidden">
     <h3>Use this portal to record stock from distributors not registered in the system.</h3>
     <?php if(file_exists("./images/Products/".$product['barcode'].".".$product['pic_format'])){ ?>
@@ -73,10 +108,6 @@
     <div class="details h-50 center-al">
         <h4 id="popUp-prdct-name"><?=$product['product_name']?></h4>
         <table>
-            <tr>
-                <td>Unit Price</td>
-                <td id="popUp-prdct-unit-price">Rs.<?= number_format($product['unit_price'], 2) ?></td>
-            </tr>
             <tr>
                 <td>Bulk Price</td>
                 <td id="popUp-prdct-bulk-price">Rs.<?= number_format($product['bulk_price'], 2) ?></td>
@@ -111,19 +142,48 @@
         <button type="button" id="addStockBtn" class="btn">Add</button>
     </form>
 </div>
+<?php } ?>
+<div id="editProduct" class="popUpDiv hidden">
+    <h2><?= $stock ? "Edit My Price" : "Add to My Stock" ?></h2>
+    <h4><?=$product['product_name']?></h4>
+    <form 
+        action="<?=LINKROOT?>/ShopOwner/editProduct/<?=$product['barcode']?>/<?=$product['my_price']?>/<?=$stock['low_stock_level'] ?? 0?>/<?=$stock['amount_alowed_per_pre_Order'] ?? 0?>" 
+        method="post" 
+        class="colomn mg-10 gap-10" 
+        id="editProductForm">
+        <table>
+            <tr>
+                <td>My Price (leave empty to remove)</td>
+                <td><input type="number" class="userInput" id="unitPrice" name="unitPrice" value="<?=$product['my_price'] == 0 ? null : $product['my_price']?>"></td>
+            </tr>
+            <tr>
+                <td>Low Stock Level</td>
+                <td><input type="number" class="userInput" id="lowStockLevel" name="lowStockLevel" value="<?=$stock['low_stock_level']?>" required></td>
+            </tr>
+            <tr>
+            <td title="Customers can only pre-order a limited quantity of each product 
+to avoid large orders. Because if shop owners prepare these large orders 
+and they are never picked up, it leads to a big loss because the products 
+couldn't be sold to in-store customers either.">Amount alowed per pre-order  ⓘ</td>
+                <td><input type="number" name="aapp" id="aapp" class="userInput" value="<?=$stock['amount_alowed_per_pre_Order']?>" required></td>
+            </tr>
+        </table>
+        <button type="submit" class="btn" id="editSubmit"><?=$stock ? "Edit" : "Add"?></button>
+    </form>
+</div>
 
 <div id="notification-container"></div>
 
 <script>
     const ROOT = "<?=ROOT?>";
-    const LINKROOT = "<?=LINKROOT?>"
+    const LINKROOT = "<?=LINKROOT?>";
     const ws_id = "<?=$_SESSION['shop_owner']['phone']?>";
     const barcode = "<?=$product['barcode']?>";
-    const bulk_price = <?=$product['bulk_price']?>
+    const bulk_price = <?=$product['bulk_price']?>;
 </script>
 
 <script src="<?=ROOT?>/js/popUp.js"></script>
 <script src="<?=ROOT?>/js/notificationConfig.js" type="module"></script>
 <script src="<?=ROOT?>/js/ShopOwner/product.js" type="module"></script>
 
-<?php $this->component("footer") ?>
+<?php $this->component("footer")?>

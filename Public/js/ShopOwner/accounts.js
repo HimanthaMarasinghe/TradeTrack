@@ -248,7 +248,13 @@ function openForm(form) {
 }
 
 document.getElementById('rec_expence').addEventListener('click', () => openForm('expence'));
-document.getElementById('rec_withdraw').addEventListener('click', () => openForm('withdraw'));
+document.getElementById('rec_withdraw').addEventListener('click', () => {
+    if (cashDrawerBallance < 0) {
+        alert('Not enough cash in the drawer to withdraw!');
+        return;
+    }
+    openForm('withdraw');
+});
 document.getElementById('rec_cash_in').addEventListener('click', () => openForm('cash_in'));
 
 function submitForm(form_id, api, message, refresh) {
@@ -274,12 +280,41 @@ function submitForm(form_id, api, message, refresh) {
         .then(res => res.json())
         .then(data => {
             document.getElementById('cash_drawer').innerText = `Rs.${data.cashDrawer.toFixed(2)}`;
+            cashDrawerBallance = data.cashDrawer;
+            showNegativeBalanceWarning(data.cashDrawer);
             if (refresh) {
                 refresh();
             }
         });
     }
 }
+
+const expFromCashDrawerCheckBox = document.getElementById('exp_from_cash_drawer');
+
+const setMaxExpenceAmount = (isChecked) => {
+    const exp_amount = document.getElementById('exp_amount');
+    if (isChecked) exp_amount.max = cashDrawerBallance;
+    else exp_amount.max = "";
+}
+
+const showNegativeBalanceWarning = (amount) => {
+    document.getElementById('withdraw_amount').max = amount;
+    const warning = document.getElementById('negative-balance-warning');
+    if (amount < 0) {
+        warning.classList.remove('hidden');
+        expFromCashDrawerCheckBox.disabled = true;
+    }
+    else {
+        warning.classList.add('hidden');
+        expFromCashDrawerCheckBox.disabled = false;
+    }
+    setMaxExpenceAmount(expFromCashDrawerCheckBox.checked);
+}
+
+showNegativeBalanceWarning(cashDrawerBallance);
+
+expFromCashDrawerCheckBox.addEventListener('change', (e) => {setMaxExpenceAmount(e.target.checked)});
+
 
 document.getElementById('record_expence').addEventListener('click', () => submitForm('expence_form', 'recordExpence', 'Expence recorded successfully!', expence.loadDataWithSearchOrFilter.bind(expence)));
 document.getElementById('record_withdrwal').addEventListener('click', () => submitForm('withdraw_form', 'recordCashFlow', 'Withdraw recorded successfully!', cashFlow.loadDataWithSearchOrFilter.bind(cashFlow)));

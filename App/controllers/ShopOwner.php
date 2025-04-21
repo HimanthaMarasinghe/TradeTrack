@@ -212,9 +212,8 @@ class ShopOwner extends Controller
         }
         $prd = new Products;
         $this->data['product'] = $prd->first(['barcode' => $barcodeIn]);
-        $stock = (new ShopStock)->first(data: ['barcode' => $barcodeIn, 'so_phone' => $_SESSION['shop_owner']['phone']], readFields:['quantity', 'pre_orderable_stock']);
-        $this->data['stock'] = $stock['quantity'] ?: 0;
-        $this->data['pre_orderable_stock']  = $stock['pre_orderable_stock'] ?: 0;
+        $this->data['product']['my_price'] = (new SoMyPrice)->first(['barcode' => $barcodeIn, 'so_phone' => $_SESSION['shop_owner']['phone']], readFields:['price'])['price'] ?? 0;
+        $this->data['stock'] = (new ShopStock)->first(data: ['barcode' => $barcodeIn, 'so_phone' => $_SESSION['shop_owner']['phone']], readFields:['quantity', 'pre_orderable_stock', 'amount_alowed_per_pre_Order', 'low_stock_level']);
         $this->data['tabs']['active'] = 'Stocks';
         $this->view('shopOwner/product', $this->data);
     }
@@ -342,6 +341,20 @@ class ShopOwner extends Controller
         $this->view('shopOwner/ordersHistory', $this->data);
     }
 
+    // Form Submition
+    
+    public function editProduct($barcode, $old_my_price, $old_low_stock_level, $old_aapp) {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+            if($_POST['unitPrice'] == null)
+                (new SoMyPrice)->delete(['so_phone' => $_SESSION['shop_owner']['phone'], 'barcode' => $barcode]);
+            else if($_POST['unitPrice'] != $old_my_price) 
+                (new SoMyPrice)->editMyPrice($_POST['unitPrice'], $_SESSION['shop_owner']['phone'], $barcode);
+            if($_POST['aapp'] != $old_aapp || $_POST['lowStockLevel'] != $old_low_stock_level) 
+                (new ShopStock)->updateStockDetail($_SESSION['shop_owner']['phone'], $barcode, $_POST['lowStockLevel'], $_POST['aapp']);
+            redirect(path: "ShopOwner/product/{$barcode}");
+        }
+    }
+
     public function addUniqueProduct() {
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
             $model = new ShopUniqueProducts;
@@ -386,7 +399,7 @@ class ShopOwner extends Controller
 
     public function getProducts($offset = 0){ 
         $search = $_GET['search'] ?? null;
-        $products = (new ShopProductsService)->searchProducts($search, null,$offset, $_SESSION['shop_owner']['phone']) ?: [];
+        $products = (new ShopProductsService)->newProducts($_SESSION['shop_owner']['phone'], $offset, $search) ?: [];
         echo json_encode($products);
     }
 
@@ -590,12 +603,10 @@ class ShopOwner extends Controller
     {
         if(isset($_POST['barcodeIn']))
         {
-            writeToFile($_POST['barcodeIn'][0], "First Letter");
-            writeToFile(strlen($_POST['barcodeIn']), "Lenths");
             if($_POST['barcodeIn'][0] == 'x' && strlen($_POST['barcodeIn']) == 3)
                 $item = (new ShopUniqueProducts)->first(['product_code' => substr($_POST['barcodeIn'], 1), 'so_phone' => $_SESSION['shop_owner']['phone']]);
             else 
-                $item = (new Products)->first(['barcode' => $_POST['barcodeIn']]);
+                $item = (new ShopProductsService)->getProduct($_POST['barcodeIn'], $_SESSION['shop_owner']['phone']);
 
             echo json_encode($item);
         }
@@ -639,11 +650,13 @@ class ShopOwner extends Controller
         $shopOrder->insert(['dis_phone' => $dis_phone, 'so_phone' => $_SESSION['shop_owner']['phone']], $con);
         $orderId = $con->lastInsertId();
 
-        foreach($orderItems as &$item) {
+        $orderItems = array_map(function($item) use ($orderId) {
             $item['order_id'] = $orderId;
-        }
+            $item['sold_bulk_price'] = (new Products)->first(data:['barcode' => $item['barcode']], readFields:['bulk_price'])['bulk_price'];
+            return($item);
+        }, $orderItems);
 
-        $shopOrderItems->bulkInsert($orderItems, ['barcode', 'quantity', 'order_id'], $con);
+        $shopOrderItems->bulkInsert($orderItems, ['barcode', 'quantity', 'order_id', 'sold_bulk_price'], $con);
 
         if ($con->commit()){
             $returnData = ['status' => 'success'];
@@ -750,9 +763,20 @@ class ShopOwner extends Controller
     public function payToDistributor(){
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
             $walletSoDis = new WalletSoDis;
-            $walletSoDis->updateWallet($_POST['dis_phone'], $_SESSION['shop_owner']['phone'], -1*$_POST['amount']);
-            $new = $walletSoDis->first(data: ['so_phone' => $_SESSION['shop_owner']['phone'], 'dis_phone' => $_POST['dis_phone']], readFields:['wallet'])['wallet'];
-            echo json_encode(['success' => true, 'new' => $new]);
+            $con = $walletSoDis->startTransaction();
+            $walletSoDis->updateWallet($_POST['dis_phone'], $_SESSION['shop_owner']['phone'], -1*$_POST['amount'], $con);
+            $cashDrawer = 0;
+            if($_POST['cashDrawer']){
+                $cashDrawer = 1;
+                (new Shops)->updateCashDrawer($_SESSION['shop_owner']['phone'], -1*$_POST['amount'], $con);
+            }
+            (new soOtherExpences)->insert(['cashDrawer' => $cashDrawer, 'type' => 'Payed to Creditors', 'amount' => $_POST['amount'], 'so_phone' => $_SESSION['shop_owner']['phone']], $con);
+            if($con->commit()){
+                $new = $walletSoDis->first(data: ['so_phone' => $_SESSION['shop_owner']['phone'], 'dis_phone' => $_POST['dis_phone']], readFields:['wallet'])['wallet'];
+                echo json_encode(['success' => true, 'new' => $new]);
+            }
+            else
+                echo json_encode(['success' => false]);
         }
     }
 

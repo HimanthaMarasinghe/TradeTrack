@@ -17,9 +17,12 @@
             </div>
         </div>
 
-        <div class="panel p-i-50 m-i-100 row balance spc-btwn mg-0">
-            <h1>Cash Drawer</h1>
-            <h1 id="cash_drawer">Rs.<?=number_format($cashDrawerBallance, 2)?></h1>
+        <div class="panel p-i-50 m-i-100 balance spc-btwn mg-0">
+            <div class="row w-100 spc-btwn">
+                <h1>Cash Drawer</h1>
+                <h1 id="cash_drawer">Rs.<?=number_format($cashDrawerBallance, 2)?></h1>
+            </div>
+            <h4 class="red-text hidden" id="negative-balance-warning">Warning: The Cash Drawer balance is below zero. You might have missed recording a cash inflow.</h4>
         </div>
         <div class="row p-i-100 mg-0">
             <div class="panel p-i-50 row w-50 spc-btwn">
@@ -156,6 +159,7 @@
                     <option value="Telephone">Telephone</option>
                     <option value="Rent">Rent</option>
                     <option value="Tax">Tax</option>
+                    <option value="Payed to Creditors">Payed to Creditors (Unregisterd)</option>
                     <option value="Other">Other</option>
                 </select>
                 <input type="date" id="expences_Date" class="filter-js-expences">
@@ -220,7 +224,7 @@
         <tr>
             <td>Amount</td>
             <td>
-                <input class="userInput" type="number" name="amount" required>
+                <input class="userInput" type="number" name="amount" id="exp_amount" required>
             </td>
         </tr>
     </table>
@@ -252,7 +256,7 @@
         <tr>
             <td>Amount</td>
             <td>
-                <input class="userInput" type="number" name="amount" required>
+                <input class="userInput" type="number" name="amount" id="withdraw_amount" required>
             </td>
         </tr>
     </table>
@@ -286,16 +290,14 @@
 
 <?php $this->component("orderDetails") ?>
 
-<!-- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> -->
 <script src="<?=ROOT?>/js/popUp.js"></script>
 
 <script type="text/javascript">
     const LINKROOT = "<?=LINKROOT?>";
     const ROOT = "<?=ROOT?>";
     const ws_id = "<?=$_SESSION['shop_owner']['phone']?>";
-    // const chartData = <?= json_encode($chartData) ?>;
+    var cashDrawerBallance = <?=$cashDrawerBallance?>;
 </script>
 <script src="<?=ROOT?>/js/ShopOwner/accounts.js" type="module"></script>
-<!-- <script src="<?=ROOT?>/js/ShopOwner/accountsCharts.js"></script> -->
 
 <?php $this->component("footer") ?>

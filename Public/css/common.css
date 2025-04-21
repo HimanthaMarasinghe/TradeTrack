@@ -350,7 +350,7 @@ img.default{
             border: 1px solid #ccc;
             font-size: 23px;
             color: #555;
-            text-align: center;
+            /* text-align: center; */
         }
 
         & tbody tr:nth-child(even) {
@@ -404,5 +404,15 @@ svg#pre_Mo {
 
     &:hover {
         fill: var(--btn-hover);
+    }
+}
+
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
     }
 }

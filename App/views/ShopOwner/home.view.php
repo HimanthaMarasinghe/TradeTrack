@@ -31,8 +31,11 @@
 
         <div class="panel cash-drawer">
             <h2>Cash Drawer Balance</h2>
-            <div class="balance">
+            <div class="balance colomn">
                 <h1>Rs.<?=number_format($cashDrawerBallance, 2)?></h1>
+                <?php if($cashDrawerBallance < 0) { ?>
+                    <h4 class="red-text">Warning: The Cash Drawer balance is below zero. You might have missed recording a cash inflow.</h4>
+                <?php } ?>
             </div>
         </div>
 

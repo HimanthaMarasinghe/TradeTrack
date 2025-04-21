@@ -103,6 +103,14 @@
                     <input class="userInput" type="number" name="amount" required>
                 </td>
             </tr>
+            <tr>
+                <td><input type="checkbox" id="exp_from_cash_drawer" name="cashDrawer" checked></td>
+                <td>
+                    <label for="exp_from_cash_drawer">
+                        Payed from cash drawer
+                    </label>
+                </td>
+            </tr>
         </table>
         <input type="text" name="dis_phone" class="hidden" value="<?=$distributor['dis_phone']?>" readonly required>
     </form>
