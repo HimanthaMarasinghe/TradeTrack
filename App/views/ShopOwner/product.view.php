@@ -14,70 +14,74 @@
         </div>
     </div>
     <div class="row spc-btwn">
-        <table class="profile">
-            <tr>
-                <td>Product Name</td>
-                <td><?=$product['product_name']?></td>
-            </tr>
-            <tr>
-                <td><?=strlen($product['barcode']) == 13 ? "Barcode" : "Product Code"?></td>
-                <td><?=$product['barcode']?></td>
-            </tr>
-            <tr>
-                <td>Unit Price</td>
-                <td>Rs.<span id="unit_Price"><?= number_format($product['unit_price'], 2) ?></span></td>
-            </tr>
-        <?php if($stock) {?>
-            <tr>
-                <td>My Price</td>
-                <?php if($product['my_price'] == 0) { ?>
-                    <td><span id="unit_Price">Not Set</span></td>
-                <?php } else { ?>
-                    <td>Rs.<span id="unit_Price"><?= number_format($product['my_price'], 2) ?></span></td>
+        <div class="colomn">
+            <div class="row spc-btwn gap-10">
+                <table class="profile">
+                    <tr>
+                        <td>Product Name</td>
+                        <td><?=$product['product_name']?></td>
+                    </tr>
+                    <tr>
+                        <td><?=strlen($product['barcode']) == 13 ? "Barcode" : "Product Code"?></td>
+                        <td><?=$product['barcode']?></td>
+                    </tr>
+                    <tr>
+                        <td>Unit Price</td>
+                        <td>Rs.<span id="unit_Price"><?= number_format($product['unit_price'], 2) ?></span></td>
+                    </tr>
+                <?php if($stock) {?>
+                    <tr>
+                        <td>My Price</td>
+                        <?php if($product['my_price'] == 0) { ?>
+                            <td><span id="unit_Price">Not Set</span></td>
+                        <?php } else { ?>
+                            <td>Rs.<span id="unit_Price"><?= number_format($product['my_price'], 2) ?></span></td>
+                        <?php } ?>
+                    </tr>
                 <?php } ?>
-            </tr>
-        <?php } ?>
-            <tr>
-                <td>Bulk Price</td>
-                <td>Rs.<?= number_format($product['bulk_price'], 2) ?></td>
-            </tr>
-        <?php if($stock) {?>
-            <tr>
-                <td colspan="2">
+                    <tr>
+                        <td>Bulk Price</td>
+                        <td>Rs.<?= number_format($product['bulk_price'], 2) ?></td>
+                    </tr>
+                </table>
+                <?php if($stock) {?>
+                <table class="profile">
+                    <tr><td colspan="2"><h2>Stock Details</h2></td></tr>
+                    <tr>
+                        <td>Curently In Stock</td>
+                        <td><span id="currentStk"><?=$stock['quantity'] > 0 ? $stock['quantity'] : 'No'?></span> <?=$product['unit_type']?></td>
+                    </tr>
+                    <tr>
+                        <td title="The system will warn you when the stock reaches the low stock limit.">Low Stock Level ⓘ</td>
+                        <td><span id="currentStk"><?=$stock['low_stock_level']?></span> <?=$product['unit_type']?></td>
+                    </tr>
+                    <tr>
+                        <td title="Customers can only pre-order a limited quantity of each product 
+        to avoid large orders. Because if shop owners prepare these large orders 
+        and they are never picked up, it leads to a big loss because the products 
+        couldn't be sold to in-store customers either.">Amount alowed per pre-order  ⓘ</td>
+                        <td><span id="amount_alowed_per_pre_Order"><?=$stock['amount_alowed_per_pre_Order'] > 0 ? $stock['amount_alowed_per_pre_Order'] : 'No'?></span> <?=$product['unit_type']?></td>
+                    </tr>
+                    <tr>
+                        <td  title="Some stock might already be pre-ordered, 
+        so pre-orderable stock isn't always 
+        the same as what's currently in stock.">Pre Orderable Stock ⓘ</td>
+                        <td><span id="pre_orderable_stock"><?=$stock['pre_orderable_stock'] > 0 ? $stock['pre_orderable_stock'] : 'No'?></span> <?=$product['unit_type']?></td>
+                    </tr>
+                </table>
+                <?php } ?>
+            </div>
+            <div class="row">
+                <?php if($stock) {?>
                     <button class="btn" id="editPopUp">Edit Details</button>
                     <button class="btn" id="openPopUp">Record stock received from unregistered distributors.</button>
-                </td>
-            </tr>
-        </table>
-        <table class="profile">
-            <tr><td colspan="2"><h2>Stock Details</h2></td></tr>
-            <tr>
-                <td>Curently In Stock</td>
-                <td><span id="currentStk"><?=$stock['quantity'] > 0 ? $stock['quantity'] : 'No'?></span> <?=$product['unit_type']?></td>
-            </tr>
-            <tr>
-                <td title="The system will warn you when the stock reaches the low stock limit.">Low Stock Level ⓘ</td>
-                <td><span id="currentStk"><?=$stock['low_stock_level']?></span> <?=$product['unit_type']?></td>
-            </tr>
-            <tr>
-                <td title="Customers can only pre-order a limited quantity of each product 
-to avoid large orders. Because if shop owners prepare these large orders 
-and they are never picked up, it leads to a big loss because the products 
-couldn't be sold to in-store customers either.">Amount alowed per pre-order  ⓘ</td>
-                <td><span id="amount_alowed_per_pre_Order"><?=$stock['amount_alowed_per_pre_Order'] > 0 ? $stock['amount_alowed_per_pre_Order'] : 'No'?></span> <?=$product['unit_type']?></td>
-            </tr>
-            <tr>
-                <td  title="Some stock might already be pre-ordered, 
-so pre-orderable stock isn't always 
-the same as what's currently in stock.">Pre Orderable Stock ⓘ</td>
-                <td><span id="pre_orderable_stock"><?=$stock['pre_orderable_stock'] > 0 ? $stock['pre_orderable_stock'] : 'No'?></span> <?=$product['unit_type']?></td>
-            </tr>
-        <?php } else {?>
-            <tr>
-                <td><button class="btn" id="editPopUp">Add to my stock</button></td>
-            </tr>
-        <?php } ?>
-        </table>
+                    <button class="btn" id="recordWaste">Record Waste</button>
+                    <button class="btn" id="remove">Remove from my stock</button>
+                <?php } else {?>
+                    <button class="btn" id="editPopUp">Add to my stock</button>
+                <?php } ?>
+            </div>
+        </div>
         <?php if(file_exists("./images/Products/".$product['barcode'].".".$product['pic_format'])){ ?>
             <img class="profile-img big" src="<?=ROOT?>/images/Products/<?=$product['barcode']?>.<?=$product['pic_format']?>" alt="">
         <?php } else { ?>
@@ -114,7 +118,7 @@ the same as what's currently in stock.">Pre Orderable Stock ⓘ</td>
             </tr>
         </table>
     </div>
-    <form class="colomn mg-10 gap-10" id="addStockForm">
+    <form class="colomn mg-10 gap-10" action="<?=LINKROOT?>/ShopOwner/addStock" method="post" id="addStockForm">
         <input required type="hidden" id="popUp-prdct-barcode" name="barcode" value="<?=$product['barcode']?>">
         <input required type="hidden" name="unique" value="0">
         <table>
@@ -139,9 +143,34 @@ the same as what's currently in stock.">Pre Orderable Stock ⓘ</td>
                 <td><label for="onCredit-radio">Purchased On Credit (Creditor value is increased)</label></td>
             </tr>
         </table>
-        <button type="button" id="addStockBtn" class="btn">Add</button>
+        <button type="submit" id="addStockBtn" class="btn">Add</button>
     </form>
 </div>
+
+<div id="wastePopUp" class="popUpDiv hidden">
+    <h3>Record Waste</h3>
+    <h4><?=$product['product_name']?></h4>
+    <form action="<?=LINKROOT?>/ShopOwner/recordWaste/<?=$product['barcode']?>" method="post">
+        <table>
+            <tr>
+                <td><label for="quantity">Quanitity</label></td>
+                <td><input required type="number" class="userInput" id="quantity" name="quantity"></td>
+            </tr>
+        </table>
+        <button type="submit" class="btn">Record Waste</button>
+    </form>
+</div>
+
+<div id="removePopUp" class="popUpDiv hidden">
+    <h2><?=$product['product_name']?></h2>
+    <h4>There are <?=$stock['quantity'] > 0 ? $stock['quantity'] : 'No'?> <?=$product['unit_type']?> in the stock</h4>
+    <h1 class="red-text center-al">Are you sure you want to remove this product from your stock ?</h1>
+    <form action="<?=LINKROOT?>/ShopOwner/removeFromStock/<?=$product['barcode']?>" method="post" class="row">
+        <button class="btn fg1" id="removeConfirm" type="submit"><h3>Yes</h3></button>
+        <button class="btn fg1" id="removeCancel" type="button"><h3>No</h3></button>
+    </form>
+</div>
+
 <?php } ?>
 <div id="editProduct" class="popUpDiv hidden">
     <h2><?= $stock ? "Edit My Price" : "Add to My Stock" ?></h2>
