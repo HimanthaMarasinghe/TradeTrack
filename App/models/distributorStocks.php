@@ -34,4 +34,10 @@ class DistributorStocks extends Model{
         return $this->query($sql, ['dis_phone' => $dis_phone, 'search' => "%$search%"]);
 
     }
+
+    public function getLowStock(){
+        $sql = "SELECT * FROM $this->readTable 
+                WHERE ds.quantity <= ds.low_quantity_level AND ds.dis_phone = :dis_phone ";
+        return $this->query($sql, ['dis_phone' => $_SESSION['distributor']['phone']]);
+    }
 }

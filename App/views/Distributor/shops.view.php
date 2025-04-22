@@ -17,6 +17,10 @@
     </div>
     <div class="row">
       <input type="text" id="search" class="search-bar fg1" placeholder="Search">
+        <label class="row alitem-center">
+            <input type="checkbox" id="loyalty" class="filter-js" checked>
+            <span>Customer shops only</span>
+        </label>
     </div>
     
     <!-- Shops -->

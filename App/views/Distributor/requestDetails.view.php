@@ -16,7 +16,6 @@
 
     <div class="row">
         <input type="text" class="search-bar fg1" placeholder="Search by date">
-        <button class="btn">Search</button>
      </div>
     
     <h2 class="center-al">Request History</h2>
