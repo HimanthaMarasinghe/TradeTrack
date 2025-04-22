@@ -1,5 +1,6 @@
 const search = document.getElementById('search');
 const elements = document.getElementById('elements');
+const loyalty = document.getElementById('loyalty');
 let debounceTimeout;
 
 search.addEventListener('input', () => {
@@ -8,9 +9,14 @@ search.addEventListener('input', () => {
     debounceTimeout = setTimeout(() => loadData(), 500)
 })
 
+loyalty.addEventListener('change', () => loadData());
+
 function loadData() {
     const searchTerm = search.value;
-    fetch(`${LINKROOT}/Distributor/searchShops?searchTerm=${encodeURIComponent(searchTerm)}`, {
+    const loyaltyShop = loyalty.checked ? 1 : 0 ;
+
+    console.log(`${LINKROOT}/Distributor/searchShops?searchTerm=${encodeURIComponent(searchTerm)}&loyalty=${encodeURIComponent(loyaltyShop)}`);
+    fetch(`${LINKROOT}/Distributor/searchShops?searchTerm=${encodeURIComponent(searchTerm)}&loyalty=${encodeURIComponent(loyaltyShop)}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'

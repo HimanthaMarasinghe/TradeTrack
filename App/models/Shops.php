@@ -64,7 +64,9 @@ class Shops extends Model
         return $this->query($query, $data);
     }
 
-    public function searchShops($search) {
+    public function searchShops($search, $loyalty) {
+        $queryParam = ['search' => "%$search%"]; 
+
         $sql = "SELECT * FROM shops s 
                 INNER JOIN users u ON s.so_phone = u.phone 
 
@@ -74,10 +76,18 @@ class Shops extends Model
                 OR s.shop_name LIKE :search
                 OR s.shop_address LIKE :search)";
 
+        if($loyalty == 1){
+            $sql .= " AND s.so_phone IN (
+                SELECT DISTINCT so_phone FROM shop_orders
+                WHERE dis_phone = :dis_phone
+            )";
+
+            $queryParam['dis_phone'] = $_SESSION['distributor']['phone'];
+
+        }
+
         
-        return $this->query($sql, [
-            'search' => "%$search%"                // for LIKE queries
-        ]);
+        return $this->query($sql, $queryParam);
     }
     
 

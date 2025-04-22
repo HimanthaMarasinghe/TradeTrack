@@ -9,10 +9,10 @@
     <div class="top">
         <div class="bar">
             <img src="<?=ROOT?>/images/icons/home.svg" alt="">
-            <div>
-                <!-- <img src="<?=ROOT?>/images/icons/settings.svg" alt=""> -->
-                <a href="<?=LINKROOT?>/Customer/announcements"><img src="<?=ROOT?>/images/icons/Announcement.svg" alt=""></a>
-                <a href="#"><img src="<?=ROOT?>/images/icons/Profile.svg" alt=""></a>
+            <div class="row gap-10">
+                <a href="<?=LINKROOT?>/Distributor/announcements"><img src="<?=ROOT?>/images/icons/Announcement.svg" alt=""></a>
+                <?php $this->component("notification") ?>
+                <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
             </div>
         </div>
 
@@ -36,7 +36,7 @@
                         </div>
                         <div class="details center-al">
                             <h4><?= $order['shop_name']?></h4>
-                            <h4><?= $order['time']?></h4>
+                            <h4><?= $order['date']?></h4>
                             <h4 class="status-<?= $order['status']?>"><?= $order['status']?></h4> <!-- Add the status class -->
                         </div>
                     </a>
@@ -55,55 +55,24 @@
         <div class="panel low-stocck">
             <h2>Low Stocks</h2>
             <div class="scroll-box grid g-resp-300">
-            <?php
-                    $products = [
-                        [
-                            "name" => "Maliban Chocolate Biscuit 100g",
-                            "quantity" => 10,
-                            "price" => 110.00,
-                            "image" => "4791034072366.jpeg"
-                        ],
-                        [
-                            "name" => "Maliban Sandwich Biscuit 200g",
-                            "quantity" => 100,
-                            "price" => 300.00,
-                            "image" => "Maliban Sandwich Biscuit 200g.jpg"
-                        ],
-                        [
-                            "name" => "Maliban Lemon Puff 200g",
-                            "quantity" => 25,
-                            "price" => 220.00,
-                            "image" => "Maliban lemon puff 200g.jpg"
-                        ]
-                    ];
-                    
-
-                   // Separate low inventory products
-                    $low_inventory = array_filter($products, fn($product) => $product['quantity'] <= 100);
-                    $regular_inventory = array_filter($products, fn($product) => $product['quantity'] > 100);
-
-                    // Merge arrays: low inventory first
-                    $sorted_products = array_merge($low_inventory, $regular_inventory);
-                    ?>
-
-                    <?php foreach ($sorted_products as $product): ?>
+                    <?php foreach ($product as $product): ?>
                         <a href="#" 
-                            class="card btn-card center-al" 
-                            style="background-color: <?= $product['quantity'] <= 100 ? '#ffcccc' : '#ffffff'; ?>;"
+                            class="card btn-card center-al low" 
                             onclick="showProductDetails(
-                                '<?= addslashes($product['name']); ?>', 
+                                '<?= addslashes($product['product_name']); ?>', 
                                 '<?= $product['quantity']; ?>', 
-                                '<?= number_format($product['price'], 2); ?>', 
-                                '<?= ROOT ?>/images/Products/<?= $product['image']; ?>'
+                                '<?= number_format($product['bulk_price'], 2); ?>', 
+                                '<?= ROOT ?>/images/Products/<?= $product['barcode']; ?>.<?= $product['pic_format']; ?>'
                             )">
                             <div class="details h-100">
-                                <h4><?= $product['name']; ?></h4>
-                                <h4><?= $product['quantity']; ?></h4>
-                                <h4>Rs.<?= number_format($product['price'], 2); ?></h4>
+                                <h4><?= $product['product_name']; ?></h4>
+                                <h4 class = "quantity"><?= $product['quantity']; ?> <?= $product['unit_type']; ?></h4>
+                                <h4>Rs.<?= number_format($product['bulk_price'], 2); ?></h4>
                             </div>
                             <div class="product-img-container">
-                                <img class="product-img" src="<?= ROOT ?>/images/Products/<?= $product['image']; ?>" 
-                                    alt="<?= $product['name']; ?>">
+                                <img class="product-img" src="<?= ROOT ?>/images/Products/<?= $product['barcode']; ?>.<?= $product['pic_format']; ?>" 
+                                    onerror="this.src='<?=ROOT?>/images/Default/Product.jpeg'"
+                                    alt="<?= $product['product_name']; ?>">
                             </div>
                         </a>
                     <?php endforeach; ?>
@@ -111,7 +80,6 @@
                     <!-- Popup -->
                     <div class="productViewPopup" id="productViewPopup" style="display: none;">
                         <div class="popup-content">
-                            <span class="close-btn" onclick="closePopup()">×</span>
                             <img id="popupProductImage" class="popup-image" src="" alt="Product Image">
                             <h2 id="popupProductName">Product Name</h2>
                             <p><strong>Quantity:</strong> <span id="popupProductQuantity"></span></p>
@@ -120,7 +88,7 @@
                         </div>
                     </div>
                     
-                    <script>
+                    <!-- <script>
                         // Function to show product details in a popup
                         function showProductDetails(name, quantity, price, imageUrl) {
                             document.getElementById('popupProductName').innerText = name;
@@ -160,10 +128,16 @@
                         });
                     });
 
-                    </script>
+                    </script> -->
             </div>
         </div>
     </div>
 </div>
+<script>
+    const LINKROOT = "<?=LINKROOT?>";
+    const ROOT = "<?=ROOT?>";
+    const ws_id = "<?=$_SESSION['Distributor']['phone']?>";
+</script>
+<script src='<?=ROOT?>/js/notificationConfig.js' type="module"></script>
 
 <?php $this->component("footer") ?>

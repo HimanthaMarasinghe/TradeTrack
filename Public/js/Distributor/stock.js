@@ -22,7 +22,8 @@ function loadData() {
         elements.innerHTML = '';
         
         data.forEach(stock => {
-            elements.innerHTML += cardTemplate(stock);
+            elements.insertAdjacentHTML('beforeend', cardTemplate(stock));
+            elements.lastElementChild.addEventListener('click', () => popUpModel(stock));
         });
 
     })
@@ -49,5 +50,33 @@ function cardTemplate(stock) {
                         </a>`
     );
 }
+
+function popUpModel(stock){
+    const {product_name,quantity,bulk_price,pic_format, barcode, unit_type, unit_price, low_quantity_level} = stock;
+
+    document.getElementById('popUpProductImage').src = `${ROOT}/images/Products/${barcode}.${pic_format}`;
+    document.getElementById('popUpProductName').innerText = product_name;
+    document.getElementById('popUpProductBarcode').innerText = barcode;
+    document.getElementById('popUpProductQuantity').innerText = `${quantity} ${unit_type} `;
+    document.getElementById('popUpProductUnitPrice').innerText = `Rs.${unit_price.toFixed(2)}`;
+    document.getElementById('popUpProductBulkPrice').innerText = `Rs.${bulk_price.toFixed(2)}`;
+    document.getElementById('popUpProductLowQuantityLevel').innerText = `${low_quantity_level} ${unit_type}`;
+    document.getElementById('editLowQuantityLevelForm').action = `${LINKROOT}/Distributor/editLowQuantityLevel/${barcode}`;
+
+
+    document.getElementById('editPopUpProductImage').src = `${ROOT}/images/Products/${barcode}.${pic_format}`;
+    document.getElementById('editPopUpProductName').innerText = product_name;
+    document.getElementById('editPopUpProductBarcode').innerText = barcode;
+    document.getElementById('editPopUpProductQuantity').innerText = `${quantity} ${unit_type} `;
+    document.getElementById('editPopUpProductLowQuantityLevel').innerText = `${low_quantity_level} ${unit_type}`;
+
+
+    viewPopUp('productViewPopUp');
+}
+
+document.getElementById('editLowQuantityLevelBtn').addEventListener('click', () => {
+    closePopUp();
+    viewPopUp('editLowQuantityLevel');
+});
 
 loadData();

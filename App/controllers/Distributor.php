@@ -3,7 +3,7 @@
 class Distributor extends Controller 
 {
     protected $data = [
-        'tabs' => ['tabs' => ['Home', 'Shops','Loyalty Shops','Orders', 'Stocks', 'Accounts'], 'userType' => 'Distributor'],
+        'tabs' => ['tabs' => ['Home', 'Shops','Orders', 'Stocks', 'Accounts'], 'userType' => 'Distributor'],
         'styleSheet' => ['styleSheet'=>'distributor']
     ];
 
@@ -19,6 +19,7 @@ class Distributor extends Controller
     public function index(){
         $this->data['order'] = (new ShopOrder)->where(['status' => 'pending','dis_phone' => $_SESSION['distributor']['phone']]);
         
+        $this->data['product'] = (new distributorStocks)->getLowStock();
         $this->data['tabs']['active'] = 'Home';
         $this->view('Distributor/home', $this->data);
     }
@@ -31,11 +32,6 @@ class Distributor extends Controller
     public function shops(){
         $this->data['tabs']['active'] = 'Shops';
         $this->view('Distributor/shops', $this->data);
-    }
-
-    public function loyaltyShops(){
-        $this->data['tabs']['active'] = 'Loyalty Shops';
-        $this->view('Distributor/customerShops', $this->data);
     }
 
     public function shopProfile($so_phone){
@@ -86,12 +82,6 @@ class Distributor extends Controller
     public function orders(){
         $this->data['tabs']['active'] = 'Orders';
         $this->view('Distributor/orders', $this->data);
-    }
-
-
-    public function orderHistory(){
-        $this->data['tabs']['active'] = 'Orders';
-        $this->view('Distributor/orderHistory', $this->data);
     }
 
     public function placeOrder(){
@@ -232,8 +222,9 @@ class Distributor extends Controller
 
     public function searchShops(){
         $search = $_GET['searchTerm'];
+        $loyalty = $_GET['loyalty'];
         $shop = new Shops;
-        $shops = $shop->searchShops($search) ?: [];
+        $shops = $shop->searchShops($search, $loyalty) ?: [];
         header('Content-Type: application/json');
         echo json_encode($shops);
     }
@@ -249,9 +240,19 @@ class Distributor extends Controller
             $order->update(['order_id' => $order_id],['status' => 'Processing']);
         }else if($status == 'Processing'){
             $order->update(['order_id' => $order_id],['status' => 'Delivering']);
+
         }else if($status == 'Delivering'){
             $order->update(['order_id' => $order_id],['status' => 'Delivered']);
         }
         redirect("Distributor/orderDetails/$order_id");
+    }
+
+    public function editLowQuantityLevel($barcode){
+        $stock = new distributorStocks;
+
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            $this->data['stock'] = $stock->update(['barcode' => $barcode, 'dis_phone' => $_SESSION['distributor']['phone']],['low_quantity_level' => $_POST['lowQuantityLevel']]);
+            redirect("Distributor/Stocks/$barcode");
+        }
     }
 }

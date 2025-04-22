@@ -58,7 +58,7 @@
 
             <div class="row col-max-1024">
                 <div class="product-img-container">
-                    <img id="product-pic" class="product-img" src="<?=ROOT?>/images/Default/Product.jpeg" alt="">
+                    <img id="product-pic" class="product-img" src="<?=ROOT?>/images/Default/Product.jpeg" alt="product image">
                 </div>
 
                 <div class="colomn fg1">
