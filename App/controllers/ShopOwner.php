@@ -324,12 +324,8 @@ class ShopOwner extends Controller
                     break;
             }
 
-            if($con->commit()) {
-                $newStock = $stck->first(data: ['so_phone' => $_SESSION['shop_owner']['phone'], $code => $_POST['barcode']], readFields:['quantity'])['quantity'];
-                echo json_encode(['success' => true, 'new_stock' => $newStock]);
-            }
-
-            else echo json_encode(['success' => false]);
+            $con->commit();
+            redirect( "ShopOwner/product/{$_POST['barcode']}");
             return;
         }
         $this->data['tabs']['active'] = 'Stocks';
@@ -368,6 +364,20 @@ class ShopOwner extends Controller
             }
         }
         header('Location: ' . LINKROOT . '/ShopOwner/product/x'.$data['product_code']);
+    }
+    
+    public function recordWaste($barcode) {
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+            (new ShopStock)->updateStock($barcode, $_SESSION['shop_owner']['phone'], -1*$_POST['quantity']);
+        }
+        redirect(path: "ShopOwner/product/{$barcode}");
+    }
+
+    public function removeFromStock($barcode) {
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+            (new ShopStock)->delete(['barcode' => $barcode, 'so_phone' => $_SESSION['shop_owner']['phone']]);
+        }
+        redirect(path: "ShopOwner/product/{$barcode}");
     }
 
     // API endpoints
