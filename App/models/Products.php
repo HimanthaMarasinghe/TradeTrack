@@ -37,4 +37,9 @@ class Products extends Model
         return $this->query($query, ['man_phone' => $man_phone, 'search' => "%$search%"]);
     }
 
+    public function getLastGenaratedBarcode() {
+        $query = "SELECT barcode FROM $this->table WHERE LEGNTH(barcode) = 8 ORDER BY barcode DESC LIMIT 1";
+        return $this->query($query);
+    }
+
 }

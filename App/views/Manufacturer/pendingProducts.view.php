@@ -18,17 +18,17 @@
     <div class="row fg1 ovf-hdn">
         <div class="panel mg-10 fg1">
             <div class="row">
-                <input type="text" class="search-bar fg1" placeholder="Search">
-                <button class="btn">Search</button>
+                <input type="text" class="search-bar fg1" placeholder="Search" id="searchBar" >
+               
                 <button class="btn" onclick="addNewProduct()">Add new products</button>
             </div>
-            <div class="scroll-box grid g-resp-200">
-            <?php
+            <div class="scroll-box grid g-resp-200" id="scrollBox" >
+           <!-- <?php
                 foreach ($pendingProducts as $product)
                 {
-                $this->component('card/productVert', $product); 
+                $this->component('card/pending', $product); 
                 }
-            ?>
+            ?> --> 
             </div>
         </div>
     </div>
@@ -40,7 +40,7 @@
 <div id="addNewProducts" class="hidden popUpDiv">
     <h2>Make a request to add new product</h2>
     <br>
-    <form action="<?=LINKROOT?>/Manufacturer/newProductRequest" method="POST" id="addNewProductForm">
+    <form action="<?=LINKROOT?>/Manufacturer/newProductRequest" method="POST" id="addNewProductForm" enctype="multipart/form-data">
 
     <div class="imageUploadBox" id="pop">
         <div id="imagePreview" class="imagePreviewBox">
@@ -91,7 +91,7 @@
 
 <div id="productDetails" class="hidden popUpDiv colomn">
     <h2>Product is sent to admin review</h2>
-    <img src="<?=ROOT?>/images/Default/Product.jpeg" alt="" class="default big">
+    <img id="popUpImage" src="<?=ROOT?>/images/Default/Product.jpeg" alt="" class="default big">
     <table>
         <h3 id="req-prd-name">Lorem ipsum dolor sit amet.</h3>
         <tr>
@@ -113,77 +113,13 @@
     </div>
 </div>
 
-<script src="<?=ROOT?>/js/popUp.js"></script>
 <script>
     const LINKROOT = '<?=LINKROOT?>';
-    const form = document.getElementById('addNewProductForm');
-    const formSubmitBtn = document.getElementById('formSubmitBtn');
-    const productDetailsPopUp = document.getElementById('productDetails');
-    const productDetailsPopUpHeader = document.getElementById('addNewProducts').querySelector('h2');
-
-    function addNewProduct() {
-        productDetailsPopUpHeader.textContent = 'Make a request to add new product';
-        form.reset(); // Reset form fields
-        form.action = LINKROOT+'/Manufacturer/newProductRequest'; // Reset form action URL to its default value
-        formSubmitBtn.value = 'Make request'; // Reset any dynamic labels or changes (if needed)
-        viewPopUp('addNewProducts');
-    }
-
-
-    document.querySelectorAll(".card-js").forEach((card) => {
-        card.addEventListener("click", function(event) {
-            console.log(encodeURIComponent(event.currentTarget.id));
-            fetch(LINKROOT+'/Manufacturer/pendingProductRequestDetails', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: 'barcodeIn=' + encodeURIComponent(event.currentTarget.id)
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('req-prd-barcode').textContent = data.barcode;
-                document.getElementById('req-prd-name').textContent = data.product_name;
-                document.getElementById('req-prd-price').textContent = 'Rs.' + data.unit_price.toFixed(2);
-                document.getElementById('req-prd-bulk').textContent = 'Rs.' + data.bulk_price.toFixed(2);
-                document.getElementById('update-btn').onclick = () => updateRequest(data.barcode);
-                document.getElementById('delete-btn').onclick = () => deleteRequest(data.barcode);
-
-                // Redy the form to update the product
-                document.getElementById('name').value = data.product_name;
-                document.getElementById('barcode').value = data.barcode;
-                document.getElementById('unit_price').value = data.unit_price;
-                document.getElementById('bulk_price').value = data.bulk_price;
-            })
-            .catch(error => console.error('Error:', error));
-            viewPopUp('productDetails');
-        })
-    })
-
-    function updateRequest(barcode) {
-        productDetailsPopUpHeader.textContent = 'Update product request';
-        productDetailsPopUp.classList.add('hidden');
-        form.action = LINKROOT+'/Manufacturer/updateProductRequest/'+barcode;
-        formSubmitBtn.value = 'Update';
-        viewPopUp('addNewProducts');
-    }
-
-    function deleteRequest(barcode) {
-        fetch(LINKROOT+'/Manufacturer/deleteProductRequest', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: 'barcode=' + encodeURIComponent(barcode)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if(data.status === 'success') {
-                window.location.reload();
-            }
-        })
-        .catch(error => console.error('Error:', error));
-    }
+    const ROOT = '<?=ROOT?>';
 </script>
+<script src="<?=ROOT?>/js/popUp.js"></script>
+<script src="<?=ROOT?>/js/Manufacture/pending.js"></script>
+<script src="<?=ROOT?>/js/imageUploadBox.js"></script>
+
 
 <?php $this->component("footer") ?>

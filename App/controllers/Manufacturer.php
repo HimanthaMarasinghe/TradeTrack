@@ -16,7 +16,18 @@ class Manufacturer extends Controller
 
     public function index()
     {
+        $order = new distributorOrders;
+        $this->data['order'] = $order->readOrders($_SESSION['manufacturer']['phone']);
 
+        // $processingOrders = $order->where(['status' => 'processing', 'o.man_phone' => $_SESSION['manufacturer']['phone']]);
+        // if($processingOrders)
+        //     array_push($this->data['order'], ...$processingOrders);
+        //  $readyOrders = $order->where(['status' => 'Ready', 'o.man_phone' => $_SESSION['manufacturer']['phone']]);
+        //     if($readyOrders)
+        //         array_push($this->data['order'], ...$readyOrders);      
+
+        $manufacturers = new Manufacturers;
+         $this->data['manufacturers'] = $manufacturers->first(['man_phone' => $_SESSION['manufacturer']['phone']]);
         //$_SESSION['manufacturer']['phone'] = '0112223333'; //ToDo : to be changed to the logged in user's phone number (tbc)
 
         $this->data['tabs']['active'] = 'Home';
@@ -52,6 +63,7 @@ class Manufacturer extends Controller
 
     public function deleteProductRequest(){
         if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['barcode'])){
+            writeToFile($_POST['barcode']);
             $req = new pendingProductRequests;
             $req->delete(['barcode' => $_POST['barcode']]);
             echo json_encode(['status' => 'success']);
@@ -255,10 +267,16 @@ class Manufacturer extends Controller
     public function newProductRequest(){
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
             $req = new pendingProductRequests;
+            $con = $req->startTransaction();
             $insertArray = array_merge($_POST, ['man_phone' => $_SESSION['manufacturer']['phone']]);
-            $req->insert( $insertArray);
+            $req->insert($insertArray, $con);
+            $reqId = $con->lastInsertId();
+            $pic_format = (new ImageUploader)->upload('image', $reqId, 'NewProducts');
+            $proof_format = (new ImageUploader)->upload('barcodeProof', $reqId, 'BarcodeProofs');
+            $req->update(['id' => $reqId], ['pic_format' => $pic_format, 'proof_format' => $proof_format], $con);
+            $con->commit();
+            redirect('Manufacturer/pendingProducts');
         }
-        redirect('Manufacturer/products');
     }
 
     public function announcements(){
@@ -298,8 +316,33 @@ class Manufacturer extends Controller
             $distributor = [];
         echo json_encode($distributor);
     }
-    
 
+    public function getOrders(){ 
+        $search = $_GET['search'] ?? null;
+        $filter = $_GET['filter'] ?? null;
+        $date = $_GET['date'] ?? null;
+        $Ord = new distributorOrders;
+        
+        $distributorOrders = $Ord->searchOrdersMan($search, $_SESSION['manufacturer']['phone'], $date, $filter);
+
+        if(!$distributorOrders)
+            $distributorOrders = [];
+        echo json_encode($distributorOrders);
+    }
+    
+    public function getPenProducts(){ 
+        $search = $_GET['search'] ?? null;
+        $prdct = new pendingProductRequests;
+        
+        $pendingProductRequests = $prdct->search($search, null,);
+
+        if(!$pendingProductRequests)
+            $pendingProductRequests = [];
+        echo json_encode($pendingProductRequests);
+    }
+
+
+    
 
 
 

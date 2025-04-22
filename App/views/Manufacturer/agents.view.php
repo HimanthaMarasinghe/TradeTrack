@@ -25,16 +25,15 @@
       
       
     </div>
-<!-- Your html code goes here -->
-
 </div>
+
 
 <!-- add new agent popup -->
 <div id="popUpBackDrop" class="hidden"></div>
 <div id="addNewAgent" class="popUpDiv hidden">
     <h2>Add a new Distributor</h2>
     <br>
-    <form action="<?=LINKROOT?>/Manufacturer/addNewAgents" method="POST">
+    <form action="<?=LINKROOT?>/Manufacturer/addNewAgents" method="POST" >
 
     <div class="imageUploadBox" id="pop">
         <div id="imagePreview" class="imagePreviewBox">
@@ -54,7 +53,7 @@
         <table>
             <tr>
                 <td><label for="dis_phone">Distributor's Phone Number</label></td>
-                <td><input class="userInput" type="text" name="phone" id="dis_phone" required></td>
+                <td><input class="userInput" type="text" name="phone" required></td>
             </tr>
             <tr>
                 <td><label for="sa_busines_name">Business Name</label></td>
@@ -77,11 +76,40 @@
     </form>
 </div>
 
+<div class="popUpDiv hidden"  id="distributor_details">
+    <h2>Details of Distributor</h2>
+    <div class="row spc-btwn w-100">
+        <div class="column">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                        <td style="font-weight: bold; padding: 8px;">Distributor Name:</td>
+                        <td style="padding: 8px;" id="dis_name"></td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold; padding: 8px;">Distributor Business Name:</td>
+                        <td style="padding: 8px;" id="dis_business_name"></td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold; padding: 8px;">Distributor Phone:</td>
+                        <td style="padding: 8px;" id="dis_phone"></td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold; padding: 8px;">Distributor Business Address:</td>
+                        <td style="padding: 8px;" id="dis_business_address"></td>
+                    </tr>
+                </table>
+        </div>
+
+        <img id="dis-img" class="profile-img" src="<?=ROOT?>/images/Profile/PhoneNumber.jpg" alt="">
+    
+</div>
+
 <script>
     const LINKROOT = '<?=LINKROOT?>';
     const ROOT = '<?=ROOT?>';
 </script>
 <script src="<?=ROOT?>/js/Manufacture/distributor.js"></script>
 <script src="<?=ROOT?>/js/popUp.js"></script>
+<script src="<?=ROOT?>/js/imageUploadBox.js"></script>
 
 <?php $this->component("footer") ?>

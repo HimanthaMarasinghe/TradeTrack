@@ -17,31 +17,41 @@
 
     <div class="row fg1 ovf-hdn">
         <div class="panel mg-10 fg1">
-            <h2>New Requests</h2>
-            <div class="scroll-box grid g-resp-300">
-                <?php 
-                    foreach ($newOrders as $nOrder)
-                    {
-                        $this->component('card/order', $nOrder); 
-                    }
-                ?>
-            </div>
+        <div class="row">
+            <input id="searchBar" type="text" class="search-bar fg1" placeholder="Search"  >
+            <select id="Filter" class="filter-js">
+                <option value="">All</option>
+                <option value="Pending">Pending</option>
+                <option value="Processing">Processing</option>
+                <option value="Ready">Ready</option>
+                <option value="Done">Done</option>
+            </select>
+            <input type="date" id="order_date" class="filter-js">
         </div>
+        <!-- <div class="scroll-box grid g-resp-200" id="elements-Scroll-Div">
+        </div> -->
+    
 
+
+    <!-- <div class="row fg1 ovf-hdn">
         <div class="panel mg-10 fg1">
+            <h2>New Requests</h2> -->
+            <div class="scroll-box grid g-resp-200" id="scrollBox" >
+                
+            <!-- </div>
+        </div> -->
+
+        <!-- <div class="panel mg-10 fg1">
         <h2>Requests in process</h2>
-            <div class="scroll-box grid g-resp-300">
-                <?php
-                    foreach ($processingOrders as $pOrder)
-                    {
-                        $this->component('card/order', $pOrder); 
-                    }
-                ?>
+            <div class="scroll-box grid g-resp-300"> -->
+                
             </div>
-        </div>
+        <!-- </div>
     </div>
+</div> -->
 </div>
 
+</div>
 <!-- PopUp -->
 <div id="popUpBackDrop" class="hidden"></div>
 <div class="popUpDiv hidden" id="requestDetails">
@@ -84,68 +94,14 @@
             </tbody>
         </table>
     </div>
-    <button id="Start-processing" class="btn">Start Processing</button>
+    <button id="submitButton" class="btn">Start Processing</button>
 </div>
 
 <script src="<?=ROOT?>/js/popUp.js"></script>
+
 <script>
-    const LINKROOT = '<?= LINKROOT ?>';
-    let refreshRequired = false;
-    document.querySelectorAll('.card').forEach(card => {
-        card.addEventListener('click', function() {
-            let order_id = this.id;
-            let url = LINKROOT + '/Manufacturer/orderDetails/' + order_id;
-            fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                document.getElementById('order_id').innerText = data.order_id;
-                document.getElementById('sa_business_name').innerText = data.sa_busines_name;
-                document.getElementById('sa_name').innerText = data.first_name + ' ' + data.last_name;
-                document.getElementById('sa_phone').innerText = data.sa_phone;
-                document.getElementById('date').innerText = data.date;
-                document.getElementById('time').innerText = data.time;
-                document.getElementById('total').innerText = 'Rs.'+data.total.toFixed(2);
-                document.getElementById('status').innerText = data.status;
-                if(data.status === 'Pending') {
-                    document.getElementById('Start-processing').classList.remove('hidden');
-                    document.getElementById('Start-processing').onclick = () => updateStatus(order_id, 'Processing');
-                } else {
-                    document.getElementById('Start-processing').classList.add('hidden');
-                }
-                    
-                let orderItems = document.getElementById('orderItems');
-                orderItems.innerHTML = '';
-                data.orderItems.forEach(item => {
-                    orderItems.innerHTML += `
-                        <tr class='Item'>
-                            <td class='center-al'>${item.barcode}</td>
-                            <td class='left-al'>${item.product_name}</td>
-                            <td>${item.quantity} Units</td>
-                            <td>Rs.${item.bulk_price.toFixed(2)}</td>
-                            <td>Rs.${item.total}</td>
-                        </tr>
-                    `;
-                });
-                viewPopUp('requestDetails');
-            });
-        });
-    });
-    function updateStatus(order_id, status) {
-        fetch(LINKROOT + '/Manufacturer/updateStatus/' + order_id + '/' + status)
-        .then(response => response.json())
-        .then(data => {
-            if(data.success) {
-                document.getElementById('status').innerText = status;
-                document.getElementById('Start-processing').classList.add('hidden');
-                refreshRequired = true;
-            }
-        });
-    }
-    document.getElementById('popUpBackDrop').addEventListener('click', function() {
-        if(refreshRequired) {
-            location.reload();
-        }
-    });
+    const LINKROOT = '<?=LINKROOT?>';
+    const ROOT = '<?=ROOT?>';
 </script>
+<script src="<?=ROOT?>/js/Manufacture/orders.js"></script>
 <?php $this->component("footer") ?>
