@@ -4,7 +4,7 @@ class ShopOrder extends Model
 {
     protected $table = 'shop_orders';
 
-    protected $readTable = 'shop_orders o INNER JOIN Shops s ON o.so_phone = s.so_phone';
+    protected $readTable = 'shop_orders o INNER JOIN shops s ON o.so_phone = s.so_phone';
     protected $fillable = ['date', 'time', 'so_phone', 'dis_phone', 'status'];
 
     public function search($search, $status, $offset, $dis_phone = null, $date = null) {

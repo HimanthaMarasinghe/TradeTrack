@@ -6,6 +6,7 @@ class Database
     {
         $DB_String = "mysql:host=".DB_HOST.";dbname=".DB_NAME;
         $con = new PDO($DB_String, DB_USER, DB_PASS);
+        $con->exec("SET time_zone = '+05:30'");
         return $con;
     }
 

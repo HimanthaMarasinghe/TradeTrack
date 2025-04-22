@@ -63,14 +63,14 @@ document.getElementById('payBtn').addEventListener('click', () => {
             if (data.success) {
                 alert("Payment recorded Successfully");
                 form.reset();
-                const tr = document.getElementById('creditTR');
-                if(data.new > 0) {
-                    tr.innerHTML = `<td><h2>Credit</h2></td>
-                                    <td><h2>Rs.${data.new.toFixed(2)}</h2></td>`;
-                }else{
-                    tr.innerHTML = `<td><h2>Debt</td></h2>
-                                    <td><h2>Rs.${(-1*data.new).toFixed(2)}</h2></td>`;
-                }
+                // const tr = document.getElementById('creditTR');
+                // if(data.new > 0) {
+                //     tr.innerHTML = `<td><h2>Credit</h2></td>
+                //                     <td><h2>Rs.${data.new.toFixed(2)}</h2></td>`;
+                // }else{
+                //     tr.innerHTML = `<td><h2>Debt</td></h2>
+                //                     <td><h2>Rs.${(-1*data.new).toFixed(2)}</h2></td>`;
+                // }
             } else {
                 alert('An error occurred');
             }

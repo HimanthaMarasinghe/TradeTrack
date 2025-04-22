@@ -772,18 +772,22 @@ class ShopOwner extends Controller
 
     public function payToDistributor(){
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $walletSoDis = new WalletSoDis;
-            $con = $walletSoDis->startTransaction();
-            $walletSoDis->updateWallet($_POST['dis_phone'], $_SESSION['shop_owner']['phone'], -1*$_POST['amount'], $con);
+            // $walletSoDis = new WalletSoDis;
+            // $con = $walletSoDis->startTransaction();
+            // $walletSoDis->updateWallet($_POST['dis_phone'], $_SESSION['shop_owner']['phone'], -1*$_POST['amount'], $con);
+            $sotherExpences = new soOtherExpences;
+            $con = $sotherExpences->startTransaction();
             $cashDrawer = 0;
             if($_POST['cashDrawer']){
                 $cashDrawer = 1;
                 (new Shops)->updateCashDrawer($_SESSION['shop_owner']['phone'], -1*$_POST['amount'], $con);
             }
-            (new soOtherExpences)->insert(['cashDrawer' => $cashDrawer, 'type' => 'Payed to Creditors', 'amount' => $_POST['amount'], 'so_phone' => $_SESSION['shop_owner']['phone']], $con);
+            $sotherExpences->insert(['cashDrawer' => $cashDrawer, 'type' => 'Payed to Creditors', 'amount' => $_POST['amount'], 'so_phone' => $_SESSION['shop_owner']['phone']], $con);
+            $lastId = $con->lastInsertId();
+            
             if($con->commit()){
-                $new = $walletSoDis->first(data: ['so_phone' => $_SESSION['shop_owner']['phone'], 'dis_phone' => $_POST['dis_phone']], readFields:['wallet'])['wallet'];
-                echo json_encode(['success' => true, 'new' => $new]);
+                // $new = $walletSoDis->first(data: ['so_phone' => $_SESSION['shop_owner']['phone'], 'dis_phone' => $_POST['dis_phone']], readFields:['wallet'])['wallet'];
+                echo json_encode(['success' => true]);
             }
             else
                 echo json_encode(['success' => false]);
