@@ -10,8 +10,9 @@ class User extends Model
         $query = "
             SELECT * 
             FROM $this->table
-            WHERE phone LIKE :search OR
-            CONCAT(first_name, ' ', last_name) LIKE :search 
+            WHERE (phone LIKE :search OR
+            CONCAT(first_name, ' ', last_name) LIKE :search)
+            AND role = 0
             LIMIT 10 OFFSET $offset
         ";
         return $this->query($query, ['search' => "%$search%"]);

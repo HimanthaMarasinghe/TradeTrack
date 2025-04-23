@@ -17,18 +17,22 @@
         <table class="profile">
             <tr>
                 <td>Customer name</td>
-                <td>Chenuka</td>
+                <td><?=$customer['first_name']?> <?=$customer['last_name']?></td>
             </tr>
             <tr>
                 <td>Address</td>
-                <td>111, colombo, srilnaka</td>
+                <td><?=$customer['address']?></td>
             </tr>
             <tr>
                 <td>Phone number</td>
-                <td>0771488164</td>
+                <td><?=$customer['phone']?></td>
             </tr>
         </table>
-        <img class="profile-img big" src="<?=ROOT?>/images/Profile/SA/0372222690.jpeg" alt="">
+        <img 
+            class="profile-img big" 
+            src="<?=ROOT?>/images/Profile/<?=$customer['phone']?>.<?=$customer['pic_format']?>" 
+            alt=""
+            onerror="this.src='<?=ROOT?>/images/Profile/PhoneNumber.jpg'">
     </div>
     <h2 class="center-al">History</h2>
     <div class="billScroll">

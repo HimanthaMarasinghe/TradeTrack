@@ -17,18 +17,26 @@
         <table class="profile">
             <tr>
                 <td>Distributor name</td>
-                <td>Chenuka</td>
+                <td><?=$distributor['first_name']?> <?=$distributor['last_name']?></td>
             </tr>
             <tr>
                 <td>Business name</td>
-                <td>Sumudu distributers</td>
+                <td><?=$distributor['dis_busines_name']?></td>
+            </tr>
+            <tr>
+                <td>Business address</td>
+                <td><?=$distributor['dis_busines_address']?></td>
             </tr>
             <tr>
                 <td>Phone number</td>
-                <td>0771488164</td>
+                <td><?=$distributor['dis_phone']?></td>
             </tr>
         </table>
-        <img class="profile-img big" src="<?=ROOT?>/images/Profile/0987654321.jpg" alt="">
+        <img 
+        class="profile-img big" 
+        src="<?=ROOT?>/images/Profile/<?=$distributor['dis_phone']?>.<?=$distributor['pic_format']?>" 
+        alt=""
+        onerror="this.src='<?=ROOT?>/images/Profile/PhoneNumber.jpg'">
     </div>
     <h3>Distributing shops</h3>
     <div class="grid g-resp-200 scroll-box">

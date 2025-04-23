@@ -1,0 +1,1 @@
+document.getElementById('productButton').addEventListener('click', () => viewPopUp('addNewProducts'));

@@ -63,63 +63,18 @@ class Admin extends Controller
                 echo "Product already exists";
                 return;
             }
-            $extension = (isset($_FILES['productImage']) && $_FILES['productImage']['error'] === 0) ? $this->saveImage($_FILES['productImage'], 'images/Products/', $_POST['barcode']) : false;
+            $extension = (new ImageUploader)->upload('image', $_POST['barcode'], 'Products');
             if ($extension !== false) {
                 $insertData['pic_format'] = $extension;
             }
             $product->insert($insertData);
         }
 
-
-
-        $this->data['tabs']['active'] = 'Add New Products';
-
-        // Check if the form is submitted
-        // if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        //     $barcode = trim($_POST['barcode']);
-        //     $productName = trim($_POST['product_name']);
-        //     $unitPrice = trim($_POST['unit_price']);
-        //     $picFormat = '';
-
-        //     // Handle the image upload
-        //     if (isset($_FILES['product_image']) && $_FILES['product_image']['error'] == 0) {
-        //         $targetDir = "uploads/";
-        //         $picFormat = basename($_FILES["product_image"]["name"]);
-        //         $targetFilePath = $targetDir . $picFormat;
-        //         $imageFileType = strtolower(pathinfo($targetFilePath, PATHINFO_EXTENSION));
-
-        //         // Check if the file is an actual image
-        //         $check = getimagesize($_FILES["product_image"]["tmp_name"]);
-        //         if ($check === false) {
-        //             $this->data['error'] = "File is not an image.";
-        //         } elseif (!in_array($imageFileType, ['jpg', 'jpeg', 'png', 'gif'])) {
-        //             $this->data['error'] = "Only JPG, JPEG, PNG & GIF files are allowed.";
-        //         } elseif (move_uploaded_file($_FILES["product_image"]["tmp_name"], $targetFilePath)) {
-        //             // Successfully uploaded
-        //             $this->data['success'] = "Image uploaded successfully.";
-        //         } else {
-        //             $this->data['error'] = "Error uploading image.";
-        //         }
-        //     }
-
-        //     // Validate other input fields and add product
-        //     if (empty($this->data['error']) && !empty($barcode) && !empty($productName) && !empty($unitPrice)) {
-        //         if ($this->productModel->addProduct($barcode, $productName, $unitPrice, $picFormat)) {
-        //             $this->data['success'] = "Product added successfully!";
-        //         } else {
-        //             $this->data['error'] = "Failed to add product.";
-        //         }
-        //     }
-        // }
-
-
-
-        // Load the view
-        $this->view('Admin/addNewProducts', $this->data);
+        redirect('Admin/Products');
     }
 
     public function updateProducts($oldBarcode = null) {
-
+        
         if($oldBarcode == null) {
             header('Location: ' . LINKROOT . '/admin/addNewProducts');
             return;
@@ -172,14 +127,16 @@ class Admin extends Controller
 
     public function product($barcodeIn = null){
         if ($barcodeIn == null){
-            header('Location: ' . LINKROOT . '/ShopOwner/stocks');
-            return;
+            redirect('Admin/products');
         }
         $prd = new Products;
+
         $this->data['product'] = $prd->first(['barcode' => $barcodeIn]);
+        if($this->data['product']['man_phone'])
+            $this->data['manufactuerer'] = (new Manufacturers)->first(['man_phone' => $this->data['product']['man_phone']]);
+        writeToFile($this->data['manufactuerer']);
         if(!$this->data['product']){
-            header('Location: ' . LINKROOT . '/admin/addNewProducts'); //Todo: Change this to a product page.
-            return;
+            redirect('Admin/products');
         }
         $this->view('Admin/product', $this->data);
     }
@@ -212,20 +169,23 @@ class Admin extends Controller
         $customers = $userM->searchCustomers($search, $offset);
         echo json_encode($customers);
     }
+    public function customer($phoneNumber = NULL){
+        $this->data['tabs']['active'] = 'Customers';
+        if ($phoneNumber == null){
+            redirect('Admin/customers');
+        }
+        $cus = new User;
+
+        $this->data['customer'] = $cus->first(['phone' => $phoneNumber]);
+        if(!$this->data['customer']){
+            redirect('Admin/Customers');
+        }
+        $this->view('Admin/customer', $this->data);
+    }
 
     public function Distributors(){
         $this->data['tabs']['active'] = 'Distributors';
         $this->view('Admin/distributors', $this->data);
-    }
-
-    public function customer(){
-        $this->data['tabs']['active'] = 'Customers';
-        $this->view('Admin/customer', $this->data);
-    }
-
-    public function distributor(){
-        $this->data['tabs']['active'] = 'Distributors';
-        $this->view('Admin/distributor', $this->data);
     }
 
     public function getDistributors($offset){
@@ -237,6 +197,20 @@ class Admin extends Controller
         $distributors = $distributorsM->searchDistributors($search, $offset);
         echo json_encode($distributors);
     }
+    public function distributor($distributor = NULL){
+        $this->data['tabs']['active'] = 'Distributors';
+        if ($distributor == null){
+            redirect('Admin/Distributors');
+        }
+        $dis = new DistributorM;
+        $this->data['distributor'] = $dis->first(['dis_phone' => $distributor]);
+        if(!$this->data['distributor']){
+            redirect('Admin/Distributors');
+        }
+        $this->view('Admin/distributor', $this->data);
+    }
+
+        
 
     public function Shops(){
         $this->data['tabs']['active'] = 'Shops';
@@ -253,8 +227,16 @@ class Admin extends Controller
         echo json_encode($shops);
     }
 
-    public function shop(){
+    public function shop($shopOwnerPhoneNumber = NULL){
         $this->data['tabs']['active'] = 'Shops';
+        if ($shopOwnerPhoneNumber == null){
+            redirect('Admin/shops');
+        }
+        $shp = new Shops;
+        $this->data['shop'] = $shp->first(['so_phone' => $shopOwnerPhoneNumber]);
+        if(!$this->data['shop']){
+            redirect('Admin/shops');
+        }
         $this->view('Admin/shop', $this->data);
     }
 
@@ -273,8 +255,16 @@ class Admin extends Controller
         echo json_encode($manufacturers);
     }
 
-    public function manufacturer(){
+    public function manufacturer($manufacturerPhoneNumber = NULL){
         $this->data['tabs']['active'] = 'Manufacturers';
+        if ($manufacturerPhoneNumber == null){
+            redirect('Admin/Manufacturers');
+        }
+        $manu = new Manufacturers;
+        $this->data['manufacturer'] = $manu->first(['man_phone' => $manufacturerPhoneNumber]);
+        if(!$this->data['manufacturer']){
+            redirect('Admin/Manufacturers');
+        }
         $this->view('Admin/manufacturer', $this->data);
     }
 
