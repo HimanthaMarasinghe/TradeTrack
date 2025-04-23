@@ -20,7 +20,8 @@ function loadData(){
 function renderCards(data) {
     scrollBox.innerHTML = '';
     data.forEach(element => {
-        scrollBox.innerHTML += distributorCard(element);
+        scrollBox.insertAdjacentHTML("beforeend", distributorCard(element));
+        scrollBox.lastElementChild.addEventListener('click', () => popUp(element))
     });
 }
 
@@ -28,10 +29,9 @@ function distributorCard(distributor) {
     const {first_name, last_name, dis_busines_name, dis_phone, pic_format } = distributor;
 
     var imagePath = `${ROOT}/images/Profile/SA/${dis_phone}.${pic_format}`;
-    var link = `${LINKROOT}/Manufacturer/distributor/${dis_phone}`;
 
     return `
-        <a href="${link}" class="card btn-card colomn asp-rtio">
+        <a class="card btn-card colomn asp-rtio">
             <img class="product-img" 
                 src="${imagePath}" 
                 onerror="this.src='${ROOT}/images/Profile/PhoneNumber.jpg';"
@@ -40,10 +40,31 @@ function distributorCard(distributor) {
                 <h4>${first_name}</h4>
                 <h4>${last_name}</h4>
                 <h4>${dis_busines_name}</h4>
-                <h4>${dis_phone}</h4>
+                
             </div>
         </a>
     `;
 }
 
+
+function popUp(distributors){
+    const {first_name, last_name, dis_busines_name, dis_phone, pic_format, dis_busines_address } = distributors;
+
+    document.getElementById('dis_name').innerText = `${first_name} ${last_name}`;
+    document.getElementById('dis_business_name').innerText = `${dis_busines_name}`;
+    document.getElementById('dis_phone').innerText = `${dis_phone}`;
+    document.getElementById('dis_business_address').innerText = `${dis_busines_address}`;
+ 
+    document.getElementById('dis-img').src = `${ROOT}/images/Profile/SA/${dis_phone}.${pic_format}`;
+    document.getElementById('dis-img').onerror = function() {
+        this.src = `${ROOT}/images/Profile/PhoneNumber.jpg`;
+    };
+    
+
+    viewPopUp('distributor_details');
+}
+
 loadData();
+
+
+
