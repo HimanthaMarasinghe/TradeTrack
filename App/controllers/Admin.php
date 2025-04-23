@@ -237,6 +237,7 @@ class Admin extends Controller
         if(!$this->data['shop']){
             redirect('Admin/shops');
         }
+        $this->data['bills'] = (new Bills)->where(['b.so_phone' => $shopOwnerPhoneNumber]);
         $this->view('Admin/shop', $this->data);
     }
 
@@ -281,22 +282,6 @@ class Admin extends Controller
             $announcement = new Announcements;
             $announcement->insert(['title' => $_POST['title'], 'message' => $_POST['message'], 'role' => $_POST['role'], 'date' => date('Y-m-d'), 'time' => date('H:i:s')]);
         }
-        // else {
-        //     echo "Error: Invalid data";
-        //     echo "<br>";
-        //     print_r($_POST);
-        //     echo "<br>";
-        //     echo $_SERVER['REQUEST_METHOD'];
-        //     echo "<br> method check";
-        //     echo $_SERVER['REQUEST_METHOD'] === 'POST';
-        //     echo "<br> title check";
-        //     echo !empty($_POST['title']);
-        //     echo "<br> message check";
-        //     echo !empty($_POST['message']);
-        //     echo "<br> role check";
-        //     echo !empty($_POST['role']);
-
-        // }
         redirect('Admin/announcements');
     }
 
@@ -334,7 +319,24 @@ class Admin extends Controller
         $search = $_GET['search'];
         $req = new pendingProductRequests;
         $requests = $req->search($search, $offset);
+        foreach($requests as &$req){
+            if(!empty($req['barcode'])){
+                $product = (new Products)->first(['barcode' => $req['barcode']]);
+                $req['alreadyExist'] = is_array($product);
+            }
+        }
         echo json_encode($requests);
+    }
+
+    public function acceptRequest($id) {
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            $pending = new pendingProductRequests;
+            $newProduct = $pending->first(['id' => $id]);
+            $con = $pending->startTransaction();
+            (new Products)->insert($newProduct, $con);
+            $pending->delete(['id' => $id], $con);
+            $con->commit();
+        }
     }
     
 
