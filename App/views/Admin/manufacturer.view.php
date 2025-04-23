@@ -17,18 +17,22 @@
         <table class="profile">
             <tr>
                 <td>Company name</td>
-                <td>Maliban</td>
+                <td><?=$manufacturer['company_name']?></td>
             </tr>
             <tr>
                 <td>Address</td>
-                <td>111, Colombo, Sri Lanka</td>
+                <td><?=$manufacturer['company_address']?></td>
             </tr>
             <tr>
                 <td>Phone number</td>
-                <td>0771488164</td>
+                <td><?=$manufacturer['man_phone']?></td>
             </tr>
         </table>
-        <img class="profile-img big" src="<?=ROOT?>/images/Profile/SA/0123456789.jpg" alt="">
+        <img 
+        class="profile-img big" 
+        src="<?=ROOT?>/images/Profile/<?=$manufacturer['man_phone']?>.<?=$manufacturer['pic_format']?>" 
+        alt=""
+        onerror="this.src='<?=ROOT?>/images/Profile/PhoneNumber.jpg'">
     </div>
     <h3>Sales agents</h3>
     <div class="grid g-resp-200 scroll-box">

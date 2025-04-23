@@ -17,18 +17,25 @@
         <table class="profile">
             <tr>
                 <td>Shop owner name</td>
-                <td>Amal</td>
+                <td><?=$shop['first_name']?> <?=$shop['last_name']?></td>
             </tr>
             <tr>
                 <td>Shop name</td>
-                <td>Gunarathna stores</td>
+                <td><?=$shop['shop_name']?></td>
+            </tr>
+            <tr>
+                <td>Shop Address</td>
+                <td><?=$shop['shop_address']?></td>
             </tr>
             <tr>
                 <td>Phone number</td>
-                <td>0771488164</td>
+                <td><?=$shop['so_phone']?></td>
             </tr>
         </table>
-        <img class="profile-img big" src="<?=ROOT?>/images/Profile/0987654321.jpg" alt="">
+        <img class="profile-img big" 
+        src="<?=ROOT?>/images/Shops/<?=$shop['so_phone']?><?=$shop['shop_pic_format']?>" 
+        alt=""
+        onerror="this.src='<?=ROOT?>/images/Shops/default.jpeg'">
     </div>
     <h2 class="center-al">History</h2>
     <div class="billScroll">
