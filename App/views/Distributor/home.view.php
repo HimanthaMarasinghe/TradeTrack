@@ -9,6 +9,7 @@
     <div class="top">
         <div class="bar">
             <img src="<?=ROOT?>/images/icons/home.svg" alt="">
+            <h1><?=$_SESSION['distributor']['dis_busines_name']?></h1>
             <div class="row gap-10">
                 <a href="<?=LINKROOT?>/Distributor/announcements"><img src="<?=ROOT?>/images/icons/Announcement.svg" alt=""></a>
                 <?php $this->component("notification") ?>
@@ -17,10 +18,10 @@
         </div>
 
         <div class="bar">
-            <h1><?=$_SESSION['dis_busines_name']?></h1>
+            <h1></h1>
             <a class="btn" href="<?=LINKROOT?>/Distributor/newInventryRequest">
                 <h4>New Inventory Request</h4>
-            </a>
+            </a> 
         </div>
     </div>
 

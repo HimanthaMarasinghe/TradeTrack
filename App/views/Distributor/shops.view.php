@@ -10,9 +10,10 @@
         <img src="<?=ROOT?>/images/icons/home.svg" alt="">
         <!-- <h1><?=$_SESSION['name']?></h1> -->
         <h1>Shops</h1>
-        <div>
-            <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
-            <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
+        <div class="row gap-10">
+                <a href="<?=LINKROOT?>/Distributor/announcements"><img src="<?=ROOT?>/images/icons/Announcement.svg" alt=""></a>
+                <?php $this->component("notification") ?>
+                <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
         </div>
     </div>
     <div class="row">
@@ -41,6 +42,7 @@
     <script>
         const LINKROOT = "<?=LINKROOT?>";
         const ROOT = "<?=ROOT?>";
+        const ws_id = "<?=$_SESSION['Distributor']['phone']?>";
     </script>
     <script src="<?=ROOT?>/js/Distributor/shops.js"></script>
 

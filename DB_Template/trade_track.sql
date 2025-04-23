@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 21, 2025 at 09:01 PM
+-- Generation Time: Apr 23, 2025 at 08:14 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -397,18 +397,20 @@ INSERT INTO `distributors` (`dis_phone`, `dis_busines_name`, `dis_busines_addres
 CREATE TABLE `distributor_stocks` (
   `dis_phone` varchar(10) NOT NULL,
   `barcode` varchar(13) NOT NULL,
-  `quantity` float NOT NULL
+  `quantity` float NOT NULL,
+  `low_quantity_level` float NOT NULL,
+  `quantity_shown` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `distributor_stocks`
 --
 
-INSERT INTO `distributor_stocks` (`dis_phone`, `barcode`, `quantity`) VALUES
-('0372222690', '4790015950624', 1000),
-('0372222690', '4791034015318', 400),
-('0372222690', '4791034070287', 300),
-('0372222690', '4791034072366', 100);
+INSERT INTO `distributor_stocks` (`dis_phone`, `barcode`, `quantity`, `low_quantity_level`, `quantity_shown`) VALUES
+('0372222690', '4790015950624', 1000, 50, 111),
+('0372222690', '4791034015318', 500, 0, 0),
+('0372222690', '4791034070287', 400, 0, 0),
+('0372222690', '4791034072366', 450, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -554,15 +556,16 @@ CREATE TABLE `pending_product_requests` (
   `unit_price` float NOT NULL,
   `bulk_price` float NOT NULL,
   `pic_format` varchar(10) NOT NULL,
-  `man_phone` varchar(10) NOT NULL
+  `man_phone` varchar(10) NOT NULL,
+  `proof_format` varchar(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `pending_product_requests`
 --
 
-INSERT INTO `pending_product_requests` (`id`, `barcode`, `product_name`, `unit_price`, `bulk_price`, `pic_format`, `man_phone`) VALUES
-(4, '9187265341231', 'Maliban Sun Cracker 100g', 180, 140, '', '0771111111');
+INSERT INTO `pending_product_requests` (`id`, `barcode`, `product_name`, `unit_price`, `bulk_price`, `pic_format`, `man_phone`, `proof_format`) VALUES
+(4, '9187265341231', 'Maliban Sun Cracker 100g', 180, 140, '', '0771111111', '');
 
 -- --------------------------------------------------------
 
@@ -800,7 +803,7 @@ CREATE TABLE `shop_orders` (
   `order_id` int(11) NOT NULL,
   `date` date NOT NULL DEFAULT current_timestamp(),
   `time` time NOT NULL DEFAULT current_timestamp(),
-  `status` enum('Pending','Processing','Delivering','Delivered') NOT NULL DEFAULT 'Pending',
+  `status` enum('Pending','Processing','Delivering','Delivered','Cancelled') NOT NULL DEFAULT 'Pending',
   `so_phone` varchar(10) NOT NULL,
   `dis_phone` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -874,9 +877,9 @@ INSERT INTO `shop_order_items` (`order_id`, `barcode`, `quantity`, `sold_bulk_pr
 (24, '4791034070287', 100, 180),
 (25, '4796010610921', 77, 800),
 (26, 'sug', 50, 460),
-(38, '4790015950624', 100, 0),
+(38, '4790015950624', 100, 900),
 (40, '4791034072663', 99, 180),
-(41, '4790015950624', 35, 0),
+(41, '4790015950624', 35, 900),
 (42, '4790015950624', 200, 900),
 (43, '4790015950624', 20, 900),
 (43, '4791034070287', 200, 180),
@@ -985,6 +988,20 @@ INSERT INTO `so_cash_drawer_flow` (`id`, `so_phone`, `date`, `time`, `type`, `am
 (27, '0112223333', '2025-04-21', '00:14:00', 'Add cash in', 300),
 (28, '0112223333', '2025-04-21', '00:23:00', 'Add cash in', 500),
 (29, '0112223333', '2025-04-21', '00:25:00', 'Personnel Use', -100);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `so_dis_payment`
+--
+
+CREATE TABLE `so_dis_payment` (
+  `id` int(11) NOT NULL,
+  `so_phone` varchar(10) NOT NULL,
+  `dis_phone` varchar(10) NOT NULL,
+  `ammount` float NOT NULL,
+  `status` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1478,6 +1495,14 @@ ALTER TABLE `so_cash_drawer_flow`
   ADD KEY `so_phone` (`so_phone`);
 
 --
+-- Indexes for table `so_dis_payment`
+--
+ALTER TABLE `so_dis_payment`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `so_phone` (`so_phone`),
+  ADD KEY `dis_phone` (`dis_phone`);
+
+--
 -- Indexes for table `so_my_price`
 --
 ALTER TABLE `so_my_price`
@@ -1593,6 +1618,12 @@ ALTER TABLE `shop_order_items`
 --
 ALTER TABLE `so_cash_drawer_flow`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+
+--
+-- AUTO_INCREMENT for table `so_dis_payment`
+--
+ALTER TABLE `so_dis_payment`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `so_other_expences`
@@ -1767,6 +1798,13 @@ ALTER TABLE `shop_unique_products`
 --
 ALTER TABLE `so_cash_drawer_flow`
   ADD CONSTRAINT `so_cash_drawer_flow_ibfk_1` FOREIGN KEY (`so_phone`) REFERENCES `shops` (`so_phone`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `so_dis_payment`
+--
+ALTER TABLE `so_dis_payment`
+  ADD CONSTRAINT `so_dis_payment_ibfk_1` FOREIGN KEY (`so_phone`) REFERENCES `shops` (`so_phone`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `so_dis_payment_ibfk_2` FOREIGN KEY (`dis_phone`) REFERENCES `distributors` (`dis_phone`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `so_my_price`

@@ -6,7 +6,7 @@ class DistributorStocks extends Model{
                             JOIN products p 
                             ON ds.barcode = p.barcode';
     
-    protected $fillable = ['dis_phone', 'barcode', 'quantity','low_quantity_level'];
+    protected $fillable = ['dis_phone', 'barcode', 'quantity','low_quantity_level','quantity_shown'];
 
     public function getStockBarcodes($dis_phone){
         $sql = "SELECT p.barcode, p.pic_format FROM $this->readTable WHERE dis_phone = :dis_phone";
@@ -40,4 +40,26 @@ class DistributorStocks extends Model{
                 WHERE ds.quantity <= ds.low_quantity_level AND ds.dis_phone = :dis_phone ";
         return $this->query($sql, ['dis_phone' => $_SESSION['distributor']['phone']]);
     }
-}
+
+    public function calculateNewStock($order_id, $flag = 0){
+        $logic = $flag == 0 ? 'ds.quantity = ds.quantity -' : 'ds.quantity_shown = ds.quantity_shown +';
+        
+        $sql = "UPDATE distributor_stocks ds
+                JOIN shop_orders o ON ds.dis_phone = o.dis_phone
+                JOIN shop_order_items soi ON soi.order_id = o.order_id AND soi.barcode = ds.barcode
+                SET $logic soi.quantity
+                WHERE ds.dis_phone = :dis_phone AND o.order_id = :order_id";
+
+        return $this->query($sql,['dis_phone' => $_SESSION['distributor']['phone'], 'order_id' => $order_id]);
+    }
+
+//     public function cancelShopOrder($order_id){
+//         $sql = "UPDATE distributor_stocks ds
+//                 JOIN shop_orders o ON ds.dis_phone = o.dis_phone
+//                 JOIN shop_order_items soi ON soi.order_id = o.order_id AND soi.barcode = ds.barcode
+//                 SET  $logic soi.quantity
+//                 WHERE ds.dis_phone = :dis_phone AND o.order_id = :order_id";
+
+//         return $this->query($sql,['dis_phone' => $_SESSION['distributor']['phone'], 'order_id' => $order_id]);
+//     }
+ }

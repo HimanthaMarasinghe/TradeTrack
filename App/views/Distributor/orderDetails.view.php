@@ -8,9 +8,10 @@
     <div class="bar">
         <img src="<?=ROOT?>/images/icons/home.svg" alt="">
         <h2>Order <?=$order['order_id']?></h2>
-        <div>
-            <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
-            <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
+        <div class="row gap-10">
+                <a href="<?=LINKROOT?>/Distributor/announcements"><img src="<?=ROOT?>/images/icons/Announcement.svg" alt=""></a>
+                <?php $this->component("notification") ?>
+                <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
         </div>
     </div>
     <div class="row spc-btwn">
@@ -80,6 +81,8 @@
                 <?php
                 switch ($order['status']) {
                     case 'Pending': ?>
+                        <button type = "button" id = "cancelOrderBtn" class="btn imageRemoveBtn">Cancel Order</button>
+
                         <input type="text" name='status' value="Pending" class="hidden">
                         <button type = "submit" class="btn">Start Processing</button>
                     <?php break;
@@ -92,9 +95,10 @@
                         <button type = "submit" class="btn">Set Order Delivered</button>
                     <?php    break;
                     case 'Delivered': ?>
-                        <input type="text" name='status' value="Delivered" class="hidden">
-                        <!-- <button type = "submit" class="btn">Set Order Delivered</button> -->
-                         <a class = "btn" href = "<?=LINKROOT?>/Distributor/Orders">Done</a>
+                        <a class = "btn" href = "<?=LINKROOT?>/Distributor/Orders">Done</a>
+                    <?php    break;
+                    case 'Cancelled': ?>
+                        <a class = "btn" href = "<?=LINKROOT?>/Distributor/Orders">Done</a>
                     <?php    break;
                 }
                 ?>
@@ -104,4 +108,11 @@
     </div>
 </div>
 
+<script>
+    const LINKROOT = "<?=LINKROOT?>";
+    const ROOT = "<?=ROOT?>";
+    const ws_id = "<?=$_SESSION['Distributor']['phone']?>";
+    const order_id = "<?=$order['order_id']?>"
+</script>
+<script src = "<?=ROOT?>/js/Distributor/orderDetails.js"></script>
 <?php $this->component("footer") ?>

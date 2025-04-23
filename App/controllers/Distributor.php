@@ -239,19 +239,24 @@ class Distributor extends Controller
         if($status == 'Pending'){
             $order->update(['order_id' => $order_id],['status' => 'Processing']);
         }else if($status == 'Processing'){
-            $order->update(['order_id' => $order_id],['status' => 'Delivering']);
-
+            $order->update(['order_id' => $order_id],['status' => 'Delivering']);   
+            (new distributorStocks)->calculateNewStock($order_id);
         }else if($status == 'Delivering'){
             $order->update(['order_id' => $order_id],['status' => 'Delivered']);
         }
         redirect("Distributor/orderDetails/$order_id");
     }
 
-    public function editLowQuantityLevel($barcode){
-        $stock = new distributorStocks;
-
+    public function cancelOrder($order_id){
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
-            $this->data['stock'] = $stock->update(['barcode' => $barcode, 'dis_phone' => $_SESSION['distributor']['phone']],['low_quantity_level' => $_POST['lowQuantityLevel']]);
+            (new ShopOrder)->update(['order_id' => $order_id,'dis_phone' => $_SESSION['distributor']['phone']],['status' => 'Cancelled']);
+            (new distributorStocks)->calculateNewStock($order_id, 1);
+        }
+    }
+
+    public function editLowQuantityLevel($barcode){
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            (new distributorStocks)->update(['barcode' => $barcode, 'dis_phone' => $_SESSION['distributor']['phone']],['low_quantity_level' => $_POST['lowQuantityLevel']]);
             redirect("Distributor/Stocks/$barcode");
         }
     }
