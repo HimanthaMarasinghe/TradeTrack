@@ -8,10 +8,11 @@
 
     <div class="bar">
         <img src="<?=ROOT?>/images/icons/home.svg" alt="Home Icon">
-        <h1>Maliban Galle Distributor</h1>
-        <div>
-            <img src="<?=ROOT?>/images/icons/settings.svg" alt="Settings Icon">
-            <img src="<?=ROOT?>/images/icons/Profile.svg" alt="Profile Icon">
+        <h1><?= $_SESSION['distributor']['dis_busines_name']?></h1>
+        <div class="row gap-10">
+                <a href="<?=LINKROOT?>/Distributor/announcements"><img src="<?=ROOT?>/images/icons/Announcement.svg" alt=""></a>
+                <?php $this->component("notification") ?>
+                <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
         </div>
     </div>
     
@@ -39,6 +40,7 @@
     <script>
         const LINKROOT = "<?=LINKROOT?>";
         const ROOT = "<?=ROOT?>";
+        const ws_id = "<?=$_SESSION['Distributor']['phone']?>";
         const customerId = "<?=$this->data['distributor']['id']?>";
     </script>
     <script src="<?=ROOT?>/js/Distributor/orders.js"></script>
