@@ -115,4 +115,5 @@
     const order_id = "<?=$order['order_id']?>"
 </script>
 <script src = "<?=ROOT?>/js/Distributor/orderDetails.js"></script>
+<script src='<?=ROOT?>/js/notificationConfig.js' type="module"></script>
 <?php $this->component("footer") ?>

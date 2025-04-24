@@ -117,5 +117,6 @@
     </script>
     <script src="<?=ROOT?>/js/Distributor/stock.js"></script>
     <script src ="<?=ROOT?>/js/popUp.js"></script>
+    <script src='<?=ROOT?>/js/notificationConfig.js' type="module"></script>
 
 <?php $this->component("footer") ?>
