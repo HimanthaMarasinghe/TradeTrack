@@ -128,7 +128,13 @@ the same as what's currently in stock.">Pre Orderable Stock ⓘ</td>
 
         <div class="imageUploadBox" id="pop">
             <div id="imagePreview" class="imagePreviewBox">
-                <div id="imageContainer"></div>
+                <div id="imageContainer">
+                    <img src="<?=ROOT?>/images/Products/<?=$_SESSION['shop_owner']['phone'].$product['product_code'].".".$product['pic_format']?>" 
+                        onerror="this.src='<?=ROOT?>/images/Products/default.jpeg'"
+                        alt="Product Image" 
+                        style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <input type="text" class="hidden" name="remove_image" id="remove_image" value="false">
             </div>
             
             <input type="file" class="imageChooseInput" name="image" id="image" 
@@ -197,5 +203,6 @@ couldn't be sold to in-store customers either.">Amount alowed per pre-order  ⓘ
 <script src="<?=ROOT?>/js/popUp.js"></script>
 <script src="<?=ROOT?>/js/notificationConfig.js" type="module"></script>
 <script src="<?=ROOT?>/js/ShopOwner/uniqueProduct.js" type="module"></script>
+<script src="<?=ROOT?>/js/imageUploadBox.js"></script>
 
 <?php $this->component("footer") ?>
