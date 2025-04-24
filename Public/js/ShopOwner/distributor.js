@@ -3,6 +3,8 @@ import ApiFetcherMod from "../ApiFetcherMod.js";
 import Notification from "../Notification.js";
 import {newStockCardTemplate} from "../UI_Elements_templates.js"
 
+// Order History
+
 function rowTemplate(order){
     const {
         order_id,
@@ -17,9 +19,18 @@ function rowTemplate(order){
             <td class='left-al'>${date}</td>
             <td class='left-al'>${time}</td>
             <td class='center-al'>${status}</th>
-            <td>${total.toFixed(2)}</th>
+            <td>Rs.${total.toFixed(2)}</th>
         </tr>
     `;
+}
+
+const order_state = document.getElementById('order-state');
+const order_date = document.getElementById('order-date');
+
+const orderGetVariables = {
+    status : '',
+    date : '',
+    dis_phone : dis_phone
 }
 
 const orderConfig = {
@@ -28,10 +39,57 @@ const orderConfig = {
     clickEvent: orderMoreDetails,
     elementsListId: 'billTable',
     scrollDivId: 'billScroll',
-    getVariables: {dis_phone: dis_phone}
+    getVariables: orderGetVariables,
+    filterClass: '.filter-js-order',
+    updateGetVariables: updateOrderGetVariables,
+}
+
+function updateOrderGetVariables() {
+    orderGetVariables.status = order_state.value;
+    orderGetVariables.date = order_date.value;
 }
 
 new ApiFetcherMod(orderConfig);
+
+// Payment History
+
+function paymentRow(payment){
+    const {id, ammount, status, date, time} = payment;
+    return `
+        <tr class='Item'>
+            <td class='center-al'>${id}</td>
+            <td class='left-al'>${date}</td>
+            <td class='left-al'>${time}</td>
+            <td class='center-al'>${status == 1 ? '✔️' : ''}</td>
+            <td>Rs.${Number(ammount).toFixed(2)}</td>
+        </tr>
+    `;
+}
+
+const payment_date = document.getElementById('pay-date');
+
+const payGetVariables = {
+    dis_phone: dis_phone,
+    date: '',
+}
+
+function updatePayVariables() {
+    payGetVariables.date = payment_date.value;
+}
+
+const paymentConfig = {
+    api: 'ShopOwner/getDisPayments',
+    cardTemplate: paymentRow,
+    elementsListId: 'paymentTable',
+    scrollDivId: 'paymentScroll',
+    getVariables: payGetVariables,
+    filterClass: '.filter-js-payment',
+    updateGetVariables: updatePayVariables
+}
+
+const paymentApi = new ApiFetcherMod(paymentConfig);
+
+// Available Products
 
 const getVariables = {
     search: '',
@@ -63,22 +121,34 @@ document.getElementById('payBtn').addEventListener('click', () => {
             if (data.success) {
                 alert("Payment recorded Successfully");
                 form.reset();
-                const tr = document.getElementById('creditTR');
-                if(data.new > 0) {
-                    tr.innerHTML = `<td><h2>Credit</h2></td>
-                                    <td><h2>Rs.${data.new.toFixed(2)}</h2></td>`;
-                }else{
-                    tr.innerHTML = `<td><h2>Debt</td></h2>
-                                    <td><h2>Rs.${(-1*data.new).toFixed(2)}</h2></td>`;
-                }
             } else {
                 alert('An error occurred');
             }
             
             closePopUp();
-            return fetch(`${LINKROOT}/ShopOwner/fetchChashDrawer`);
+            paymentApi.loadDataWithSearchOrFilter();
         })
     }
 });
 
 new Notification();
+
+// Payment form
+
+const payAmount = document.getElementById('payAmount');
+const exp_from_cash_drawer = document.getElementById('exp_from_cash_drawer');
+
+function setMaxAmount() {
+    fetch(LINKROOT + '/ShopOwner/fetchChashDrawer')
+    .then(res => res.json())
+    .then(data => {
+        payAmount.max = data.cashDrawer;
+    })
+}
+
+setMaxAmount();
+
+exp_from_cash_drawer.addEventListener('change', () => {
+    if(exp_from_cash_drawer.checked) setMaxAmount();
+    else payAmount.max = '';
+})

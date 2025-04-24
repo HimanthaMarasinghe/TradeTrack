@@ -79,7 +79,7 @@
             <div class="colomn fg1 panel">
             <div class="mg-0 row col-max-1024">
                 <h2>Bills</h2>
-                <input type="text" class="search-bar fg1" id="bill-searchBar" placeholder="Search">
+                <input type="text" class="search-bar fg1" id="bill-searchBar" placeholder="Search by bill id or customer name">
                 <input type="date" id="bill_Date" class="filter-js-bill">
             </div>
                 <h5>Click on any row to see more details</h5>
@@ -101,8 +101,8 @@
             </div>
             <div class="colomn fg1 panel">
             <div class="mg-0 row col-max-1024">
-                <h2>Stock Orders</h2>
-                <input type="text" class="search-bar fg1" id="order-searchBar" placeholder="Search">
+                <h2>Recived Stock Orders</h2>
+                <input type="text" class="search-bar fg1" id="order-searchBar" placeholder="Search by order id">
                 <input type="date" id="order_Date" class="filter-js-order">
             </div>
                 <h5>Click on any row to see more details</h5>

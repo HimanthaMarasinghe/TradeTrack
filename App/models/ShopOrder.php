@@ -24,14 +24,15 @@ class ShopOrder extends Model
         if(!$dis_phone) {
             $query .= " WHERE so.so_phone = :so_phone AND (so.order_id LIKE :search OR d.dis_busines_name LIKE :search OR CONCAT(u.first_name, u.last_name) LIKE :search)";
             $queryPara['search'] = "%$search%";
-            if ($status != "all") {
-                $query .= " AND so.status = :status";
-                $queryPara['status'] = $status;
-            }
         }
         else {
             $query .= " WHERE so.so_phone = :so_phone AND so.dis_phone = :dis_phone";
             $queryPara['dis_phone'] = $dis_phone;
+        }
+        
+        if ($status != "all") {
+            $query .= " AND so.status = :status";
+            $queryPara['status'] = $status;
         }
 
         if($date) {

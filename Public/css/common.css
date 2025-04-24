@@ -147,6 +147,10 @@ body {
     height: 100%;
 }
 
+.h-400px{
+    height: 400px;
+}
+
 .max-w-330{
     max-width: 330px;
 }

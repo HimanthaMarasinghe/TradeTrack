@@ -233,7 +233,7 @@ class Distributor extends Controller
         $searchPayment = $_GET['searchPay'];
         $paymentDate = $_GET['datePay'] ?? null ;
         writeToFile($_GET);
-        $payments = (new SoDisPayment)->searchPayment($searchPayment,$paymentDate) ?: [];
+        $payments = (new SoDisPayment)->searchPayment($_SESSION['distributor']['phone'], $searchPayment,$paymentDate) ?: [];
         header('Content-Type: application/json');
         echo json_encode($payments);
     }

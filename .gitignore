@@ -1,6 +1,9 @@
 .vscode
 log.txt
+.env
 
 Public/images/Products/*
 Public/images/Profile/*
+Public/images/Profile/SA/*
+Public/images/Profile/CUS/*
 Public/images/Shops/*

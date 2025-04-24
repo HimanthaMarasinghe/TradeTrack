@@ -294,15 +294,18 @@ class ShopOwner extends Controller
     }
 
     public function addStock() {
+        writeToFile($_POST);
         if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['barcode']) && !empty($_POST['quantity']) && !empty($_POST['cost'])){
             if ($_POST['unique'] == 0) {
                 $stck = new ShopStock;
                 $orderItems = new ShopOrderItems;
                 $code = 'barcode';
+                $redirecLink = "ShopOwner/product/{$_POST['barcode']}";
             } else {
                 $stck = new ShopUniqueProducts;
                 $orderItems = new ShopOrderUniqueItems;
                 $code = 'product_code';
+                $redirecLink = "ShopOwner/product/x{$_POST['barcode']}";
             }
 
             $con = $stck->startTransaction();
@@ -325,7 +328,7 @@ class ShopOwner extends Controller
             }
 
             $con->commit();
-            redirect( "ShopOwner/product/{$_POST['barcode']}");
+            redirect( $redirecLink);
             return;
         }
         $this->data['tabs']['active'] = 'Stocks';
@@ -362,8 +365,23 @@ class ShopOwner extends Controller
                 writeToFile($data);
                 $model->insert($data);
             }
+            redirect( "ShopOwner/product/x{$data['product_code']}");
+        } else {
+            redirect('ShopOwner/addStock');
         }
-        header('Location: ' . LINKROOT . '/ShopOwner/product/x'.$data['product_code']);
+    }
+
+    public function editUniqueProduct() {
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $model = new ShopUniqueProducts;
+            $data = $_POST;
+            $data['product_code'] = substr($data['product_code'], 1, 2);
+            writeToFile($data);
+            $model->update(['product_code' => $data['product_code'], 'so_phone' => $_SESSION['shop_owner']['phone']], $data);
+            redirect('ShopOwner/product/x'.$data['product_code']);
+        }else{
+            redirect('ShopOwner/addStock');
+        }
     }
     
     public function recordWaste($barcode) {
@@ -371,6 +389,13 @@ class ShopOwner extends Controller
             (new ShopStock)->updateStock($barcode, $_SESSION['shop_owner']['phone'], -1*$_POST['quantity']);
         }
         redirect(path: "ShopOwner/product/{$barcode}");
+    }
+
+    public function recordUniqueWaste($barcode) {
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+            (new ShopUniqueProducts)->updateStock($barcode, $_SESSION['shop_owner']['phone'], -1*$_POST['quantity']);
+        }
+        redirect(path: "ShopOwner/product/x{$barcode}");
     }
 
     public function removeFromStock($barcode) {
@@ -381,10 +406,6 @@ class ShopOwner extends Controller
     }
 
     // API endpoints
-
-    public function updateUniqueProduct() {
-        
-    }
 
     public function addLoyCus(){
         if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['cus_phone'])){
@@ -700,7 +721,7 @@ class ShopOwner extends Controller
     }
 
     public function getOrderDetails($order_id){
-        $order = (new ShopOrder)->first(['order_id' => $order_id, 'so_phone' => $_SESSION['shop_owner']['phone']]);
+        $order = (new ShopOrder)->first(['order_id' => $order_id, 'o.so_phone' => $_SESSION['shop_owner']['phone']]);
         if (!$order){
             echo json_encode(['error' => 'Error: Orders is not avilable']);
             return;
@@ -772,22 +793,28 @@ class ShopOwner extends Controller
 
     public function payToDistributor(){
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $walletSoDis = new WalletSoDis;
-            $con = $walletSoDis->startTransaction();
-            $walletSoDis->updateWallet($_POST['dis_phone'], $_SESSION['shop_owner']['phone'], -1*$_POST['amount'], $con);
+            $SoDisPayment = new SoDisPayment;
+            $con = $SoDisPayment->startTransaction();
+            $SoDisPayment->insert(['so_phone' => $_SESSION['shop_owner']['phone'], 'dis_phone' => $_POST['dis_phone'], 'ammount' => $_POST['amount'], 'status' => 0], $con);
             $cashDrawer = 0;
             if($_POST['cashDrawer']){
                 $cashDrawer = 1;
                 (new Shops)->updateCashDrawer($_SESSION['shop_owner']['phone'], -1*$_POST['amount'], $con);
             }
             (new soOtherExpences)->insert(['cashDrawer' => $cashDrawer, 'type' => 'Payed to Creditors', 'amount' => $_POST['amount'], 'so_phone' => $_SESSION['shop_owner']['phone']], $con);
-            if($con->commit()){
-                $new = $walletSoDis->first(data: ['so_phone' => $_SESSION['shop_owner']['phone'], 'dis_phone' => $_POST['dis_phone']], readFields:['wallet'])['wallet'];
-                echo json_encode(['success' => true, 'new' => $new]);
-            }
-            else
-                echo json_encode(['success' => false]);
+            $success = $con->commit();
+            echo json_encode(['success' => $success]);
         }
+    }
+
+    public function getDisPayments($offset = null) {
+        if (!filter_var($offset, FILTER_VALIDATE_INT)) 
+            $offset = 0;  // Default to 0 if invalid
+        $dis_phone = $_GET['dis_phone'];
+        $search = $_GET['search'];
+        $date = $_GET['date'];
+        $payments = (new SoDisPayment)->searchPayment($dis_phone, $search, $date, $offset, $_SESSION['shop_owner']['phone']);
+        echo json_encode($payments);
     }
 
     public function productCodeCheck($code) {
