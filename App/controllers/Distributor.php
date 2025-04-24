@@ -228,6 +228,15 @@ class Distributor extends Controller
         header('Content-Type: application/json');
         echo json_encode($shops);
     }
+
+    public function searchPayment(){
+        $searchPayment = $_GET['searchPay'];
+        $paymentDate = $_GET['datePay'] ?? null ;
+        writeToFile($_GET);
+        $payments = (new SoDisPayment)->searchPayment($searchPayment,$paymentDate) ?: [];
+        header('Content-Type: application/json');
+        echo json_encode($payments);
+    }
     
     public function new($viewName) {
         $this->view('Distributor/'.$viewName, $this->data);
@@ -252,6 +261,17 @@ class Distributor extends Controller
             (new ShopOrder)->update(['order_id' => $order_id,'dis_phone' => $_SESSION['distributor']['phone']],['status' => 'Cancelled']);
             (new distributorStocks)->calculateNewStock($order_id, 1);
         }
+    }
+
+    public function updatePaymentStatus($id){
+        $status = $_POST['status'];
+        $payment = new SoDisPayment;
+        if($status == 0){
+            $payment->update(['id' => $id],['status' => 1]);
+        }
+        // Redirect back to previous page
+        header("Location: " . $_SERVER['HTTP_REFERER']);
+        exit;
     }
 
     public function editLowQuantityLevel($barcode){

@@ -73,5 +73,6 @@
     const ROOT = "<?=ROOT?>";
     const ws_id = "<?=$_SESSION['Distributor']['phone']?>";
 </script>
+<script src='<?=ROOT?>/js/notificationConfig.js' type="module"></script>
 
 <?php $this->component("footer") ?>
