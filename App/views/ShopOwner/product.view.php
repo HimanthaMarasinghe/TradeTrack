@@ -74,7 +74,7 @@
             <div class="row">
                 <?php if($stock) {?>
                     <button class="btn" id="editPopUp">Edit Details</button>
-                    <button class="btn" id="openPopUp">Record stock received from unregistered distributors.</button>
+                    <button class="btn" id="openPopUp">Record stock received from unregistered distributors</button>
                     <button class="btn" id="recordWaste">Record Waste</button>
                     <button class="btn" id="remove">Remove from my stock</button>
                 <?php } else {?>
@@ -182,7 +182,7 @@
         id="editProductForm">
         <table>
             <tr>
-                <td>My Price (leave empty to remove)</td>
+                <td>My Price (leave empty to remove) (Rs.)</td>
                 <td><input type="number" class="userInput" id="unitPrice" name="unitPrice" value="<?=$product['my_price'] == 0 ? null : $product['my_price']?>"></td>
             </tr>
             <tr>

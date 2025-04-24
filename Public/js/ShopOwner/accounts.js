@@ -129,7 +129,7 @@ function expenceRow(expence){
         <tr class='Item'>
             <td class='center-al'>${date}</td>
             <td class='center-al'>${time}</td>
-            <td class='center-al'>${cashDrawer == 1 ? "✔" : ""}</td>
+            <td class='center-al'>${cashDrawer == 1 ? "✔️" : ""}</td>
             <td class='left-al'>${type}</td>
             <td>Rs.${amount.toFixed(2)}</td>
         </tr>
