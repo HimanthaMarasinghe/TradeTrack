@@ -15,7 +15,7 @@ function cardTemplate(shop) {
             class="product-img" 
             src="${ROOT}/images/shops/${so_phone}${shop_pic_format}" 
             alt="distibutor Image"
-            onerror="this.src='${ROOT}/images/Profile/PhoneNumber.jpg'">
+            onerror="this.src='${ROOT}/images/Shops/default.jpeg'">
             <h3>${shop_name}</h3>
             <div class="details h-50 ovf-hdn  left-al">
                 <h4>${first_name} ${last_name}</h4>

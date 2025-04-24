@@ -32,7 +32,16 @@
 
 <div id="productDetails" class="hidden popUpDiv colomn">
     <h2>New Product Request</h2>
-    <img src="<?=ROOT?>/images/Default/Product.jpeg" alt="" class="default big">
+    <div class="row">
+        <div class="colomn">
+            <h3>Product Image</h3>
+            <img src="<?=ROOT?>/images/Default/Product.jpeg" id="product_image" alt="" class="default big">
+        </div>
+        <div class="colomn">
+            <h3>Barcode Proof</h3>
+            <img src="<?=ROOT?>/images/Default/Product.jpeg" id="proof_image" alt="" class="default big">
+        </div>
+    </div>
     <table>
         <h3 id="req-prd-name">Lorem ipsum dolor sit amet.</h3>
         <tr>
@@ -49,8 +58,8 @@
         </tr>
     </table>
     <div class="row">
-        <button class="btn fg1" id="update-btn">Accept</button>
-        <button class="btn fg1" id="delete-btn">Reject</button>
+        <button class="btn fg1" id="accept-btn">Accept</button>
+        <button class="btn fg1" id="reject-btn">Reject</button>
     </div>
 </div>
 
