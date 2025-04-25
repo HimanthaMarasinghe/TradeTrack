@@ -48,12 +48,6 @@
                 <td colspan="2"><h2>Not a Loyalty Customer</h2></td>
             </tr>
 
-            <tr>
-                <td>
-                    <button class="btn fg1">Invite to be a Loyalty Customer</button>
-                </td>
-            </tr>
-
         <?php } ?>
 
         </table>
@@ -95,9 +89,7 @@
     const loy_phone = "<?=$customer['phone']?>";
     const wallet_amount = "<?=$loyalty['wallet']?>";
     const ws_id = "<?=$_SESSION['shop_owner']['phone']?>";
-<?php if($loyalty) { ?>
-    const chatWith = "<?=$customer['cus_phone']?>";
-<?php } ?>
+    const loyalty = <?=json_encode($loyalty)?>
 </script>
 <script src="<?=ROOT?>/js/ShopOwner/customer.js" type="module"></script>
 <script src="<?=ROOT?>/js/popUp.js"></script>

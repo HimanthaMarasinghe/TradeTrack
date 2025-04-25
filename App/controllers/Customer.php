@@ -284,9 +284,14 @@ class Customer extends Controller
         echo json_encode(true);
     }
 
+    public function rejectLoyalty(){
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $loyaltyCustomer = new LoyaltyCustomers;
+            $loyaltyCustomer->delete(['so_phone' => $_POST['so_phone'], 'cus_phone' => $_SESSION['customer']['phone']]);
+        }
+    }
 
     public function new($viewName) {
         $this->view('Customer/'.$viewName, $this->data);
     }
-
 }

@@ -6,7 +6,28 @@ import Chat from '../chat.js';
 
 const del_notificatoin = {type: 'loyaltyReq', ref_id: shopPhone};
 const notification = new Notification(false, false, false, del_notificatoin);
-new Chat(ws_id, shopPhone, notification, 'ShopOwner/customer/');
+
+if(loyalty) {
+    new Chat(ws_id, shopPhone, notification, 'ShopOwner/customer/');
+    const reject = document.getElementById('reject');
+    reject?.addEventListener('click', () => {
+        if(loyalty.wallet !== 0) {
+            alert("The wallet balance is not zero. Please settle the balance with the shop Owner before rejecting loyalty privileges.");
+            return;
+        }
+        fetch(LINKROOT+'/customer/rejectLoyalty', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'so_phone=' + encodeURIComponent(shopPhone)
+        })
+        .then(
+            location.reload()
+        )
+        .catch(error => console.error('Error:', error));
+    });
+}
 
 const preOrderableCheckbox = document.getElementById('preOrderable');
 
