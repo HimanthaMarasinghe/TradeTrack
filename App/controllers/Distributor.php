@@ -274,12 +274,41 @@ class Distributor extends Controller
         $status = $_POST['status'];
         $order = new ShopOrder;
         if($status == 'Pending'){
+            $con = $order->startTransaction();
             $order->update(['order_id' => $order_id],['status' => 'Processing']);
+
+            // Update SoDisWallet
+            $orderItems = (new ShopOrderItems)->where(['order_id' => $order_id]);
+            $netTotal = 0;
+            $order = (new ShopOrder)->first(['order_id' => $order_id]);
+            foreach($orderItems as &$item){
+                $item['total'] = $item['sold_bulk_price'] * $item['quantity'];
+                $netTotal += $item['total'];
+            }
+            unset($item);
+            (new WalletSoDis)->updateWallet($_SESSION['distributor']['phone'],$order['so_phone'],-1*$netTotal,$con);
+            $con->commit();
+
         }else if($status == 'Processing'){
             $order->update(['order_id' => $order_id],['status' => 'Delivering']);   
             (new distributorStocks)->calculateNewStock($order_id);
-        }else if($status == 'Delivering'){
-            $order->update(['order_id' => $order_id],['status' => 'Delivered']);
+
+            // Calculate Commission & Update DisManWallet
+            $orderItems = (new ShopOrderItems)->where(['order_id' => $order_id]);
+            $netTotal = 0;
+            $netCommission = 0;
+            
+            foreach($orderItems as &$item){
+                $item['total'] = $item['sold_bulk_price'] * $item['quantity'];
+                $netTotal += $item['total'];
+
+                $item['commission'] = $item['sold_bulk_price'] * $item['quantity'] * $item['commission_percentage'] / 100;
+                $netCommission += $item['commission'];
+            }
+            unset($item);
+            $totalPayable = $netTotal -  $netCommission;
+            (new WalletDisMan)->updateDisManWallet($_SESSION['distributor']['phone'],$_SESSION['distributor']['man_phone'],-1*$totalPayable);
+        
         }
         redirect("Distributor/orderDetails/$order_id");
     }
@@ -293,9 +322,13 @@ class Distributor extends Controller
 
     public function updatePaymentStatus($id){
         $status = $_POST['status'];
-        $payment = new SoDisPayment;
         if($status == 0){
-            $payment->update(['id' => $id],['status' => 1]);
+            $payment = new SoDisPayment;
+            $con = $payment->startTransaction();
+            $payment->update(['id' => $id],['status' => 1], $con);
+            $pay = $payment->first(['id' => $id]);
+            (new WalletSoDis)->updateWallet($_SESSION['distributor']['phone'],$pay['so_phone'],$pay['amount'],$con);
+            $con->commit();
         }
         // Redirect back to previous page
         header("Location: " . $_SERVER['HTTP_REFERER']);
