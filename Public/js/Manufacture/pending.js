@@ -59,18 +59,23 @@ function pendingCard(product) {
 }
 
 function requestMoreDetails(product) {
-    const {barcode, pic_format, product_name, unit_price, bulk_price, id} = product;
+    const {barcode, pic_format, product_name, unit_price, bulk_price, id, proof_format} = product;
     document.getElementById('req-prd-barcode').innerText = barcode;
     document.getElementById('req-prd-name').innerText = product_name;
     document.getElementById('req-prd-price').innerText = 'Rs.' + Number(unit_price).toFixed(2);
     document.getElementById('req-prd-bulk').innerText = 'Rs.' + Number(bulk_price).toFixed(2);
-    document.getElementById('update-btn').onclick = () => updateRequest(barcode);
-    document.getElementById('delete-btn').onclick = () => deleteRequest(barcode);
+    document.getElementById('update-btn').onclick = () => updateRequest(product);
+    document.getElementById('delete-btn').onclick = () => deleteRequest(id);
     const popUpImage = document.getElementById('popUpImage');
     popUpImage.src = `${ROOT}/images/NewProducts/${id}.${pic_format}`;
     popUpImage.onerror = function() {
         this.src = `${ROOT}/images/Products/default.jpeg`;
     };
+    const proofImage = document.getElementById('popUpProofImage');
+    proofImage.src = `${ROOT}/images/BarcodeProofs/${id}.${proof_format}`;
+    proofImage.onerror = function() {
+        this.src = `${ROOT}/images/Products/default.jpeg`;
+    }
 
     viewPopUp('productDetails');
 }
@@ -121,21 +126,26 @@ document.querySelectorAll(".card-js").forEach((card) => {
     })
 })
 
-function updateRequest(barcode) {
+function updateRequest(product) {
+    const {barcode, pic_format, product_name, unit_price, bulk_price, id} = product;
     productDetailsPopUpHeader.textContent = 'Update product request';
     productDetailsPopUp.classList.add('hidden');
-    form.action = LINKROOT+'/Manufacturer/updateProductRequest/'+barcode;
+    form.action = LINKROOT+'/Manufacturer/updateProductRequest/'+id;
+    document.getElementById('name').value = product_name;
+    document.getElementById('barcode').value = barcode;
+    document.getElementById('unit_price').value = unit_price;
+    document.getElementById('bulk_price').value = bulk_price;
     formSubmitBtn.value = 'Update';
     viewPopUp('addNewProducts');
 }
 
-function deleteRequest(barcode) {
+function deleteRequest(id) {
     fetch(LINKROOT+'/Manufacturer/deleteProductRequest', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: 'barcode=' + encodeURIComponent(barcode)
+        body: 'id=' + encodeURIComponent(id)
     })
     .then(response => response.json())
     .then(data => {

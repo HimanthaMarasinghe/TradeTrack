@@ -7,17 +7,17 @@
 <div class="main-content colomn">
 
     <div class="bar">
-        <img src="<?=ROOT?>/images/icons/home.svg" alt="">
+        <a href="<?=LINKROOT?>/Manufacturer/home"><img src="<?=ROOT?>/images/icons/home.svg" alt=""> </a>
         <h1><?=$_SESSION['manufacturer']['company_name']?></h1>
-        <div>
-            <!-- <img src="<?=ROOT?>/images/icons/settings.svg" alt=""> -->
+        <div class="row gap-10">
             <a href="<?=LINKROOT?>/Manufacturer/announcements"><img src="<?=ROOT?>/images/icons/Announcement.svg" alt=""></a>
-            <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
+            <?php $this->component("notification") ?>
+            <a href="<?=LINKROOT?>/Manufacturer/profileUpdate"><img src="<?=ROOT?>/images/icons/Profile.svg" alt=""></a>
         </div>
     </div>
 
-    <div class="row fg1">
-        <div class="column w-25 panel">
+    <div class="grid-box fg1">
+        <div class="pre-orders panel">
             <h2>Orders</h2>
              <div class="scroll-box">
              <?php
@@ -39,7 +39,7 @@
                 ?>
             </div>
         </div>
-        <div class="column w-75 panel">
+        <div class="man-profile panel">
              <br>
         <div class="w-100">
         <div class="profile-container" style="max-width:600px; margin:auto; background:#fff; padding:20px; border-radius:10px; box-shadow:0 4px 8px rgba(0,0,0,0.1);">
@@ -49,6 +49,12 @@
                  </div>
 
         <div class="profile-details" style="margin-top:20px;">
+
+            <div class="profile-photo" style="text-align:center; margin-left:220px;">
+                    <img src="<?=ROOT?>/images/Profile/SA/<?=$manufacturers['man_phone']?>.<?=$manufacturers['pic_format']?>" alt="J"
+                     onerror="this.onerror=null; this.src='<?=ROOT?>/images/Profile/PhoneNumber.jpg';">
+            </div>
+<br>
             <table style="width:100%; border-collapse:collapse;">
             <tr>
                 <td style="font-weight:bold; padding:8px 0; color:#555;">Manufacture Business Name:</td>
@@ -131,11 +137,14 @@
     
     const ROOT = "<?=ROOT?>";
     const LINKROOT = "<?=LINKROOT?>";
+    const ws_id = "<?=$_SESSION['manufacturer']['phone']?>";
+    const ws_token = "<?=$_SESSION['web_socket_token']?>";
 
     // console.log(manufacturerData);
     
 </script>
 <script src="<?=ROOT?>/js/Manufacture/home.js"></script>
 <script src="<?=ROOT?>/js/popUp.js"></script>
+<script src="<?=ROOT?>/js/notificationConfig.js" type="module"></script>
 
 <?php $this->component("footer") ?>

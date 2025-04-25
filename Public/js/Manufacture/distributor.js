@@ -31,7 +31,7 @@ function distributorCard(distributor) {
     var imagePath = `${ROOT}/images/Profile/SA/${dis_phone}.${pic_format}`;
 
     return `
-        <a class="card btn-card colomn asp-rtio">
+        <a class="card btn-card colomn asp-rtio" href ="${LINKROOT}/Manufacturer/distributorProfile/${dis_phone}" >
             <img class="product-img" 
                 src="${imagePath}" 
                 onerror="this.src='${ROOT}/images/Profile/PhoneNumber.jpg';"
@@ -47,22 +47,22 @@ function distributorCard(distributor) {
 }
 
 
-function popUp(distributors){
-    const {first_name, last_name, dis_busines_name, dis_phone, pic_format, dis_busines_address } = distributors;
+// function popUp(distributors){
+//     const {first_name, last_name, dis_busines_name, dis_phone, pic_format, dis_busines_address } = distributors;
 
-    document.getElementById('dis_name').innerText = `${first_name} ${last_name}`;
-    document.getElementById('dis_business_name').innerText = `${dis_busines_name}`;
-    document.getElementById('dis_phone').innerText = `${dis_phone}`;
-    document.getElementById('dis_business_address').innerText = `${dis_busines_address}`;
+//     document.getElementById('dis_name').innerText = `${first_name} ${last_name}`;
+//     document.getElementById('dis_business_name').innerText = `${dis_busines_name}`;
+//     document.getElementById('dis_phone').innerText = `${dis_phone}`;
+//     document.getElementById('dis_business_address').innerText = `${dis_busines_address}`;
  
-    document.getElementById('dis-img').src = `${ROOT}/images/Profile/SA/${dis_phone}.${pic_format}`;
-    document.getElementById('dis-img').onerror = function() {
-        this.src = `${ROOT}/images/Profile/PhoneNumber.jpg`;
-    };
+//     document.getElementById('dis-img').src = `${ROOT}/images/Profile/SA/${dis_phone}.${pic_format}`;
+//     document.getElementById('dis-img').onerror = function() {
+//         this.src = `${ROOT}/images/Profile/PhoneNumber.jpg`;
+//     };
     
 
-    viewPopUp('distributor_details');
-}
+//     viewPopUp('distributor_details');
+// }
 
 loadData();
 

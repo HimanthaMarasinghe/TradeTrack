@@ -3,7 +3,7 @@
 class Manufacturer extends Controller 
 {
     protected $data = [
-        'tabs' => ['tabs' => ['Home', 'Products', 'Orders', 'Agents'], 'userType' => 'Manufacturer'],
+        'tabs' => ['tabs' => ['Home', 'Products', 'Orders', 'Distributors'], 'userType' => 'Manufacturer'],
         'styleSheet' => ['styleSheet'=>'manufacturer']
     ];
 
@@ -18,6 +18,7 @@ class Manufacturer extends Controller
     {
         $order = new distributorOrders;
         $this->data['order'] = $order->readOrders($_SESSION['manufacturer']['phone']);
+        // writeToFile($this->data['order']);
 
         // $processingOrders = $order->where(['status' => 'processing', 'o.man_phone' => $_SESSION['manufacturer']['phone']]);
         // if($processingOrders)
@@ -62,20 +63,19 @@ class Manufacturer extends Controller
     }
 
     public function deleteProductRequest(){
-        if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['barcode'])){
-            writeToFile($_POST['barcode']);
+        if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['id'])){
             $req = new pendingProductRequests;
-            $req->delete(['barcode' => $_POST['barcode']]);
+            $req->delete(['id' => $_POST['id']]);
             echo json_encode(['status' => 'success']);
         }
     }
 
-    public function updateProductRequest($barcode){
+    public function updateProductRequest($id){
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
             $req = new pendingProductRequests;
-            $req->update(['barcode' => $barcode], $_POST);
+            $req->update(['id' => $id], $_POST);
         }
-        redirect('Manufacturer/products');
+        redirect('Manufacturer/pendingProducts');
     }
 
     public function orders()//Todo: Should be recoded for beter optimisation with less queries.
@@ -128,12 +128,12 @@ class Manufacturer extends Controller
         echo json_encode(['success' => 'success']);
     }
 
-    public function agents()
+    public function Distributors()
     {
         // $agent = new DistributorM;
-        // $this->data['agents'] = $agent->where(['man_phone' => $_SESSION['manufacturer']['phone']]);
+        // $this->data['Distributors'] = $agent->where(['man_phone' => $_SESSION['manufacturer']['phone']]);
 
-        $this->data['tabs']['active'] = 'Agents';
+        $this->data['tabs']['active'] = 'Distributors';
         $this->view('manufacturer/agents', $this->data);    
     }
 
@@ -150,7 +150,7 @@ class Manufacturer extends Controller
             if(!empty($oldAgent))
             {
                 echo "Agent with this phone number already exist."; //Todo : change this to a proper error page.
-                // header('Location: ' . LINKROOT . '/Manufacturer/Agents');
+                // header('Location: ' . LINKROOT . '/Manufacturer/Distributors');
                 return;
             }
 
@@ -173,35 +173,49 @@ class Manufacturer extends Controller
             }
             $agent->insert($insertData, $con);
             $con->commit();
-            header('Location: ' . LINKROOT . '/Manufacturer/Agents');
+            header('Location: ' . LINKROOT . '/Manufacturer/Distributors');
             return;
         }
-        $this->data['tabs']['active'] = 'Agents';
+        $this->data['tabs']['active'] = 'Distributors';
         $this->view('manufacturer/addNewAgents', $this->data);
+    }
+
+    public function DistributorProfile($dis_phone){
+
+        
+            $dis = new DistributorM;
+            $this->data['dis'] = $dis->first(['dis_phone' => $dis_phone]);
+            // $this->data['wallet'] = (new WalletSoDis)->first(['so_phone' => $so_phone, 'dis_phone' => $_SESSION['distributor']['phone']]);
+            
+
+        $this->data['tabs']['active'] = 'Distributors';
+        $this->view('manufacturer/distributorProfile', $this->data);
+
+
     }
 
     public function Agent($sap = null) {
         if($sap == null)
         {
-            header('Location: ' . LINKROOT . '/Manufacturer/Agents');
+            header('Location: ' . LINKROOT . '/Manufacturer/Distributors');
             return;
         }
 
         $agent = new DistributorM;
         $this->data['agent'] = $agent->first(['dis_phone' => $sap, 'man_phone' => $_SESSION['manufacturer']['phone']]);
         if(!$this->data['agent']){
-            header('Location: ' . LINKROOT . '/Manufacturer/Agents');
+            header('Location: ' . LINKROOT . '/Manufacturer/Distributors');
             return;
         }
 
-        $this->data['tabs']['active'] = 'Agents';
+        $this->data['tabs']['active'] = 'Distributors';
         $this->view('manufacturer/agent', $this->data);
     }
 
     public function UpdateAgent($sap = null) { //todo : after user table, this method did not get updated
         if($sap == null)
         {
-            header('Location: ' . LINKROOT . '/Manufacturer/Agents');
+            header('Location: ' . LINKROOT . '/Manufacturer/Distributors');
             return;
         }
 
@@ -210,7 +224,7 @@ class Manufacturer extends Controller
         if(empty($agentData))
         {
             // echo $sap." : This agent phone number ether does not exist in the db or not belong to the logged in manufacturer."; //Todo : change this to a proper error page.
-            header('Location: ' . LINKROOT . '/Manufacturer/Agents');
+            header('Location: ' . LINKROOT . '/Manufacturer/Distributors');
             return;
         }
 
@@ -247,16 +261,16 @@ class Manufacturer extends Controller
             if(!empty($updData)){
                 $agent->update(['dis_phone' => $sap, 'man_phone' => $_SESSION['manufacturer']['phone']], $updData);
             }
-            header('Location: ' . LINKROOT . '/Manufacturer/Agents');                                 
+            header('Location: ' . LINKROOT . '/Manufacturer/Distributors');                                 
             return;
         }
 
         $this->data['agent'] = $agentData;
-        $this->data['tabs']['active'] = 'Agents';
+        $this->data['tabs']['active'] = 'Distributors';
         $this->view('manufacturer/updateAgent', $this->data);
     }
 
-    public function deleteAgent() { //todo : deleted agent should be in a anothe table, and baned agents may still log in to his distributoraccount but not be able to do anything in it.
+    public function deleteAgent() { //todo : deleted agent should be in a anothe table, and baned Distributors may still log in to his distributoraccount but not be able to do anything in it.
         if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['dis_phone'])){
             $agnt = new DistributorM;
             $agnt->delete(['dis_phone' => $_POST['dis_phone'], 'man_phone' => $_SESSION['manufacturer']['phone']]);
@@ -341,6 +355,18 @@ class Manufacturer extends Controller
         echo json_encode($pendingProductRequests);
     }
 
+
+    public function getStocks($dis_phone){ 
+        $search = $_GET['search'] ?? null;
+        
+        $sto = new DistributorStocks;
+        
+        $disstock = $sto->searchDisStocks($search, $dis_phone);
+
+        if(!$disstock)
+            $disstock = [];
+        echo json_encode($disstock);
+    }
 
     
 
