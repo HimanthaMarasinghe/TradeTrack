@@ -56,7 +56,7 @@ class ShopOrder extends Model
     public function searchOrders($search = null, $so_phone = null, $date = null, $status = null) {
         $sql = "SELECT 
                 *,
-                (SELECT SUM(soi.quantity * soi.sold_bulk_price) FROM (SELECT order_id, quantity, sold_bulk_price FROM shop_order_items) AS soi WHERE soi.order_id = o.order_id) as total
+                (SELECT SUM(soi.quantity * soi.sold_bulk_price) FROM (SELECT order_id, quantity, sold_bulk_price FROM shop_order_items) AS soi WHERE soi.order_id = o.order_id) as total 
                 FROM 
                 shop_orders o
                 INNER JOIN users u
@@ -104,4 +104,6 @@ class ShopOrder extends Model
         writeToFile($sql);
         return $this->query($sql, $queryParam);
     }
+
+    
 }

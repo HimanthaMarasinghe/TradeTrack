@@ -4,7 +4,7 @@ class Products extends Model
 {
 
     protected $table = 'products';
-    protected $fillable = ['barcode', 'product_name', 'unit_price', 'pic_format','man_phone'];
+    protected $fillable = ['barcode', 'product_name', 'unit_price', 'pic_format','man_phone', 'commission_percentage'];
 
     public function searchProducts($search, $type, $offset)
     {
