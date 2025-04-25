@@ -40,7 +40,7 @@ function loadData() {
 function rowTemplate(stock) {
     const {product_name, barcode, quantity,  } = stock;
     return (
-       `<tr class="Item clickable">
+       `<tr class="Item">
             <td class="center-al">${product_name}</td>
             <td class="center-al">${barcode}</td>
             <td class="center-al">${quantity}</td>

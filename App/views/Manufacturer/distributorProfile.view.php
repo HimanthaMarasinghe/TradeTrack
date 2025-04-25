@@ -117,7 +117,6 @@
         const dis_phone = "<?=$dis['phone']?>";
     </script>
     <script src="<?=ROOT?>/js/Manufacture/prof.js"></script>
-    <script src="<?=ROOT?>/js/popUp.js"></script>
     <script src="<?=ROOT?>/js/notificationConfig.js" type="module"></script>
 
 <?php $this->component("footer") ?>
