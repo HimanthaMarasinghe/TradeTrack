@@ -181,7 +181,9 @@ export default class Notification {
     }
 
     deleteNotification(notification) {
+        console.log(notification);
         if (!this.notifications.some(element => element.type === notification.type && element.ref_id === notification.ref_id)) return;
+        console.log('deleting notification');
         this.notifications = this.notifications.filter(element => !(element.type === notification.type && element.ref_id === notification.ref_id));
         sessionStorage.setItem("notifications" + ws_id, JSON.stringify(this.notifications));
         this.notificationCount.innerHTML = this.notifications.length;

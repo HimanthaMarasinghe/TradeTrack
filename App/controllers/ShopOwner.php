@@ -91,7 +91,7 @@ class ShopOwner extends Controller
             $_POST['cus-phone'], 
             'bill', 
             $lastId,
-            "Bill Settled", 
+            "Bill Settled (ID : {$lastId})", 
             "Your bill at {$_SESSION['shop_owner']['shop_name']} has been settled.", 
             "Customer/shop/{$_SESSION['shop_owner']['phone']}", 
             "Profile/{$_SESSION['shop_owner']['phone']}.{$_SESSION['shop_owner']['pic_format']}");

@@ -6,7 +6,7 @@ import Chat from '../chat.js';
 
 const del_notificatoin = {type: 'loyaltyReq', ref_id: shopPhone};
 const notification = new Notification(false, false, false, del_notificatoin);
-
+notification.deleteNotification({type: 'bill', ref_id: shopPhone});
 if(loyalty) {
     new Chat(ws_id, shopPhone, notification, 'ShopOwner/customer/');
     const reject = document.getElementById('reject');
@@ -71,13 +71,19 @@ const billGetVariables = {
     so_phone: shopPhone
 }
 
+function billItemClick(bill){
+    console.log(bill);
+    notification.deleteNotification({type: 'bill', ref_id: String(bill.bill_id)});
+    billMoreDetails(bill);
+}
+
 const billApiConfig = {
     api: 'LogedInUserCommon/searchBills',
     cardTemplate: rowTemplate,
     elementsListId: 'billTable',
     scrollDivId: 'billScroll',
     getVariables: billGetVariables,
-    clickEvent: billMoreDetails
+    clickEvent: billItemClick
 }
 
 new ApiFetcherMod(billApiConfig);
