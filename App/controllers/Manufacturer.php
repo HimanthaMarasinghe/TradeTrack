@@ -18,6 +18,7 @@ class Manufacturer extends Controller
     {
         $order = new distributorOrders;
         $this->data['order'] = $order->readOrders($_SESSION['manufacturer']['phone']);
+        // writeToFile($this->data['order']);
 
         // $processingOrders = $order->where(['status' => 'processing', 'o.man_phone' => $_SESSION['manufacturer']['phone']]);
         // if($processingOrders)
@@ -62,20 +63,19 @@ class Manufacturer extends Controller
     }
 
     public function deleteProductRequest(){
-        if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['barcode'])){
-            writeToFile($_POST['barcode']);
+        if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['id'])){
             $req = new pendingProductRequests;
-            $req->delete(['barcode' => $_POST['barcode']]);
+            $req->delete(['id' => $_POST['id']]);
             echo json_encode(['status' => 'success']);
         }
     }
 
-    public function updateProductRequest($barcode){
+    public function updateProductRequest($id){
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
             $req = new pendingProductRequests;
-            $req->update(['barcode' => $barcode], $_POST);
+            $req->update(['id' => $id], $_POST);
         }
-        redirect('Manufacturer/products');
+        redirect('Manufacturer/pendingProducts');
     }
 
     public function orders()//Todo: Should be recoded for beter optimisation with less queries.
@@ -178,6 +178,20 @@ class Manufacturer extends Controller
         }
         $this->data['tabs']['active'] = 'Agents';
         $this->view('manufacturer/addNewAgents', $this->data);
+    }
+
+    public function DistributorProfile($dis_phone){
+
+        
+            $dis = new DistributorM;
+            $this->data['dis'] = $dis->first(['dis_phone' => $dis_phone]);
+            // $this->data['wallet'] = (new WalletSoDis)->first(['so_phone' => $so_phone, 'dis_phone' => $_SESSION['distributor']['phone']]);
+            
+
+        $this->data['tabs']['active'] = 'Agents';
+        $this->view('manufacturer/distributorProfile', $this->data);
+
+
     }
 
     public function Agent($sap = null) {
@@ -341,6 +355,18 @@ class Manufacturer extends Controller
         echo json_encode($pendingProductRequests);
     }
 
+
+    public function getStocks($dis_phone){ 
+        $search = $_GET['search'] ?? null;
+        
+        $sto = new DistributorStocks;
+        
+        $disstock = $sto->searchDisStocks($search, $dis_phone);
+
+        if(!$disstock)
+            $disstock = [];
+        echo json_encode($disstock);
+    }
 
     
 

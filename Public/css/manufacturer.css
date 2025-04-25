@@ -7,3 +7,8 @@
 @import url(notification.css);
 
 @import url(addNewAgents.css);
+
+.man-profile {
+    grid-column: span 8;
+    grid-row: span 10;
+}

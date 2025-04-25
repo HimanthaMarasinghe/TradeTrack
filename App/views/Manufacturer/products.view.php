@@ -7,11 +7,12 @@
 <div class="main-content colomn">
 
     <div class="bar">
-        <img src="<?=ROOT?>/images/icons/home.svg" alt="">
+        <a href="<?=LINKROOT?>/Manufacturer/home"><img src="<?=ROOT?>/images/icons/home.svg" alt=""> </a>
         <h1>Products</h1>
-        <div>
-            <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
-            <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
+        <div class="row gap-10">
+            <a href="<?=LINKROOT?>/Manufacturer/announcements"><img src="<?=ROOT?>/images/icons/Announcement.svg" alt=""></a>
+            <?php $this->component("notification") ?>
+            <a href="<?=LINKROOT?>/Manufacturer/profileUpdate"><img src="<?=ROOT?>/images/icons/Profile.svg" alt=""></a>
         </div>
     </div>
     
@@ -32,6 +33,9 @@
 <script>
     const LINKROOT = '<?=LINKROOT?>';
     const ROOT = '<?=ROOT?>';
+    const ws_id = "<?=$_SESSION['manufacturer']['phone']?>";
+    const ws_token = "<?=$_SESSION['web_socket_token']?>";
 </script>
 <script src="<?=ROOT?>/js/Manufacture/products.js"></script>
+<script src="<?=ROOT?>/js/notificationConfig.js" type="module"></script>
 <?php $this->component("footer") ?>

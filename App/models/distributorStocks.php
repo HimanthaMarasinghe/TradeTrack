@@ -53,6 +53,20 @@ class DistributorStocks extends Model{
         return $this->query($sql,['dis_phone' => $_SESSION['distributor']['phone'], 'order_id' => $order_id]);
     }
 
+
+    public function searchDisStocks($search = null, $dis_phone = null){
+        $sql = "SELECT * FROM 
+                distributor_stocks d
+                INNER JOIN users u
+                ON d.dis_phone = u.phone
+                INNER JOIN products p
+                ON d.barcode = p.barcode
+                WHERE 
+                p.product_name LIKE :search 
+                AND d.dis_phone = :dis_phone";
+        return $this->query($sql, ['search' => "%$search%", 'dis_phone' => $dis_phone]);
+    }
+
 //     public function cancelShopOrder($order_id){
 //         $sql = "UPDATE distributor_stocks ds
 //                 JOIN shop_orders o ON ds.dis_phone = o.dis_phone
