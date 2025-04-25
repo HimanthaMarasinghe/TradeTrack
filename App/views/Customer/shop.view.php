@@ -74,6 +74,7 @@
             alt=""
             onerror="this.src='<?=ROOT?>/images/shops/default.jpeg'"
         >
+        <?php if($loyalty) $this->component('chat', ['user' => $shop['first_name']." ".$shop['last_name'], 'chat' => $chat]) ?>
     </div>
     <div class="row gap-10 ovf-hdn fg1 mg-0">
         <div class="colomn fg1 panel">
@@ -127,6 +128,9 @@ as in-store customers are prioritized.">
     const ROOT = "<?=ROOT?>";
     const shopPhone = "<?=$shop['so_phone']?>";
     const ws_id = "<?=$_SESSION['customer']['phone']?>";
+<?php if($loyalty) { ?>
+    const chatWith = "<?=$shop['so_phone']?>";
+<?php } ?>
 </script>
 <script src="<?=ROOT?>/js/popUp.js"></script>
 <script src="<?=ROOT?>/js/Customer/shop.js" type="module"></script>

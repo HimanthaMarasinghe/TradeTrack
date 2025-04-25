@@ -63,6 +63,7 @@
             alt="Customers Profile Photo"
             onerror="this.src='<?=ROOT?>/images/Profile/PhoneNumber.jpg'"
         >
+        <?php if($loyalty) $this->component('chat', ['user' => $customer['first_name']." ".$customer['last_name'], 'chat' => $chat]) ?>
     </div>
     <div class="row">
         <h2 class="fg1">History</h2>
@@ -94,6 +95,9 @@
     const loy_phone = "<?=$customer['phone']?>";
     const wallet_amount = "<?=$loyalty['wallet']?>";
     const ws_id = "<?=$_SESSION['shop_owner']['phone']?>";
+<?php if($loyalty) { ?>
+    const chatWith = "<?=$customer['cus_phone']?>";
+<?php } ?>
 </script>
 <script src="<?=ROOT?>/js/ShopOwner/customer.js" type="module"></script>
 <script src="<?=ROOT?>/js/popUp.js"></script>

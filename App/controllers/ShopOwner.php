@@ -180,6 +180,9 @@ class ShopOwner extends Controller
         $loyaltyCustomer = new LoyaltyCustomers;
         $this->data['customer'] = $customer->first(['phone' => $id]);
         $this->data['loyalty'] = $loyaltyCustomer->first(['cus_phone' => $id, 'so_phone' => $_SESSION['shop_owner']['phone']]);
+        if($this->data['loyalty']){
+            $this->data['chat'] = (new Chat)->getMessages($_SESSION['shop_owner']['phone'], $this->data['customer']['phone']);
+        }
         $this->data['tabs']['active'] = 'Customers';
         $this->view('shopOwner/customer', $this->data);
     }
