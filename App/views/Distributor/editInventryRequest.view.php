@@ -495,5 +495,6 @@ function sendBillToBackEnd() {
 
 </script>
 
+ 
 
 <?php $this->component("footer") ?>

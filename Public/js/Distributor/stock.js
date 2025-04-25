@@ -70,6 +70,7 @@ function popUpModel(stock){
     document.getElementById('editPopUpProductQuantity').innerText = `${quantity} ${unit_type} `;
     document.getElementById('editPopUpProductLowQuantityLevel').innerText = `${low_quantity_level} ${unit_type}`;
 
+    
 
     viewPopUp('productViewPopUp');
 }

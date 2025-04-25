@@ -9,7 +9,7 @@ class distributorOrders extends Model
                             ON o.dis_phone = d.dis_phone
                             INNER JOIN users u
                             ON d.dis_phone = u.phone';
-    // protected $fillable = ['cus_phone', 'so_phone', 'barcode', 'quantity'];
+    // protected $fillable = ['order_id', 'date', 'time', 'dis_phone', 'man_phone'];
 
     public function getOrderDetails($phone)
     {
@@ -18,6 +18,16 @@ class distributorOrders extends Model
                 INNER JOIN distributors d
                 ON o.dis_phone = d.dis_phone
                 WHERE o.dis_phone = :phone
+
+                ORDER BY 
+                CASE status
+                    WHEN 'Processing' THEN 1
+                    WHEN 'Pending' THEN 2
+                    WHEN 'Ready' THEN 3
+                    WHEN 'Done' THEN 4
+                    ELSE 5
+                END,
+                date DESC, time DESC
                 ";
         return $this->query($sql, ['phone' => $phone]);
     }
@@ -46,5 +56,37 @@ class distributorOrders extends Model
                 ORDER BY o.date DESC, o.time DESC"; 
         return $this->query($sql, ['man_phone' => $man_phone]);
     }
+
+    // public function searchRequestDetails($search = null, $date = null, $status = null) {
+    //     $sql = "SELECT * FROM distributer_orders WHERE dis_phone = :dis_phone";
+    //     $params = ['dis_phone' => $_SESSION['distributor']['phone']];
+    
+    //     if ($search) {
+    //         $sql .= " AND order_id = :order_id";
+    //         $params['order_id'] = $search;
+    //     }
+    
+    //     if ($date) {
+    //         $sql .= " AND date = :date";
+    //         $params['date'] = $date;
+    //     }
+    
+    //     if ($status) {
+    //         $sql .= " AND status = :status";
+    //         $params['status'] = $status;
+    //     }
+    
+    //     $sql .= " ORDER BY 
+    //         CASE status
+    //             WHEN 'Processing' THEN 1
+    //             WHEN 'Pending' THEN 2
+    //             WHEN 'Ready' THEN 3
+    //             WHEN 'Done' THEN 4
+    //             ELSE 5
+    //         END,
+    //         date DESC, time DESC";
+    
+    //     return $this->query($sql, $params);
+    // }    
     
 }

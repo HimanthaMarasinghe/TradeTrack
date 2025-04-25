@@ -3,7 +3,7 @@
 class Distributor extends Controller 
 {
     protected $data = [
-        'tabs' => ['tabs' => ['Home', 'Shops','Orders', 'Stocks', 'Accounts'], 'userType' => 'Distributor'],
+        'tabs' => ['tabs' => ['Home', 'Shops','Orders', 'Stocks', 'Manufacturer'], 'userType' => 'Distributor'],
         'styleSheet' => ['styleSheet'=>'distributor']
     ];
 
@@ -57,14 +57,22 @@ class Distributor extends Controller
         $this->view('Distributor/orderDetails', $this->data);
     }
 
-    public function accounts(){
+    public function Manufacturer(){
+        $man = new Manufacturers;
+        $this->data['man'] = $man->first(['man_phone' => $_SESSION['distributor']['man_phone']]);
 
-        // $otherExpense = new SaOtherExpenses;
+        $this->data['wallet'] = (new WalletDisMan)->first(['man_phone' => $_SESSION['distributor']['man_phone'], 'dis_phone' => $_SESSION['distributor']['phone']]);
         
-        // $this->data['otherExpenses'] = $otherExpense->where(['dis_phone' => $_SESSION['distributor']['phone']]);
+        $this->data['tabs']['active'] = 'Manufacturer';
+        $this->view('Distributor/manufacturer', $this->data);
+    }
 
-        $this->data['tabs']['active'] = 'Accounts';
-        $this->view('Distributor/accounts', $this->data);
+    public function addManPayment(){
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $payment = new DisManPayments;
+            $payment->insert(['dis_phone' => $_SESSION['distributor']['phone'], 'man_phone' => $_SESSION['distributor']['man_phone'], 'ammount' => $_POST['ammount']]);
+        }
+        redirect("Distributor/manufacturer");
     }
 
     public function recordTransaction(){
@@ -131,6 +139,17 @@ class Distributor extends Controller
         header('Content-Type: application/json');
         echo json_encode($OrderData);
     }
+
+    // public function searchRequestDetails(){
+    //     $search = $_GET['searchTerm'];
+    //     $filter = $_GET['filter'] ?? null;
+    //     $date = $_GET['date'] ?? null;
+    //     $order = new distributorOrders;
+    //     $orders = $order->searchRequestDetails($search, $date, $filter) ?: [];
+    //     header('Content-Type: application/json');
+    //     echo json_encode($orders);
+
+    // }
 
     public function deleteOrder($order_id){
         if($_SERVER['REQUEST_METHOD'] !== 'DELETE'){
@@ -234,6 +253,15 @@ class Distributor extends Controller
         $paymentDate = $_GET['datePay'] ?? null ;
         writeToFile($_GET);
         $payments = (new SoDisPayment)->searchPayment($_SESSION['distributor']['phone'], $searchPayment,$paymentDate) ?: [];
+        header('Content-Type: application/json');
+        echo json_encode($payments);
+    }
+
+    public function searchDisManPayment(){
+        $searchPayment = $_GET['searchPay'];
+        $paymentDate = $_GET['datePay'] ?? null ;
+        writeToFile($_GET);
+        $payments = (new DisManPayments)->searchPayment($searchPayment,$paymentDate) ?: [];
         header('Content-Type: application/json');
         echo json_encode($payments);
     }

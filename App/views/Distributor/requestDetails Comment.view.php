@@ -1,4 +1,4 @@
-<?php 
+<!-- <?php 
     $this->component("header", $styleSheet);
     $this->component("sidebar", $tabs) 
 ?>
@@ -14,9 +14,18 @@
         </div>
     </div>
 
-    <div class="row">
-        <input type="text" class="search-bar fg1" placeholder="Search order" id = "searchOrders">
-     </div>
+        <div class="row">
+                <input type="text" class="search-bar fg1" id="search" placeholder="Search Request Id">
+                <select id="Filter" class="filter-js">
+                    <option value="">All</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Processing">Processing</option>
+                    <option value="Ready">Ready</option>
+                    <option value="Done">Done</option>
+                </select>
+                <input type="date" id="order_date" class="filter-js">
+                </a>
+            </div>
     
     <h2 class="center-al">Request History</h2>
     <h5 class="center-al">Click on any row to see more details</h5>
@@ -27,30 +36,20 @@
                     <th>Id</th>
                     <th>Date</th>
                     <th>Time</th>
-                    <th class="right-al">Total</th>
                     <th>Status</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="elements">
 
-    <?php foreach ($pendingOrders as $request): ?>
-        <tr class='Item clickable' id="<?=$request['order_id']?>">
-            <td class='center-al'><?=$request['order_id']?></td>
-            <td class='center-al'><?=$request['date']?></td>
-            <td class='center-al'><?=$request['time']?></td>
-            <td>Rs.<?= $request['total']; ?>.00</td>
-            <td class='center-al status-<?= $request['status']; ?>'><?= $request['status']; ?></td>
-        </tr>
-    <?php endforeach; ?>
-</tbody>
-</table>
-</div>
+            </tbody>
+        </table>
+    </div>
 </div>
 
-<!-- Popup Modal -->
-<div id="order-modal" class="order-modal">
+ Popup Modal -->
+<!-- <div id="popUpBackDrop" class="hidden"></div>
+<div id="requestPopUp" class="popUpDiv hidden">
     <div class="order-modal-content">
-        <span class="order-close-btn" onclick="closeModal()">&times;</span>
         <h2>Request Details</h2>
         <hr>
         <div class="row">
@@ -61,38 +60,44 @@
                 <h3>Status</h3>
             </div>
             <div class="colomn">
-                <h3 id="order-modal-id"></h3>
-                <h3 id="order-modal-date"></h3>
-                <h3 id="order-modal-time"></h3>
-                <h3 id="order-modal-status"></h3>
+                <h3 id="requestPopUpId"></h3>
+                <h3 id="requestPopUpDate"></h3>
+                <h3 id="requestPopUpTime"></h3>
+                <h3 id="requestPopUpStatus"></h3>
             </div>
         </div>
-        <table class="order-details-table">
+        <table class="profile">
             <thead>
                 <tr>
-                    <th>No.</th>
+                    <th>No</th>
+                    <th>Barcode</th>
                     <th>Product Name</th>
-                    <th>Price</th>
                     <th>Quantity</th>
-                    <th>Total</th>
                 </tr>
             </thead>
-            <tbody id="order-modal-body">
+            <tbody id="requestElements">
             </tbody>
         </table>
         <hr>
-        <h3 id="order-modal-total"></h3>
-        <hr>
         <br>
         <div class="row jus-center">
-            <button class="btn fg1" id="edit-btn">Edit</button>
-            <button class="btn fg1" id="delete-btn">Delete</button>
+            <button class="btn fg1" id="editRequestBtn">Edit</button>
+            <button class="btn fg1" id="deleteRequestBtn">Delete</button>
         </div>
    
     </div>
 </div>
 
-<script>
+    <script>
+        const LINKROOT = "<?=LINKROOT?>";
+        const ROOT = "<?=ROOT?>";
+        const ws_id = "<?=$_SESSION['Distributor']['phone']?>"
+    </script>
+    <script src="<?=ROOT?>/js/Distributor/requestDetails.js"></script>
+    <script src="<?=ROOT?>/js/popUp.js"></script>
+    <script src='<?=ROOT?>/js/notificationConfig.js' type="module"></script> -->
+
+<!-- <script>
 function openModal(id) {
     console.log(id);
     fetch("<?=ROOT?>/Distributor/requestDetail/" + id)
@@ -183,30 +188,9 @@ function deleteOrder(id) {
     });
 }
 
-//Search function
-const searchInput = document.getElementById('searchOrders');
-    const rows = document.querySelectorAll('tbody tr');
-
-    searchInput.addEventListener('input', function () {
-        const value = this.value.toLowerCase();
-
-        rows.forEach(row => {
-            const id = row.children[0].textContent.toLowerCase();     // Order ID
-            const date = row.children[1].textContent.toLowerCase();   // Date
-            const status = row.children[4].textContent.toLowerCase(); // Status
-
-            if (id.includes(value) || date.includes(value) || status.includes(value)) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
-    });
-
-
-</script>
+</script> -->
 
 <?php $this->component("footer") ?>
                  
 
-               
+                

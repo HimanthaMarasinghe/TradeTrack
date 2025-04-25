@@ -103,7 +103,7 @@
             <table>
                 <tr>
                     <td>Low Quantity Level</td>
-                    <td><input type="number" class="userInput" id="lowQuantityLevel" name="lowQuantityLevel" required></td>
+                    <td><input type="number" class="userInput" id="lowQuantityLevel" name="lowQuantityLevel" min=0 required></td>
                 </tr>
             </table>
             <button type="submit" class="btn" id="editSubmit">Edit Low Quantity Level</button>
