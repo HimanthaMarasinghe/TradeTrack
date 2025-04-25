@@ -77,4 +77,16 @@ class LogedInUserCommon extends Controller
         unset($bill);
         echo json_encode($bills);
     }
+
+    public function sendChat($to) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $phone = $this->forbidIfNotLogedIn(['customer', 'shop_owner', 'distributor', 'manufacturer']);
+            $message = jsonPostDecode();
+            $chat = new Chat;
+            $chat->sendMessage($phone, $to, $message['message']);
+            $name = (new User)->first(data: ['phone' => $phone], readFields:['first_name', 'last_name']);
+            (new NotificationService)->sendNotification($to, 'chat', $phone, "New Message from {$name['first_name']} {$name['last_name']}", $message['message'], $message['link']);
+            echo json_encode(['status' => 'success']);
+        }
+    }
 }

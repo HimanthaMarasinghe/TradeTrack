@@ -13,6 +13,7 @@ body {
 
 .row {
     display: flex;
+    position: relative;
     flex-direction: row !important;
     margin: 10px 0;
     gap: 5px;

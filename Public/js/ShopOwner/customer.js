@@ -1,8 +1,10 @@
 import Notification from "../Notification.js";
 import ApiFetcherMod from "../ApiFetcherMod.js";
 import billMoreDetails from "./Common.js";
+import Chat from '../chat.js';
 
-new Notification();
+const notification = new Notification();
+new Chat(ws_id, loy_phone, notification, 'Customer/shop/');
 
 const revoke_btn = document.getElementById('revoke_btn');
 

@@ -7,6 +7,9 @@ export default class Notification {
         this.syncWithDb = sync || false;
         this.loadedFromDbFlag = false;
 
+        this.chatBox = document.querySelector(".chatbox");
+        this.handleChat = null;
+
         if (typeof ws_token !== 'undefined' && ws_token) {
             this.ws_token = ws_token;
             sessionStorage.setItem('ws_token'+ws_id, ws_token);
@@ -95,8 +98,22 @@ export default class Notification {
         }
     }
 
+    createChatLi(message, className) {
+        const chatLi = document.createElement("li");
+        chatLi.classList.add("chat", className);
+        chatLi.innerHTML = `<p>${message}</p>`;
+        return chatLi;
+    }
+
     showNotification(message) {
         const {type, ref_id, link, image, title, body} = message;
+        
+        if (this.chatBox && type === "chat") {
+            this.chatBox.appendChild(this.createChatLi(body, "incoming"));
+            this.chatBox.scrollTo(0, this.chatBox.scrollHeight);
+            if (this.handleChat) return;
+        }
+        
         const container = document.getElementById('notification-container');
         const notification = document.createElement('a');
         notification.classList.add('notification');

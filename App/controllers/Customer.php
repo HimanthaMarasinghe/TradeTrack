@@ -73,8 +73,6 @@ class Customer extends Controller
 
     public function shops(){
         $this->data['tabs']['active'] = 'Shops';
-        // $shops = new LoyaltyCustomers;
-        // $this->data['shops'] = $shops->notLoyaltyShops($_SESSION['customer']['phone']);
         $this->view('Customer/shops',$this->data);
     }
 
@@ -86,6 +84,8 @@ class Customer extends Controller
         $this->data['loyalty'] = $loyShops->first(['cus_phone' => $_SESSION['customer']['phone'], 'so_phone' => $sop]);        
         if(!$this->data['loyalty'])
             $this->data['loyaltyReq'] = $loyReq->first(['cus_phone' => $_SESSION['customer']['phone'], 'so_phone' => $sop]);
+        else
+            $this->data['chat'] = (new Chat)->getMessages($_SESSION['customer']['phone'], $sop);        
         $this->data['tabs']['active'] = 'Shops';
         $this->view('Customer/shop',$this->data);
     }

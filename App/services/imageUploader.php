@@ -23,7 +23,7 @@ class ImageUploader {
     }
     public function removeImage($fileAddress) {
         if (file_exists($this->baseDir . $fileAddress)) {
-            unlink($fileAddress);
+            unlink($this->baseDir . $fileAddress);
             return true;
         }
         return false;

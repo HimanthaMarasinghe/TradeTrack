@@ -462,6 +462,7 @@ input.userInput {
 
 
 /********************** popUp ***********************/
+div#chatBackDrop,
 div#popUpBackDrop{
     position: fixed;
     top: 0;

@@ -180,6 +180,9 @@ class ShopOwner extends Controller
         $loyaltyCustomer = new LoyaltyCustomers;
         $this->data['customer'] = $customer->first(['phone' => $id]);
         $this->data['loyalty'] = $loyaltyCustomer->first(['cus_phone' => $id, 'so_phone' => $_SESSION['shop_owner']['phone']]);
+        if($this->data['loyalty']){
+            $this->data['chat'] = (new Chat)->getMessages($_SESSION['shop_owner']['phone'], $this->data['customer']['phone']);
+        }
         $this->data['tabs']['active'] = 'Customers';
         $this->view('shopOwner/customer', $this->data);
     }
@@ -362,7 +365,6 @@ class ShopOwner extends Controller
             $data['so_phone'] = $_SESSION['shop_owner']['phone'];
             if(!$model->first(['product_code' => $data['product_code'], 'so_phone' => $data['so_phone']])) {
                 $data['pic_format'] = (new ImageUploader)->upload('image', $data['so_phone'].$data['product_code'], 'Products') ?: null;
-                writeToFile($data);
                 $model->insert($data);
             }
             redirect( "ShopOwner/product/x{$data['product_code']}");
@@ -376,7 +378,23 @@ class ShopOwner extends Controller
             $model = new ShopUniqueProducts;
             $data = $_POST;
             $data['product_code'] = substr($data['product_code'], 1, 2);
+            $imageUploader = new ImageUploader;
+            writeToFile($data['remove_image'], 'remove_image');
             writeToFile($data);
+            writeToFile($_POST);
+            if($data['remove_image'] == 'true') {
+                $oldPicFormat = $model->first(['product_code' => $data['product_code'], 'so_phone' => $_SESSION['shop_owner']['phone']], readFields: ['pic_format'])['pic_format'];
+                $imageUploader->removeImage("Products/{$_SESSION['shop_owner']['phone']}{$data['product_code']}.{$oldPicFormat}");
+                $data['pic_format'] = null;
+            }
+            $pic_format = $imageUploader->upload('image', $_SESSION['shop_owner']['phone'].$data['product_code'], 'Products') ?: null;
+            if($pic_format) {
+                $data['pic_format'] = $pic_format;
+                $oldPicFormat = $model->first(['product_code' => $data['product_code'], 'so_phone' => $_SESSION['shop_owner']['phone']], readFields: ['pic_format'])['pic_format'];
+                if($oldPicFormat !== $pic_format) {
+                    $imageUploader->removeImage("Products/{$_SESSION['shop_owner']['phone']}{$data['product_code']}.{$oldPicFormat}");
+                }
+            }
             $model->update(['product_code' => $data['product_code'], 'so_phone' => $_SESSION['shop_owner']['phone']], $data);
             redirect('ShopOwner/product/x'.$data['product_code']);
         }else{

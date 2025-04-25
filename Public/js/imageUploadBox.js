@@ -1,11 +1,15 @@
+const hiddenInput = document.getElementById('remove_image');
+const imageContainer = document.getElementById('imageContainer');
+
 // Trigger file input
 function triggerFileInput() {
+    if (hiddenInput) hiddenInput.value = 'false';
     document.getElementById('image').click();
 }
 
+
 // Preview uploaded image
 function previewImage(event) {
-    const imageContainer = document.getElementById('imageContainer');
     imageContainer.innerHTML = '';
 
     const file = event.target.files[0];
@@ -28,4 +32,5 @@ function previewImage(event) {
 function removeImage() {
     document.getElementById('image').value = '';
     document.getElementById('imageContainer').innerHTML = '';
+    if (hiddenInput) hiddenInput.value = 'true';
 }

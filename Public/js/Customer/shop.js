@@ -2,9 +2,11 @@ import ApiFetcherMod from '../ApiFetcherMod.js';
 import { stockCardTemplate } from '../UI_Elements_templates.js';
 import Notification from "../Notification.js";
 import billMoreDetails from "./Common.js";
+import Chat from '../chat.js';
 
 const del_notificatoin = {type: 'loyaltyReq', ref_id: shopPhone};
-new Notification(false, false, false, del_notificatoin);
+const notification = new Notification(false, false, false, del_notificatoin);
+new Chat(ws_id, shopPhone, notification, 'ShopOwner/customer/');
 
 const preOrderableCheckbox = document.getElementById('preOrderable');
 
