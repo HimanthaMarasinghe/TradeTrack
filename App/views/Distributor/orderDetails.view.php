@@ -91,14 +91,10 @@
                         <button type = "submit" class="btn">Set Order Delivering</button>
                     <?php    break;
                     case 'Delivering': ?>
-                        <input type="text" name='status' value="Delivering" class="hidden">
-                        <button type = "submit" class="btn">Set Order Delivered</button>
-                    <?php    break;
-                    case 'Delivered': ?>
-                        <a class = "btn" href = "<?=LINKROOT?>/Distributor/Orders">Done</a>
+                        <a class = "btn" href = "<?=LINKROOT?>/Distributor/Orders">Back</a>
                     <?php    break;
                     case 'Cancelled': ?>
-                        <a class = "btn" href = "<?=LINKROOT?>/Distributor/Orders">Done</a>
+                        <a class = "btn" href = "<?=LINKROOT?>/Distributor/Orders">Back</a>
                     <?php    break;
                 }
                 ?>
