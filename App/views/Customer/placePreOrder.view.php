@@ -56,7 +56,7 @@
                     <div class="row scan">
                         <div>
                             <label for="qty">Qty.</label>
-                            <input class="userInput short" type="number" id="qty" name="qty">
+                            <input class="userInput short" type="number" id="qty" min="1" name="qty">
                         </div>
                         <div>
                             <label for="unit-price">Unit Price</label>

@@ -15,6 +15,7 @@ if(loyalty) {
             alert("The wallet balance is not zero. Please settle the balance with the shop Owner before rejecting loyalty privileges.");
             return;
         }
+        if(!confirm("Are you sure you want to reject the loyalty privileges?")) return;
         fetch(LINKROOT+'/customer/rejectLoyalty', {
             method: 'POST',
             headers: {

@@ -24,12 +24,6 @@
                     <input type="password" placeholder="Password" name="password" required>
                    
                 </div>
-                <div class="remember-forgot">
-                    <label>
-                        <input type="checkbox" name="remember-me"> Remember Me
-                    </label>
-                    <a href="#">Forgot Password?</a>
-                </div>
                 <button class="login-button" type="submit">Login</button>
                 <div class="register-link">
                     <p>Don't have an account? <a href="<?=LINKROOT?>/register">Register Now</a></p>

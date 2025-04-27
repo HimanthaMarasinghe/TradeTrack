@@ -77,11 +77,18 @@
     height: 50px;
     margin: 30px;
     background-color:#162359;
+    border: 2px solid #162359;
     border-radius: 25px; 
     color: white;
-    border: none;
     font-size: 18px;
     margin-bottom: 20px;
+    transition: 0.2s;
+
+    &:hover {
+        background-color: var(--btn-primary-text);
+        color: var(--btn-primary);
+        
+    }
 }
 
 .wrapper .input-box{
