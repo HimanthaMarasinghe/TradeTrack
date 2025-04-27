@@ -17,7 +17,7 @@
                 <div class="fg1"></div>
                 <button class="btn" onclick="newAnnouncement()">
                     <h4>New Announcement</h4>
-                <button/>
+                </button>
             </div>
             <div class="panel fg1 scroll-box grid g-resp-300">
                 <?php foreach($announcements as $a) { ?>

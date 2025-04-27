@@ -18,8 +18,8 @@
     <div class="row">
       <input type="text" class="search-bar fg1" placeholder="Search" id="searchBar">
       <!-- <button class="btn">Search</button> -->
-      <!-- <a href="<?=LINKROOT?>/Manufacturer/addNewAgents" class="btn">Add new Agents</a> -->
-       <button class="btn" onclick="viewPopUp('addNewAgent')">Add new Distributor</button>
+      <a href="<?=LINKROOT?>/Manufacturer/pendingdisrequest" class="btn">Pending Distributor Request</a>
+       <!-- <button class="btn" onclick="viewPopUp('addNewAgent')">Add new Distributor</button> -->
     </div>
 
     <div class="grid g-resp-200 scroll-box" id="scrollBox">
