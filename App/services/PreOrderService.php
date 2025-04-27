@@ -30,4 +30,47 @@ class PreOrderService extends Database
 
         $this->commit( $con);
     }
+
+    public function getPreOrderItems($order_id, $shouldCheckStock = false){
+        $preOrder['total'] = 0;
+        $preOrder['items'] = [];
+        $preOrder['shouldBeRejected'] = $shouldCheckStock;
+
+        $preOrderItems = (new PreOrderItems)->where(['pre_order_id' => $order_id]);
+
+        foreach($preOrderItems as &$item){
+            $rowTotal = $item['po_unit_price'] * $item['quantity'];
+            $item['row_total'] = number_format($rowTotal, 2);
+            if($shouldCheckStock && $_SESSION['shop_owner']['phone']){
+                $item['stock'] = (new ShopStock)->getStockLevel($item['barcode'], $_SESSION['shop_owner']['phone']);
+            }
+            $preOrder['items'][] = $item;
+            $preOrder['total'] += $rowTotal;
+        }
+        unset($item);
+
+        $preOrderUniqueItems = (new PreOrderUniqueItems)->where(data: ['p.pre_order_id' => $order_id]);
+        foreach($preOrderUniqueItems as &$item){
+            $item['barcode'] = "x".$item['product_code'];
+            $item['stock']['quantity'] = $item['quantity'];
+            $item['quantity'] = $item['po_quantity'];
+            $rowTotal = $item['po_unit_price'] * $item['quantity'];
+            $item['row_total'] = number_format($rowTotal, 2);
+            $preOrder['items'][] = $item;
+            $preOrder['total'] += $rowTotal;
+        }
+        unset($item);
+
+        if($shouldCheckStock && $_SESSION['shop_owner']['phone']){
+            foreach($preOrder['items'] as &$item){
+                if($item['stock']['quantity'] > 0) $preOrder['shouldBeRejected'] = false; // If any item is in stock, set shouldBeRejected to false
+                if($item['stock']['quantity'] < $item['quantity']) $preOrder['shouldBeUpdated'] = true; // If any item is out of stock, set shouldBeUpdated to true
+            }
+            unset($item);
+            if($preOrder['shouldBeRejected']) $preOrder['shouldBeUpdated'] = false; // If all items are in stock, set shouldBeUpdated to false
+        }
+
+        $preOrder['total'] = number_format($preOrder['total'], 2);
+        return $preOrder;
+    }
 }

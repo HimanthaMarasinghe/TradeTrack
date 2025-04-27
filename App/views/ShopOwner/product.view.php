@@ -154,7 +154,7 @@
         <table>
             <tr>
                 <td><label for="quantity">Quanitity</label></td>
-                <td><input required type="number" min="1" class="userInput" id="quantity" name="quantity"></td>
+                <td><input required type="number" min="1" max="<?=$stock['quantity']?>" class="userInput" id="quantity" name="quantity"></td>
             </tr>
         </table>
         <button type="submit" class="btn">Record Waste</button>

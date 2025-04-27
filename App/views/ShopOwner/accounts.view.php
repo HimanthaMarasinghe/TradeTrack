@@ -72,7 +72,7 @@
             <a class="btn fg1" id="rec_withdraw">Cash Drawer Withdrawal</a>
             <a class="btn fg1" id="rec_cash_in">Add Cash to Drawer</a>
             <a class="btn fg1" id="rec_expence">Record Expences</a>
-            <a class="btn fg1" id="repor">Cash Flow Statement</a>
+            <!-- <a class="btn fg1" id="repor">Cash Flow Statement</a> -->
         </div>
         <br>
         <div class="row mg-10 gap-10">

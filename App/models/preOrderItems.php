@@ -9,8 +9,9 @@ class PreOrderItems extends Model
     public function preOrderAmount($preOrderId)
     {
         $query = "SELECT SUM(po_unit_price * quantity) as total FROM pre_order_items WHERE pre_order_id = :pre_order_id";
-        $total = $this->query($query, ['pre_order_id' => $preOrderId])[0]['total'];
-        return number_format($total, 2);
+        $total = $this->query($query, ['pre_order_id' => $preOrderId])[0]['total'] ?? 0;
+        // return number_format($total, 2);
+        return $total; // Return the raw total for further processing
     }
 
     // Used to create a bill for the pre-order

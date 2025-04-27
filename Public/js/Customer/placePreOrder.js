@@ -47,7 +47,8 @@ addButton.addEventListener('click', () => {
     else{
         preOrderItems.push({
             barcode: selectedProduct.barcode,
-            quantity: pQTY.value
+            quantity: pQTY.value,
+            unique: selectedProduct.unique
         });
         
         const tr = document.createElement('tr');
