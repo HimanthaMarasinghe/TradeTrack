@@ -864,4 +864,13 @@ class ShopOwner extends Controller
         $codeOk = (new ShopUniqueProducts)->first(['product_code' => $code, 'so_phone' => $_SESSION['shop_owner']['phone']]) ? false : true;
         echo json_encode($codeOk);
     }
+
+    public function setOrderStatusToReceived($orderId) {
+        $shopOrder = new ShopOrder;
+        $con = $shopOrder->startTransaction();
+        $shopOrder->update(['order_id' => $orderId, 'so_phone' => $_SESSION['shop_owner']['phone']], ['status' => 'Delivered'], $con);
+        (new ShopStock)->updateStockOnOrder($orderId, $con);
+        $success = $con->commit();
+        echo json_encode(['success' => $success]);
+    }
 }
