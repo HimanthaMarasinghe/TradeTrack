@@ -53,6 +53,7 @@ function cardClickEvent(data) {
         })
         .then(() => location.reload());
     }
+    document.getElementById('reject-btn').onclick = () => deleteRequest(data.id);
     viewPopUp('productDetails');
 }
 
@@ -64,3 +65,16 @@ const apiFetcherConfig ={
 }
 
 new ApiFetcherMod(apiFetcherConfig);
+
+function deleteRequest(id){
+    fetch(LINKROOT+'/Admin/deleteRequest/'+id, {
+        method: 'POST'
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert('Request Deleted');
+        console.log(data);
+        if(data) location.href = `${LINKROOT}/Admin/newProductRequests`;
+        else console.log('Failed to change status');
+    })
+}

@@ -51,7 +51,7 @@
 <div id="updateProducts" class="hidden popUpDiv">
     <h2>Update Product</h2>
     <br>
-    <form action="<?=LINKROOT?>/Admin/updateProducts/>" method="POST" id="addNewProductForm" enctype="multipart/form-data">
+    <form action="<?=LINKROOT?>/Admin/updateProducts/<?=$product['barcode']?>" method="POST" id="addNewProductForm" enctype="multipart/form-data">
 
         <div class="imageUploadBox" id="pop">
             <div id="imagePreview" class="imagePreviewBox">
