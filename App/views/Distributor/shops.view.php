@@ -8,8 +8,8 @@
 
     <div class="bar">
         <img src="<?=ROOT?>/images/icons/home.svg" alt="">
-        <!-- <h1><?=$_SESSION['name']?></h1> -->
-        <h1>Shops</h1>
+        <h1><?=$_SESSION['distributor']['dis_business_name']?></h1>
+        <!-- <h1>Shops</h1> -->
         <div class="row gap-10">
                 <a href="<?=LINKROOT?>/Distributor/announcements"><img src="<?=ROOT?>/images/icons/Announcement.svg" alt=""></a>
                 <?php $this->component("notification") ?>

@@ -120,7 +120,7 @@
             <tr>
                 <td>Pay Amount</td>
                 <td>
-                    <input class="userInput" type="number" name="ammount" min =0 required>
+                    <input class="userInput" type="number" name="ammount" min =1 required>
                 </td>
             </tr>
         </table>

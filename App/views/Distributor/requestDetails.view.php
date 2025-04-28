@@ -7,7 +7,10 @@
 <div class="main-content colomn">
     <div class="bar">
         <img src="<?=ROOT?>/images/icons/home.svg" alt="">
-        <h2>Inventory Request Details</h3>
+        <div>
+        <h2 class="center-al">Request History</h2>
+        <h5 class="center-al">Click on any row to see more details</h5>
+        </div>
         <div>
             <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
             <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
@@ -18,8 +21,6 @@
         <input type="text" class="search-bar fg1" placeholder="Search order" id = "searchOrders">
      </div>
     
-    <h2 class="center-al">Request History</h2>
-    <h5 class="center-al">Click on any row to see more details</h5>
     <div class="billScroll">
         <table class="bill">
             <thead>
@@ -87,6 +88,7 @@
         <div class="row jus-center">
             <button class="btn fg1" id="edit-btn">Edit</button>
             <button class="btn fg1" id="delete-btn">Delete</button>
+            <button class="btn fg1" id="received-btn">Received</button>
         </div>
    
     </div>
@@ -98,6 +100,8 @@ function openModal(id) {
     fetch("<?=ROOT?>/Distributor/requestDetail/" + id)
         .then(response => response.json())
         .then(data => {
+    console.log(data);
+
             const modalBody = document.getElementById("order-modal-body");
             modalBody.innerHTML = "";
             data.orderProducts.forEach(item => {
@@ -121,33 +125,23 @@ function openModal(id) {
                 document.getElementById("delete-btn").onclick = () => deleteOrder(data.order.order_id);
                 document.getElementById("edit-btn").style.display = "block";
                 document.getElementById("delete-btn").style.display = "block";
-            } else {
+                document.getElementById("received-btn").style.display = "none";
+            }else if(data.order.status == "Delivering"){
+                document.getElementById("received-btn").onclick = () => orderReceived(data.order.order_id);
+                document.getElementById("received-btn").style.display = "block";
                 document.getElementById("edit-btn").style.display = "none";
                 document.getElementById("delete-btn").style.display = "none";
+            }
+             else {
+                document.getElementById("edit-btn").style.display = "none";
+                document.getElementById("delete-btn").style.display = "none";
+                document.getElementById("received-btn").style.display = "none";
             }
         })
         .catch(error => {
             console.error("Error:", error);
         });
-    // const requests = <?= json_encode($requests); ?>;
-    // const request = requests.find(r => r.id == id);
-
-    // if (!request) {
-    //     alert("Request not found!");
-    //     return;
-    // }
-
-    // Populate modal with request details
-    // const modalBody = document.getElementById("order-modal-body");
-    // modalBody.innerHTML = `
-    //     <tr><td>Request ID</td><td>${request.id}</td></tr>
-    //     <tr><td>Date</td><td>${request.date}</td></tr>
-    //     <tr><td>Item Count</td><td>${request['Item Count']}</td></tr>
-    //     <tr><td>Status</td><td>${request.status}</td></tr>
-    // `;
-    // document.getElementById("order-modal-total").textContent = `Order Total: Rs. ${request.total}.00`;
-
-    // Show the modal
+    
     const modal = document.getElementById("order-modal");
     modal.style.display = "flex"; // Use flex to enable centering
 }
@@ -183,6 +177,20 @@ function deleteOrder(id) {
     });
 }
 
+function orderReceived(id){
+    // window.location.href = "<?=ROOT?>/Distributor/receivedInventory";
+    fetch( "<?=ROOT?>/Distributor/receivedInventory/" + id, {
+        method: "POST"
+    })
+    .then(res => res.json())
+    .then(data => {
+        if(data.success){
+            alert('Stock Updated');
+            location.reload();
+        }
+    })
+}
+
 //Search function
 const searchInput = document.getElementById('searchOrders');
     const rows = document.querySelectorAll('tbody tr');
@@ -191,9 +199,9 @@ const searchInput = document.getElementById('searchOrders');
         const value = this.value.toLowerCase();
 
         rows.forEach(row => {
-            const id = row.children[0].textContent.toLowerCase();     // Order ID
-            const date = row.children[1].textContent.toLowerCase();   // Date
-            const status = row.children[4].textContent.toLowerCase(); // Status
+            const id = row.children[0].textContent.toLowerCase();     
+            const date = row.children[1].textContent.toLowerCase(); 
+            const status = row.children[4].textContent.toLowerCase(); 
 
             if (id.includes(value) || date.includes(value) || status.includes(value)) {
                 row.style.display = '';

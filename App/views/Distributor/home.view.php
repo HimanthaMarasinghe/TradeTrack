@@ -46,11 +46,29 @@
             </div>
         </div>
 
-        <div class="panel cash-drawer">
-            <h2>Cash Drawer Balance</h2>
-            <div class="balance">
-                <h1>Rs. 150,000.00</h1>
-            </div>
+        <div class="panel cash-drawer row spc-btwn">
+        <table class="profile">
+            <tr>
+                <td>Name</td>
+                <td>: <?=$_SESSION['distributor']['first_name']?> <?=$_SESSION['distributor']['last_name']?></td>
+            </tr>
+            <tr>
+                <td>Address</td>
+                <td>: <?=$_SESSION['distributor']['dis_busines_address']?></td>
+            </tr>
+            <tr>
+                <td>Contact Number</td>
+                <td>: <?=$_SESSION['distributor']['phone']?></td>
+            </tr>
+        </table>
+        <div>
+            <img 
+            class="profile-img" 
+            style="height: 115px;"
+            src="<?=ROOT?>/images/Profile/SA/<?=$_SESSION['distributor']['phone']?>.<?=$_SESSION['distributor']['pic_format']?>"
+            onerror="this.src='<?=ROOT?>/images/Profile/PhoneNumber.jpg'" 
+            alt="Profile image">
+        </div>
         </div>
 
         <div class="panel low-stocck">
@@ -58,13 +76,7 @@
             <div class="scroll-box grid g-resp-300">
                     <?php foreach ($product as $product): ?>
                         <a href="#" 
-                            class="card btn-card center-al low" 
-                            onclick="showProductDetails(
-                                '<?= addslashes($product['product_name']); ?>', 
-                                '<?= $product['quantity']; ?>', 
-                                '<?= number_format($product['bulk_price'], 2); ?>', 
-                                '<?= ROOT ?>/images/Products/<?= $product['barcode']; ?>.<?= $product['pic_format']; ?>'
-                            )">
+                            class="card btn-card center-al low" id="lowQuantityProductCard">
                             <div class="details h-100">
                                 <h4><?= $product['product_name']; ?></h4>
                                 <h4 class = "quantity"><?= $product['quantity']; ?> <?= $product['unit_type']; ?></h4>
@@ -78,58 +90,50 @@
                         </a>
                     <?php endforeach; ?>
 
-                    <!-- Popup -->
-                    <div class="productViewPopup" id="productViewPopup" style="display: none;">
-                        <div class="popup-content">
-                            <img id="popupProductImage" class="popup-image" src="" alt="Product Image">
-                            <h2 id="popupProductName">Product Name</h2>
-                            <p><strong>Quantity:</strong> <span id="popupProductQuantity"></span></p>
-                            <p><strong>Unit Price:</strong> Rs.<span id="popupProductPrice"></span></p>
-                            <button class="btn" onclick="requestInventory()">Request Inventory</button>
+                       <!-- Product popup -->
+                        <div id="popUpBackDrop" class="hidden"></div>
+                        <div class="popUpDiv hidden" id="productViewPopUp">
+                            <div>
+                                <img id="popUpProductImage" class="popup-image" 
+                                src="<?= ROOT ?>/images/Products/<?= $product['barcode']; ?>.<?= $product['pic_format']; ?>"
+                                onerror="this.src='<?=ROOT?>/images/Default/Product.jpeg'" 
+                                alt="Product Image">
+                                <h2 id="popUpProductName"><?= $product['product_name']; ?></h2>
+                                <table class="profile">
+                                <tr>
+                                    <td><strong>Barcode</strong></td>
+                                    <td>: <?= $product['barcode']; ?></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Quantity</strong></td>
+                                    <td class = "quantity">: <?= $product['quantity']; ?></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Low Quantity Level</strong></td>
+                                    <td>: <?= $product['low_quantity_level']; ?></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Bulk Price</strong></td>
+                                    <td>: Rs.<?= number_format($product['bulk_price'], 2); ?></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Unit Price</strong></td>
+                                    <td>: Rs.<?= number_format($product['unit_price'], 2); ?></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Commission Percentage</strong></td>
+                                    <td>: <?= $product['commission_percentage']; ?>%</td>
+                                </tr>
+                                <tr>
+                                    <td colspan = "2">
+                                        <div class="row">
+                                            <a class = "btn fg1" href = "<?=LINKROOT?>/Distributor/newInventryRequest">Request Inventory</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </table>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <!-- <script>
-                        // Function to show product details in a popup
-                        function showProductDetails(name, quantity, price, imageUrl) {
-                            document.getElementById('popupProductName').innerText = name;
-                            document.getElementById('popupProductQuantity').innerText = quantity;
-                            document.getElementById('popupProductPrice').innerText = price;
-                            document.getElementById('popupProductImage').src = imageUrl;
-                            document.getElementById('productViewPopup').style.display = 'flex';
-                        }
-
-                        // Function to close the popup
-                        function closePopup() {
-                            document.getElementById('productViewPopup').style.display = 'none';
-                        }
-
-                        // Close popup when clicking outside the content
-                        document.getElementById('productViewPopup').addEventListener('click', function(e) {
-                            if (e.target === this) {
-                                closePopup();
-                            }
-                        });
-
-                        //Request iventory
-                        function requestInventory() {
-                        window.location.href = '<?=LINKROOT?>/Distributor/newInventryRequest';
-                        }
-
-
-
-                        // Search bar functionality
-                        document.querySelector('.search-bar').addEventListener('input', function () {
-                        const searchValue = this.value.toLowerCase().trim(); // Get the search term
-                        const cards = document.querySelectorAll('.scroll-box .card'); // Adjust to match your card container
-
-                        cards.forEach(card => {
-                            const productName = card.querySelector('.details h4:first-child').textContent.toLowerCase(); // Match the title
-                            card.style.display = productName.includes(searchValue) ? '' : 'none'; // Show or hide card
-                        });
-                    });
-
-                    </script> -->
             </div>
         </div>
     </div>
@@ -140,5 +144,8 @@
     const ws_id = "<?=$_SESSION['Distributor']['phone']?>";
 </script>
 <script src='<?=ROOT?>/js/notificationConfig.js' type="module"></script>
+<script src='<?=ROOT?>/js/Distributor/home.js'></script>
+<script src ="<?=ROOT?>/js/popUp.js"></script>
+
 
 <?php $this->component("footer") ?>
