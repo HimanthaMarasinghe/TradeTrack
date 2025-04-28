@@ -42,16 +42,26 @@ function cardClickEvent(data) {
     product_image.onerror = function() {
         this.src=`${ROOT}/images/Products/default.jpeg`;
     }
-    const proof_image = document.getElementById("proof_image");
-    proof_image.src = `${ROOT}/images/BarcodeProofs/${data.id}.${data.pic_format}`;
-    proof_image.onerror = function() {
-        this.src=`${ROOT}/images/Products/default.jpeg`;
+    if(data.proof_format){
+        const proof_image = document.getElementById("proofDownload");
+        const downloadButton = proof_image.querySelector('a');
+        downloadButton.setAttribute('href', `${ROOT}/images/BarcodeProofs/${data.id}.${data.proof_format}`);
+        downloadButton.setAttribute('download', `Proof${data.id}.${data.proof_format}`)
+        product_image.classList.remove('hidden');
+    } else {
+        product_image.classList.add('hidden');
     }
-    document.getElementById('accept-btn').onclick = () => {
-        fetch(`${LINKROOT}/Admin/acceptRequest/${data.id}`, {
-            method: 'POST'
-        })
-        .then(() => location.reload());
+    if(data.alreadyExist){
+        document.getElementById('warn').classList.remove('hidden');
+        document.getElementById('accept-btn').classList.add('hidden');
+    }else{
+        document.getElementById('warn').classList.add('hidden');
+        document.getElementById('accept-btn').onclick = () => {
+            fetch(`${LINKROOT}/Admin/acceptRequest/${data.id}`, {
+                method: 'POST'
+            })
+            .then(() => location.reload());
+        }
     }
     document.getElementById('reject-btn').onclick = () => deleteRequest(data.id);
     viewPopUp('productDetails');

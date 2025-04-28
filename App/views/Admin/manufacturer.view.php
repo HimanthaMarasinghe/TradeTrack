@@ -6,9 +6,11 @@
 
 <div class="main-content colomn">
     <div class="bar">
-        <img src="<?=ROOT?>/images/icons/home.svg" alt="">
+        <a href="<?=LINKROOT?>/Admin/manufacturers">
+            <img src="<?=ROOT?>/images/icons/home.svg" alt="">
+        </a>
         <h2>Manufacturer details</h2>
-        <div>
+        <div style="opacity: 0;">
             <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
             <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
         </div>
@@ -50,13 +52,13 @@
             if(!empty($distributorForManufacturer)){
                 foreach($distributorForManufacturer as $disManu){
                     ?>
-                    <a href="<?=ROOT?>/Admin/distributor/<?=$disManu['dis_phone']?>" class="card btn-card column aspect-ratio">
+                    <a href="<?=ROOT?>/Admin/distributor/<?=$disManu['dis_phone']?>" class="card btn-card colomn aspect-ratio">
                         <img 
-                            class="profile-img big" 
+                            class="profile-img" 
                             src="<?=ROOT?>/images/Profile/<?=$disManu['dis_phone']?>.<?=$disManu['pic_format']?>" 
                             alt=""
                             onerror="this.src='<?=ROOT?>/images/Profile/PhoneNumber.jpg'">
-                        <div class="details h-50">
+                        <div class="details h-50 ovf-hdn">
                             <h4><?=$disManu['dis_busines_name']?></h4>
                             <h4><?=$disManu['dis_phone']?></h4>
                         </div>

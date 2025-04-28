@@ -38,7 +38,7 @@ class Products extends Model
     }
 
     public function getLastGenaratedBarcode() {
-        $query = "SELECT barcode FROM $this->table WHERE LEGNTH(barcode) = 8 ORDER BY barcode DESC LIMIT 1";
+        $query = "SELECT barcode FROM $this->table WHERE LENGTH(barcode) = 8 ORDER BY barcode DESC LIMIT 1";
         return $this->query($query);
     }
 

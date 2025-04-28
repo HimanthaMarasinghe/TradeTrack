@@ -38,28 +38,6 @@ class Admin extends Controller
         
         $this->view('Admin/home',$this->data);
     }
-/*
-    public function removeUser(){
-        $this->data['tabs']['active'] = 'Home';
-        $this->view('Admin/removeUser', $this->data);
-    } 
-*/
-    public function removeUser() {
-        $this->data['tabs']['active'] = 'Remove User';
-        $this->data['loyalCus']=[
-            ['phone' => 'PhoneNumber', 'name' => 'John Doe', 'amount' => 15000],
-            ['phone' => 'PhoneNumber', 'name' => 'Jane Smith', 'amount' => 24000],
-            ['phone' => 'PhoneNumber', 'name' => 'Alice Johnson', 'amount' => 32000],
-            ['phone' => 'PhoneNumber', 'name' => 'Bob Brown', 'amount' => 27000],
-            ['phone' => 'PhoneNumber', 'name' => 'Carol Davis', 'amount' => 16000],
-            ['phone' => 'PhoneNumber', 'name' => 'David Wilson', 'amount' => 20000],
-            ['phone' => 'PhoneNumber', 'name' => 'Eve Miller', 'amount' => 18000],
-            ['phone' => 'PhoneNumber', 'name' => 'Frank Moore', 'amount' => 21000],
-            ['phone' => 'PhoneNumber', 'name' => 'Grace Taylor', 'amount' => 30000],
-            ['phone' => 'PhoneNumber', 'name' => 'Henry Anderson', 'amount' => 22000]
-        ]; 
-        $this->view('Admin/removeUser', $this->data);
-    }
 
     public function removeUserDetails() {
         $this->data['loyalCus'] = [
@@ -229,6 +207,9 @@ class Admin extends Controller
         if(!$this->data['distributor']){
             redirect('Admin/Distributors');
         }
+
+        $this->data['bills'] = (new Bills)->getBillsByDistributor($distributor);
+
         $this->view('Admin/distributor', $this->data);
     }
 
@@ -354,9 +335,17 @@ class Admin extends Controller
     public function acceptRequest($id) {
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $pending = new pendingProductRequests;
+            $products = new Products;
             $newProduct = $pending->first(['id' => $id]);
+            writeToFile($newProduct);
+            if(!$newProduct['barcode']){
+                $lastBarcode = (int)$products->getLastGenaratedBarcode() ?: 0;
+                $incrementedValue = $lastBarcode + 1;
+                writeToFile($incrementedValue);
+                $newProduct['barcode'] = str_pad($incrementedValue, 8, "0", STR_PAD_LEFT);;
+            }
             $con = $pending->startTransaction();
-            (new Products)->insert($newProduct, $con);
+            $products->insert($newProduct, $con);
             $pending->delete(['id' => $id], $con);
             $con->commit();
         }

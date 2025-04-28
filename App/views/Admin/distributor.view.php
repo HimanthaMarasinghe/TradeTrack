@@ -6,9 +6,11 @@
 
 <div class="main-content colomn">
     <div class="bar">
-        <img src="<?=ROOT?>/images/icons/home.svg" alt="">
+        <a href="<?=LINKROOT?>/Admin/distributors">
+            <img src="<?=ROOT?>/images/icons/home.svg" alt="">
+        </a>
         <h2>Distributor details</h2>
-        <div>
+        <div style="opacity: 0;">
             <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
             <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
         </div>
@@ -39,17 +41,36 @@
         onerror="this.src='<?=ROOT?>/images/Profile/PhoneNumber.jpg'">
     </div>
     <h3>Orderes from shops</h3>
-    <div class="grid g-resp-200 scroll-box">
-    <?php {?>
-        <a href="" class="card btn-card colomn asp-rtio">
-                <img class="product-img" src="<?=ROOT?>/images/Profile/PhoneNumber.jpg" alt="">
-                <div class="details h-50">
-                    <h4>vijewrdana stores</h4>
-                    <h4>Maliban power milk</h4>
-                    <h4>2300</h4>
-                </div>
-        </a>
-    <?php } ?>
+    <div class="billScroll">
+        <table class="bill">
+            <thead>
+                <tr class="BillHeadings">
+                    <th>Order Id</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th>Shop owner phone</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php                
+                if(!empty($bills)) {
+                    foreach($bills as $bill){
+                        echo "<tr class='Item'>
+                                <td class='center-al'>" . $bill['order_id'] . "</td>
+                                <td class='left-al'>" . $bill['date'] . "</td>
+                                <td class='left-al'>" . $bill['time'] . "</td>
+                                <td class='left-al'>" . $bill['status'] . "</td>
+                                <td>" . $bill['so_phone'] . "</td>
+                            </tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='4' class='center-al'>No bill history found</td></tr>";
+                }
+                ?>
+                <tr></tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
