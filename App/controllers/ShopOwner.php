@@ -706,7 +706,7 @@ class ShopOwner extends Controller
     public function getNewStockDetails($offset) {
         if (!filter_var($offset, FILTER_VALIDATE_INT)) 
             $offset = 0;  // Default to 0 if invalid
-        $details = (new DistributorStocks)->search($_GET['disPhone'], $_GET['search'], $offset);
+        $details = (new DistributorStocks)->search($_GET['disPhone'], $_GET['search'], $_GET['orderable'], $offset);
         header('Content-Type: application/json');
         echo json_encode($details);
     }

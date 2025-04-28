@@ -16,6 +16,10 @@ const addButton = document.getElementById('addBtn');
 const placeOrderBtn = document.getElementById('placeOrderBtn');
 
 pQTY.addEventListener('input', () => {
+    if (pQTY.value > selectedProduct.quantity_shown) {
+        alert(`You cannot order ${pQTY.value} items. Only ${selectedProduct.qunatity_shown} items are available for pre-order.`);
+        pQTY.value = selectedProduct.quantity_shown;
+    }
     pTotal.value = (pQTY.value * pPrice.value).toFixed(2);
 
     if (pQTY.value > 0)
@@ -150,6 +154,7 @@ function addProductToBill(product) {
 const getVariables = {
     search: '',
     disPhone: disPhone,
+    orderable: true
 }
 
 const stockApiConfig = {

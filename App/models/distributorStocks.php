@@ -26,11 +26,12 @@ class DistributorStocks extends Model{
         return $this->query($sql, ['search' => "%$search%", 'dis_phone' => $_SESSION['distributor']['phone']]);
     }
   
-    public function search($dis_phone, $search, $offset = 0) {
-        $sql = "SELECT p.barcode, p.product_name, p.pic_format, p.bulk_price, ds.quantity 
+    public function search($dis_phone, $search, $orderable, $offset = 0) {
+        $sql = "SELECT p.barcode, p.product_name, p.pic_format, p.bulk_price, ds.quantity_shown, p.unit_type 
                 FROM $this->readTable 
-                WHERE ds.dis_phone = :dis_phone AND (p.product_name LIKE :search OR p.barcode LIKE :search)
-                LIMIT 10 OFFSET $offset";
+                WHERE ds.dis_phone = :dis_phone AND (p.product_name LIKE :search OR p.barcode LIKE :search)";
+        if($orderable) $sql .= " AND ds.quantity_shown > 0";
+        $sql .= " LIMIT 10 OFFSET $offset";
         return $this->query($sql, ['dis_phone' => $dis_phone, 'search' => "%$search%"]);
 
     }
