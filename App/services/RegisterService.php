@@ -28,6 +28,11 @@ class RegisterService extends Database
                 $newUser['man_phone'] = $newUser['phone'];
                 $manufacturer->insert($newUser, $con);
                 break;
+            
+            case '3':
+                $distributor = new DistributorM;
+                $newUser['dis_phone'] = $newUser['phone'];
+                $distributor->insert($newUser, $con);
 
             default:
                 break;

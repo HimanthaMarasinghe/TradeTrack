@@ -17,12 +17,10 @@
                 <img src="<?=ROOT?>/images/Logo/Logo2.png">
                 <h1>Weclome</h1>
                 <div class="input-box">
-                    <input type="text" placeholder="Phone Number" name="phone" required>
-        
+                    <input type="text" placeholder="Phone Number" name="phone" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);" pattern="\d{10}" title="Please enter a valid 10-digit phone number" required>
                 </div>
                 <div class="input-box">
                     <input type="password" placeholder="Password" name="password" required>
-                   
                 </div>
                 <button class="login-button" type="submit">Login</button>
                 <div class="register-link">
@@ -34,6 +32,11 @@
                 <img src="<?=ROOT?>/images/Assets/login-background.jpg"> </div>
         </div>
         
+        <?php if (isset($data['error'])): ?>
+            <div class="warning-message">
+              <?= $data['error'] ?>
+            </div>
+        <?php endif; ?>
         
 
     </section> 

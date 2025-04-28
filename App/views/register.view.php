@@ -3,7 +3,7 @@
 <div class="regBackground">
     <div class="regFormBackground">
         <h2>Register</h2>
-        <form id="registerForm" method="POST" enctype="multipart/form-data">
+        <form id="registerForm" method="POST" enctype="multipart/form-data" class="fg1 colomn">
             <div class="row gap-10">
                 <div>
                     <div class="imageUploadBox">
@@ -33,27 +33,7 @@
                 </div>
                     <!-- Table -->
                     <table class="registerTable">
-                    <!-- <thead>
-                        <tr>
-                            <th colspan="2"><h2>Register</h2></th>
-                        </tr>
-                    </thead> -->
                     <tbody>
-                        <!-- Image Upload Box -->
-                        <!-- <tr>
-                            <td colspan="2">
-                            <div class="imageUploadBox">
-                                <div id="imagePreview" class="imagePreviewBox">
-                                    <div id="imageContainer"></div>
-                                </div>
-                                <input type="file" class="imageChooseInput" name="image" id="image" 
-                                    accept="image/jpg, image/jpeg, image/png, image/webp" 
-                                    onchange="previewImage(event)">
-                                <button type="button" class="imageChooseBtn" onclick="triggerFileInput()">Choose</button>
-                                <button type="button" class="imageRemoveBtn" onclick="removeImage()">Remove</button>
-                            </div>
-                            </td>
-                        </tr> -->
                         <tr>
                             <td>First Name</td>
                             <td><input class="userInput" type="text" name="first_name" id="firstName" placeholder="Enter your first name" required></td>
@@ -66,31 +46,10 @@
                             <td>Phone Number</td>
                             <td><input class="userInput" type="text" name="phone" id="phoneNumber" placeholder="Enter your phone number" required></td>
                         </tr>
-                        <!-- <tr>
-                            <td>Email</td>
-                            <td><input class="userInput" type="email" name="email" id="email" placeholder="Enter your email address" required></td>
-                        </tr> -->
                         <tr>
                             <td>Address</td>
                             <td><input class="userInput" type="text" name="address" id="address" placeholder="Enter your address" required></td>
                         </tr>
-                        <!-- <tr>
-                            <td>Gender</td>
-                            <td>
-                                <label class="customRadio">
-                                    <input type="radio" name="gender" value="male" required>
-                                    <span>Male</span>
-                                </label>
-                                <label class="customRadio">
-                                    <input type="radio" name="gender" value="female">
-                                    <span>Female</span>
-                                </label>
-                            </td>
-                        </tr> -->
-                        <!-- <tr>
-                            <td>Date of Birth</td>
-                            <td><input class="userInput" type="date" name="dob" id="dob" required></td>
-                        </tr> -->
                         <tr>
                             <td>Register As</td>
                             <td>
@@ -101,6 +60,10 @@
                                 <label class="customRadio">
                                     <input type="radio" name="role" value="1"onchange="updateForm()">
                                     <span>Shop Owner</span>
+                                </label>
+                                <label class="customRadio">
+                                    <input type="radio" name="role" value="3" onchange="updateForm()">
+                                    <span>Distributor</span>
                                 </label>
                                 <label class="customRadio">
                                     <input type="radio" name="role" value="2" onchange="updateForm()">
@@ -119,6 +82,17 @@
                         <tr class="s-js hidden">
                             <td>Shop Address</td>
                             <td><input disabled class="userInput s-js hidden" type="text" name="shop_address" placeholder="Enter your shop address" required></td>
+                        </tr>
+
+                        <!-- For Distributor -->
+
+                        <tr class="d-js hidden">
+                            <td>Busines Name</td>
+                            <td><input disabled class="userInput d-js hidden" type="text" name="dis_busines_name" placeholder="Enter your Busines name"></td>
+                        </tr>
+                        <tr class="d-js hidden">
+                            <td>Busines Address</td>
+                            <td><input disabled class="userInput d-js hidden" type="text" name="dis_busines_address" placeholder="Enter your Busines address"></td>
                         </tr>
                         
                         <!-- For Manufactures -->
@@ -144,32 +118,23 @@
                                 <span id="passwordError" class="error"></span>
                             </td>
                         </tr>
-                        <!-- Agree to Terms -->
-                        <tr>
-                            <td><input type="checkbox" id="agreeTerms" onclick="toggleSubmitButton()" required></td>
-                            <td>
-                                <label class="termsLabel">
-                                    I agree to the <a href="#" target="_blank">Terms and Conditions</a>
-                                </label>
-                                <span id="termsError" class="error"></span>
-                            </td>
-                        </tr>
                     </tbody>
-                    <!-- <tfoot>
-                        <tr>
-                            <td colspan="2">
-                                <div class="formFooter">
-                                    
-                                </div>
-                            </td>
-                        </tr>
-                    </tfoot> -->
                 </table>
             </div>
-            <input type="submit" id="submitButton" class="btn w-100" value="Submit">
+            <div class="fg1"></div>
+            <input type="submit" id="submitButton" class="btn" value="Submit">
+            <div class="login-link">
+                <p>Already have an account? <a href="<?=LINKROOT?>/login">Sign In</a></p>
+            </div>
         </form>
     </div>
 </div>
+
+<?php if (isset($data['error'])): ?>
+    <div class="warning-message">
+        <?= $data['error'] ?>
+    </div>
+<?php endif; ?>
 
 <script>
     // Trigger file input
@@ -253,14 +218,6 @@
         }
     });
 
-    // Enable or disable the submit button
-    function toggleSubmitButton() {
-        const agreeTerms = document.getElementById('agreeTerms');
-        const submitButton = document.getElementById('submitButton');
-
-        submitButton.disabled = !agreeTerms.checked;
-    }
-
     // Form submission handling
     function handleSubmit(event) {
         event.preventDefault();
@@ -306,8 +263,10 @@
         const selectedOption = document.querySelector('input[name="role"]:checked').value;
         const shopInput = document.querySelectorAll('input.s-js');
         const manuInput = document.querySelectorAll('input.m-js');
+        const disInput = document.querySelectorAll('input.d-js');
         const shopElem = document.querySelectorAll('.s-js');
         const manuElem = document.querySelectorAll('.m-js');
+        const disElem = document.querySelectorAll('.d-js');
         
         shopInput.forEach(input => {
             input.disabled = true;
@@ -325,6 +284,14 @@
             elem.classList.add('hidden');
         });
 
+        disInput.forEach(input => {
+            input.disabled = true;
+        })
+
+        disElem.forEach(elem => {
+            elem.classList.add('hidden');
+        })
+
         if(selectedOption === '1'){
             shopInput.forEach(input => {
                 input.disabled = false;
@@ -341,6 +308,15 @@
             manuElem.forEach(elem => {
                 elem.classList.remove('hidden')
             });
+        }
+
+        if(selectedOption === '3'){
+            disInput.forEach(input => {
+                input.disabled = false;
+            });
+            disElem.forEach(elem => {
+                elem.classList.remove('hidden')
+            })
         }
 
     }

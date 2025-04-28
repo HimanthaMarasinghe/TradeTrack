@@ -2,6 +2,8 @@
 
 class login extends Controller
 {
+    protected $data = [];
+
     private function web_socket_auth($phone, $userRole) {
         $socket = stream_socket_client("tcp://localhost:9000", $errno, $errstr, 2);
         if (!$socket) return;
@@ -87,15 +89,15 @@ class login extends Controller
                     }
 
                 }else{
-                    echo 'Wrong password';
+                    $this->data['error'] = 'Invalid password';
                 }
             }
             else{
-                echo 'wrong username';
+                $this->data['error'] = 'Invalid phone number';
             }
         }
 
-        $this->view('login');
+        $this->view('login', $this->data);
     }
 
     public function logout(){

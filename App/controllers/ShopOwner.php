@@ -221,8 +221,8 @@ class ShopOwner extends Controller
         $this->data['creditors'] = $shopAcc['non_registerd_creditors'];
         $this->data['cashDrawerBallance'] = $shopAcc['cash_drawer_balance'];
 
-        $wallets = (new LoyaltyCustomers)->where(data: ['so_phone' => $_SESSION['shop_owner']['phone']], readFields:['wallet']);
-        array_push($wallets, ...(new WalletSoDis)->where(data: ['so_phone' => $_SESSION['shop_owner']['phone']], readFields:['wallet']));
+        $wallets = (new LoyaltyCustomers)->where(data: ['so_phone' => $_SESSION['shop_owner']['phone']], readFields:['wallet']) ?: [];
+        array_push($wallets, ...(new WalletSoDis)->where(data: ['so_phone' => $_SESSION['shop_owner']['phone']], readFields:['wallet']) ?: []);
         foreach($wallets as $wallet){
             if ($wallet['wallet'] > 0) $this->data['debtors'] += $wallet['wallet'];
             else $this->data['creditors'] += abs($wallet['wallet']);
