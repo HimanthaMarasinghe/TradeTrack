@@ -224,7 +224,7 @@
         <tr>
             <td>Amount</td>
             <td>
-                <input class="userInput" type="number" name="amount" id="exp_amount" min="1" required>
+                <input class="userInput" type="number" name="amount" id="exp_amount" min="1" max="<?=$cashDrawerBallance?>" required>
             </td>
         </tr>
     </table>

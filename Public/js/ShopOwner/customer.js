@@ -61,3 +61,12 @@ const billApiConfig = {
 }
 
 new ApiFetcherMod(billApiConfig);
+
+document.getElementById('update_wallet').addEventListener('click', () => viewPopUp('wallet_update_popUp'));
+
+const add = document.getElementById('add');
+add.addEventListener('change', () => {
+    const input = document.getElementById('wallet_update_amount');
+    if(add.checked) input.removeAttribute('max');
+    else input.setAttribute('max', cashDrawer);
+});

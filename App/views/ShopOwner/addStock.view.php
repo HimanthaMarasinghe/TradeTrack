@@ -80,18 +80,18 @@
             </tr>
             <tr>
                 <td><label for="unit_price">Unit price</label></td>
-                <td><input class="userInput" type="number" name="unit_price" id="unit_price" required></td>
+                <td><input class="userInput" type="number" name="unit_price" id="unit_price" min="1" required></td>
             </tr>
             <tr>
                 <td><label for="low_stock_level" title="The system will warn you when the stock reaches the low stock limit.">Low Stock Level ⓘ</label></td>
-                <td><input class="userInput" type="number" name="low_stock_level" id="low_stock_level" required></td>
+                <td><input class="userInput" type="number" name="low_stock_level" id="low_stock_level" min="1" required></td>
             </tr>
             <tr>
                 <td><label for="pre_orderable_stock" title="Customers can only pre-order a limited quantity of each product 
 to avoid large orders. Because if shop owners prepare these large orders 
 and they are never picked up, it leads to a big loss because the products 
 couldn't be sold to in-store customers either.">Amount alowed per pre-order  ⓘ</label></td>
-                <td><input class="userInput" type="number" name="amount_alowed_per_pre_Order" value="<?=$product['amount_alowed_per_pre_Order']?>" required></td>
+                <td><input class="userInput" type="number" name="amount_alowed_per_pre_Order" value="<?=$product['amount_alowed_per_pre_Order']?>" min="0" required></td>
             </tr>
         </table>
         <button id="formSubmit" class="btn disabled-link w-100px" type="submit">Add</button>

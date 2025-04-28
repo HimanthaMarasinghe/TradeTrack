@@ -97,6 +97,10 @@ class Shops extends Model
         return $this->allShops($search, $location, $offset);
     }
 
+    public function getCashDrawerBalance($so_phone) {
+        $sql = "SELECT cash_drawer_balance FROM $this->table WHERE so_phone = :so_phone";
+        return $this->query($sql, ['so_phone' => $so_phone])[0]['cash_drawer_balance'];
+    }
 
 
 }

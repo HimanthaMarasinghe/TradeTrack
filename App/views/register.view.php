@@ -44,7 +44,7 @@
                         </tr>
                         <tr>
                             <td>Phone Number</td>
-                            <td><input class="userInput" type="text" name="phone" id="phoneNumber" placeholder="Enter your phone number" required></td>
+                            <td><input class="userInput" type="text" name="phone" id="phoneNumber" placeholder="Enter your phone number" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);" pattern="\d{10}" title="Please enter a valid 10-digit phone number" required></td>
                         </tr>
                         <tr>
                             <td>Address</td>

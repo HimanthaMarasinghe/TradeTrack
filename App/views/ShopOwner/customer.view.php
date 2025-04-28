@@ -38,7 +38,7 @@
                 <td colspan="2">
                     <div class="row max-w-900">
                         <button class="btn fg1" id="revoke_btn">Revoke Loyalty Privilege</button>
-                        <button class="btn fg1">Update wallet</button>
+                        <button class="btn fg1" id="update_wallet">Update wallet</button>
                     </div>
                 </td>
             </tr>
@@ -82,6 +82,21 @@
 <div id="popUpBackDrop" class="hidden"></div>
 <?php $this->component("billDetails", [$role = 'Shop_Owner']) ?>
 
+<div id="wallet_update_popUp" class="hidden popUpDiv">
+    <form action="<?=LINKROOT?>/ShopOwner/UpdateWallet/<?=$customer['phone']?>" method="post" >
+        <div class="row spc-btwn">
+            <h2>Update Wallet</h2>
+        </div>
+        <div class="colomn gap-10 mt-20">
+            <input type="number" name="wallet_amount" id="wallet_update_amount" class="userInput" placeholder="Enter Amount" min=0>
+            <div class="row">
+                <input type="checkbox" name="add" id="add" class="userInput" checked>
+                <label for="add" class="userInput">Cash from Customer</label>
+            </div>
+            <button type="submit" class="btn fg1" id="update_wallet_btn">Update</button>
+        </div>
+    </form>
+
 <div id="notification-container"></div>
 <script>
     const ROOT = "<?=ROOT?>";
@@ -89,7 +104,8 @@
     const loy_phone = "<?=$customer['phone']?>";
     const wallet_amount = "<?=$loyalty['wallet']?>";
     const ws_id = "<?=$_SESSION['shop_owner']['phone']?>";
-    const loyalty = <?=json_encode($loyalty)?>
+    const loyalty = <?=json_encode($loyalty)?>;
+    const cashDrawer = <?=$cashDrawer?>;
 </script>
 <script src="<?=ROOT?>/js/ShopOwner/customer.js" type="module"></script>
 <script src="<?=ROOT?>/js/popUp.js"></script>

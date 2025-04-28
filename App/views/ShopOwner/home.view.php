@@ -45,7 +45,11 @@
                 <?php 
                     foreach ($lowStocks as $stock)
                     {
-                        $this->component('card/product', $stock, ['baseUrl' => "ShopOwner/Product"]); 
+                        if(strlen($stock['barcode']) == 13) {
+                            $this->component('card/product', $stock, ['baseUrl' => "ShopOwner/Product"]); 
+                        } else {
+                            $this->component('card/uniqueProduct', $stock, ['baseUrl' => "ShopOwner/Products"]);
+                        }
                     }
                 ?>
             </div>

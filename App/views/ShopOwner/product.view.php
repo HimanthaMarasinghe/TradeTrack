@@ -128,7 +128,7 @@
             </tr>
             <tr>
                 <td><label for="cost">Cost</label></td>
-                <td><input required type="number" class="userInput" id="cost" min="1" max="12000" name="cost"></td>
+                <td><input required type="number" class="userInput" id="cost" min="1" max="<?=$cashDrawer?>" name="cost"></td>
             </tr>
             <tr>
                 <td><input required type="radio" id="onCash-radio" name="purchaseType" value="fromDrawer" checked></td>
@@ -209,6 +209,7 @@ couldn't be sold to in-store customers either.">Amount allowed per pre-order  â“
     const ws_id = "<?=$_SESSION['shop_owner']['phone']?>";
     const barcode = "<?=$product['barcode']?>";
     const bulk_price = <?=$product['bulk_price']?>;
+    const cashDrawer = <?=$cashDrawer?>;
 </script>
 
 <script src="<?=ROOT?>/js/popUp.js"></script>

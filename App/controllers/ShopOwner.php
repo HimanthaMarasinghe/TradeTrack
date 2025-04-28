@@ -173,6 +173,7 @@ class ShopOwner extends Controller
         $this->data['loyalty'] = $loyaltyCustomer->first(['cus_phone' => $id, 'so_phone' => $_SESSION['shop_owner']['phone']]);
         if($this->data['loyalty']){
             $this->data['chat'] = (new Chat)->getMessages($_SESSION['shop_owner']['phone'], $this->data['customer']['phone']);
+            $this->data['cashDrawer'] = (new Shops)->getCashDrawerBalance($_SESSION['shop_owner']['phone']);
         }
         $this->data['tabs']['active'] = 'Customers';
         $this->view('shopOwner/customer', $this->data);
@@ -196,6 +197,8 @@ class ShopOwner extends Controller
             header('Location: ' . LINKROOT . '/ShopOwner/stocks');
             return;
         }
+        $this->data['cashDrawer'] = (new Shops)->getCashDrawerBalance($_SESSION['shop_owner']['phone']);
+        writeToFile($this->data['cashDrawer']);
         if ($barcodeIn[0] == 'x') {
             $barcodeIn = substr($barcodeIn, 1, 2);
             $prd = new ShopUniqueProducts;
@@ -412,6 +415,26 @@ class ShopOwner extends Controller
             (new ShopStock)->delete(['barcode' => $barcode, 'so_phone' => $_SESSION['shop_owner']['phone']]);
         }
         redirect(path: "ShopOwner/product/{$barcode}");
+    }
+
+    public function UpdateWallet($cus_phone) {
+        if(!empty($_POST['wallet_amount'])){
+            $loyaltyCustomer = new LoyaltyCustomers;
+            $con = $loyaltyCustomer->startTransaction();
+            $updateAmount = $_POST['add'] == 'on' ? $_POST['wallet_amount'] : -1 * $_POST['wallet_amount'];
+            $loyaltyCustomer->updateWallet($cus_phone, $updateAmount, $con);
+            (new Shops)->updateCashDrawer($_SESSION['shop_owner']['phone'], $updateAmount, $con);
+            $con->commit();
+            (new NotificationService)->sendNotification(
+                $cus_phone, 
+                'loyWal', 
+                $_SESSION['shop_owner']['phone'], 
+                'Wallet Updated', 
+                "{$_SESSION['shop_owner']['shop_name']} updated your wallet", 
+                "Customer/shop/{$_SESSION['shop_owner']['phone']}", 
+                "Profile/{$_SESSION['shop_owner']['phone']}.{$_SESSION['shop_owner']['pic_format']}");
+        }
+        redirect( "ShopOwner/customer/{$cus_phone}");
     }
 
     // API endpoints
@@ -696,7 +719,7 @@ class ShopOwner extends Controller
             $year = date('Y');
             $month = date('n');
         }
-        $accounts['income'] = (new BillItems)->getBillsTotal($month, $year) ?? 0;
+        $accounts['income'] = (new BillItems)->getBillsTotal($month, $year, $_SESSION['shop_owner']['phone']) ?? 0;
         $accounts['expenses'] = (new soOtherExpences)->totalForMonth($year, $month, $_SESSION['shop_owner']['phone']) ?? 0;
         $accounts['expenses'] += (new ShopOrder)->monthlyTotla($month, $year);
         $accounts['profit'] = $accounts['income'] - $accounts['expenses'];
