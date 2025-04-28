@@ -17,7 +17,7 @@
     </div>
     <div class="row">
       <input type="text" class="search-bar fg1" placeholder="Search" id="searchBar">
-      <!-- <button class="btn">Search</button> -->
+      
       <a href="<?=LINKROOT?>/Manufacturer/pendingdisrequest" class="btn">Pending Distributor Request</a>
        <!-- <button class="btn" onclick="viewPopUp('addNewAgent')">Add new Distributor</button> -->
     </div>
@@ -29,7 +29,7 @@
 </div>
 
 
-<!-- add new agent popup -->
+
 <div id="popUpBackDrop" class="hidden"></div>
 <div id="addNewAgent" class="popUpDiv hidden">
     <h2>Add a new Distributor</h2>

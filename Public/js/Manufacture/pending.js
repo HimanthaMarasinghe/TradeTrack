@@ -26,7 +26,7 @@ function renderCards(data) {
 }
 
 function pendingCard(product) {
-    const {barcode, pic_format, product_name, unit_price, bulk_price, id} = product;
+    const {barcode, pic_format, product_name, unit_price, bulk_price, id, commission} = product;
 
     var imagePath = `${ROOT}/images/NewProducts/${id}.${pic_format}`;
 
@@ -42,8 +42,9 @@ function pendingCard(product) {
             <table style="width: 100%; border-collapse: collapse;">
         <tr>
             <td style="font-weight: bold; padding: 1px;">Barcode:</td>
-            <td style="padding: 1px;">${barcode}</td>
         </tr>
+        <tr>
+            <td colspan="2" style="padding: 1px; text-align: center;">${barcode}</td>
         <tr>
             <td style="font-weight: bold; padding: 1px;">Unit Price:</td>
             <td style="padding: 1px;">Rs.${Number(unit_price).toFixed(2)}</td>
@@ -52,6 +53,11 @@ function pendingCard(product) {
             <td style="font-weight: bold; padding: 1px;">Bulk Price:</td>
             <td style="padding: 1px;">Rs.${Number(bulk_price).toFixed(2)}</td>
         </tr>
+        <tr>
+            <td style="font-weight: bold; padding: 1px;">commission:</td>
+            <td style="padding: 1px;">Rs.${commission}</td>
+        </tr>
+
     </table>
         </div>
         </a>
@@ -59,11 +65,12 @@ function pendingCard(product) {
 }
 
 function requestMoreDetails(product) {
-    const {barcode, pic_format, product_name, unit_price, bulk_price, id, proof_format} = product;
+    const {barcode, pic_format, product_name, unit_price, bulk_price, id, proof_format, commission} = product;
     document.getElementById('req-prd-barcode').innerText = barcode;
     document.getElementById('req-prd-name').innerText = product_name;
     document.getElementById('req-prd-price').innerText = 'Rs.' + Number(unit_price).toFixed(2);
     document.getElementById('req-prd-bulk').innerText = 'Rs.' + Number(bulk_price).toFixed(2);
+    document.getElementById('req-prd-com').innerText = commission;
     document.getElementById('update-btn').onclick = () => updateRequest(product);
     document.getElementById('delete-btn').onclick = () => deleteRequest(id);
     const popUpImage = document.getElementById('popUpImage');
@@ -71,10 +78,19 @@ function requestMoreDetails(product) {
     popUpImage.onerror = function() {
         this.src = `${ROOT}/images/Products/default.jpeg`;
     };
-    const proofImage = document.getElementById('popUpProofImage');
-    proofImage.src = `${ROOT}/images/BarcodeProofs/${id}.${proof_format}`;
-    proofImage.onerror = function() {
-        this.src = `${ROOT}/images/Products/default.jpeg`;
+    // const proofImage = document.getElementById('popUpProofImage');
+    // proofImage.src = `${ROOT}/images/BarcodeProofs/${id}.${proof_format}`;
+    // proofImage.onerror = function() {
+    //     this.src = `${ROOT}/images/Products/default.jpeg`;
+    // }
+    if(proof_format) {
+        document.getElementById('req-prd-barcodeProof').setAttribute('href', `${ROOT}/images/BarcodeProofs/${id}.${proof_format}`);
+        document.getElementById('req-prd-barcodeProof').setAttribute('download', `${barcode}.${proof_format}`);
+        document.getElementById('req-prd-barcodeProofRow').classList.remove('hidden');
+    } else {
+        document.getElementById('req-prd-barcodeProofRow').classList.add('hidden');
+        document.getElementById('req-prd-barcodeProof').removeAttribute('href');
+
     }
 
     viewPopUp('productDetails');
@@ -97,38 +113,40 @@ function addNewProduct() {
 
 
 
-document.querySelectorAll(".card-js").forEach((card) => {
-    card.addEventListener("click", function(event) {
-        console.log(encodeURIComponent(event.currentTarget.id));
-        fetch(LINKROOT+'/Manufacturer/pendingProductRequestDetails', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: 'barcodeIn=' + encodeURIComponent(event.currentTarget.id)
-        })
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('req-prd-barcode').textContent = data.barcode;
-            document.getElementById('req-prd-name').textContent = data.product_name;
-            document.getElementById('req-prd-price').textContent = 'Rs.' + data.unit_price.toFixed(2);
-            document.getElementById('req-prd-bulk').textContent = 'Rs.' + data.bulk_price.toFixed(2);
-            document.getElementById('update-btn').onclick = () => updateRequest(data.barcode);
-            document.getElementById('delete-btn').onclick = () => deleteRequest(data.barcode);
+// document.querySelectorAll(".card-js").forEach((card) => {
+//     card.addEventListener("click", function(event) {
+//         console.log(encodeURIComponent(event.currentTarget.id));
+//         fetch(LINKROOT+'/Manufacturer/pendingProductRequestDetails', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/x-www-form-urlencoded'
+//             },
+//             body: 'barcodeIn=' + encodeURIComponent(event.currentTarget.id)
+//         })
+//         .then(response => response.json())
+//         .then(data => {
+//             document.getElementById('req-prd-barcode').textContent = data.barcode;
+//             document.getElementById('req-prd-name').textContent = data.product_name;
+//             document.getElementById('req-prd-price').textContent = 'Rs.' + data.unit_price.toFixed(2);
+//             document.getElementById('req-prd-bulk').textContent = 'Rs.' + data.bulk_price.toFixed(2);
+//             // document.getElementById('req-prd-com').innerText = commission;
+//             document.getElementById('update-btn').onclick = () => updateRequest(data.barcode);
+//             document.getElementById('delete-btn').onclick = () => deleteRequest(data.barcode);
 
-            // Redy the form to update the product
-            document.getElementById('name').value = data.product_name;
-            document.getElementById('barcode').value = data.barcode;
-            document.getElementById('unit_price').value = data.unit_price;
-            document.getElementById('bulk_price').value = data.bulk_price;
-        })
-        .catch(error => console.error('Error:', error));
-        viewPopUp('productDetails');
-    })
-})
+//             // Redy the form to update the product
+//             document.getElementById('name').value = data.product_name;
+//             document.getElementById('barcode').value = data.barcode;
+//             document.getElementById('unit_price').value = data.unit_price;
+//             document.getElementById('bulk_price').value = data.bulk_price;
+//             // document.getElementById('req-prd-com').innerText = commission;
+//         })
+//         .catch(error => console.error('Error:', error));
+//         viewPopUp('productDetails');
+//     })
+// })
 
 function updateRequest(product) {
-    const {barcode, pic_format, product_name, unit_price, bulk_price, id} = product;
+    const {barcode, pic_format, product_name, unit_price, bulk_price, id, commission} = product;
     productDetailsPopUpHeader.textContent = 'Update product request';
     productDetailsPopUp.classList.add('hidden');
     form.action = LINKROOT+'/Manufacturer/updateProductRequest/'+id;
@@ -136,6 +154,7 @@ function updateRequest(product) {
     document.getElementById('barcode').value = barcode;
     document.getElementById('unit_price').value = unit_price;
     document.getElementById('bulk_price').value = bulk_price;
+    // document.getElementById('req-prd-com').innerText = commission;
     formSubmitBtn.value = 'Update';
     viewPopUp('addNewProducts');
 }

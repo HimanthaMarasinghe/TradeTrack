@@ -51,7 +51,7 @@ class distributorOrders extends Model
 
     public function readOrders($man_phone) {
         $sql = "SELECT * FROM $this->readTable
-                WHERE o.status IN ('pending', 'processing')
+                WHERE o.status IN ('pending')
                 AND o.man_phone = :man_phone
                 ORDER BY o.date DESC, o.time DESC"; 
         return $this->query($sql, ['man_phone' => $man_phone]);

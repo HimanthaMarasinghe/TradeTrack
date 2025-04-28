@@ -28,22 +28,30 @@
                 <td>Contact Number</td>
                 <td>: <?=$dis['dis_phone']?></td>
             </tr>
-            <!-- <tr>
-            <?php if($wallet['wallet'] > 0) { ?>
-                <td><h2>Debt</h2></td>
-                <td><h2>Rs.<?=number_format($wallet['wallet'], 2)?></h2></td>
-                <?php } else { ?>
-                    <td><h2>Credit</h2></td>
-                    <td><h2>Rs.<?=number_format(-1*$wallet['wallet'], 2)?></h2></td>
-                <?php } ?>
-            </tr> -->
+            <tr>
+            <td><h2>Wallet </h2></td>
+            <td><h2>:Rs.<?=number_format($wallet['wallet'], 2)?></h2></td>
+            </tr>
+            <tr>
+                <td>
+                
+        <button id="deleteDistributorBtn" class="btn">delete</button> <br>
+        
+                </td>
+            </tr>
+                
         </table>
+
+        
+
         <img 
         class="profile-img big" 
         src="<?=ROOT?>/images/Profile/SA/<?=$dis['phone']?>.<?=$dis['pic_format']?>"
         onerror="this.src='<?=ROOT?>/images/Profile/PhoneNumber.jpg'" 
         alt="shop image">
     </div>
+    <div class="row gap-10 ovf-hdn fg1 mg-0">
+    <div class="colomn fg1 panel">
     <div class="row">
         <h2 class="center-al">Stocks</h2>
         <input type="text" class="search-bar fg1" placeholder="Search products" id="search">
@@ -63,51 +71,72 @@
     
             </tbody>
         </table>
-    </div>
+        
+        </div>
+        </div>
+
+        <div class="colomn fg1 panel">
+            <div class="row">
+                <h2 class="center-al">Payments</h2>
+                <input type="text" class="search-bar fg1" placeholder="Search Payment" id="searchPayment">
+                <!-- <input type="date" id="paymentDate" class="filter-js"> -->
+            </div>
+            <div class="billScroll">
+                <table class="bill">
+                    <thead>
+                        <tr class="BillHeadings">
+                            <th>Payment Id</th>
+                            <th>Status</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody id="paymentElements">
+            
+                    </tbody>
+                </table>
+            </div>
+        </div>
 </div>
 
-<!-- popup -->
-<!-- 
-<div id="popUpBackDrop" class=""></div>
-<div id="OrderDetails" class="popUpDiv">
-    <h1>Order details</h1>
-    <div class="row spc-btwn w-100">
-        <div class="colomn">
-            <p>Order Id</p>
-            <p>Date</p>
-            <p>Time</p>
-            <p>Shop Name</p>
-            <p>Shop Owner</p>
-            <p>Contact Number</p>
-            <p>Order Status</p>
-        </div>
-        <div class="colomn fg1">
-            <p id="More-details-Order-id"></p>
-            <p id="More-details-Order-date"></p>
-            <p id="More-details-Order-time"></p>
-            <p id="More-details-Order-shopname"></p>
-            <p id="More-details-Order-ownername"></p>
-            <p id="More-details-Order-phone"></p>
-            <p id="More-details-Order-status"></p>
-        </div>
-    </div>
-    <div class="billScroll">
-        <table class="bill min-w-1200">
-            <thead>
-                <tr class="BillHeadings">
-                    <th class="center-al">Barcode</th>
-                    <th class="left-al">Product Name</th>
-                    <th class="left-al">Quantity</th>
-                    <th>Sold Bulk Price</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody id="OrderDetailsItems">
-            </tbody>
+<!-- Payment Confirm PopUP Modal -->
+<div id="popUpBackDrop" class="hidden"></div>
+    <div id="confirmPaymentPopUp" class="popUpDiv hidden">
+        <h2>Payment Datails</h2>
+        <table class = "profile">
+            <tr>
+                <td><strong>Payment ID</strong></td>
+                <td>: <span id="confirmPaymentId"></span></td>
+            </tr>
+            <tr>
+                <td><strong>Date</strong></td>
+                <td>: <span id="confirmPaymentDate"></span></td>
+            </tr>
+            <tr>
+                <td><strong>Time</strong></td>
+                <td>: <span id="confirmPaymentTime"></span></td>
+            </tr>
+            <tr>
+                <td><strong>Ammount</strong></td>
+                <td>: <span id="confirmPaymentAmmount"></span></td>
+            </tr>
+            <tr>
+                <td><strong>Payment Status</strong></td>
+                <td>: <span id="confirmPaymentStatus"></span></td>
+            </tr>
         </table>
-        <h1 class="right-al" id="More-details-Order-total"></h1>
+        
+        <form 
+            method="post" 
+            class="colomn mg-10 gap-10" 
+            id = "confirmPaymentForm">
+
+            <input type="text" name='status' value="0" class="hidden">
+            <button type = "submit" class="btn" id="confirmPaymentBtn">Confirm Payment</button>
+        </form>
+        
     </div>
-</div> -->
+
+    <script src="<?=ROOT?>/js/popUp.js"></script>
 
     <script>
         const LINKROOT = "<?=LINKROOT?>";

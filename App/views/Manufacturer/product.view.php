@@ -38,7 +38,7 @@
             <img class="profile-img big" src="<?=ROOT?>/images/Products/default.jpg" alt="">
         <?php } ?>
     </div>
-    <div class="row">
+    <!-- <div class="row">
         <div class="w-50 colomn alitem-center">
             <h4>Sales By District</h4>
             <canvas id="salesByDistrict"></canvas>
@@ -47,15 +47,15 @@
             <h4>Sales By Month</h4>
             <canvas id="salesByMonth"></canvas>
         </div>
-    </div>
+    </div> -->
 </div>
     
 
 <!-- Chart.js -->
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
 
-<script>
+<!-- <script>
     const salesByDistrict = document.getElementById('salesByDistrict');
     const salesByMonth = document.getElementById('salesByMonth');
 
@@ -123,7 +123,7 @@
         },
         options: options
     });
-</script>
+</script> -->
  
         
 
