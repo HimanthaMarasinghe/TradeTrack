@@ -180,6 +180,15 @@ class Manufacturer extends Controller
         $this->view('manufacturer/addNewAgents', $this->data);
     }
 
+    public function pendingdisrequest() {
+
+
+        $this->data['tabs']['active'] = 'Distributors';
+        $this->view('manufacturer/distributorRequest', $this->data);
+    
+
+    }
+
     public function DistributorProfile($dis_phone){
 
         
@@ -368,7 +377,43 @@ class Manufacturer extends Controller
         echo json_encode($disstock);
     }
 
-    
+    public function getDisReq(){ 
+        $search = $_GET['search'] ?? null;
+       
+        $Re = new disReq;
+        
+        $distributorReq = $Re->searchReq($search, $_SESSION['manufacturer']['phone']);
+
+        if(!$distributorReq)
+            $distributorReq = [];
+        echo json_encode($distributorReq);
+    }
+
+    public function accept($id){ 
+        $acc = new disReq;
+
+        $dis = $acc->first(['id' => $id]);
+        $acc->delete(['id' => $id]);
+
+        (new DistributorM)->update(['dis_phone' => $dis['dis_phone']], ['man_phone' => $_SESSION['manufacturer']['phone']]);
+
+        
+
+        echo json_encode(['success' => 'true']);
+    }
+
+    public function delete($id){ 
+        $acc = new disReq;
+
+        $acc->first(['id' => $id]);
+        $acc->delete(['id' => $id]);
+
+        
+
+        
+
+        echo json_encode(['success' => 'true']);
+    }
 
 
 

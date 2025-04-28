@@ -86,6 +86,10 @@
                 <td><label for="bulk_price">Bulk price</label></td>
                 <td><input class="userInput" type="number" name="bulk_price" id="bulk_price" required></td>
             </tr>
+            <tr>
+                <td><label for="Commission">Commission</label></td>
+                <td><input class="userInput" type="number" min='1' max='99' name="Commission" id="Commission" required></td>
+            </tr>
         </table>
         <input type="submit" class="btn" id="formSubmitBtn" value="Make request">
         <!-- <button type="submit" class="btn">Make Request</button> -->

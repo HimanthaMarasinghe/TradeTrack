@@ -15,48 +15,40 @@
             </div>
     <div class="dashboard">
         <div class="card card-blue">
-        <h2>20</h2>
+        <h2><?=$totalCustomers?></h2>
         <p>Total Customers</p>
-        <a href="#">More info</a>
+        <a href="<?=LINKROOT?>/Admin/Customers">More info</a>
         </div>
 
         <div class="card card-orange">
-        <h2>8</h2>
+        <h2><?=$totalLoyalCustomers?></h2>
         <p>Loyal Customers</p>
-        <a href="#">More info</a>
+        <a href="<?=LINKROOT?>/Admin/Customers">More info</a>
         </div>
 
         <div class="card card-red">
-        <h2>10</h2>
+        <h2><?=$shopOwners?></h2>
         <p>Shop Owners</p>
-        <a href="#">More info</a>
+        <a href="<?=LINKROOT?>/Admin/Shops">More info</a>
         </div>
 
         <div class="card card-green">
-        <h2>15</h2>
+        <h2><?=$distributors?></h2>
         <p>Distributors</p>
-        <a href="#">More info</a>
+        <a href="<?=LINKROOT?>/Admin/Distributors">More info</a>
         </div>
 
         <div class="card card-teal">
-        <h2>12</h2>
+        <h2><?=$manufacturers?></h2>
         <p>Manufacturers</p>
-        <a href="#">More info</a>
+        <a href="<?=LINKROOT?>/Admin/Manufacturers">More info</a>
         </div>
 
         <div class="card card-purple">
-        <h2>45</h2>
+        <h2><?=$products?></h2>
         <p>Products</p>
-        <a href="#">More info</a>
+        <a href="<?=LINKROOT?>/Admin/Products">More info</a>
         </div>
-
-        <div class="card card-pink">
-        <h2>7</h2>
-        <p>Total Enquiries</p>
-        <a href="#">More info</a>
-        </div>
-        <br>
-
         <!-- Separator line -->
     </div>
     <hr class="separator">

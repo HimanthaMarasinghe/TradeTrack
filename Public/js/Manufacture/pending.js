@@ -96,6 +96,7 @@ function addNewProduct() {
 }
 
 
+
 document.querySelectorAll(".card-js").forEach((card) => {
     card.addEventListener("click", function(event) {
         console.log(encodeURIComponent(event.currentTarget.id));
@@ -155,3 +156,9 @@ function deleteRequest(id) {
     })
     .catch(error => console.error('Error:', error));
 }
+
+// Validate unit_price <= bulk_price on form submission
+
+document.getElementById('unit_price').addEventListener('input', (e) => {
+    document.getElementById('bulk_price').max = e.target.value;
+})

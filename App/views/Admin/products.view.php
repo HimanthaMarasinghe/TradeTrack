@@ -57,7 +57,7 @@
             </tr>
             <tr>
                 <td><label for="barcode">Bar Code</label></td>
-                <td><input class="userInput" type="text" name="barcode" id="product_code" required></td>
+                <td><input class="userInput" type="number" name="barcode" id="product_code" required></td>
             </tr>
             <tr>
                 <td><label for="unit_type">Unit Type</label></td>
@@ -78,7 +78,7 @@
             </tr>
             <tr>
                 <td><label for="unit_price">Unit price</label></td>
-                <td><input class="userInput" type="text" name="unit_price" id="unit_price" required></td>
+                <td><input class="userInput" type="number" name="unit_price" id="unit_price" min="1" required></td>
             </tr>
         </table>
         <button id="formSubmit" class="btn w-100px" type="submit">Add</button>

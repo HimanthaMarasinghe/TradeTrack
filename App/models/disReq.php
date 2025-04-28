@@ -17,6 +17,4 @@ class disReq extends Model
         
         return $this->query($query, $queryParm);
     }
-
-
 }

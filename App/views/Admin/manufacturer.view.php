@@ -34,17 +34,41 @@
         alt=""
         onerror="this.src='<?=ROOT?>/images/Profile/PhoneNumber.jpg'">
     </div>
-    <h3>Sales agents</h3>
+    <h3>Distributors</h3>
     <div class="grid g-resp-200 scroll-box">
-    <?php for($x = 0; $x <4; $x++){?>
-        <a href="" class="card btn-card colomn asp-rtio">
-                <img class="product-img" src="<?=ROOT?>/images/Profile/PhoneNumber.jpg" alt="">
-                <div class="details h-50">
-                    <h4>Chenuka</h4>
-                    <h4>wijevardana stores</h4>
-                    <h4>0771488164</h4>
-                </div>
-        </a>
-    <?php } ?>
+    <?php
+    // Get distributors for a manufacturer
+    $distributor = new DistributorM();
+        
+        // Use manufacturer phone from the data passed from the controller
+        if (isset($manufacturer['man_phone'])) {
+           // $distributorForManufacturer = $distributor->searchDistributors(['%', null, $manufacturer['man_phone']]);
+                   // Direct SQL query as a test
+            $sql = "SELECT * FROM distributors WHERE man_phone = :man_phone";
+            $distributorForManufacturer = $distributor->query($sql, ['man_phone' => $manufacturer['man_phone']]);
+            
+            if(!empty($distributorForManufacturer)){
+                foreach($distributorForManufacturer as $disManu){
+                    ?>
+                    <a href="<?=ROOT?>/Admin/distributor/<?=$disManu['dis_phone']?>" class="card btn-card column aspect-ratio">
+                        <img 
+                            class="profile-img big" 
+                            src="<?=ROOT?>/images/Profile/<?=$disManu['dis_phone']?>.<?=$disManu['pic_format']?>" 
+                            alt=""
+                            onerror="this.src='<?=ROOT?>/images/Profile/PhoneNumber.jpg'">
+                        <div class="details h-50">
+                            <h4><?=$disManu['dis_busines_name']?></h4>
+                            <h4><?=$disManu['dis_phone']?></h4>
+                        </div>
+                    </a>
+                    <?php
+                }
+            } else {
+                echo '<p>No distributors found for this manufacturer.</p>';
+            }
+        } else {
+            echo '<p>Manufacturer information not available.</p>';
+        }
+    ?>
 </div>
 <?php $this->component("footer") ?>
