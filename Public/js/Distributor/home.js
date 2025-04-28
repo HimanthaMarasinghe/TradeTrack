@@ -1,0 +1,1 @@
+document.getElementById('lowQuantityProductCard').addEventListener('click', () => viewPopUp('productViewPopUp'));

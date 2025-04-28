@@ -42,6 +42,7 @@
                             <th>Price</th>
                             <th>Quantity</th>
                             <th>Total</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody id="bill" class="salesagenttablebody">

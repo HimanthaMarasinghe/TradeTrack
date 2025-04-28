@@ -23,8 +23,8 @@ class distributorOrders extends Model
                 CASE status
                     WHEN 'Processing' THEN 1
                     WHEN 'Pending' THEN 2
-                    WHEN 'Ready' THEN 3
-                    WHEN 'Done' THEN 4
+                    WHEN 'Delivering' THEN 3
+                    WHEN 'Recieved' THEN 4
                     ELSE 5
                 END,
                 date DESC, time DESC

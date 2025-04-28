@@ -43,6 +43,7 @@
         src="<?=ROOT?>/images/shops/<?=$shop['so_phone']?><?=$shop['shop_pic_format']?>"
         onerror="this.src='<?=ROOT?>/images/shops/Default.jpeg'" 
         alt="shop image">
+        <?php $this->component('chat', ['user' => $shop['first_name']." ".$shop['last_name'], 'chat' => $chat]) ?>
     </div>
 
     <div class="row gap-10 ovf-hdn fg1 mg-0">

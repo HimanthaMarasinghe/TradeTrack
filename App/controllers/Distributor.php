@@ -12,13 +12,16 @@ class Distributor extends Controller
             redirect('login');
             exit;
         }
+        if(!$_SESSION['distributor']['man_phone']){
+            redirect('DistributorNoMan');
+            exit;
+        }
     }
 
     //create new methods after this line.
 
     public function index(){
         $this->data['order'] = (new ShopOrder)->where(['status' => 'pending','dis_phone' => $_SESSION['distributor']['phone']]);
-        
         $this->data['product'] = (new distributorStocks)->getLowStock();
         $this->data['tabs']['active'] = 'Home';
         $this->view('Distributor/home', $this->data);
@@ -140,17 +143,6 @@ class Distributor extends Controller
         echo json_encode($OrderData);
     }
 
-    // public function searchRequestDetails(){
-    //     $search = $_GET['searchTerm'];
-    //     $filter = $_GET['filter'] ?? null;
-    //     $date = $_GET['date'] ?? null;
-    //     $order = new distributorOrders;
-    //     $orders = $order->searchRequestDetails($search, $date, $filter) ?: [];
-    //     header('Content-Type: application/json');
-    //     echo json_encode($orders);
-
-    // }
-
     public function deleteOrder($order_id){
         if($_SERVER['REQUEST_METHOD'] !== 'DELETE'){
             echo json_encode(['error' => 'Method not allowed']);
@@ -204,6 +196,20 @@ class Distributor extends Controller
         }
         echo json_encode(['success' => 'success']);
     }
+    
+    public function receivedInventory($order_id){
+        // $order = (new distributorOrders)->first(['order_id' => $order_id]);
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $orderItems = (new distributorOrdersItems)->where(['order_id' => $order_id]);
+            foreach($orderItems as $item) {
+                (new distributorStocks)->updateStock($_SESSION['distributor']['phone'],$item['barcode'],$item['quantity']);
+            }
+            (new distributorOrders)->update(['order_id' => $order_id],['status' => 'Delivered']);
+            echo json_encode(['success' => true]);
+            return;
+        }
+        redirect('Distributor');
+    }
 
     public function announcements(){
         $announcement = new Announcements;
@@ -247,6 +253,7 @@ class Distributor extends Controller
         header('Content-Type: application/json');
         echo json_encode($shops);
     }
+
 
     public function searchPayment(){
         $searchPayment = $_GET['searchPay'];
@@ -327,7 +334,7 @@ class Distributor extends Controller
             $con = $payment->startTransaction();
             $payment->update(['id' => $id],['status' => 1], $con);
             $pay = $payment->first(['id' => $id]);
-            (new WalletSoDis)->updateWallet($_SESSION['distributor']['phone'],$pay['so_phone'],$pay['amount'],$con);
+            (new WalletSoDis)->updateWallet($_SESSION['distributor']['phone'],$pay['so_phone'],$pay['ammount'],$con);
             $con->commit();
         }
         // Redirect back to previous page
@@ -341,4 +348,6 @@ class Distributor extends Controller
             redirect("Distributor/Stocks/$barcode");
         }
     }
+
+
 }

@@ -67,13 +67,14 @@ class DistributorStocks extends Model{
         return $this->query($sql, ['search' => "%$search%", 'dis_phone' => $dis_phone]);
     }
 
-//     public function cancelShopOrder($order_id){
-//         $sql = "UPDATE distributor_stocks ds
-//                 JOIN shop_orders o ON ds.dis_phone = o.dis_phone
-//                 JOIN shop_order_items soi ON soi.order_id = o.order_id AND soi.barcode = ds.barcode
-//                 SET  $logic soi.quantity
-//                 WHERE ds.dis_phone = :dis_phone AND o.order_id = :order_id";
+    public function updateStock($dis_phone,$barcode,$quantity) {
 
-//         return $this->query($sql,['dis_phone' => $_SESSION['distributor']['phone'], 'order_id' => $order_id]);
-//     }
+        $sql = "INSERT INTO $this->table (dis_phone, barcode, quantity, low_quantity_level, quantity_shown)
+                VALUES (:dis_phone, :barcode, :quantity, 0, :quantity)
+                ON DUPLICATE KEY UPDATE
+                quantity = quantity + VALUES(quantity),
+                quantity_shown = quantity_shown + VALUES(quantity)";
+
+        return $this->query($sql, ['barcode' => $barcode, 'quantity' => $quantity, 'dis_phone' => $dis_phone]);
+    }
  }
