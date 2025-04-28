@@ -11,7 +11,7 @@ searchBar.addEventListener('input', () => {
 });
 
 Filter.addEventListener('change', () => loadData());
-date.addEventListener('change', () => loadData());
+dateElement.addEventListener('change', () => loadData());
 
 function loadData(){
     const searchTerms = searchBar.value;
@@ -87,24 +87,21 @@ function addEventListeners() {
                         break;
 
                         case 'Processing':
-                        submitButton.innerText = "Ready";
+                        submitButton.innerText = "Delivering";
                         submitButton.classList.remove('hidden');
-                        submitButton.onclick = () => updateStatus(order_id, 'Ready');
+                        submitButton.onclick = () => updateStatus(order_id, 'Delivering');
                         break;
 
-                        case 'Ready':
-                            submitButton.innerText = "Done";
+                        case 'Delivering':
+                            submitButton.innerText = "Delivered";
                             submitButton.classList.remove('hidden');
-                            submitButton.onclick = () => updateStatus(order_id, 'Done');
+                            submitButton.onclick = () => updateStatus(order_id, 'Delivered');
                             break;
                     
                         default :
                         submitButton.classList.add('hidden');
                 }
-                // if(data.status === 'Pending') {
-                // } else {
-                //     submitButton.classList.add('hidden');
-                // }
+                
                     
                 let orderItems = document.getElementById('orderItems');
                 orderItems.innerHTML = '';

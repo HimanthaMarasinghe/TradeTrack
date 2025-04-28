@@ -24,8 +24,8 @@
                 <option value="">All</option>
                 <option value="Pending">Pending</option>
                 <option value="Processing">Processing</option>
-                <option value="Ready">Ready</option>
-                <option value="Done">Done</option>
+                <option value="Delivering">Delivering</option>
+                <option value="Delivered">Delivered</option>
             </select>
             <input type="date" id="order_date" class="filter-js">
         </div>

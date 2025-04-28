@@ -38,6 +38,7 @@
 </div>
 
 <!-- add new product request popup -->
+
 <div id="popUpBackDrop" class="hidden"></div>
 <div id="addNewProducts" class="hidden popUpDiv">
     <h2>Make a request to add new product</h2>
@@ -66,14 +67,14 @@
             </tr>
             <tr>
                 <td><label for="barcode">Barcode</label></td>
-                <td><input class="userInput" type="number" name="barcode" id="barcode"></td>
+                <td><input class="userInput" type="text" name="barcode" id="barcode" pattern="[0-9]{13}" title="Please enter exactly 13 digits"></td>
             </tr>
             <tr>
                 <td colspan="2"><p>If your product do not have a barcode leave the above field empty. The system will generate a barcode for your product.</p></td>
             </tr>
             <tr>
                 <td><label for="barcode">Barcode Registration Proof</label></td>
-                <td><input type="file" id="barcodeProof" name="barcodeProof" accept=".jpg,.jpeg,.png"></td>
+                <td><input type="file" id="barcodeProof" name="barcodeProof" accept=".jpg, .jpeg, .png, .pdf"></td>
             </tr>
             <tr>
                 <td colspan="2"><p>If you add a barcode to the form, please upload the official barcode registration document, or a product wraper.</p></td>
@@ -88,7 +89,7 @@
             </tr>
             <tr>
                 <td><label for="Commission">Commission</label></td>
-                <td><input class="userInput" type="number" min='1' max='99' name="Commission" id="Commission" required></td>
+                <td><input class="userInput" type="number" min='1' max='99' name="commission" id="Commission" required></td>
             </tr>
         </table>
         <input type="submit" class="btn" id="formSubmitBtn" value="Make request">
@@ -100,13 +101,17 @@
     <h2>Product is sent to admin review</h2>
     <div class="row">
         <img id="popUpImage" src="<?=ROOT?>/images/Default/Product.jpeg" alt="" class="default big">
-        <img id="popUpProofImage" src="<?=ROOT?>/images/Default/Product.jpeg" alt="" class="default big">
+        <!-- <img id="popUpProofImage" src="<?=ROOT?>/images/Default/Product.jpeg" alt="" class="default big"> -->
     </div>
     <table>
-        <h3 id="req-prd-name">Lorem ipsum dolor sit amet.</h3>
+        <h3 id="req-prd-name"></h3>
         <tr>
             <td>Barcode</td>
             <td id="req-prd-barcode"></td>
+        </tr>
+        <tr id="req-prd-barcodeProofRow">
+            <td>Barcode Proof</td>
+            <td><a id="req-prd-barcodeProof" href="" class="btn">Download</a></td>
         </tr>
         <tr>
             <td>Unit Price</td>
@@ -116,6 +121,12 @@
             <td>Bulk Price</td>
             <td id="req-prd-bulk"></td>
         </tr>
+
+        <tr>
+            <td>commission</td>
+            <td id="req-prd-com"></td>
+        </tr>
+
     </table>
     <div class="row">
         <button class="btn fg1" id="update-btn">Update</button>

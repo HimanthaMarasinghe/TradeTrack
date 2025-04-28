@@ -15,21 +15,15 @@ class Manufacturer extends Controller
     }
 
     public function index()
+
     {
         $order = new distributorOrders;
         $this->data['order'] = $order->readOrders($_SESSION['manufacturer']['phone']);
-        // writeToFile($this->data['order']);
-
-        // $processingOrders = $order->where(['status' => 'processing', 'o.man_phone' => $_SESSION['manufacturer']['phone']]);
-        // if($processingOrders)
-        //     array_push($this->data['order'], ...$processingOrders);
-        //  $readyOrders = $order->where(['status' => 'Ready', 'o.man_phone' => $_SESSION['manufacturer']['phone']]);
-        //     if($readyOrders)
-        //         array_push($this->data['order'], ...$readyOrders);      
+       
 
         $manufacturers = new Manufacturers;
          $this->data['manufacturers'] = $manufacturers->first(['man_phone' => $_SESSION['manufacturer']['phone']]);
-        //$_SESSION['manufacturer']['phone'] = '0112223333'; //ToDo : to be changed to the logged in user's phone number (tbc)
+        
 
         $this->data['tabs']['active'] = 'Home';
         $this->view('manufacturer/home', $this->data);
@@ -78,7 +72,7 @@ class Manufacturer extends Controller
         redirect('Manufacturer/pendingProducts');
     }
 
-    public function orders()//Todo: Should be recoded for beter optimisation with less queries.
+    public function orders() 
     {
         $now = new DateTime();
         $order = new distributorOrders;
@@ -124,14 +118,13 @@ class Manufacturer extends Controller
     public function updateStatus($order_id, $status)
     {
         $order = new distributorOrders;
-        $order->update(['order_id' => $order_id], ['status' => $status]);
+        $order->update(['order_id' => $order_id], ['status' => $status]);             
         echo json_encode(['success' => 'success']);
     }
 
     public function Distributors()
     {
-        // $agent = new DistributorM;
-        // $this->data['Distributors'] = $agent->where(['man_phone' => $_SESSION['manufacturer']['phone']]);
+       
 
         $this->data['tabs']['active'] = 'Distributors';
         $this->view('manufacturer/agents', $this->data);    
@@ -149,21 +142,16 @@ class Manufacturer extends Controller
             $existingUser = $user->first(['phone' => $_POST['phone']]);
             if(!empty($oldAgent))
             {
-                echo "Agent with this phone number already exist."; //Todo : change this to a proper error page.
-                // header('Location: ' . LINKROOT . '/Manufacturer/Distributors');
+                echo "Agent with this phone number already exist."; 
                 return;
             }
 
-            unset($_POST['sa_password']);   //Manufacturer is not alowed to set a password for Sales agent. A default password will be set and sales agent should change it after login.
+            unset($_POST['sa_password']);  
 
-            // $extension = (isset($_FILES['image']) && $_FILES['image']['error'] === 0) ? $this->saveImage($_FILES['image'], 'images/Profile/SA/', $_POST['dis_phone']) : false;
-
+            
             $insertData = array_merge($_POST, ['man_phone' => $_SESSION['manufacturer']['phone'], 'dis_phone' => $_POST['phone']]);
-            // if ($extension !== false) {
-            //     $insertData['sa_pic_format'] = $extension;
-            // }
+            
 
-            //todo:Below tarnsaction should be moved in to a service file.
             $con = $agent->startTransaction();
             if(!$existingUser){
                 $insertData = array_merge($insertData, ['password' => password_hash('password', PASSWORD_DEFAULT), 'role' => '3']);
@@ -194,7 +182,8 @@ class Manufacturer extends Controller
         
             $dis = new DistributorM;
             $this->data['dis'] = $dis->first(['dis_phone' => $dis_phone]);
-            // $this->data['wallet'] = (new WalletSoDis)->first(['so_phone' => $so_phone, 'dis_phone' => $_SESSION['distributor']['phone']]);
+
+            $this->data['wallet'] = (new WalletDisMan)->first(['dis_phone' => $dis_phone, 'man_phone' => $_SESSION['manufacturer']['phone']]);
             
 
         $this->data['tabs']['active'] = 'Distributors';
@@ -341,6 +330,7 @@ class Manufacturer extends Controller
     }
 
     public function getOrders(){ 
+        
         $search = $_GET['search'] ?? null;
         $filter = $_GET['filter'] ?? null;
         $date = $_GET['date'] ?? null;
@@ -377,6 +367,28 @@ class Manufacturer extends Controller
         echo json_encode($disstock);
     }
 
+
+    public function searchPayment($dis_phone){
+        $searchPayment = $_GET['searchPay'];
+        
+        // writeToFile($_GET);
+        $payments = (new DisManPayments)->searchPaymentByMan($searchPayment, $dis_phone, $_SESSION['manufacturer']['phone']) ?: [];
+        header('Content-Type: application/json');
+        echo json_encode($payments);
+    }
+
+
+    public function deleteDistributor($dis_phone){
+
+    if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    $dist = new DistributorM;
+    $dist->update(['dis_phone' => $dis_phone, 'man_phone' => $_SESSION['manufacturer']['phone']], ['man_phone' => null]);
+    (new DistributorStocks)->delete(['dis_phone' => $dis_phone]);
+    }
+    header('Content-Type: application/json');
+    echo json_encode(['success' => 'true']);
+}
+
     public function getDisReq(){ 
         $search = $_GET['search'] ?? null;
        
@@ -408,13 +420,36 @@ class Manufacturer extends Controller
         $acc->first(['id' => $id]);
         $acc->delete(['id' => $id]);
 
-        
-
-        
-
-        echo json_encode(['success' => 'true']);
+         echo json_encode(['success' => 'true']);
     }
 
+
+    public function getDistributorWallet($dis_phone) {
+        $walletAmount = (new WalletDisMan)->first(['dis_phone' => $dis_phone])['wallet'];
+        // $balance = $distributor->WalletBalance($dis_phone); 
+        // show($walletAmount);
+        header('Content-Type: application/json');
+        echo json_encode(['wallet' => $walletAmount]);
+    }
+
+
+    public function updatePaymentStatus($payment_id, $dis_phone){
+        writeToFile($payment_id);
+        writeToFile($dis_phone);
+        $status = $_POST['status'];
+        if($status == 0){
+            $payment = new DisManPayments;
+            $paymentData = $payment->first(['payment_id' => $payment_id]);
+            writeToFile($paymentData);
+            $con = $payment->startTransaction();
+            $payment->update(['payment_id' => $payment_id],['status' => 1], $con);
+            (new WalletDisMan)->updateDisManWallet($dis_phone, $_SESSION['manufacturer']['phone'], $paymentData['ammount'], $con);
+            $con->commit();
+        }
+        // Redirect back to previous page
+        header("Location: " . $_SERVER['HTTP_REFERER']);
+        exit;
+    }
 
 
 
