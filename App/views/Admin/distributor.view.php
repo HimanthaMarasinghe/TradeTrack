@@ -38,9 +38,9 @@
         alt=""
         onerror="this.src='<?=ROOT?>/images/Profile/PhoneNumber.jpg'">
     </div>
-    <h3>Distributing shops</h3>
+    <h3>Orderes from shops</h3>
     <div class="grid g-resp-200 scroll-box">
-    <?php for($x = 0; $x <4; $x++){?>
+    <?php {?>
         <a href="" class="card btn-card colomn asp-rtio">
                 <img class="product-img" src="<?=ROOT?>/images/Profile/PhoneNumber.jpg" alt="">
                 <div class="details h-50">

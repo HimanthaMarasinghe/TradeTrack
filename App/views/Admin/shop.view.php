@@ -66,37 +66,31 @@
     </div>
     <h3>Loyalty customers</h3>
     <div class="grid g-resp-200 scroll-box">
-    <?php
-    // Initialize the LoyaltyCustomers model
-    $loyaltyModel = new LoyaltyCustomers();
-    
-    // Get the shop owner's phone number from the current shop data
-    $shopOwnerPhone = $shop['so_phone'];
-    
-    // Retrieve loyalty customers for this shop (first 10 by default)
-    $loyaltyCustomers = $loyaltyModel->allLoyaltyCustomers($shopOwnerPhone);
-    
-    // Check if we have any loyalty customers
-    if (!empty($loyaltyCustomers)) {
-        foreach ($loyaltyCustomers as $customer) {
-            // Create path for customer profile image
-            $imagePath = ROOT . '/images/Profile/';
-            $imageFile = !empty($customer['pic_format']) ? 
-                         $customer['phone'] . $customer['pic_format'] : 
-                         'PhoneNumber.jpg';
-            
-            echo '<a href="' . ROOT . '/Admin/customer/' . $customer['phone'] . '" class="card btn-card colomn asp-rtio">
-                    <img class="product-img" src="' . $imagePath . $imageFile . '" alt=""
-                         onerror="this.src=\'' . $imagePath . 'PhoneNumber.jpg\'">
+        <?php
+        // Make sure we get the loyalty customers data first
+        $loyaltyModel = new LoyaltyCustomers();
+        $loyaltyCustomers = $loyaltyModel->allLoyaltyCustomers($shop['so_phone']);
+        if (!empty($loyaltyCustomers)) {
+            foreach ($loyaltyCustomers as $customer) {
+                ?>
+                <a href="<?=ROOT?>/Admin/customer/<?=$customer['phone']?>" class="card btn-card column aspect-ratio">
+                    <img 
+                        class="profile-img big" 
+                        src="<?=ROOT?>/images/Profile/<?=$customer['phone']?>.<?=$customer['pic_format']?>" 
+                        alt=""
+                        onerror="this.src='<?=ROOT?>/images/Profile/PhoneNumber.jpg'">
                     <div class="details h-50">
-                        <h4>' . $customer['first_name'] . ' ' . $customer['last_name'] . '</h4>
-                        <h4>' . $customer['address'] . '</h4>
-                        <h4>' . $customer['phone'] . '</h4>
+                        <h4><?=$customer['first_name']?> <?=$customer['last_name']?></h4>
+                        <h4><?=$customer['address']?></h4>
+                        <h4><?=$customer['phone']?></h4>
                     </div>
-                  </a>';
+                </a>
+                <?php
+            }
+        } else {
+            echo '<p>No loyalty customers found for this shop.</p>';
         }
-    } else {
-        echo '<p>No loyalty customers found for this shop.</p>';
-    }
     ?>
+    </div>
+</div>
 <?php $this->component("footer") ?>

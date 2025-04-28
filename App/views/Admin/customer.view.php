@@ -42,24 +42,24 @@
                     <th>Bill Id</th>
                     <th>Date</th>
                     <th>Time</th>
-                    <th>Amount</th>
                     <th>Shop</th>
-                    <th>More Details</th>
                 </tr>
             </thead>
             <tbody>
-                <?php
-                for($i = 1; $i<25; $i++){
-                    echo "<tr class='Item'>
-                            <td class='center-al'>$i</td>
-                            <td class='left-al'>2024.03.20</td>
-                            <td class='left-al'>09.45 a.m.</td>
-                            <td>Rs.300.00</td>
-                            <td>Stores</td>
-                            <td class='center-al'><button class='btn btn-mini'>More</button></td>
-                        </tr>";
+            <?php                
+                if(!empty($bills)) {
+                    foreach($bills as $bill){
+                        echo "<tr class='Item'>
+                                <td class='center-al'>" . $bill['bill_id'] . "</td>
+                                <td class='left-al'>" . $bill['date'] . "</td>
+                                <td class='left-al'>" . $bill['time'] . "</td>
+                                <td>" . $bill['shop_name'] . "</td>
+                            </tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='4' class='center-al'>No bill history found</td></tr>";
                 }
-            ?>
+                ?>
                 <tr></tr>
             </tbody>
         </table>

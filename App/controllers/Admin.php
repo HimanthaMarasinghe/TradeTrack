@@ -16,6 +16,26 @@ class Admin extends Controller
     //create new methods after this line.
     public function index(){
         $this->data['tabs']['active'] = 'Home';
+        // Fetch dashboard statistics from database
+        $userModel = new User();
+        $this->data['totalCustomers'] = count($userModel->where(['role' => '0']));
+
+        $userLoyaltyModel = new LoyaltyCustomers();
+        $this->data['totalLoyalCustomers'] = count($userLoyaltyModel->readAll());
+
+        $shopModel = new Shops();
+        $this->data['shopOwners'] = count($shopModel->readAll());
+    
+        $distributorModel = new DistributorM();
+        $this->data['distributors'] = count($distributorModel->readAll());
+        
+        $manufacturerModel = new Manufacturers();
+        $this->data['manufacturers'] = count($manufacturerModel->readAll());
+        
+        $productModel = new Products();
+        $this->data['products'] = count($productModel->readAll());
+        
+        
         $this->view('Admin/home',$this->data);
     }
 /*
@@ -180,6 +200,8 @@ class Admin extends Controller
         if(!$this->data['customer']){
             redirect('Admin/Customers');
         }
+
+        $this->data['bills'] = (new Bills)->where(['b.cus_phone' => $phoneNumber]);
         $this->view('Admin/customer', $this->data);
     }
 
@@ -238,6 +260,7 @@ class Admin extends Controller
             redirect('Admin/shops');
         }
         $this->data['bills'] = (new Bills)->where(['b.so_phone' => $shopOwnerPhoneNumber]);
+        
         $this->view('Admin/shop', $this->data);
     }
 
@@ -342,5 +365,12 @@ class Admin extends Controller
 
     public function new($viewName) {
         $this->view('Admin/'.$viewName, $this->data);
+    }
+
+    public function deleteRequest($id) {
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            (new pendingProductRequests)->delete(['id' => $id]);
+            echo json_encode(['success' => true]);
+        }
     }
 }

@@ -230,12 +230,12 @@ label {
   
   .card p {
     margin: 5px 0 20px;
-    color: #666;
+    color: #000000;
     font-size: 18px;
   }
   
   .card a {
-    color: #007bff;
+    color: #162359;
     text-decoration: none;
     font-size: 14px;
     position: absolute;
@@ -244,37 +244,37 @@ label {
   }
   
   .card-blue {
-    background-color: #4db8ff;
+    background-color: #0073E6;
     color: #fff;
   }
   
   .card-orange {
-    background-color: #ff9933;
+    background-color: #1A8CFF;
     color: #fff;
   }
   
   .card-red {
-    background-color: #ff4d4d;
+    background-color: #4DA6FF;
     color: #fff;
   }
   
   .card-green {
-    background-color: #4dff4d;
+    background-color: #80BFFF;
     color: #fff;
   }
   
   .card-purple {
-    background-color: #cc99ff;
+    background-color: #66cccc;
     color: #fff;
   }
   
   .card-pink {
-    background-color: #ff66b3;
+    background-color: #B3D9FF;
     color: #fff;
   }
   
   .card-teal {
-    background-color: #66cccc;
+    background-color: #E6F2FF;
     color: #fff;
   }
 
