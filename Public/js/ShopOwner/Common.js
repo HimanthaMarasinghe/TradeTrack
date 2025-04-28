@@ -118,9 +118,31 @@ export function orderMoreDetails(dataset){
                     </tr>
                 `;
             });
+            const receivedBtn = document.getElementById('received-btn');
+            if(status == 'Delivering'){
+                receivedBtn.classList.remove('hidden');
+                receivedBtn.onclick = () => setOrderStatusToReceived(order_id);
+            } else {
+                receivedBtn.classList.add('hidden');
+                receivedBtn.onclick = null;
+            }
             viewPopUp('OrderDetails');
         } else {
             alert('Failed to get Order details');
+        }
+    }); 
+}
+
+function setOrderStatusToReceived(order_id){
+    fetch(LINKROOT + '/ShopOwner/setOrderStatusToReceived/' + order_id)
+    .then(res => res.json())
+    .then(data => {
+        if(data.success){
+            closePopUp('OrderDetails');
+            alert('Order status updated to Received');
+            location.reload();
+        } else {
+            alert('Failed to update order status');
         }
     }); 
 }

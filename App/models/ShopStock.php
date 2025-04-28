@@ -113,4 +113,12 @@ class ShopStock extends Model
             'aapp' => $aapp
         ]);
     }
+
+    public function updateStockOnOrder($order_id, $con = null){
+        $query = "UPDATE $this->table s SET 
+                  s.quantity = s.quantity + (SELECT quantity FROM shop_order_items WHERE order_id = :order_id AND barcode = s.barcode),
+                  s.pre_orderable_stock = s.pre_orderable_stock + (SELECT quantity FROM shop_order_items WHERE order_id = :order_id AND barcode = s.barcode)
+                  WHERE s.barcode IN (SELECT barcode FROM shop_order_items WHERE order_id = :order_id)";
+        return $this->query($query, ['order_id' => $order_id], $con);
+    }
 }

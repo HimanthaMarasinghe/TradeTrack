@@ -32,6 +32,9 @@
             <tbody id="OrderDetailsItems">
             </tbody>
         </table>
+    <div class="row">
+    </div>
         <h1 class="right-al" id="More-details-Order-total"></h1>
     </div>
+    <button id="received-btn" class="btn">Received</button>
 </div>

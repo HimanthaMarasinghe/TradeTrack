@@ -76,6 +76,7 @@ export default class Chat {
 
         this.chatBotToggler.addEventListener("click", () => {
             this.notification.handleChat = true;
+            this.notification.deleteNotification({type: 'chat', ref_id: this.secondPerson});
             this.chatBackDrop.classList.remove("hidden");
             document.body.classList.add("show-chatbot");
             this.chatInput.focus();

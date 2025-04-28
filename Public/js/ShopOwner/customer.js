@@ -3,29 +3,30 @@ import ApiFetcherMod from "../ApiFetcherMod.js";
 import billMoreDetails from "./Common.js";
 import Chat from '../chat.js';
 
-const notification = new Notification();
-new Chat(ws_id, loy_phone, notification, 'Customer/shop/');
+const notification = new Notification(null, false, false, false, false, loy_phone);
 
-const revoke_btn = document.getElementById('revoke_btn');
-
-if(revoke_btn != null){
-    revoke_btn.addEventListener('click', function(){
-        if(wallet_amount != 0) {
-            alert("The customer's wallet balance is not zero. Please settle the balance with the customer before revoking their loyalty privileges.");
-            return;
-        }
-        fetch(LINKROOT+'/ShopOwner/revokeLoyalty', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: 'loy_phone=' + encodeURIComponent(loy_phone)
-        })
-        .then(
-            location.reload()
-        )
-        .catch(error => console.error('Error:', error));
-    });
+if(loyalty){
+    new Chat(ws_id, loy_phone, notification, 'Customer/shop/');
+    const revoke_btn = document.getElementById('revoke_btn');
+    if(revoke_btn != null){
+        revoke_btn.addEventListener('click', function(){
+            if(wallet_amount != 0) {
+                alert("The customer's wallet balance is not zero. Please settle the balance with the customer before revoking their loyalty privileges.");
+                return;
+            }
+            fetch(LINKROOT+'/ShopOwner/revokeLoyalty', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'loy_phone=' + encodeURIComponent(loy_phone)
+            })
+            .then(
+                location.reload()
+            )
+            .catch(error => console.error('Error:', error));
+        });
+    }
 }
 
 function billRow(bill) {
@@ -60,3 +61,12 @@ const billApiConfig = {
 }
 
 new ApiFetcherMod(billApiConfig);
+
+document.getElementById('update_wallet').addEventListener('click', () => viewPopUp('wallet_update_popUp'));
+
+const add = document.getElementById('add');
+add.addEventListener('change', () => {
+    const input = document.getElementById('wallet_update_amount');
+    if(add.checked) input.removeAttribute('max');
+    else input.setAttribute('max', cashDrawer);
+});

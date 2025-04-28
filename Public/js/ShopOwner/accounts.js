@@ -249,7 +249,7 @@ function openForm(form) {
 
 document.getElementById('rec_expence').addEventListener('click', () => openForm('expence'));
 document.getElementById('rec_withdraw').addEventListener('click', () => {
-    if (cashDrawerBallance < 0) {
+    if (cashDrawerBallance <= 0) {
         alert('Not enough cash in the drawer to withdraw!');
         return;
     }

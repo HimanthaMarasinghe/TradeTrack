@@ -72,7 +72,7 @@
             <a class="btn fg1" id="rec_withdraw">Cash Drawer Withdrawal</a>
             <a class="btn fg1" id="rec_cash_in">Add Cash to Drawer</a>
             <a class="btn fg1" id="rec_expence">Record Expences</a>
-            <a class="btn fg1" id="repor">Cash Flow Statement</a>
+            <!-- <a class="btn fg1" id="repor">Cash Flow Statement</a> -->
         </div>
         <br>
         <div class="row mg-10 gap-10">
@@ -101,7 +101,7 @@
             </div>
             <div class="colomn fg1 panel">
             <div class="mg-0 row col-max-1024">
-                <h2>Recived Stock Orders</h2>
+                <h2>Recived Stocks</h2>
                 <input type="text" class="search-bar fg1" id="order-searchBar" placeholder="Search by order id">
                 <input type="date" id="order_Date" class="filter-js-order">
             </div>
@@ -217,14 +217,14 @@
             <td><input type="checkbox" id="exp_from_cash_drawer" name="cashDrawer" checked></td>
             <td>
                 <label for="exp_from_cash_drawer">
-                    Payed from cash drawer
+                    Paid from cash drawer
                 </label>
             </td>
         </tr>
         <tr>
             <td>Amount</td>
             <td>
-                <input class="userInput" type="number" name="amount" id="exp_amount" required>
+                <input class="userInput" type="number" name="amount" id="exp_amount" min="1" max="<?=$cashDrawerBallance?>" required>
             </td>
         </tr>
     </table>
@@ -256,7 +256,7 @@
         <tr>
             <td>Amount</td>
             <td>
-                <input class="userInput" type="number" name="amount" id="withdraw_amount" required>
+                <input class="userInput" type="number" name="amount" id="withdraw_amount" min="1" max="<?=$cashDrawerBallance?>" required>
             </td>
         </tr>
     </table>
@@ -279,7 +279,7 @@
         <tr>
             <td>Amount</td>
             <td>
-                <input class="userInput" type="number" name="amount" required>
+                <input class="userInput" type="number" name="amount" min="1" required>
             </td>
         </tr>
     </table>

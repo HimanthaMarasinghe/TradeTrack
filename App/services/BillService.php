@@ -42,9 +42,6 @@ class BillService extends Database
             return $item;
         }, $uniqueItems);
 
-        writeToFile($itemArray, 'itemArray');
-        writeToFile($uniqueItems, 'uniqueItems');
-
         if(count($itemArray) > 0) 
             (new BillItems)->bulkInsert($itemArray, ['barcode', 'sold_price', 'quantity', 'bill_id'], $con);
 

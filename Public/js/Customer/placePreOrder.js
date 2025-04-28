@@ -17,14 +17,19 @@ const placeOrderBtn = document.getElementById('placeOrderBtn');
 
 pQTY.addEventListener('input', () => {
     if (pQTY.value > selectedProduct.pre_orderable_stock) {
+        alert(`You cannot order ${pQTY.value} items. Only ${selectedProduct.pre_orderable_stock} items are available for pre-order.`);
         pQTY.value = selectedProduct.pre_orderable_stock;
     }
     pTotal.value = (pQTY.value * pPrice.value).toFixed(2);
 
     if (pQTY.value > 0)
         addButton.classList.remove('disabled-link');
-    else
+    else{
         addButton.classList.add('disabled-link');
+        if(pQTY.value != '')
+            alert('Please enter a positve quantity');
+        pQTY.value = '';
+    }
 });
 
 addButton.addEventListener('click', () => {
@@ -42,7 +47,8 @@ addButton.addEventListener('click', () => {
     else{
         preOrderItems.push({
             barcode: selectedProduct.barcode,
-            quantity: pQTY.value
+            quantity: pQTY.value,
+            unique: selectedProduct.unique
         });
         
         const tr = document.createElement('tr');

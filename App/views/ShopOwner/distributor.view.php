@@ -133,14 +133,14 @@
             <tr>
                 <td>Pay Amount</td>
                 <td>
-                    <input class="userInput" type="number" name="amount" min="100" id="payAmount" required>
+                    <input class="userInput" type="number" name="amount" min="1" id="payAmount" required>
                 </td>
             </tr>
             <tr>
                 <td><input type="checkbox" id="exp_from_cash_drawer" name="cashDrawer" checked></td>
                 <td>
                     <label for="exp_from_cash_drawer">
-                        Payed from cash drawer
+                        Paied from cash drawer
                     </label>
                 </td>
             </tr>

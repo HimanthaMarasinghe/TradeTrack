@@ -91,6 +91,8 @@ export function preOrderCard(order) {
         product_name,
         bulk_price,
         pic_format,
+        quantity_shown,
+        unit_type
     } = product;
     
     const imageSrc = `${ROOT}/images/Products/${barcode}.${pic_format}`;
@@ -99,6 +101,7 @@ export function preOrderCard(order) {
         <a href="#" class="card btn-card" id="${barcode}">
             <div class="details h-100">
                 <h3>${product_name}</h3>
+                <p>${quantity_shown > 0 ? quantity_shown : 'No'} ${unit_type} can be orderd
                 <h4>Rs.${bulk_price.toFixed(2)}</h4>
             </div>
             <div class="product-img-container">

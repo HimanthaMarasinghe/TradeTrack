@@ -36,3 +36,14 @@ const apiFetcherConfig = {
 new ApiFetcherMod(apiFetcherConfig);
 
 console.log(new Date().toLocaleString());
+
+const radios = document.getElementsByName('purchaseType');
+const cost = document.getElementById('cost');
+
+for (let i = 0; i < radios.length; i++) {
+    radios[i].addEventListener('change', function() {
+        console.log(this.value);
+        if (this.value === 'fromDrawer') cost.setAttribute('max', cashDrawer);
+        else cost.removeAttribute('max');
+    });
+}

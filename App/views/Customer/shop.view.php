@@ -41,7 +41,7 @@
             <tr>
                 <td colspan="2">
                     <div class="row max-w-900">
-                        <button class="btn fg1">Reject Loyalty Privilege</button>
+                        <button class="btn fg1" id="reject">Reject Loyalty Privilege</button>
                         <a class="btn fg1" href="<?=LINKROOT?>/Customer/placePreOrder/<?=$shop['so_phone']?>">Make A Pre-Order</a>
                     </div>
                 </td>
@@ -128,9 +128,7 @@ as in-store customers are prioritized.">
     const ROOT = "<?=ROOT?>";
     const shopPhone = "<?=$shop['so_phone']?>";
     const ws_id = "<?=$_SESSION['customer']['phone']?>";
-<?php if($loyalty) { ?>
-    const chatWith = "<?=$shop['so_phone']?>";
-<?php } ?>
+    const loyalty = <?=json_encode($loyalty)?>;
 </script>
 <script src="<?=ROOT?>/js/popUp.js"></script>
 <script src="<?=ROOT?>/js/Customer/shop.js" type="module"></script>

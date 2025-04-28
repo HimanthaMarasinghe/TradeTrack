@@ -59,7 +59,7 @@
                         <td title="Customers can only pre-order a limited quantity of each product 
         to avoid large orders. Because if shop owners prepare these large orders 
         and they are never picked up, it leads to a big loss because the products 
-        couldn't be sold to in-store customers either.">Amount alowed per pre-order  ⓘ</td>
+        couldn't be sold to in-store customers either.">Amount allowed per pre-order  ⓘ</td>
                         <td><span id="amount_alowed_per_pre_Order"><?=$stock['amount_alowed_per_pre_Order'] > 0 ? $stock['amount_alowed_per_pre_Order'] : 'No'?></span> <?=$product['unit_type']?></td>
                     </tr>
                     <tr>
@@ -124,15 +124,15 @@
         <table>
             <tr>
                 <td><label for="quantity">Quanitity</label></td>
-                <td><input required type="number" class="userInput" id="quantity" name="quantity"></td>
+                <td><input required type="number" class="userInput" id="quantity" min="1" name="quantity"></td>
             </tr>
             <tr>
                 <td><label for="cost">Cost</label></td>
-                <td><input required type="number" class="userInput" id="cost" name="cost"></td>
+                <td><input required type="number" class="userInput" id="cost" min="1" max="<?=$cashDrawer?>" name="cost"></td>
             </tr>
             <tr>
                 <td><input required type="radio" id="onCash-radio" name="purchaseType" value="fromDrawer" checked></td>
-                <td><label for="onCash-radio">Payed from Cash Drawer. (Cash Drawer will be reduced)</label></td>
+                <td><label for="onCash-radio">Paid from Cash Drawer. (Cash Drawer will be reduced)</label></td>
             </tr>
             <tr>
                 <td><input required type="radio" id="none-radio" name="purchaseType" value="personal"> </td>
@@ -154,7 +154,7 @@
         <table>
             <tr>
                 <td><label for="quantity">Quanitity</label></td>
-                <td><input required type="number" class="userInput" id="quantity" name="quantity"></td>
+                <td><input required type="number" min="1" max="<?=$stock['quantity']?>" class="userInput" id="quantity" name="quantity"></td>
             </tr>
         </table>
         <button type="submit" class="btn">Record Waste</button>
@@ -183,18 +183,18 @@
         <table>
             <tr>
                 <td>My Price (leave empty to remove) (Rs.)</td>
-                <td><input type="number" class="userInput" id="unitPrice" name="unitPrice" value="<?=$product['my_price'] == 0 ? null : $product['my_price']?>"></td>
+                <td><input type="number" class="userInput" id="unitPrice" name="unitPrice" value="<?=$product['my_price'] == 0 ? null : $product['my_price']?>" min="1"></td>
             </tr>
             <tr>
                 <td>Low Stock Level</td>
-                <td><input type="number" class="userInput" id="lowStockLevel" name="lowStockLevel" value="<?=$stock['low_stock_level']?>" required></td>
+                <td><input type="number" class="userInput" id="lowStockLevel" name="lowStockLevel" value="<?=$stock['low_stock_level']?>" min="1" required></td>
             </tr>
             <tr>
             <td title="Customers can only pre-order a limited quantity of each product 
 to avoid large orders. Because if shop owners prepare these large orders 
 and they are never picked up, it leads to a big loss because the products 
-couldn't be sold to in-store customers either.">Amount alowed per pre-order  ⓘ</td>
-                <td><input type="number" name="aapp" id="aapp" class="userInput" value="<?=$stock['amount_alowed_per_pre_Order']?>" required></td>
+couldn't be sold to in-store customers either.">Amount allowed per pre-order  ⓘ</td>
+                <td><input type="number" name="aapp" id="aapp" class="userInput" value="<?=$stock['amount_alowed_per_pre_Order']?>" min="0" required></td>
             </tr>
         </table>
         <button type="submit" class="btn" id="editSubmit"><?=$stock ? "Edit" : "Add"?></button>
@@ -209,6 +209,7 @@ couldn't be sold to in-store customers either.">Amount alowed per pre-order  ⓘ
     const ws_id = "<?=$_SESSION['shop_owner']['phone']?>";
     const barcode = "<?=$product['barcode']?>";
     const bulk_price = <?=$product['bulk_price']?>;
+    const cashDrawer = <?=$cashDrawer?>;
 </script>
 
 <script src="<?=ROOT?>/js/popUp.js"></script>

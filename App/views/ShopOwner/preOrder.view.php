@@ -180,6 +180,39 @@
     </form>
 </div>
 
+<!-- Printable Bill format -->
+
+<div id="bill-content" class="bill-content">
+        <h1 id="bill-shopName">Gamunu Stores</h1>
+        <p id="bill-date"></p>
+        <p id="bill-time"></p>
+        <hr>
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>U.Prz</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($bill as $item){
+                    $itemTotal = $item['price'] * $item['qty'];
+                    echo "<tr>
+                        <td class='left-al'>{$item['name']}</td>
+                        <td class='right-al'>" . number_format($item['price'], 2) . "</td>
+                        <td class='right-al'>{$item['qty']}</td>
+                        <td class='right-al'>" . number_format($itemTotal, 2) . "</td>
+                    </tr>";
+                } ?>
+                <tr><td colspan="3">Total : </td><td><?=number_format($total, 2)?></td></tr>
+            </tbody>
+        </table>
+        <hr>
+        <p>Thank you for your purchase!</p>
+</div>
+
 <script>
     const ROOT = '<?=ROOT?>';
     const LINKROOT = '<?=LINKROOT?>';

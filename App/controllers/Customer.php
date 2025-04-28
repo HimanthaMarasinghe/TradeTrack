@@ -17,6 +17,7 @@ class Customer extends Controller
     private function loadPreOrders($status = null, $search = null, $offset = null) {
         $preOrderM = new PreOrder;
         $preOrderItemsM = new PreOrderItems;
+        $preOrderUniqueItemsM = new PreOrderUniqueItems;
         $preOrders = $preOrderM->allPreOrdersForCusotmers($_SESSION['customer']['phone'], $status, $search, $offset);
         foreach ($preOrders as &$preOrder) {
             $preOrderDate = new DateTime($preOrder['date_time']);
@@ -24,6 +25,8 @@ class Customer extends Controller
             if($diff->days < 1)
                $preOrder['date_time'] = $diff->format('%hh %im') . ' ago';
             $preOrder['total'] = $preOrderItemsM->preOrderAmount($preOrder['pre_order_id']);
+            $preOrder['total'] += $preOrderUniqueItemsM->preOrderAmount($preOrder['pre_order_id']);
+            $preOrder['total'] = number_format($preOrder['total'], 2);
         }
         return $preOrders;
     }
@@ -102,18 +105,15 @@ class Customer extends Controller
 
     public function preOrder($order_id) {
         $preOrder = new PreOrder;
-        $preOrderItems = new PreOrderItems;
         $this->data['preOrder'] = $preOrder->preOrderDetailsForCustomer($order_id);
         
         if(!$this->data['preOrder'])
             redirect('Customer/preOrderHistory');
 
-        $this->data['preOrder']['total'] = $preOrderItems->preOrderAmount($order_id);
-        $this->data['preOrderItems'] = $preOrderItems->where(['pre_order_id' => $order_id]);
+        $preOrderItems = (new PreOrderService)->getPreOrderItems($order_id);
 
-        foreach ($this->data['preOrderItems'] as &$item) {
-            $item['row_total'] = number_format($item['po_unit_price'] * $item['quantity'], 2);
-        }
+        $this->data['preOrder']['total'] = $preOrderItems['total'];
+        $this->data['preOrderItems'] = $preOrderItems['items'];
 
         $this->data['tabs']['active'] = 'Home';
         $this->view('customer/preOrder', $this->data);
@@ -211,15 +211,36 @@ class Customer extends Controller
         $preOrderP->insert(['cus_phone' => $_SESSION['customer']['phone'], 'so_phone' => $so_phone], $con);
         $preOrderId = $con->lastInsertId();
 
-        foreach ($preOrderItems as &$item) {
-            $price = (new SoMyPrice)->first(['barcode' => $item['barcode'], 'so_phone' => $so_phone], [], ['price'])['price'];
-            $item['po_unit_price'] = $price ?: $products->first(['barcode' => $item['barcode']], [],['unit_price'])['unit_price'];
-            $item['pre_order_id'] = $preOrderId;
+        $commanItems = array_filter($preOrderItems, function($item) {
+            return $item['unique'] == 0;
+        });
+        $uniqueItems = array_filter($preOrderItems, function($item) {
+            return $item['unique'] == 1;
+        });
+
+        if(count($commanItems) > 0) {
+            $soMyPrice = new SoMyPrice;
+            foreach ($commanItems as &$item) {
+                $price = $soMyPrice->first(['barcode' => $item['barcode'], 'so_phone' => $so_phone], [], ['price'])['price'];
+                $item['po_unit_price'] = $price ?: $products->first(['barcode' => $item['barcode']], [],['unit_price'])['unit_price'];
+                $item['pre_order_id'] = $preOrderId;
+                unset($item['unique']);
+            }
+            $preOrderItemsP->bulkInsert($commanItems, ['barcode', 'quantity', 'po_unit_price', 'pre_order_id'], $con);
+            $shopStock->updatePreOrderableStockItems($commanItems, $so_phone, $con);
         }
 
-        $preOrderItemsP->bulkInsert($preOrderItems, ['barcode', 'quantity', 'po_unit_price', 'pre_order_id'], $con);
-        $shopStock->updatePreOrderableStockItems($preOrderItems, $so_phone, $con);
-        
+        if(count($uniqueItems) > 0) {
+            $shopUniqueProducts = new ShopUniqueProducts;
+            foreach ($uniqueItems as &$item) {
+                $item['po_unit_price'] = $shopUniqueProducts->first(['product_code' => $item['barcode'], 'so_phone' => $so_phone], [], ['unit_price'])['unit_price'];
+                $item['pre_order_id'] = $preOrderId;
+                unset($item['unique']);
+            }
+            (new PreOrderUniqueItems)->bulkInsert($uniqueItems, ['product_code', 'po_quantity', 'po_unit_price', 'pre_order_id'], $con);
+            $shopUniqueProducts->updatePreOrderableStockItems($uniqueItems, $so_phone, $con);
+        }
+
         if ($con->commit()){
             $returnData = ['status' => 'success'];
             (new NotificationService)->sendNotification(
@@ -260,12 +281,15 @@ class Customer extends Controller
     public function changePreOrderStatus($preOrderId){ 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST' || $preOrderId === null) redirect('Customer/preOrderHistory');
         $s = jsonPostDecode();
+        $shopStock = new ShopStock;
+        $shopUniqueProducts = new ShopUniqueProducts;
         if ($s === 1){
             $status = 'Pending';
             $title = "Updated Pre-Order Accepted";
             $body = "{$_SESSION['customer']['first_name']} {$_SESSION['customer']['last_name']} accepted the changes in the pre-order";
         } else if ($s === 2){
-            (new ShopStock)->updatePreOrderableStockByOrder($_POST['pre_order_id'], null, true);
+            $shopStock->updatePreOrderableStockByOrder($preOrderId, null, true);
+            $shopUniqueProducts->updatePreOrderableStockByOrder($preOrderId, null, true);
             $status = 'Canceled';
             $title = "Pre-Order got Canceled";
             $body = "{$_SESSION['customer']['first_name']} {$_SESSION['customer']['last_name']} canceled the pre-order";
@@ -284,9 +308,14 @@ class Customer extends Controller
         echo json_encode(true);
     }
 
+    public function rejectLoyalty(){
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $loyaltyCustomer = new LoyaltyCustomers;
+            $loyaltyCustomer->delete(['so_phone' => $_POST['so_phone'], 'cus_phone' => $_SESSION['customer']['phone']]);
+        }
+    }
 
     public function new($viewName) {
         $this->view('Customer/'.$viewName, $this->data);
     }
-
 }
