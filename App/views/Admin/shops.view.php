@@ -7,9 +7,11 @@
 <div class="main-content colomn">
 
     <div class="bar">
-        <img src="<?=ROOT?>/images/icons/home.svg" alt="">
+        <a href="<?=LINKROOT?>/Admin/home">
+          <img src="<?=ROOT?>/images/icons/home.svg" alt="">
+        </a>
         <h1>All Shops</h1>
-        <div>
+        <div style="opacity: 0;">
             <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
             <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
         </div>

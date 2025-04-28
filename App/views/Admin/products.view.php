@@ -8,10 +8,12 @@
 <div class="main-content colomn">
 
     <div class="bar">
-        <img src="<?=ROOT?>/images/icons/home.svg" alt="">
+        <a href="<?=LINKROOT?>/Admin/home">
+            <img src="<?=ROOT?>/images/icons/home.svg" alt="">
+        </a>
         <!-- <h1><?=$_SESSION['name']?></h1> -->
         <h1>All Products</h1>
-        <div>
+        <div style="opacity: 0;">
             <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
             <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
         </div>

@@ -7,9 +7,11 @@
 <div class="main-content colomn">
 
     <div class="bar">
-        <img src="<?=ROOT?>/images/icons/home.svg" alt="">
+        <a href="<?=LINKROOT?>/Admin/products">
+            <img src="<?=ROOT?>/images/icons/home.svg" alt="">
+        </a>
         <h1>New Product Requests</h1>
-        <div>
+        <div style="opacity: 0;">
             <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
             <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
         </div>
@@ -32,21 +34,22 @@
 
 <div id="productDetails" class="hidden popUpDiv colomn">
     <h2>New Product Request</h2>
-    <div class="row">
-        <div class="colomn">
-            <h3>Product Image</h3>
-            <img src="<?=ROOT?>/images/Default/Product.jpeg" id="product_image" alt="" class="default big">
-        </div>
-        <div class="colomn">
-            <h3>Barcode Proof</h3>
-            <img src="<?=ROOT?>/images/Default/Product.jpeg" id="proof_image" alt="" class="default big">
-        </div>
+    <div class="colomn">
+        <h3>Product Image</h3>
+        <img src="<?=ROOT?>/images/Default/Product.jpeg" id="product_image" alt="" class="default big">
     </div>
     <table>
         <h3 id="req-prd-name">Lorem ipsum dolor sit amet.</h3>
         <tr>
             <td>Barcode</td>
             <td id="req-prd-barcode"></td>
+        </tr>
+        <tr id="proofDownload">
+            <td>Barcode Proof</td>
+            <td><a href="" class="btn">Download</a></td>
+        </tr>
+        <tr id="warn" >
+            <td class="red-text" colspan="2">Barcode already Exist</td>
         </tr>
         <tr>
             <td>Unit Price</td>

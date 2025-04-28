@@ -6,9 +6,11 @@
 
 <div class="main-content scroll-box">
     <div class="bar">
-        <img src="<?=ROOT?>/images/icons/home.svg" alt="">
+        <a href="<?=LINKROOT?>/Admin/shops">
+            <img src="<?=ROOT?>/images/icons/home.svg" alt="">
+        </a>
         <h2>Shop Owner details</h2>
-        <div>
+        <div style="opacity: 0;">
             <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
             <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
         </div>
@@ -73,18 +75,18 @@
         if (!empty($loyaltyCustomers)) {
             foreach ($loyaltyCustomers as $customer) {
                 ?>
-                <a href="<?=ROOT?>/Admin/customer/<?=$customer['phone']?>" class="card btn-card column aspect-ratio">
-                    <img 
-                        class="profile-img big" 
-                        src="<?=ROOT?>/images/Profile/<?=$customer['phone']?>.<?=$customer['pic_format']?>" 
-                        alt=""
-                        onerror="this.src='<?=ROOT?>/images/Profile/PhoneNumber.jpg'">
-                    <div class="details h-50">
-                        <h4><?=$customer['first_name']?> <?=$customer['last_name']?></h4>
-                        <h4><?=$customer['address']?></h4>
-                        <h4><?=$customer['phone']?></h4>
-                    </div>
-                </a>
+                    <a href="<?=ROOT?>/Admin/customer/<?=$customer['phone']?>" class="card btn-card colomn asp-rtio">
+                        <img 
+                            class="profile-img" 
+                            src="<?=ROOT?>/images/Profile/<?=$customer['phone']?>.<?=$customer['pic_format']?>" 
+                            alt=""
+                            onerror="this.src='<?=ROOT?>/images/Profile/PhoneNumber.jpg'">
+                        <div class="details h-50 ovf-hdn">
+                            <h4><?=$customer['first_name']?> <?=$customer['last_name']?></h4>
+                            <h4><?=$customer['address']?></h4>
+                            <h4><?=$customer['phone']?></h4>
+                        </div>
+                    </a>
                 <?php
             }
         } else {

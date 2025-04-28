@@ -8,7 +8,7 @@
 <div class="bar">
     <img src="<?=ROOT?>/images/icons/home.svg" alt="">
     <h1>Add new products</h1>
-    <div>
+    <div style="opacity: 0;">
       <img src="<?=ROOT?>/images/icons/settings.svg" alt="">
       <img src="<?=ROOT?>/images/icons/Profile.svg" alt="">
     </div>
