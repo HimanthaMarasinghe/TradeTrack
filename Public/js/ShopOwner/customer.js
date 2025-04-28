@@ -3,7 +3,7 @@ import ApiFetcherMod from "../ApiFetcherMod.js";
 import billMoreDetails from "./Common.js";
 import Chat from '../chat.js';
 
-const notification = new Notification();
+const notification = new Notification(null, false, false, false, false, loy_phone);
 
 if(loyalty){
     new Chat(ws_id, loy_phone, notification, 'Customer/shop/');

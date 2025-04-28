@@ -1,6 +1,6 @@
 export default class Notification {
 
-    constructor(reload_data_func, hideNotification, notClickable, del_notification, sync) {
+    constructor(reload_data_func, hideNotification, notClickable, del_notification, sync, chatWith) {
         this.reload_data_func = reload_data_func || null;
         this.hideNotification = hideNotification || false;
         this.notClickable = notClickable || false;
@@ -9,6 +9,7 @@ export default class Notification {
 
         this.chatBox = document.querySelector(".chatbox");
         this.handleChat = null;
+        this.chatWith = chatWith || null;
 
         if (typeof ws_token !== 'undefined' && ws_token) {
             this.ws_token = ws_token;
@@ -108,7 +109,7 @@ export default class Notification {
     showNotification(message) {
         const {type, ref_id, link, image, title, body} = message;
         
-        if (this.chatBox && type === "chat") {
+        if (this.chatBox && type === "chat" && ref_id === this.chatWith) {
             this.chatBox.appendChild(this.createChatLi(body, "incoming"));
             this.chatBox.scrollTo(0, this.chatBox.scrollHeight);
             if (this.handleChat) return;
