@@ -249,10 +249,59 @@ class ShopOwner extends Controller
     }
 
     public function profileUpdate() {
-        $shop = new Shops;
-        if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['so_phone']) && !empty($_POST['shop_name']) && !empty($_POST['so_first_name']) && !empty($_POST['so_last_name']) && !empty($_POST['shop_address']) && !empty($_POST['so_address'])){
-            $shop->update(['so_phone' => $_SESSION['shop_owner']['phone']], $_POST);
-            $_SESSION['shop_owner'] = $_POST;
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['phone']) && !empty($_POST['shop_name']) && !empty($_POST['first_name']) && !empty($_POST['last_name']) && !empty($_POST['shop_address']) && !empty($_POST['address'])){
+            $shop = new Shops;
+            $alreadyExist = $shop->first(['so_phone' => $_POST['phone']]);
+            if($alreadyExist && $_POST['phone'] != $_SESSION['shop_owner']['phone']) {
+                $this->data['error'] = 'Phone number already exists!';
+                $this->data['tabs']['active'] = 'Home';
+                $this->view('shopOwner/profileUpdate', $this->data);
+                return;
+            }
+            $con = $shop->startTransaction();
+            $newPhone = $_POST['phone'];
+            $data = $_POST;
+            $imageUploader = new ImageUploader;
+            if($data['remove_image'] == 'true') {
+                writeToFile('Profile Image Removed');
+                $oldPicFormat = $_SESSION['shop_owner']['pic_format'];
+                $imageUploader->removeImage("Profile/{$_SESSION['shop_owner']['phone']}.{$oldPicFormat}");
+                $data['pic_format'] = null;
+            }
+            if($data['remove_shop_image'] == 'true') {
+                writeToFile('Shop Image Removed');
+                $oldPicFormat = $_SESSION['shop_owner']['shop_pic_format'];
+                $imageUploader->removeImage("Shops/{$_SESSION['shop_owner']['phone']}.{$oldPicFormat}");
+                $data['shop_pic_format'] = null;
+            }
+            $pic_format = $imageUploader->upload('image', $_SESSION['shop_owner']['phone'], 'Profile') ?: null;
+            if($pic_format) {
+                writeToFile('Profile Image Uploaded');
+                $data['pic_format'] = $pic_format;
+                $_SESSION['shop_owner']['pic_format'] = $pic_format;
+            }
+            $shop_pic_format = $imageUploader->upload('shop_image', $_SESSION['shop_owner']['phone'], 'Shops') ?: null;
+            if($shop_pic_format) {
+                writeToFile('Shop Image Uploaded');
+                $data['shop_pic_format'] = $shop_pic_format;
+                $_SESSION['shop_owner']['shop_pic_format'] = $shop_pic_format;
+            }
+            if($newPhone != $_SESSION['shop_owner']['phone']){
+                writeToFile('Phone Number Changed');
+                $oldImage = $_SESSION['shop_owner']['phone'].".".$_SESSION['shop_owner']['pic_format'];
+                $newImage = $newPhone.".".$_SESSION['shop_owner']['pic_format'];
+                $imageUploader->moveImage("Profile/{$oldImage}", "Profile/{$newImage}");
+                $oldImage = $_SESSION['shop_owner']['phone'].".".$_SESSION['shop_owner']['shop_pic_format'];
+                $newImage = $newPhone.".".$_SESSION['shop_owner']['shop_pic_format'];
+                $imageUploader->moveImage("Shops/{$oldImage}", "Shops/{$newImage}");
+            }
+            (new UserPasswords)->update(['phone' => $_SESSION['shop_owner']['phone']], $data, $con);
+            unset($data['phone']);
+            (new User)->update(['phone' => $newPhone], $data, $con);
+            $shop->update(['so_phone' => $newPhone], $data, $con);
+            if($con->commit()){
+                $_SESSION['shop_owner'] = $shop->first(['phone' => $newPhone]);
+            }
         }
         $this->data['tabs']['active'] = 'Home';
         $this->view('shopOwner/profileUpdate', $this->data);
@@ -373,9 +422,6 @@ class ShopOwner extends Controller
             $data = $_POST;
             $data['product_code'] = substr($data['product_code'], 1, 2);
             $imageUploader = new ImageUploader;
-            writeToFile($data['remove_image'], 'remove_image');
-            writeToFile($data);
-            writeToFile($_POST);
             if($data['remove_image'] == 'true') {
                 $oldPicFormat = $model->first(['product_code' => $data['product_code'], 'so_phone' => $_SESSION['shop_owner']['phone']], readFields: ['pic_format'])['pic_format'];
                 $imageUploader->removeImage("Products/{$_SESSION['shop_owner']['phone']}{$data['product_code']}.{$oldPicFormat}");
