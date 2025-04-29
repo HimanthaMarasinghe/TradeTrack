@@ -6,6 +6,7 @@
     font-family: Arial, sans-serif;
     font-size: 22;
     padding-right: 20%;
+    padding-left: 5%;
 }
 
 .ProfileUpd tr {
@@ -26,4 +27,10 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
+}
+
+.existImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
