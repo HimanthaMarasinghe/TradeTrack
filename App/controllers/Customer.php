@@ -38,7 +38,6 @@ class Customer extends Controller
 
     public function index(){
 
-        //$_SESSION['customer']['phone'] = '0123456789'; //ToDo : to be changed to the logged in user's phone number (tbc)
 
         $this->data['tabs']['active'] = 'Home';
         $this->view('Customer/home',$this->data);
@@ -260,8 +259,7 @@ class Customer extends Controller
 
     public function getAllPreOrders($offset = 0){ 
         if (!filter_var($offset, FILTER_VALIDATE_INT)) 
-            $offset = 0;  // Default to 0 if invalid
-
+            $offset = 0;  
         $search = $_GET['search'] ?? null;
         $status = $_GET['status'] ?? null;
 
@@ -271,7 +269,7 @@ class Customer extends Controller
 
     public function getLoyaltyReqs($offset = 0){
         if (!filter_var($offset, FILTER_VALIDATE_INT)) 
-            $offset = 0;  // Default to 0 if invalid
+            $offset = 0;  
 
         $loyaltyReq = new LoyaltyRequests;
         $loyaltyReqs = $loyaltyReq->newLoyReqFromCustomer($offset);

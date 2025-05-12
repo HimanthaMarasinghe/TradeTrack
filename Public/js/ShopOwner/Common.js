@@ -97,7 +97,6 @@ export function orderMoreDetails(dataset){
                 nameElem.innerText = " - Unregisterd";
                 phoneElem.innerText = " - Unregisterd";
             }
-            // const billImage = document.getElementById('More-details-Order-img');
             itemsList.innerHTML = '';
             items.forEach(item => {
                 const {
@@ -107,7 +106,6 @@ export function orderMoreDetails(dataset){
                     sold_bulk_price,
                     total
                 } = item;
-                // let rowTotal = quantity * bulk_price;
                 itemsList.innerHTML += `
                     <tr class='Item'>
                         <td class='center-al'>${barcode}</td>

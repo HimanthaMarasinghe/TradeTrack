@@ -89,7 +89,7 @@
             </tr>
             <tr>
                 <td><label for="Commission">Commission</label></td>
-                <td><input class="userInput" type="number" min='1' max='99' name="commission" id="Commission" required></td>
+                <td><input class="userInput" type="number" min='1' max='99' name="commission_percentage" id="Commission" required></td>
             </tr>
         </table>
         <input type="submit" class="btn" id="formSubmitBtn" value="Make request">

@@ -138,7 +138,6 @@ function startProcessingPreOrder(){
     changeStatusBtn.classList.add('disabled-link');
     itemTickBoxes.forEach(input => {
         input.classList.remove('hidden');
-        // input.addEventListener('change', checkAllItemsTickBoxes);
     });
     checkItemCheckBox();
 }

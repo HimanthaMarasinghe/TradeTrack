@@ -29,7 +29,7 @@
                 <td>: <?=$man['phone']?></td>
             </tr>
             <tr>
-                <td><h2>Wallet</h2></td>
+                <td><h2>My Wallet</h2></td>
                 <td><h2>Rs.<?=number_format($wallet['wallet'], 2)?></h2></td>
             <!-- <?php if($wallet['wallet'] > 0) { ?>
                 <td><h2>Credit</h2></td>

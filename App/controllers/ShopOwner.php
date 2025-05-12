@@ -571,7 +571,7 @@ class ShopOwner extends Controller
 
     public function getDistributors($offset = 0){
         if (!filter_var($offset, FILTER_VALIDATE_INT)) 
-            $offset = 0;  // Default to 0 if invalid
+            $offset = 0;  
 
         $search = $_GET['search'] ?? null;
         $distributor = new DistributorM;
@@ -587,7 +587,7 @@ class ShopOwner extends Controller
 
     public function getLoyaltyCustomers($offset = 0){
         if (!filter_var($offset, FILTER_VALIDATE_INT)) 
-            $offset = 0;  // Default to 0 if invalid
+            $offset = 0;  
 
         $search = $_GET['search'] ?? null;
 
@@ -665,7 +665,7 @@ class ShopOwner extends Controller
 
     public function getAllPreOrders($offset = 0){ 
         if (!filter_var($offset, FILTER_VALIDATE_INT)) 
-            $offset = 0;  // Default to 0 if invalid
+            $offset = 0;  
 
         $search = $_GET['search'] ?? null;
         $status = $_GET['status'] ?? null;
@@ -676,10 +676,8 @@ class ShopOwner extends Controller
 
     public function updatePreOrder(){
         if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['pre_order_id']) && !empty($_POST['newPreOrderItems'])){
-            // Retrieve and decode the URL-encoded JSON string
             $jsonString = urldecode($_POST['newPreOrderItems']);
 
-            // Decode JSON string into a PHP array
             $newPreOrderItems = json_decode($jsonString, true);
 
             $preOrder = new PreOrder;
@@ -705,7 +703,6 @@ class ShopOwner extends Controller
                     if($item['quantity'] == 0) $preOrderItems->delete(['pre_order_id' => $_POST['pre_order_id'], 'barcode' => $item['barcode']], $con);
                     else $preOrderItems->update(['pre_order_id' => $_POST['pre_order_id'], 'barcode' => $item['barcode']], ['quantity' => $item['quantity']], $con);
                 }
-                // $shopStock->updatePreOrderableStockItems($newPreOrderItems, $_SESSION['shop_owner']['phone'], $con);
             }
 
             if(count($preOrderUniqueItemsArray) > 0){
@@ -713,7 +710,6 @@ class ShopOwner extends Controller
                     if($item['quantity'] == 0) $preOrderUniqueItems->delete(['pre_order_id' => $_POST['pre_order_id'], 'product_code' => substr($item['barcode'], 1)], $con);
                     else $preOrderUniqueItems->update(['pre_order_id' => $_POST['pre_order_id'], 'product_code' => substr($item['barcode'], 1)], ['po_quantity' => $item['quantity']], $con);
                 }
-                // $shopUniqueProducts->updatePreOrderableStockItems($newPreOrderItems, $_SESSION['shop_owner']['phone'], $con);
             }
 
             if ($con->commit()) {
@@ -907,7 +903,7 @@ class ShopOwner extends Controller
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
             $SoDisPayment = new SoDisPayment;
             $con = $SoDisPayment->startTransaction();
-            $SoDisPayment->insert(['so_phone' => $_SESSION['shop_owner']['phone'], 'dis_phone' => $_POST['dis_phone'], 'ammount' => $_POST['amount'], 'status' => 0], $con);
+            $SoDisPayment->insert(['so_phone' => $_SESSION['shop_owner']['phone'], 'dis_phone' => $_POST['dis_phone'], 'ammount' => $_POST['amount'], 'date' => $_POST['date'], 'status' => 0], $con);
             $cashDrawer = 0;
             if($_POST['cashDrawer']){
                 $cashDrawer = 1;

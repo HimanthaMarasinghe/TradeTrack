@@ -425,7 +425,7 @@ class Manufacturer extends Controller
 
 
     public function getDistributorWallet($dis_phone) {
-        $walletAmount = (new WalletDisMan)->first(['dis_phone' => $dis_phone])['wallet'];
+        $walletAmount = (new WalletDisMan)->first(['dis_phone' => $dis_phone])['wallet'] ?? 0;
         // $balance = $distributor->WalletBalance($dis_phone); 
         // show($walletAmount);
         header('Content-Type: application/json');

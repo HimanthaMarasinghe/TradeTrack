@@ -1,19 +1,7 @@
 google.charts.load("current", {packages:["corechart"]});
 google.charts.setOnLoadCallback(drawChart);
 function drawChart() {
-// var Assests = google.visualization.arrayToDataTable([
-//     ['Type', 'Amount'],
-//     ['Cash', 4392],
-//     ['Bank', 7382.48],
-//     ['Stock', 12000],
-//     ['Creditors', 5433]
-// ]);
 
-// var AssestsOptions = {
-//     // title: 'Assests',
-//     backgroundColor: { fill:'transparent' },
-//     pieHole: 0.4,
-// };
 
 var profit = google.visualization.arrayToDataTable(chartData)
 
