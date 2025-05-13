@@ -26,13 +26,8 @@
                     <td><?=$distributor['dis_phone']?></td>
                 </tr>
                 <tr id="creditTR">
-                <?php if($distributor['wallet'] > 0) { ?>
-                    <td><h2>Credit</h2></td>
+                    <td><h2>Wallet</h2></td>
                     <td><h2>Rs.<?=number_format($distributor['wallet'], 2)?></h2></td>
-                    <?php } else { ?>
-                        <td><h2>Debt</h2></td>
-                        <td><h2>Rs.<?=number_format(-1*$distributor['wallet'], 2)?></h2></td>
-                    <?php } ?>
                 </tr>
                 <tr>
                     <td><a href="<?=LINKROOT?>/ShopOwner/orderStocks/<?=$distributor['dis_phone']?>" class="btn w-100">Place an Order</a></td>
@@ -131,6 +126,10 @@
                 <td><?=$distributor['dis_busines_name']?></td>
             </tr>
             <tr>
+                <td>Date</td>
+                <td><input type="date" class="userInput" name="date" id="task-date" required></td>
+            </tr>
+            <tr>
                 <td>Pay Amount</td>
                 <td>
                     <input class="userInput" type="number" name="amount" min="1" id="payAmount" required>
@@ -156,6 +155,13 @@
     const ROOT = "<?=ROOT?>";
     const dis_phone = "<?=$distributor['dis_phone']?>";
     const ws_id = "<?=$_SESSION['shop_owner']['phone']?>";
+
+    var now = new Date();
+
+    var currentDateTime = now.toISOString().slice(0, 10);
+    console.log(currentDateTime);
+
+    document.getElementById("task-date").min = currentDateTime;
 </script>
 <script src="<?=ROOT?>/js/popUp.js"></script>
 <script src="<?=ROOT?>/js/ShopOwner/distributor.js" type="module"></script>

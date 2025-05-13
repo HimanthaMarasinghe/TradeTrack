@@ -137,7 +137,7 @@ function deleteDistributor(dis_phone) {
              return response.json();
         })
         .then(data => {
-        
+            console.log(data);
             if (data.wallet === 0) {
                 
                 return fetch(`${LINKROOT}/Manufacturer/deleteDistributor/${dis_phone}`, {

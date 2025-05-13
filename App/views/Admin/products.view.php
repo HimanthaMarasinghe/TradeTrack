@@ -96,7 +96,9 @@
   <script src="<?=ROOT?>/js/Admin/addNewProducts.js"></script>
   <script src="<?=ROOT?>/js/popUp.js"></script>
 
-  <script src="<?=ROOT?>/js/uploadImage.js"></script>
-  <script src="<?=ROOT?>/js/Admin/uploadImage.js"></script>
+<script src="<?=ROOT?>/js/imageUploadBox.js"></script>
+
+  <!-- <script src="<?=ROOT?>/js/uploadImage.js"></script>
+  <script src="<?=ROOT?>/js/Admin/uploadImage.js"></script> -->
 
 <?php $this->component("footer") ?>

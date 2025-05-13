@@ -29,13 +29,8 @@
                 <td>: <?=$shop['phone']?></td>
             </tr>
             <tr>
-            <?php if($wallet['wallet'] > 0) { ?>
-                <td><h2>Debt</h2></td>
+                <td><h2>Wallet</h2></td>
                 <td><h2>Rs.<?=number_format($wallet['wallet'], 2)?></h2></td>
-                <?php } else { ?>
-                    <td><h2>Credit</h2></td>
-                    <td><h2>Rs.<?=number_format(-1*$wallet['wallet'], 2)?></h2></td>
-                <?php } ?>
             </tr>
         </table>
         <img 

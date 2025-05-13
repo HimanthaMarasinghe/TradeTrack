@@ -255,11 +255,11 @@ class Distributor extends Controller
     }
 
 
-    public function searchPayment(){
+    public function searchPayment($so_phone){
         $searchPayment = $_GET['searchPay'];
         $paymentDate = $_GET['datePay'] ?? null ;
         writeToFile($_GET);
-        $payments = (new SoDisPayment)->searchPayment($_SESSION['distributor']['phone'], $searchPayment,$paymentDate) ?: [];
+        $payments = (new SoDisPayment)->searchPayment($_SESSION['distributor']['phone'], $searchPayment,$paymentDate, null, $so_phone) ?: [];
         header('Content-Type: application/json');
         echo json_encode($payments);
     }
