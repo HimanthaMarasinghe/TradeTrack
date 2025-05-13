@@ -52,31 +52,7 @@
     </div>
 
     <div class="row gap-10 ovf-hdn fg1 mg-0">
-        <!-- <div class="colomn fg1 panel">
-            <div class="row">
-                <h2 class="center-al">History</h2>
-                <input type="text" class="search-bar fg1" placeholder="Search Orders" id="search">
-                <input type="date" id="order_date" class="filter-js">
-            </div>
-            <div class="billScroll">
-                <table class="bill">
-                    <thead>
-                        <tr class="BillHeadings">
-                            <th>Order Id</th>
-                            <th>Date</th>
-                            <th>Time</th>
-                            <th>Status</th>
-                            <th>Amount</th>
-                        </tr>
-                    </thead>
-                    <tbody id="elements">
-            
-                    </tbody>
-                </table>
-            </div>
-        </div> -->
-
-        <div class="colomn fg1 panel">
+                <div class="colomn fg1 panel">
             <div class="row">
                 <h2 class="center-al">Payments</h2>
                 <input type="text" class="search-bar fg1" placeholder="Search Payment" id="searchPayment">
