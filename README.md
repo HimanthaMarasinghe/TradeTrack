@@ -66,37 +66,3 @@ The main goal of this project is to offer a digital solution that improves opera
 This project uses a custom-built WebSocket server developed without any libraries to enable real-time notifications and chat features.
 
 ➡️ You can find the WebSocket server repository [here](https://github.com/HimanthaMarasinghe/WebSocket-server)
-
-## 📸 Screenshots
-
-Here are some screenshots of the system in action:
-
-Shop Owner's Home page
-![Shop Owner's Home page](https://media.licdn.com/dms/image/v2/D562DAQEu-zFg2H_3FA/profile-treasury-image-shrink_800_800/B56ZbIksSRGsAY-/0/1747121796840?e=1747731600&v=beta&t=40ARxnj0em-aWaeeHSqk-ri8aF9Gh_cGXPXtyHr71AY)
-
-Shop owner's billing view
-![Shop owner's billing view](https://media.licdn.com/dms/image/v2/D562DAQER0NhRYi4KEw/profile-treasury-image-shrink_800_800/B56ZbIk6cvHUAY-/0/1747121849710?e=1747731600&v=beta&t=YMw0sL0_YcUuo0zqNbR9dG5otNCveX0Q5qq3pHW2b8U)
-
-Notifications
-![Notifications](https://media.licdn.com/dms/image/v2/D562DAQH3M5eqNM4EVA/profile-treasury-image-shrink_800_800/B56ZbIlLjhHgAc-/0/1747121926887?e=1747731600&v=beta&t=6gbQJoelhOmbl14evyXTixihWIcS-nblVVmr5UMcxu8)
-
-Chat
-![Chat](https://media.licdn.com/dms/image/v2/D562DAQFnhDlRpI8sKQ/profile-treasury-image-shrink_800_800/B56ZbIli6ZH0AY-/0/1747122022000?e=1747731600&v=beta&t=Vz4snyk3wUbepCbkAQrAPIxg_ae47abxN1zDK27qJLA)
-
-Shop owner's accounts view
-![Shop owner's accounts view](https://media.licdn.com/dms/image/v2/D562DAQGhH1GRW0emqg/profile-treasury-image-shrink_800_800/B56ZbImDdrH0AY-/0/1747122151715?e=1747731600&v=beta&t=10jxfEJsK55YoyYha03Pf5xJde7IDeKOj1Xehjc6DbU)
-
-Shop owner's stocks view
-![Shop owner's stocks view](https://media.licdn.com/dms/image/v2/D562DAQEZgdmm17Ohpw/profile-treasury-image-shrink_800_800/B56ZbImPGoH4Ac-/0/1747122215938?e=1747731600&v=beta&t=738d8gPehmC_720kmN8w8bZ56ySRJjmN4c36VE4w50c)
-
-Customer's home view
-![Customer's home view](https://media.licdn.com/dms/image/v2/D562DAQG53DjWDyza6A/profile-treasury-image-shrink_800_800/B56ZbImZ94GkAk-/0/1747122255071?e=1747731600&v=beta&t=Mx_cK9w4NbiVRDsgDKKXT3hMffPp75Vne8fzFr6MbZs)
-
-Distributor's home view
-![Distributor's home view](https://media.licdn.com/dms/image/v2/D562DAQF8rgq-cUo8Pg/profile-treasury-image-shrink_800_800/B56ZbImuDQGgAY-/0/1747122328624?e=1747731600&v=beta&t=cVJcoU5RMeUeknqoULHzJRqVkVCWY6kbuUBzaWF5qSM)
-
-Manufacturer's home view
-![Manufacturer's home view](https://media.licdn.com/dms/image/v2/D562DAQHbaIBykzrSIg/profile-treasury-image-shrink_800_800/B56ZbImkiNGoAY-/0/1747122287008?e=1747731600&v=beta&t=EDNJePTfZERFqU9SN4aNl1-Ph-jPyKDHzZ1A58TmpPM)
-
-Admin's home view
-![Admin's home view](https://media.licdn.com/dms/image/v2/D562DAQHZfxFTJmdgIw/profile-treasury-image-shrink_800_800/B56ZbIm2nGHgAc-/0/1747122358221?e=1747731600&v=beta&t=xYpyH02ikrj-ELhbQH67By5mKkzqsJVwd3YY1jzt8Fo)
